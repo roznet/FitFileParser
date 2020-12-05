@@ -558,7 +558,7 @@ class Convert :
         
         of.write( '\n'.join( [
             '// This file is auto generated, Do not edit',
-            'import FitFileParserC',
+            'import FitFileParserTypes',
             '\n'
             ] ) )
         oof.write( '\n'.join( [

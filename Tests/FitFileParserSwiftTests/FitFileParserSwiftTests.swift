@@ -1,6 +1,6 @@
 import XCTest
 @testable import FitFileParser
-@testable import FitFileParserC
+@testable import FitFileParserTypes
 
 final class FitFileParserSwiftTests: XCTestCase {
     

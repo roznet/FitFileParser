@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import FitFileParserC
+import FitFileParserTypes
 import FitFileParserObjc
 
 public typealias FitMessageType = FIT_MESG_NUM

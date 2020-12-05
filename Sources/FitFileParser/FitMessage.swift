@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import FitFileParserC
+import FitFileParserTypes
 
 public class FitMessage {
     
