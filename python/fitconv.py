@@ -534,11 +534,20 @@ class Convert :
         with open( self.args.mapfile, 'w' ) as of:
             json.dump( newmap, of, indent = 2, sort_keys = True )
             
-        
+
+    def outfile_to_objc_pair(self):
+        split = os.path.split( self.args.outputfile )
+        objc = split[0] + 'Objc'
+        objh = split[0] + 'Objc/include'
+
+        return ( os.path.join( objc, split[1].replace( '.swift','.m' ) ),
+                 os.path.join( objh, split[1].replace( '.swift','.h' ) ) )
+                               
+            
     def generate_output_file(self):
         of = open( self.args.outputfile, 'w')
-        objcf = self.args.outputfile.replace(".swift",".m")
-        objch = self.args.outputfile.replace(".swift",".h")
+        (objcf, objch) = self.outfile_to_objc_pair()
+
         hf = os.path.basename( objch )
         oof = open( objcf, 'w')
         ooh = open( objch, 'w')
@@ -707,8 +716,8 @@ class Convert :
                    
 if __name__ == "__main__":
     parser = argparse.ArgumentParser( description='Auto Generate swift file' )
-    parser.add_argument( '-o', '--outputfile', default = 'src/rzfit_convert_auto.swift' )
-    parser.add_argument( '-i', '--inputfile', default = 'sdk/fit_example.h' )
+    parser.add_argument( '-o', '--outputfile', default = 'Sources/FitFileParser/rzfit_convert_auto.swift' )
+    parser.add_argument( '-i', '--inputfile', default = 'Sources/FitFileParserC/include/fit_example.h' )
     parser.add_argument( '-m', '--mapfile', default = 'fit_map.json' )
     args = parser.parse_args()
     conv = Convert( args )
