@@ -9070,395 +9070,395 @@ func rzfit_zones_target_mesg_def_enum_dict( ptr : UnsafePointer<FIT_ZONES_TARGET
   }
   return rv
 }
-func rzfit_build_mesg(num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>) -> RZFitMessage?{
-    var rv : RZFitMessage? = nil
+func rzfit_build_mesg(num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>) -> FitMessage?{
+    var rv : FitMessage? = nil
     switch num {
   case FIT_MESG_NUM_FILE_ID:
     uptr.withMemoryRebound(to: FIT_FILE_ID_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_FILE_ID,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_FILE_ID,
                          mesg_values: rzfit_file_id_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_file_id_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_CAPABILITIES:
     uptr.withMemoryRebound(to: FIT_CAPABILITIES_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_CAPABILITIES,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_CAPABILITIES,
                          mesg_values: rzfit_capabilities_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_capabilities_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_DEVICE_SETTINGS:
     uptr.withMemoryRebound(to: FIT_DEVICE_SETTINGS_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_DEVICE_SETTINGS,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_DEVICE_SETTINGS,
                          mesg_values: rzfit_device_settings_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_device_settings_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_USER_PROFILE:
     uptr.withMemoryRebound(to: FIT_USER_PROFILE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_USER_PROFILE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_USER_PROFILE,
                          mesg_values: rzfit_user_profile_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_user_profile_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_HRM_PROFILE:
     uptr.withMemoryRebound(to: FIT_HRM_PROFILE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_HRM_PROFILE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_HRM_PROFILE,
                          mesg_values: rzfit_hrm_profile_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_hrm_profile_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SDM_PROFILE:
     uptr.withMemoryRebound(to: FIT_SDM_PROFILE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SDM_PROFILE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SDM_PROFILE,
                          mesg_values: rzfit_sdm_profile_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_sdm_profile_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_BIKE_PROFILE:
     uptr.withMemoryRebound(to: FIT_BIKE_PROFILE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_BIKE_PROFILE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_BIKE_PROFILE,
                          mesg_values: rzfit_bike_profile_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_bike_profile_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_ZONES_TARGET:
     uptr.withMemoryRebound(to: FIT_ZONES_TARGET_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_ZONES_TARGET,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_ZONES_TARGET,
                          mesg_values: rzfit_zones_target_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_zones_target_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_HR_ZONE:
     uptr.withMemoryRebound(to: FIT_HR_ZONE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_HR_ZONE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_HR_ZONE,
                          mesg_values: rzfit_hr_zone_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_hr_zone_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_POWER_ZONE:
     uptr.withMemoryRebound(to: FIT_POWER_ZONE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_POWER_ZONE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_POWER_ZONE,
                          mesg_values: rzfit_power_zone_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_power_zone_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_MET_ZONE:
     uptr.withMemoryRebound(to: FIT_MET_ZONE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_MET_ZONE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_MET_ZONE,
                          mesg_values: rzfit_met_zone_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_met_zone_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SPORT:
     uptr.withMemoryRebound(to: FIT_SPORT_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SPORT,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SPORT,
                          mesg_values: rzfit_sport_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_sport_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_GOAL:
     uptr.withMemoryRebound(to: FIT_GOAL_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_GOAL,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_GOAL,
                          mesg_values: rzfit_goal_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_goal_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SESSION:
     uptr.withMemoryRebound(to: FIT_SESSION_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SESSION,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SESSION,
                          mesg_values: rzfit_session_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_session_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_LAP:
     uptr.withMemoryRebound(to: FIT_LAP_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_LAP,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_LAP,
                          mesg_values: rzfit_lap_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_lap_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_RECORD:
     uptr.withMemoryRebound(to: FIT_RECORD_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_RECORD,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_RECORD,
                          mesg_values: rzfit_record_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_record_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_EVENT:
     uptr.withMemoryRebound(to: FIT_EVENT_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_EVENT,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_EVENT,
                          mesg_values: rzfit_event_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_event_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_DEVICE_INFO:
     uptr.withMemoryRebound(to: FIT_DEVICE_INFO_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_DEVICE_INFO,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_DEVICE_INFO,
                          mesg_values: rzfit_device_info_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_device_info_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_WORKOUT:
     uptr.withMemoryRebound(to: FIT_WORKOUT_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_WORKOUT,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_WORKOUT,
                          mesg_values: rzfit_workout_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_workout_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_WORKOUT_STEP:
     uptr.withMemoryRebound(to: FIT_WORKOUT_STEP_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_WORKOUT_STEP,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_WORKOUT_STEP,
                          mesg_values: rzfit_workout_step_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_workout_step_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SCHEDULE:
     uptr.withMemoryRebound(to: FIT_SCHEDULE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SCHEDULE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SCHEDULE,
                          mesg_values: rzfit_schedule_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_schedule_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_WEIGHT_SCALE:
     uptr.withMemoryRebound(to: FIT_WEIGHT_SCALE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_WEIGHT_SCALE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_WEIGHT_SCALE,
                          mesg_values: rzfit_weight_scale_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_weight_scale_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_COURSE:
     uptr.withMemoryRebound(to: FIT_COURSE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_COURSE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_COURSE,
                          mesg_values: rzfit_course_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_course_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_COURSE_POINT:
     uptr.withMemoryRebound(to: FIT_COURSE_POINT_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_COURSE_POINT,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_COURSE_POINT,
                          mesg_values: rzfit_course_point_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_course_point_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_TOTALS:
     uptr.withMemoryRebound(to: FIT_TOTALS_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_TOTALS,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_TOTALS,
                          mesg_values: rzfit_totals_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_totals_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_ACTIVITY:
     uptr.withMemoryRebound(to: FIT_ACTIVITY_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_ACTIVITY,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_ACTIVITY,
                          mesg_values: rzfit_activity_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_activity_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SOFTWARE:
     uptr.withMemoryRebound(to: FIT_SOFTWARE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SOFTWARE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SOFTWARE,
                          mesg_values: rzfit_software_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_software_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_FILE_CAPABILITIES:
     uptr.withMemoryRebound(to: FIT_FILE_CAPABILITIES_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_FILE_CAPABILITIES,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_FILE_CAPABILITIES,
                          mesg_values: rzfit_file_capabilities_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_file_capabilities_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_MESG_CAPABILITIES:
     uptr.withMemoryRebound(to: FIT_MESG_CAPABILITIES_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_MESG_CAPABILITIES,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_MESG_CAPABILITIES,
                          mesg_values: rzfit_mesg_capabilities_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_mesg_capabilities_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_FIELD_CAPABILITIES:
     uptr.withMemoryRebound(to: FIT_FIELD_CAPABILITIES_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_FIELD_CAPABILITIES,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_FIELD_CAPABILITIES,
                          mesg_values: rzfit_field_capabilities_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_field_capabilities_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_FILE_CREATOR:
     uptr.withMemoryRebound(to: FIT_FILE_CREATOR_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_FILE_CREATOR,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_FILE_CREATOR,
                          mesg_values: rzfit_file_creator_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_file_creator_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_BLOOD_PRESSURE:
     uptr.withMemoryRebound(to: FIT_BLOOD_PRESSURE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_BLOOD_PRESSURE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_BLOOD_PRESSURE,
                          mesg_values: rzfit_blood_pressure_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_blood_pressure_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SPEED_ZONE:
     uptr.withMemoryRebound(to: FIT_SPEED_ZONE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SPEED_ZONE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SPEED_ZONE,
                          mesg_values: rzfit_speed_zone_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_speed_zone_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_MONITORING:
     uptr.withMemoryRebound(to: FIT_MONITORING_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_MONITORING,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_MONITORING,
                          mesg_values: rzfit_monitoring_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_monitoring_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_TRAINING_FILE:
     uptr.withMemoryRebound(to: FIT_TRAINING_FILE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_TRAINING_FILE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_TRAINING_FILE,
                          mesg_values: rzfit_training_file_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_training_file_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_HRV:
     uptr.withMemoryRebound(to: FIT_HRV_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_HRV,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_HRV,
                          mesg_values: rzfit_hrv_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_hrv_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_ANT_RX:
     uptr.withMemoryRebound(to: FIT_ANT_RX_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_ANT_RX,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_ANT_RX,
                          mesg_values: rzfit_ant_rx_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_ant_rx_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_ANT_TX:
     uptr.withMemoryRebound(to: FIT_ANT_TX_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_ANT_TX,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_ANT_TX,
                          mesg_values: rzfit_ant_tx_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_ant_tx_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_LENGTH:
     uptr.withMemoryRebound(to: FIT_LENGTH_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_LENGTH,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_LENGTH,
                          mesg_values: rzfit_length_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_length_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_MONITORING_INFO:
     uptr.withMemoryRebound(to: FIT_MONITORING_INFO_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_MONITORING_INFO,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_MONITORING_INFO,
                          mesg_values: rzfit_monitoring_info_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_monitoring_info_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SLAVE_DEVICE:
     uptr.withMemoryRebound(to: FIT_SLAVE_DEVICE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SLAVE_DEVICE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SLAVE_DEVICE,
                          mesg_values: rzfit_slave_device_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_slave_device_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_CONNECTIVITY:
     uptr.withMemoryRebound(to: FIT_CONNECTIVITY_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_CONNECTIVITY,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_CONNECTIVITY,
                          mesg_values: rzfit_connectivity_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_connectivity_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_WEATHER_CONDITIONS:
     uptr.withMemoryRebound(to: FIT_WEATHER_CONDITIONS_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_WEATHER_CONDITIONS,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_WEATHER_CONDITIONS,
                          mesg_values: rzfit_weather_conditions_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_weather_conditions_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_WEATHER_ALERT:
     uptr.withMemoryRebound(to: FIT_WEATHER_ALERT_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_WEATHER_ALERT,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_WEATHER_ALERT,
                          mesg_values: rzfit_weather_alert_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_weather_alert_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_CADENCE_ZONE:
     uptr.withMemoryRebound(to: FIT_CADENCE_ZONE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_CADENCE_ZONE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_CADENCE_ZONE,
                          mesg_values: rzfit_cadence_zone_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_cadence_zone_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_HR:
     uptr.withMemoryRebound(to: FIT_HR_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_HR,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_HR,
                          mesg_values: rzfit_hr_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_hr_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SEGMENT_LAP:
     uptr.withMemoryRebound(to: FIT_SEGMENT_LAP_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_LAP,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_LAP,
                          mesg_values: rzfit_segment_lap_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_segment_lap_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SEGMENT_ID:
     uptr.withMemoryRebound(to: FIT_SEGMENT_ID_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_ID,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_ID,
                          mesg_values: rzfit_segment_id_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_segment_id_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SEGMENT_LEADERBOARD_ENTRY:
     uptr.withMemoryRebound(to: FIT_SEGMENT_LEADERBOARD_ENTRY_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_LEADERBOARD_ENTRY,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_LEADERBOARD_ENTRY,
                          mesg_values: rzfit_segment_leaderboard_entry_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_segment_leaderboard_entry_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SEGMENT_POINT:
     uptr.withMemoryRebound(to: FIT_SEGMENT_POINT_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_POINT,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_POINT,
                          mesg_values: rzfit_segment_point_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_segment_point_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SEGMENT_FILE:
     uptr.withMemoryRebound(to: FIT_SEGMENT_FILE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_FILE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SEGMENT_FILE,
                          mesg_values: rzfit_segment_file_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_segment_file_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_WORKOUT_SESSION:
     uptr.withMemoryRebound(to: FIT_WORKOUT_SESSION_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_WORKOUT_SESSION,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_WORKOUT_SESSION,
                          mesg_values: rzfit_workout_session_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_workout_session_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_NMEA_SENTENCE:
     uptr.withMemoryRebound(to: FIT_NMEA_SENTENCE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_NMEA_SENTENCE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_NMEA_SENTENCE,
                          mesg_values: rzfit_nmea_sentence_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_nmea_sentence_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_AVIATION_ATTITUDE:
     uptr.withMemoryRebound(to: FIT_AVIATION_ATTITUDE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_AVIATION_ATTITUDE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_AVIATION_ATTITUDE,
                          mesg_values: rzfit_aviation_attitude_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_aviation_attitude_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_VIDEO_TITLE:
     uptr.withMemoryRebound(to: FIT_VIDEO_TITLE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_VIDEO_TITLE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_VIDEO_TITLE,
                          mesg_values: rzfit_video_title_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_video_title_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_VIDEO_DESCRIPTION:
     uptr.withMemoryRebound(to: FIT_VIDEO_DESCRIPTION_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_VIDEO_DESCRIPTION,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_VIDEO_DESCRIPTION,
                          mesg_values: rzfit_video_description_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_video_description_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_EXD_SCREEN_CONFIGURATION:
     uptr.withMemoryRebound(to: FIT_EXD_SCREEN_CONFIGURATION_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_EXD_SCREEN_CONFIGURATION,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_EXD_SCREEN_CONFIGURATION,
                          mesg_values: rzfit_exd_screen_configuration_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_exd_screen_configuration_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_EXD_DATA_FIELD_CONFIGURATION:
     uptr.withMemoryRebound(to: FIT_EXD_DATA_FIELD_CONFIGURATION_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_EXD_DATA_FIELD_CONFIGURATION,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_EXD_DATA_FIELD_CONFIGURATION,
                          mesg_values: rzfit_exd_data_field_configuration_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_exd_data_field_configuration_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_EXD_DATA_CONCEPT_CONFIGURATION:
     uptr.withMemoryRebound(to: FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_EXD_DATA_CONCEPT_CONFIGURATION,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_EXD_DATA_CONCEPT_CONFIGURATION,
                          mesg_values: rzfit_exd_data_concept_configuration_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_exd_data_concept_configuration_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_FIELD_DESCRIPTION:
     uptr.withMemoryRebound(to: FIT_FIELD_DESCRIPTION_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_FIELD_DESCRIPTION,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_FIELD_DESCRIPTION,
                          mesg_values: rzfit_field_description_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_field_description_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_DEVELOPER_DATA_ID:
     uptr.withMemoryRebound(to: FIT_DEVELOPER_DATA_ID_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_DEVELOPER_DATA_ID,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_DEVELOPER_DATA_ID,
                          mesg_values: rzfit_developer_data_id_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_developer_data_id_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_SET:
     uptr.withMemoryRebound(to: FIT_SET_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_SET,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_SET,
                          mesg_values: rzfit_set_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_set_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_DIVE_SETTINGS:
     uptr.withMemoryRebound(to: FIT_DIVE_SETTINGS_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_DIVE_SETTINGS,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_DIVE_SETTINGS,
                          mesg_values: rzfit_dive_settings_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_dive_settings_mesg_enum_dict(ptr: $0))
     }
   case FIT_MESG_NUM_EXERCISE_TITLE:
     uptr.withMemoryRebound(to: FIT_EXERCISE_TITLE_MESG.self, capacity: 1) {
-      rv = RZFitMessage( mesg_num:    FIT_MESG_NUM_EXERCISE_TITLE,
+      rv = FitMessage( mesg_num:    FIT_MESG_NUM_EXERCISE_TITLE,
                          mesg_values: rzfit_exercise_title_mesg_value_dict(ptr: $0),
                          mesg_enums:  rzfit_exercise_title_mesg_enum_dict(ptr: $0))
     }
     default:
-       rv = RZFitMessage( mesg_num: num, mesg_values: [:], mesg_enums: [:])
+       rv = FitMessage( mesg_num: num, mesg_values: [:], mesg_enums: [:])
     }
     return rv
 }

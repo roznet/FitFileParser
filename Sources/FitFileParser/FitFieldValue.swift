@@ -28,17 +28,17 @@
 import Foundation
 import CoreLocation
 
-public typealias RZFitDoubleUnit = (value:Double,unit:String)
+public typealias FitDoubleUnit = (value:Double,unit:String)
 
 
-public class RZFitFieldValue {
+public class FitFieldValue {
     public enum ValueType {
         case coordinate, time, value, valueUnit, name, invalid
     }
 
     public let type : ValueType
     public let coordinate : CLLocationCoordinate2D?
-    public let valueUnit : RZFitDoubleUnit?
+    public let valueUnit : FitDoubleUnit?
     public let time : Date?
     public let name : String?
     public let value : Double?
@@ -96,20 +96,20 @@ public class RZFitFieldValue {
     
 }
 
-extension RZFitFieldValue : CustomStringConvertible {
+extension FitFieldValue : CustomStringConvertible {
     public var description: String {
         if let coordinate = coordinate {
-            return "RZFitField(withLatitude: \(coordinate.latitude), andLongitude: \(coordinate.longitude))"
+            return "FitField(withLatitude: \(coordinate.latitude), andLongitude: \(coordinate.longitude))"
         }else if let valueUnit = valueUnit {
-            return "RZFitField(withValue: \(valueUnit.value), andUnit: \(valueUnit.unit))"
+            return "FitField(withValue: \(valueUnit.value), andUnit: \(valueUnit.unit))"
         }else if let name = name {
-            return "RZFitField(withName: \(name))"
+            return "FitField(withName: \(name))"
         }else if let time = time {
-            return "RZFitField(withTime: \(time))"
+            return "FitField(withTime: \(time))"
         }else if let value = value {
-            return "RZFitField(withValue: \(value))"
+            return "FitField(withValue: \(value))"
         }else{
-            return "RZFitField(Error)"
+            return "FitField(Error)"
         }
     }
 }

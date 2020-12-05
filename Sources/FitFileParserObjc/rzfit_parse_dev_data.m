@@ -31,7 +31,7 @@
 
 const FIT_UINT16 kMaxDevFields = 64;
 
-@interface RZFitDevDataParser ()
+@interface FitDevDataParser ()
 @property (nonatomic,assign) FIT_CONVERT_STATE * state;
 @property (nonatomic,assign) FIT_UINT8 * dev_data_buffer;
 @property (nonatomic,assign) FIT_UINT16 dev_data_buffer_size;
@@ -44,10 +44,10 @@ const FIT_UINT16 kMaxDevFields = 64;
 
 @end
 
-@implementation RZFitDevDataParser
+@implementation FitDevDataParser
 
-+(RZFitDevDataParser*)devDataParser:(FIT_CONVERT_STATE *)state knownUnits:(NSArray<NSString*>*)known{
-    RZFitDevDataParser * rv = [[RZFitDevDataParser alloc] init];
++(FitDevDataParser*)devDataParser:(FIT_CONVERT_STATE *)state knownUnits:(NSArray<NSString*>*)known{
+    FitDevDataParser * rv = [[FitDevDataParser alloc] init];
     rv.state = state;
     rv.dev_data_buffer_size = 256;
     rv.dev_data_buffer = malloc(rv.dev_data_buffer_size);

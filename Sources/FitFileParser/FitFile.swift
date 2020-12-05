@@ -10,28 +10,28 @@ import Foundation
 import FitFileParserC
 import FitFileParserObjc
 
-public typealias RZFitMessageType = FIT_MESG_NUM
-public typealias RZFitFieldKey = String
+public typealias FitMessageType = FIT_MESG_NUM
+public typealias FitFieldKey = String
 
 extension String {
-    public func isRZFitDeveloperField() -> Bool {
+    public func isFitDeveloperField() -> Bool {
         return self.hasPrefix("developer_")
     }
 }
 
-public class RZFitFile {
-    public typealias Sample = (count:Int,one:RZFitFieldValue)
+public class FitFile {
+    public typealias Sample = (count:Int,one:FitFieldValue)
     
-    public private(set) var messages : [RZFitMessage]
-    public private(set) var messageTypes : [RZFitMessageType]
-    public private(set) var messagesByType : [RZFitMessageType:[RZFitMessage]]
-    public private(set) var devDataParser : RZFitDevDataParser?
+    public private(set) var messages : [FitMessage]
+    public private(set) var messageTypes : [FitMessageType]
+    public private(set) var messagesByType : [FitMessageType:[FitMessage]]
+    public private(set) var devDataParser : FitDevDataParser?
     public private(set) var sourceURL : URL? = nil
     
-    public init(  messages input: [RZFitMessage] ){
-        var bldmsgnum : Set<RZFitMessageType> = []
-        var bldmsgnumorder :[RZFitMessageType] = []
-        var bldmsgbytype : [RZFitMessageType:[RZFitMessage]] = [:]
+    public init(  messages input: [FitMessage] ){
+        var bldmsgnum : Set<FitMessageType> = []
+        var bldmsgnumorder :[FitMessageType] = []
+        var bldmsgbytype : [FitMessageType:[FitMessage]] = [:]
         for one in input {
             if !bldmsgnum.contains(one.messageType){
                 bldmsgnum.insert(one.messageType)
@@ -54,15 +54,15 @@ public class RZFitFile {
         var state : FIT_CONVERT_STATE = FIT_CONVERT_STATE()
         var convert_return : FIT_CONVERT_RETURN = FIT_CONVERT_CONTINUE
         
-        let dev_parser = RZFitDevDataParser(&state, knownUnits: rzfit_known_units())
+        let dev_parser = FitDevDataParser(&state, knownUnits: rzfit_known_units())
         
         FitConvert_Init(&state, FIT_TRUE)
         dev_parser.initState(&state)
         
-        var bldmsg : [RZFitMessage] = []
-        var bldmsgnum : Set<RZFitMessageType> = []
-        var bldmsgbytype : [RZFitMessageType:[RZFitMessage]] = [:]
-        var bldmsgnumorder : [RZFitMessageType] = []
+        var bldmsg : [FitMessage] = []
+        var bldmsgnum : Set<FitMessageType> = []
+        var bldmsgbytype : [FitMessageType:[FitMessage]] = [:]
+        var bldmsgnumorder : [FitMessageType] = []
         
         while convert_return == FIT_CONVERT_CONTINUE {
             data.withUnsafeBytes({ (ptrBuffer: UnsafeRawBufferPointer) in
@@ -83,9 +83,9 @@ public class RZFitFile {
                                 }
                                 if let fmesg = rzfit_build_mesg(num: mesg, uptr: uptr)
                                 {
-                                    if let dev = dev_parser.parseData() as? [RZFitFieldKey:Double],
+                                    if let dev = dev_parser.parseData() as? [FitFieldKey:Double],
                                         let devunits = dev_parser.units(),
-                                        let devnative = dev_parser.nativeFields() as? [RZFitFieldKey:Int]{
+                                        let devnative = dev_parser.nativeFields() as? [FitFieldKey:Int]{
                                         
                                         fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
                                     }
@@ -126,8 +126,8 @@ public class RZFitFile {
         }
     }
  
-    public func countByMessageType() -> [RZFitMessageType:Int] {
-        var rv : [RZFitMessageType:Int] = [:]
+    public func countByMessageType() -> [FitMessageType:Int] {
+        var rv : [FitMessageType:Int] = [:]
         
         for (key,val) in messagesByType {
             rv[key] = val.count
@@ -135,7 +135,7 @@ public class RZFitFile {
         return rv
     }
     
-    public func messages(forMessageType:RZFitMessageType) -> [RZFitMessage] {
+    public func messages(forMessageType:FitMessageType) -> [FitMessage] {
         if let found = self.messagesByType[forMessageType] {
             return found
         }
@@ -143,7 +143,7 @@ public class RZFitFile {
         return []
     }
     
-    public func messageTypeDescription( messageType:RZFitMessageType) -> String? {
+    public func messageTypeDescription( messageType:FitMessageType) -> String? {
         return rzfit_mesg_num_string(input: messageType)
     }
     
@@ -157,11 +157,11 @@ public class RZFitFile {
         return rv
     }
     
-    public static func messageType( forDescription : String) -> RZFitMessageType? {
+    public static func messageType( forDescription : String) -> FitMessageType? {
         return rzfit_string_to_mesg(mesg: forDescription)
     }
     
-    public func hasMessageType( messageType:RZFitMessageType) -> Bool{
+    public func hasMessageType( messageType:FitMessageType) -> Bool{
         if let _ = self.messagesByType[messageType] {
             return true
         }else{
@@ -169,12 +169,12 @@ public class RZFitFile {
         }
     }
     
-    public func fieldKeys( messageType: RZFitMessageType ) -> [RZFitFieldKey] {
+    public func fieldKeys( messageType: FitMessageType ) -> [FitFieldKey] {
         return Array(self.sampleValues(messageType: messageType).keys)
     }
     
-    public func sampleValues( messageType: RZFitMessageType) -> [RZFitFieldKey:Sample] {
-        var rv : [RZFitFieldKey:Sample] = [:]
+    public func sampleValues( messageType: FitMessageType) -> [FitFieldKey:Sample] {
+        var rv : [FitFieldKey:Sample] = [:]
         let forMessages = self.messages(forMessageType: messageType)
         for one in forMessages {
             for (key,val) in one.interpretedFields() {

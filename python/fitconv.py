@@ -332,7 +332,7 @@ class TypeDefElem :
             ex = context.structs[structname]
             rv = [ prefix + 'case {}:'.format( self.key ),
                    prefix + '  uptr.withMemoryRebound(to: {}.self, capacity: 1) {{'.format( structname ),
-                   prefix + '    rv = RZFitMessage( mesg_num:    {},'.format( self.key),
+                   prefix + '    rv = FitMessage( mesg_num:    {},'.format( self.key),
                    prefix + '                       mesg_values: {}(ptr: $0),'.format( ex.swift_value_dict_function_name()),
                    prefix + '                       mesg_enums:  {}(ptr: $0))'.format(  ex.swift_enum_dict_function_name()),
                    prefix + '  }'
@@ -489,8 +489,8 @@ class TypeDef :
     
     def swift_mesg_switch(self,context):
         rv = [
-            'func rzfit_build_mesg(num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>) -> RZFitMessage?{',
-            '    var rv : RZFitMessage? = nil',
+            'func rzfit_build_mesg(num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>) -> FitMessage?{',
+            '    var rv : FitMessage? = nil',
             '    switch num {',
             ]
 
@@ -501,7 +501,7 @@ class TypeDef :
 
         rv += [
             '    default:',
-            '       rv = RZFitMessage( mesg_num: num, mesg_values: [:], mesg_enums: [:])',
+            '       rv = FitMessage( mesg_num: num, mesg_values: [:], mesg_enums: [:])',
             '    }',
             '    return rv',
             '}'

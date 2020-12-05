@@ -27,9 +27,9 @@
 
 #include "fit_convert.h"
 
-@interface RZFitDevDataParser : NSObject
+@interface FitDevDataParser : NSObject
 
-+(nonnull RZFitDevDataParser*)devDataParser:(nonnull FIT_CONVERT_STATE  *) state knownUnits:(nonnull NSArray<NSString*>*)known;
++(nonnull FitDevDataParser*)devDataParser:(nonnull FIT_CONVERT_STATE  *) state knownUnits:(nonnull NSArray<NSString*>*)known;
 
 
 -(void)initState:(nonnull FIT_CONVERT_STATE *)state;

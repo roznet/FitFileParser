@@ -17,7 +17,7 @@ final class FitFileParserSwiftTests: XCTestCase {
         // results.
         let path  = self.findResource(name: "running.fit")
         if let data = try? Data(contentsOf: path) {
-            let fit = RZFitFile(data: data)
+            let fit = FitFile(data: data)
             let records = fit.messages(forMessageType: FIT_MESG_NUM_RECORD)
             XCTAssertGreaterThan(records.count, 0)
         }
