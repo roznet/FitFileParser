@@ -549,7 +549,7 @@ class Convert :
         
         of.write( '\n'.join( [
             '// This file is auto generated, Do not edit',
-            'import RZFitFileTypes',
+            'import FitFileParserC',
             '\n'
             ] ) )
         oof.write( '\n'.join( [

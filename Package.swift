@@ -31,7 +31,10 @@ let package = Package(
             name: "FitFileParser",
             dependencies: ["FitFileParserC","FitFileParserObjc"]),
         .testTarget(
-            name: "FitFileParser-swiftTests",
-            dependencies: ["FitFileParser"]),
+            name: "FitFileParserSwiftTests",
+            dependencies: ["FitFileParser"],
+            exclude: [ "samples"] 
+        )
+        
     ]
 )
