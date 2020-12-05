@@ -19,15 +19,29 @@ extension String {
     }
 }
 
+/// The class FitFile will hold the parsed representation of a fit file
+/// It will contains the messages that can be queries and organized by messages type
+///   FitMessageType is an Int corresponding to the original Fit Message Number
+///   FitMessage is an object containing the keys and values for the message
+/// In addition while parsing the object will keep track of the superset of keys and a sample
+/// for each message type
+
 public class FitFile {
     public typealias Sample = (count:Int,one:FitFieldValue)
     
+    /// The list of messages in the order they appeared in the original file
     public private(set) var messages : [FitMessage]
+    /// The message Type contained in the file, in the order in which they appeared
     public private(set) var messageTypes : [FitMessageType]
+    /// The messages in the order they appeared grouped by message type
     public private(set) var messagesByType : [FitMessageType:[FitMessage]]
+    /// Information about the developer fields found in the files, like units and names
     public private(set) var devDataParser : FitDevDataParser?
+    /// A holder of original file location if provided, nil if created from Data
     public private(set) var sourceURL : URL? = nil
     
+    /// Construction to organize the data from alredy constructure fit structures
+    /// - Parameter input: list of raw messages
     public init(  messages input: [FitMessage] ){
         var bldmsgnum : Set<FitMessageType> = []
         var bldmsgnumorder :[FitMessageType] = []
@@ -50,6 +64,8 @@ public class FitFile {
         devDataParser = nil
     }
     
+    /// Main constructor  that will parse the fit file and organize all the data in swift structures
+    /// - Parameter data: data in fit format
     public init( data : Data){
         var state : FIT_CONVERT_STATE = FIT_CONVERT_STATE()
         var convert_return : FIT_CONVERT_RETURN = FIT_CONVERT_CONTINUE
@@ -111,11 +127,17 @@ public class FitFile {
         devDataParser = dev_parser
     }
     
+    /// contructor that parses the data and keep record of the corresponding file path/name
+    /// - Parameters:
+    ///   - data: Data in fit file format
+    ///   - fileURL: a url of the file the data came from
     public convenience init?(data: Data, fileURL:URL){
         self.init(data: data)
         self.sourceURL = fileURL
     }
-
+    
+    /// Open and parse a file in fit format
+    /// - Parameter file: URL pointing to a fit file
     public convenience init?( file :URL){
         if let data = try? Data(contentsOf: file) {
             self.init(data: data)
@@ -125,7 +147,9 @@ public class FitFile {
             return nil
         }
     }
- 
+    
+    /// Convenience function to find the number of messges for each FitMessageType
+    /// - Returns: a  dictionary mapping FitMessageType to the count
     public func countByMessageType() -> [FitMessageType:Int] {
         var rv : [FitMessageType:Int] = [:]
         
@@ -135,6 +159,9 @@ public class FitFile {
         return rv
     }
     
+    /// array of messages for a given FitMessageType
+    /// - Parameter forMessageType: the FitMessageType
+    /// - Returns: Array
     public func messages(forMessageType:FitMessageType) -> [FitMessage] {
         if let found = self.messagesByType[forMessageType] {
             return found
@@ -143,10 +170,15 @@ public class FitFile {
         return []
     }
     
+    /// Description for the message type
+    /// - Parameter messageType: FitMessageType, the int of the message type i the file
+    /// - Returns: description string extracted from the sdk name.
     public func messageTypeDescription( messageType:FitMessageType) -> String? {
         return rzfit_mesg_num_string(input: messageType)
     }
     
+    /// List of Message Type converted to its description String in the order received in the file
+    /// - Returns: array of strings
     public func messageTypesDescriptions() -> [String] {
         var rv : [String] = []
         for one in messageTypes {
@@ -157,10 +189,16 @@ public class FitFile {
         return rv
     }
     
+    /// Reverse a description string to the original FitMessageType
+    /// - Parameter forDescription: a string
+    /// - Returns: FitMessageType or nil if string does not correspond to any type
     public static func messageType( forDescription : String) -> FitMessageType? {
         return rzfit_string_to_mesg(mesg: forDescription)
     }
     
+    /// Check if message type is available in the file
+    /// - Parameter messageType: FitMessageType
+    /// - Returns: true if at least one message of FitMessageType in the file
     public func hasMessageType( messageType:FitMessageType) -> Bool{
         if let _ = self.messagesByType[messageType] {
             return true
@@ -169,10 +207,18 @@ public class FitFile {
         }
     }
     
+    /// List of all the field keys encountered while parsing FitMessageType
+    /// as the file is parsed, FitFile keeps track for each message of the superset
+    /// of FitFieldKey with valid values
+    /// - Parameter messageType: The FitMessageType
+    /// - Returns: list of FieldKeys found
     public func fieldKeys( messageType: FitMessageType ) -> [FitFieldKey] {
         return Array(self.sampleValues(messageType: messageType).keys)
     }
     
+    /// List a sample for each fieldkey encountered while parsing for a FitMessageType
+    /// - Parameter messageType: The message type to look at
+    /// - Returns: a Tuple with the number of valid value and a sample as FitFieldValue
     public func sampleValues( messageType: FitMessageType) -> [FitFieldKey:Sample] {
         var rv : [FitFieldKey:Sample] = [:]
         let forMessages = self.messages(forMessageType: messageType)

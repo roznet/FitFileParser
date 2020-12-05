@@ -9,8 +9,15 @@
 import Foundation
 import FitFileParserTypes
 
+/// This object contains all the information about a message in a FitFile
+/// It will interpret the different fit types into the most relevant swift type
+/// The key function will be interpretedFields()
+///
+/// It will keep tracks and can provide units as well as developer fields
+///
 public class FitMessage {
     
+    /// The message type, which is the fit message number
     public let messageType : FitMessageType
     private let values : [FitFieldKey:Double]
     private let enums : [FitFieldKey:String]
@@ -76,6 +83,10 @@ public class FitMessage {
         return interp[key]
     }
     
+    /// Returns the best swift interpreation of each of the field in the message
+    /// Some of the interpration is generic or a function of knowledge on the field, for example times or coordinates
+    /// the returned FitFieldValue
+    /// - Returns: Array of keys to FitFieldValue
     public func interpretedFields() -> [FitFieldKey:FitFieldValue] {
         if self.cacheInterpretation.count > 0 {
             return self.cacheInterpretation

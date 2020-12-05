@@ -31,6 +31,7 @@ import CoreLocation
 public typealias FitDoubleUnit = (value:Double,unit:String)
 
 
+/// An object to contain fit value with a single swift type no matter what the underlying type is
 public class FitFieldValue {
     public enum ValueType {
         case coordinate, time, value, valueUnit, name, invalid
