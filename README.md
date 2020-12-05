@@ -6,7 +6,9 @@ It uses the official [Fit SDK](https://www.thisisant.com/resources/fit)
 
 You can see a few example of how to use it on iOS and macOS in [fit-sdk-swift](https://github.com/roznet/fit-sdk-swift)
 
-This package is also fully integrated into the released MacOS and iOS apps [FitFileExplorer and ConnectStats](https://github.com/roznet/connectstats).
+This package is also fully integrated into the open source and released MacOS and iOS apps [FitFileExplorer and ConnectStats](https://github.com/roznet/connectstats).
+
+The open source app [FitFileExplorer](https://itunes.apple.com/us/app/fit-file-explorer/id1244431640?ls=1&mt=12) that uses this library can be especially helpful in exploring the structure of a fit files while working with the package.
 
 ## Approach
 
