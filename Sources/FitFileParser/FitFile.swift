@@ -76,8 +76,10 @@ public class FitFile {
         
         var bldmsg : [FitMessage] = []
         var bldmsgnum : Set<FitMessageType> = []
-        var bldmsgbytype : [FitMessageType:[FitMessage]] = [:]
         var bldmsgnumorder : [FitMessageType] = []
+        
+        var devnative : [FitFieldKey:Int] = [:]
+        var devunits : [FitFieldKey:String] = [:]
         
         while convert_return == FIT_CONVERT_CONTINUE {
             data.withUnsafeBytes({ (ptrBuffer: UnsafeRawBufferPointer) in
@@ -95,22 +97,19 @@ public class FitFile {
                             if let uptr : UnsafePointer<UInt8> = FitConvert_GetMessageData(&state) {
                                 if( mesg == FIT_MESG_NUM_FIELD_DESCRIPTION){
                                     dev_parser.recordDeveloperField(uptr)
+                                    if let _devunits = dev_parser.units(),
+                                       let _devnative = dev_parser.nativeFields() as? [FitFieldKey:Int]{
+                                        devunits = _devunits
+                                        devnative = _devnative
+                                    }
                                 }
                                 if let fmesg = rzfit_build_mesg(num: mesg, uptr: uptr)
                                 {
-                                    if let dev = dev_parser.parseData() as? [FitFieldKey:Double],
-                                        let devunits = dev_parser.units(),
-                                        let devnative = dev_parser.nativeFields() as? [FitFieldKey:Int]{
-                                        
+                                    if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
                                         fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
                                     }
+                                    
                                     bldmsg.append(fmesg)
-                                    if var prev = bldmsgbytype[fmesg.messageType] {
-                                        prev.append(fmesg)
-                                        bldmsgbytype[fmesg.messageType] = prev
-                                    }else{
-                                        bldmsgbytype[fmesg.messageType] = [ fmesg ]
-                                    }
                                 }
                             }
                         default:
@@ -122,7 +121,7 @@ public class FitFile {
         }
         messages = bldmsg
         messageTypes = bldmsgnumorder
-        messagesByType = bldmsgbytype
+        messagesByType = [:]
         devDataParser = dev_parser
     }
     
@@ -152,8 +151,12 @@ public class FitFile {
     public func countByMessageType() -> [FitMessageType:Int] {
         var rv : [FitMessageType:Int] = [:]
         
-        for (key,val) in messagesByType {
-            rv[key] = val.count
+        for message in messages {
+            if let prev = rv[message.messageType] {
+                rv[message.messageType] = prev + 1
+            }else{
+                rv[message.messageType] = 1
+            }
         }
         return rv
     }
@@ -165,8 +168,16 @@ public class FitFile {
         if let found = self.messagesByType[forMessageType] {
             return found
         }
-        
-        return []
+        var all : [FitMessage] = []
+        for message in messages {
+            
+            if message.messageType == forMessageType {
+                all.append(message)
+            }
+        }
+        self.messagesByType[forMessageType] = all
+
+        return all
     }
     
     /// Description for the message type
@@ -199,11 +210,7 @@ public class FitFile {
     /// - Parameter messageType: FitMessageType
     /// - Returns: true if at least one message of FitMessageType in the file
     public func hasMessageType( messageType:FitMessageType) -> Bool{
-        if let _ = self.messagesByType[messageType] {
-            return true
-        }else{
-            return false
-        }
+        return self.messageTypes.contains(messageType)
     }
     
     /// List of all the field keys encountered while parsing FitMessageType

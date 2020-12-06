@@ -105,11 +105,11 @@ const FIT_UINT16 kMaxDevFields = 64;
 }
 
 -(nullable NSDictionary<NSString*,NSNumber*>*)parseData{
-    if( self.state->dev_data_buffer_index == 0){
-        return nil;
-    }
-    
     NSMutableDictionary * rv = [NSMutableDictionary dictionary];
+    
+    if( self.state->dev_data_buffer_index == 0){
+        return rv;
+    }
     
     NSUInteger index = 0;
     for (NSUInteger field_index = 0; field_index < self.dev_field_description_index; ++field_index) {

@@ -18,8 +18,11 @@ final class FitFileParserSwiftTests: XCTestCase {
         let path  = self.findResource(name: "running.fit")
         if let data = try? Data(contentsOf: path) {
             let fit = FitFile(data: data)
+            XCTAssertNotNil(fit)
             let records = fit.messages(forMessageType: FIT_MESG_NUM_SESSION)
             XCTAssertGreaterThan(records.count, 0)
+            XCTAssertEqual(records.count, fit.countByMessageType()[FIT_MESG_NUM_SESSION])
+            XCTAssertTrue(fit.hasMessageType(messageType: FIT_MESG_NUM_SESSION))
         }
     }
 
