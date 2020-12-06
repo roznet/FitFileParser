@@ -25,7 +25,6 @@ extension String {
 ///   FitMessage is an object containing the keys and values for the message
 /// In addition while parsing the object will keep track of the superset of keys and a sample
 /// for each message type
-
 public class FitFile {
     public typealias Sample = (count:Int,one:FitFieldValue)
     
