@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 #
+# This utility will generate the swift code from the c Fit SDK
+#   You can download the Fit SDK from https://developer.garmin.com/fit and update your local copy using the diffsdk.py script
 #
+#   in the root of the swift package run ./python/fitconv.py
+#      
 #
 
 import re
@@ -20,6 +24,9 @@ swift_public_func = {
 }
 
 class Context:
+    '''
+    Context to collect all the types and information from the sdk c header
+    '''
     def __init__(self):
         self.structs = {}
         self.enums = {}
@@ -717,8 +724,8 @@ class Convert :
 if __name__ == "__main__":
     parser = argparse.ArgumentParser( description='Auto Generate swift file' )
     parser.add_argument( '-o', '--outputfile', default = 'Sources/FitFileParser/rzfit_convert_auto.swift' )
-    parser.add_argument( '-i', '--inputfile', default = 'Sources/FitFileParserC/include/fit_example.h' )
-    parser.add_argument( '-m', '--mapfile', default = 'fit_map.json' )
+    parser.add_argument( '-i', '--inputfile',  default = 'Sources/FitFileParserTypes/include/fit_example.h' )
+    parser.add_argument( '-m', '--mapfile',    default = 'fit_map.json' )
     args = parser.parse_args()
     conv = Convert( args )
     
