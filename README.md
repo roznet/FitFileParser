@@ -2,7 +2,7 @@
 
 This code provide a Swift Package for parsing the Fit Files format typically produced by Garmin Devices and other fitness devices.
 
-It uses the official [Fit SDK](https://www.thisisant.com/resources/fit)
+It uses the official [Fit SDK](https://developer.garmin.com/fit)
 
 You can see a few example of how to use it on iOS and macOS in [fit-sdk-swift](https://github.com/roznet/fit-sdk-swift)
 
