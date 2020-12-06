@@ -1,4 +1,4 @@
-# Fit File Parsing for swift
+# Fit File Parsing for swift [![Actions Status](https://github.com/roznet/FitFileParser/workflows/CI/badge.svg)](https://github.com/roznet/FitFileParser/actions)
 
 This code provide a Swift Package for parsing the Fit Files format typically produced by Garmin Devices and other fitness devices.
 
