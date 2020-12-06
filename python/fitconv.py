@@ -10,6 +10,7 @@
 import re
 import argparse
 import json
+import pprint
 
 import os
 
@@ -446,6 +447,24 @@ class TypeDef :
         if not elem.is_mask():
             self.elements += [ elem ]
 
+    def swift_type_declaration(self):
+        rv = []
+        if len( self.elements ):
+            nofit = self.fit_type_name.replace( 'FIT_', '' ).lower()
+            # skip types that are not important and that contains bad keywords
+            if nofit in [ 'switch', 'ant_network', 'base_type', 'weather_report' ]:
+                return ''
+
+            rv += [ '  enum {} : {} {}'.format( nofit, self.fit_type_name, '{' ) ]
+            for x in self.elements:
+                short_key = x.key.replace( self.fit_type_name + '_', '' )
+                if short_key[0].isdigit():
+                    short_key = '_' + short_key
+
+                rv += [ '    case {} = {}'.format( short_key.lower(), x.num ) ]
+            rv += [ '  }' ]
+        return '\n'.join(rv)
+            
     def swift_switch_function_name(self):
         return 'rz{}_string'.format( self.fit_type_name.lower() )
         
@@ -585,6 +604,18 @@ class Convert :
         if True:
             typesorder = list(self.context.types.keys())
             typesorder.sort()
+
+            if False:
+                # the type declaration works, but somehow
+                # the swift compiler will not always match the type
+                # properly so don't use
+                of.write( 'struct Fit {\n' )
+                for typename in typesorder:
+                    typedef = self.context.types[typename]
+                    of.write( typedef.swift_type_declaration() )
+                    of.write( '\n' )
+                of.write( '}\n' )
+                
             for typename in typesorder:
                 typedef = self.context.types[typename]
                 of.write( typedef.swift_switch_function() )
@@ -714,9 +745,9 @@ class Convert :
                     in_typedef = None
 
 
-
     def run(self):
         self.parse_input_file()
+
         self.generate_output_file()
         self.generate_json_file()
 
