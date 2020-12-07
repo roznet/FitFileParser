@@ -11,22 +11,21 @@ final class FitFileParserSwiftTests: XCTestCase {
         return resourceURL
         
     }
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
+    
+    func testParsingPerformance(){
         let path  = self.findResource(name: "running.fit")
         if let data = try? Data(contentsOf: path) {
-            let fit = FitFile(data: data)
-            XCTAssertNotNil(fit)
-            let records = fit.messages(forMessageType: FIT_MESG_NUM_SESSION)
-            XCTAssertGreaterThan(records.count, 0)
-            XCTAssertEqual(records.count, fit.countByMessageType()[FIT_MESG_NUM_SESSION])
-            XCTAssertTrue(fit.hasMessageType(messageType: FIT_MESG_NUM_SESSION))
+            measure {
+                let fit = FitFile(data: data)
+                XCTAssertTrue(fit.hasMessageType(messageType: FIT_MESG_NUM_SESSION))
+                
+                let records = fit.messages(forMessageType: FIT_MESG_NUM_SESSION)
+                let countRecords = fit.countByMessageType()[FIT_MESG_NUM_SESSION]
+                XCTAssertEqual(records.count, countRecords)
+            }
         }
     }
-
     static var allTests = [
-        ("testExample", testExample),
+        ("testParsingPerformance", testParsingPerformance),
     ]
 }

@@ -36,8 +36,12 @@ When a new SDK is available, after download, use the `diffsdk.py` utility that w
 
 You need to then run the `fitconv.py` script that will automatically update the swift code for the latest version of the sdk
 
+## Why implement this Library?
 
-## Why?
+The main purpose of this library was speed of parsing the fit file for the ConnectStats use case. It is not the most elegant or the most flexible.
 
-This goal of this code is to replace the original cpp code from the SDK used in FitFileExplorer. The cpp parsing ended up very slow, and it made fit file parsing on [ConnectStats or FitFileExplorer](https://github.com/roznet/connecstats) quite slow. This approach in c/swift is much faster.
+This library was built to replace the original cpp code from the SDK used in ConnectStats and FitFileExplorer. As ConnectStats now [receives the FIT files](https://github.com/roznet/connectstats_server) from Garmin, the files are parsed live on the phone as they are received and performance was therefore important for the user experience. 
 
+The cpp parsing ended up very slow, and it made fit file parsing on [ConnectStats or FitFileExplorer](https://github.com/roznet/connecstats) quite slow. This approach in c/swift is much faster.
+
+You can check the [benchmarking of the library](https://github.com/roznet/fit-benchmarks) versus a few others.
