@@ -60,7 +60,7 @@
     #define FIT_PROTOCOL_VERSION_MAX             FIT_PROTOCOL_VERSION_20
 
     #define FIT_PROFILE_VERSION_MAJOR            21
-    #define FIT_PROFILE_VERSION_MINOR            27
+    #define FIT_PROFILE_VERSION_MINOR            40
     #define FIT_PROFILE_VERSION_SCALE            100
     #define FIT_PROFILE_VERSION                  ((FIT_UINT16) (FIT_PROFILE_VERSION_MAJOR * 100 + FIT_PROFILE_VERSION_MINOR))
 #endif // !defined(FIT_CPP_INCLUDE_C)

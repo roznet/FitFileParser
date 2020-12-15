@@ -461,7 +461,7 @@ static const FIT_SESSION_MESG_DEF session_mesg_def =
    0, // reserved_1
    FIT_ARCH_ENDIAN, // arch
    FIT_MESG_NUM_SESSION, // global_mesg_num
-   90, // num_fields
+   91, // num_fields
    { // field_def_num, size, base_type
       FIT_SESSION_FIELD_NUM_TIMESTAMP, (sizeof(FIT_DATE_TIME)*1), FIT_BASE_TYPE_UINT32,
       FIT_SESSION_FIELD_NUM_START_TIME, (sizeof(FIT_DATE_TIME)*1), FIT_BASE_TYPE_UINT32,
@@ -499,6 +499,7 @@ static const FIT_SESSION_MESG_DEF session_mesg_def =
       FIT_SESSION_FIELD_NUM_TOTAL_DESCENT, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
       FIT_SESSION_FIELD_NUM_FIRST_LAP_INDEX, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
       FIT_SESSION_FIELD_NUM_NUM_LAPS, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
+      FIT_SESSION_FIELD_NUM_NUM_LENGTHS, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
       FIT_SESSION_FIELD_NUM_NORMALIZED_POWER, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
       FIT_SESSION_FIELD_NUM_TRAINING_STRESS_SCORE, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
       FIT_SESSION_FIELD_NUM_INTENSITY_FACTOR, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
@@ -740,7 +741,7 @@ static const FIT_EVENT_MESG_DEF event_mesg_def =
    0, // reserved_1
    FIT_ARCH_ENDIAN, // arch
    FIT_MESG_NUM_EVENT, // global_mesg_num
-   12, // num_fields
+   14, // num_fields
    { // field_def_num, size, base_type
       FIT_EVENT_FIELD_NUM_TIMESTAMP, (sizeof(FIT_DATE_TIME)*1), FIT_BASE_TYPE_UINT32,
       FIT_EVENT_FIELD_NUM_DATA, (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,
@@ -754,6 +755,8 @@ static const FIT_EVENT_MESG_DEF event_mesg_def =
       FIT_EVENT_FIELD_NUM_FRONT_GEAR, (sizeof(FIT_UINT8Z)*1), FIT_BASE_TYPE_UINT8Z,
       FIT_EVENT_FIELD_NUM_REAR_GEAR_NUM, (sizeof(FIT_UINT8Z)*1), FIT_BASE_TYPE_UINT8Z,
       FIT_EVENT_FIELD_NUM_REAR_GEAR, (sizeof(FIT_UINT8Z)*1), FIT_BASE_TYPE_UINT8Z,
+      FIT_EVENT_FIELD_NUM_RADAR_THREAT_LEVEL_MAX, (sizeof(FIT_RADAR_THREAT_LEVEL_TYPE)*1), FIT_BASE_TYPE_ENUM,
+      FIT_EVENT_FIELD_NUM_RADAR_THREAT_COUNT, (sizeof(FIT_UINT8)*1), FIT_BASE_TYPE_UINT8,
    }
 };
 
@@ -1501,7 +1504,7 @@ const FIT_CONST_MESG_DEF_PTR fit_mesg_defs[] =
 // Files
 ///////////////////////////////////////////////////////////////////////
 
-static const FIT_FILE_MESG device_file_mesgs[] =
+const FIT_FILE_MESG device_file_mesgs[] =
 {
    { FIT_STRUCT_OFFSET(file_id_mesg_def, FIT_DEVICE_FILE), FIT_STRUCT_OFFSET(file_id_mesg, FIT_DEVICE_FILE) + FIT_HDR_SIZE, FIT_MESG_NUM_FILE_ID, FIT_DEVICE_FILE_FILE_ID_MESGS, FIT_MESG_FILE_ID},
 };
