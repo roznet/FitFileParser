@@ -11,6 +11,7 @@ import re
 import argparse
 import json
 import pprint
+import openpyxl
 
 import os
 
@@ -745,11 +746,22 @@ class Convert :
                     in_typedef = None
 
 
-    def run(self):
-        self.parse_input_file()
+    def parse_excel(self):
+        wb = openpyxl.load_workbook(filename='Profile.xlsx')
 
-        self.generate_output_file()
-        self.generate_json_file()
+        ws_types = list(wb['Types'].values)
+        ws_messages = list(wb['Messages'].values)
+        pprint.pprint( ws_types[0] )
+
+                    
+    def run(self):
+        if True:
+            self.parse_excel()
+        else:
+            self.parse_input_file()
+
+            self.generate_output_file()
+            self.generate_json_file()
 
                    
 if __name__ == "__main__":

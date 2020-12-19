@@ -22,6 +22,8 @@
 #include "fit_convert.h"
 #include "fit_crc.h"
 
+@import Foundation;
+
 //////////////////////////////////////////////////////////////////////////////////
 // Private Variables
 //////////////////////////////////////////////////////////////////////////////////
@@ -31,9 +33,42 @@
    #define state  (&state_struct)
 #endif
 
+
+
+void Fit_InitRawMesg(FIT_CONVERT_STATE *state){
+    FIT_UINT8 *mesg_buf = state->u.mesg;
+    FIT_UINT8 field;
+
+    FIT_UINT8 num_fields = state->convert_table[state->mesg_index].num_fields;
+    for (field = 0; field < num_fields; field++)
+    {
+        // FIT_MESG_CONVERT
+        //state->convert_table[state->mesg_index].fields[field];
+        
+        FIT_UINT8 base_type_num = state->convert_table[state->mesg_index].fields[field].base_type & FIT_BASE_TYPE_NUM_MASK;
+       FIT_UINT8 base_type_size;
+       FIT_UINT8 field_size;
+
+       if (base_type_num >= FIT_BASE_TYPES)
+          return FIT_FALSE;
+
+       base_type_size = fit_base_type_sizes[base_type_num];
+
+       for (field_size = 0; field_size < state->convert_table[state->mesg_index].fields[field].size; field_size += base_type_size)
+       {
+          memcpy(mesg_buf, fit_base_type_invalids[base_type_num], base_type_size);
+          mesg_buf += base_type_size;
+       }
+    }
+
+    return FIT_TRUE;
+
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 // Public Functions
 //////////////////////////////////////////////////////////////////////////////////
+
 
 ///////////////////////////////////////////////////////////////////////
 #if defined(FIT_CONVERT_MULTI_THREAD)
@@ -80,6 +115,7 @@
     return FitConvert_ReadExt(data, size, FIT_FALSE);
 #endif
 }
+
 
 ///////////////////////////////////////////////////////////////////////
 #if defined(FIT_CONVERT_MULTI_THREAD)
@@ -198,9 +234,13 @@
             {
                if (state->mesg_index < FIT_LOCAL_MESGS)
                {
-                  state->mesg_def = Fit_GetMesgDef(state->convert_table[state->mesg_index].global_mesg_num);
-                  Fit_InitMesg(state->mesg_def, state->u.mesg);
-
+                   if( state->raw_mesg){
+                       state->mesg_def = FIT_NULL;
+                       Fit_InitRawMesg(state);
+                   }else{
+                       state->mesg_def = Fit_GetMesgDef(state->convert_table[state->mesg_index].global_mesg_num);
+                       Fit_InitMesg(state->mesg_def, state->u.mesg);
+                   }
                   #if defined(FIT_CONVERT_TIME_RECORD)
                      if (datum & FIT_HDR_TIME_REC_BIT)
                      {
@@ -290,28 +330,38 @@
 
             if (state->mesg_index < FIT_LOCAL_MESGS)
             {
-               if (state->mesg_def != FIT_NULL)
-               {
-                  FIT_UINT8 local_field_index;
-                  FIT_UINT16 local_field_offset = 0;
+                   if( state->raw_mesg){
+                       state->field_num = datum;
+                       state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].num = state->field_num;
+                       state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].offset_in = state->mesg_offset;
+                       state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].offset_local = state->mesg_offset;
+                       state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].size = 0;
 
-                  // Search for the field definition in the local mesg definition.
-                  for (local_field_index = 0; local_field_index < state->mesg_def->num_fields; local_field_index++)
-                  {
-                     FIT_UINT8 field_size = state->mesg_def->fields[FIT_MESG_DEF_FIELD_OFFSET(size, local_field_index)];
+                   }else{
+                       if (state->mesg_def != FIT_NULL)
+                       {
 
-                     if (state->mesg_def->fields[FIT_MESG_DEF_FIELD_OFFSET(field_def_num, local_field_index)] == datum)
-                     {
-                        state->field_num = datum;
-                        state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].num = state->field_num;
-                        state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].offset_in = state->mesg_offset;
-                        state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].offset_local = local_field_offset;
-                        state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].size = field_size;
-                        break;
-                     }
-
-                     local_field_offset += field_size;
-                  }
+                       FIT_UINT8 local_field_index;
+                       FIT_UINT16 local_field_offset = 0;
+                       
+                       // Search for the field definition in the local mesg definition.
+                       for (local_field_index = 0; local_field_index < state->mesg_def->num_fields; local_field_index++)
+                       {
+                           FIT_UINT8 field_size = state->mesg_def->fields[FIT_MESG_DEF_FIELD_OFFSET(size, local_field_index)];
+                           
+                           if (state->mesg_def->fields[FIT_MESG_DEF_FIELD_OFFSET(field_def_num, local_field_index)] == datum)
+                           {
+                               state->field_num = datum;
+                               state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].num = state->field_num;
+                               state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].offset_in = state->mesg_offset;
+                               state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].offset_local = local_field_offset;
+                               state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].size = field_size;
+                               break;
+                           }
+                           
+                           local_field_offset += field_size;
+                       }
+                   }
                }
             }
 
@@ -325,8 +375,12 @@
 
                if (state->field_num != FIT_FIELD_NUM_INVALID)
                {
-                  if (datum < state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].size)
-                     state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].size = datum;
+                   if( state->raw_mesg ){
+                       state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].size = datum;
+                   }else{
+                       if (datum < state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].size)
+                           state->convert_table[state->mesg_index].fields[state->convert_table[state->mesg_index].num_fields].size = datum;
+                   }
                }
 
                state->mesg_sizes[state->mesg_index] += datum;
@@ -408,7 +462,7 @@
 
             if (state->mesg_index < FIT_LOCAL_MESGS)
             {
-               if ((state->mesg_def != FIT_NULL) && (state->field_index < state->convert_table[state->mesg_index].num_fields))
+               if ((state->mesg_def != FIT_NULL || state->raw_mesg) && (state->field_index < state->convert_table[state->mesg_index].num_fields))
                {
                   if (state->mesg_offset == (state->convert_table[state->mesg_index].fields[state->field_index].offset_in + state->field_offset + 1))
                   {

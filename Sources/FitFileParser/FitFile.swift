@@ -73,6 +73,7 @@ public class FitFile {
         
         FitConvert_Init(&state, FIT_TRUE)
         dev_parser.initState(&state)
+        state.raw_mesg = 1;
         
         var bldmsg : [FitMessage] = []
         var bldmsgnum : Set<FitMessageType> = []
@@ -103,19 +104,32 @@ public class FitFile {
                                         devnative = _devnative
                                     }
                                 }
-                                if let fmesg = rzfit_build_mesg(num: mesg, uptr: uptr)
-                                {
-                                    if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
-                                        fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
+                                if( state.raw_mesg == 1){
+                                    if let numbers = Fit_InterpretMesgNumber(&state) as? [String:Double],
+                                       let strings = Fit_InterpretMesgString(&state)
+                                    {
+                                        let fmesg = FitMessage(mesg_num: mesg, mesg_values: numbers, mesg_enums: strings)
+                                        if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
+                                            fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
+                                        }
+                                        
+                                        bldmsg.append(fmesg)
                                     }
-                                    
-                                    bldmsg.append(fmesg)
+                                }else{
+                                    if let fmesg = rzfit_build_mesg(num: mesg, uptr: uptr)
+                                    {
+                                        if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
+                                            fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
+                                        }
+                                        
+                                        bldmsg.append(fmesg)
+                                    }
                                 }
                             }
                         default:
-                            break
-                        }
-                    } while convert_return == FIT_CONVERT_MESSAGE_AVAILABLE
+                        break
+                    }
+                } while convert_return == FIT_CONVERT_MESSAGE_AVAILABLE
                 }
             } )
         }

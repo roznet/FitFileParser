@@ -23,6 +23,7 @@
 #include "fit_product.h"
 
 
+
 //////////////////////////////////////////////////////////////////////////////////
 // Public Definitions
 //////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +78,7 @@ typedef struct
    #endif
    FIT_CONVERT_DECODE_STATE decode_state;
    FIT_BOOL has_dev_data;
+   FIT_BOOL raw_mesg;
    FIT_UINT8 mesg_index;
    FIT_UINT16 mesg_sizes[FIT_MAX_LOCAL_MESGS];
    FIT_UINT8 dev_data_sizes[FIT_MAX_LOCAL_MESGS];
