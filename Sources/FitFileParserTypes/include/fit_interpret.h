@@ -5,12 +5,14 @@
 //  Created by Brice Rosenzweig on 19/12/2020.
 //
 
-#ifndef Header_h
-#define Header_h
-
 @import Foundation;
+#import "fit_config.h"
 
-NSDictionary<NSString*,NSString*> * Fit_InterpretMesgString(FIT_CONVERT_STATE * state);
-NSDictionary<NSString*,NSNumber*> * Fit_InterpretMesgNumber(FIT_CONVERT_STATE * state);
+@interface FitInterpretMesg : NSObject
 
-#endif /* Header_h */
+@property (nonatomic,readonly,nonnull) NSDictionary<NSString*,NSNumber*>*numbers;
+@property (nonatomic,readonly,nonnull) NSDictionary<NSString*,NSString*>*strings;
+
+-(nullable instancetype)init:(nonnull FIT_CONVERT_STATE*)state;
+
+@end

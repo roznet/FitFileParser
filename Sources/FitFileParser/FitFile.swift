@@ -105,10 +105,10 @@ public class FitFile {
                                     }
                                 }
                                 if( state.raw_mesg == 1){
-                                    if let numbers = Fit_InterpretMesgNumber(&state) as? [String:Double],
-                                       let strings = Fit_InterpretMesgString(&state)
-                                    {
-                                        let fmesg = FitMessage(mesg_num: mesg, mesg_values: numbers, mesg_enums: strings)
+                                    
+                                    if let interp = FitInterpretMesg(&state),
+                                       let doubles = interp.numbers as? [String:Double]{
+                                        let fmesg = FitMessage(mesg_num: mesg, mesg_values: doubles, mesg_enums: interp.strings)
                                         if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
                                             fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
                                         }
