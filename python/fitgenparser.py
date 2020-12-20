@@ -15,6 +15,14 @@ import openpyxl
 
 import os
 
+def fix_variable_name( var_name ):
+    '''
+    fix for reserved names
+    '''
+    if var_name == 'switch':
+        return 'switch_'
+    return var_name
+
 class BaseType : 
     def __init__(self,name,c_type,fit_type_enum,invalid):
         self.name = name
@@ -50,17 +58,28 @@ class Type :
         return 'FIT_{}'.format( self.base_type.upper() )
 
     def objc_to_name_function(self):
-        rv = [ 'NSString * {}( {} {} ){{'.format( self.objc_to_name_function_name(), self.objc_type(), self.name ),
-               '  switch({}){{'.format( self.name )
+        var_name = fix_variable_name( self.name )
+        rv = [ 'NSString * {}( {} {} ){{'.format( self.objc_to_name_function_name(), self.objc_type(), var_name ),
+               '  switch({}){{'.format( var_name )
                ]
         for d in self.values:
             rv.append( '    case {}: return @"{}";'.format( d['value'], d['name'] ) )
-        rv.extend( [ '    default: return [NSString stringWithFormat:@"{}_%u", (unsigned int){}];'.format( self.name, self.name ),
+        rv.extend( [ '    default: return [NSString stringWithFormat:@"{}_%u", (unsigned int){}];'.format( self.name, var_name ),
                      '  }',
                      '}',
                      '',
                      ''
                      ] )
+        return rv
+
+    def objc_type_function_call_statement(self):
+        rv = [ '  case {}:'.format( self.type_num ) ,
+               '  {',
+               '     {} val = ({})fit_type;'.format( self.objc_type(), self.objc_type() ),
+               '     return {}(val);'.format( self.objc_to_name_function_name() ),
+               '  }',
+               
+               ]
         return rv
     
 class Field:
@@ -82,7 +101,7 @@ class Field:
         print( '  {}: {}({})'.format(self.field_num, self.name,self.field_type ))
 
     def objc_case_statement(self):
-        return '    case {}: @"{}";'.format( self.field_num, self.name )
+        return '    case {}: return @"{}";'.format( self.field_num, self.name )
 
     def objc_type_info(self):
         pass
@@ -114,8 +133,11 @@ class Message:
         for field in self.fields:
             field.description()
 
+    def objc_field_num_to_name_func_name(self):
+        return 'rzfit_objc_{}_field_num_to_name'.format( self.name )
+            
     def objc_field_num_to_name_func(self):
-        rv = [ 'NSString * rzfit_objc_{}_field_num_to_name( FIT_UINT8 field_num ){{'.format( self.name ),
+        rv = [ 'NSString * {}( FIT_UINT8 field_num ){{'.format( self.objc_field_num_to_name_func_name() ),
                '  switch( field_num ){' ]
         for field in self.fields:
             rv.append( field.objc_case_statement() )
@@ -141,6 +163,9 @@ class Context:
                 current = Type( row[0], row[1], len(self.types)+1 )
                 self.types[row[0]] = current
             elif current:
+                # special case with duplicated number, breaks switch
+                if row[4] and row[4].startswith('Deprecated' ) and row[2] == 'forecast':
+                    continue
                 current.add_row( row )
 
         ws_messages = list(wb['Messages'].values)
@@ -161,25 +186,47 @@ class Context:
                ]
         ordered = sorted( self.units.keys(), key=lambda x: self.units[x] )
         for k in ordered:
-            rv.append( '    {}: return @"{}";'.format( self.units[k], k.replace( '\n','' ) ) )
-        rv.extend( [ '    default: return [NSString stringWithformat:@"FIT_UNIT_%u", (unsigned int)fit_unit];' ,
+            rv.append( '    case {}: return @"{}";'.format( self.units[k], k.replace( '\n','' ) ) )
+        rv.extend( [ '    default: return [NSString stringWithFormat:@"FIT_UNIT_%u", (unsigned int)fit_unit];' ,
                      '  }',
-                     '}'
+                     '}',
+                     ''
                      ] )
         return rv
+    
     def objc_type_to_name(self):
         rv = [ 'NSString * rzfit_objc_type_to_name( FIT_TYPE fit_type, FIT_UINT32 val ){',
                '  switch( fit_type ){'
                ]
-        ordered = sorted( self.units.keys(), key=lambda x: self.units[x] )
+        ordered = sorted( self.types.keys(), key=lambda x: self.types[x].type_num )
         for k in ordered:
-            rv.append( '    {}: return @"{}";'.format( self.units[k], k.replace( '\n','' ) ) )
-        rv.extend( [ '    default: return [NSString stringWithformat:@"FIT_UNIT_%u", (unsigned int)fit_unit];' ,
+            rv.extend( self.types[k].objc_type_function_call_statement() )
+        rv.extend( [ '    default: return [NSString stringWithFormat:@"FIT_TYPE_%u_VALUE_%u", (unsigned int)fit_type, (unsigned int)val];' ,
                      '  }',
-                     '}'
+                     '}',
+                     ''
                      ] )
         return rv
- 
+
+    def objc_field_num_to_name(self):
+        mesg_num = self.types['mesg_num']
+        rv = [ 'NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field ){',
+               '  switch( global_mesg_num ){'
+               ]
+        for t in mesg_num.values:
+            mesg_name = t['name']
+            if mesg_name not in self.messages:
+                print( 'missing {}'.format( mesg_name ) )
+            else:
+                mesg = self.messages[ mesg_name ]
+                rv.append( '   case {}: return {}(field);'.format( t['value'], mesg.objc_field_num_to_name_func_name() ) )
+        rv.extend( [ '    default: return [NSString stringWithFormat:@"MESG_NUM_%u_FIELD_%u", (unsigned int)global_mesg_num, (unsigned int)field];' ,
+                     '  }',
+                     '}',
+                     ''
+                     ] )
+        return rv
+    
             
 class Convert :
     def __init__(self,args):
@@ -187,7 +234,7 @@ class Convert :
         self.context = Context(args)
         
     def outfile_to_objc_pair(self):
-        return ( 'fit_map.m','fit_map.h' ) 
+        return ( '../Sources/FitFileParserTypes/fit_map.m','fit_map.h' ) 
 
     
     def run(self):
@@ -195,11 +242,6 @@ class Convert :
 
         hf = os.path.basename( objch )
         oof = open( objcf, 'w')
-        ooh = open( objch, 'w')
-        ooh.write( '\n'.join( [
-            '// This file is auto generated, Do not edit\n',
-            '\n'
-        ] ) )
         oof.write( '\n'.join( [
             '// This file is auto generated, Do not edit',
             '',
@@ -207,14 +249,37 @@ class Convert :
             '#include "{}"'.format( hf ),
             ''
         ] ) )
+        oof.write( '\n'.join( [
+            '#pragma mark - types conversion section\n',
+            '\n'
+        ] ) )
 
         for (n,t) in self.context.types.items():
             oof.write( '\n'.join( t.objc_to_name_function() ) )
+            
+        oof.write( '\n'.join( [
+            '#pragma mark - type conversion section\n',
+            '\n'
+        ] ) )
+        
+        oof.write( '\n'.join( self.context.objc_type_to_name() ) )
+        
+        oof.write( '\n'.join( [
+            '#pragma mark - unit conversion section\n',
+            '\n'
+        ] ) )
+
+        oof.write( '\n'.join( self.context.objc_unit_to_name() ) )
+        
+        oof.write( '\n'.join( [
+            '#pragma mark - message field name section\n',
+            '\n'
+        ] ) )
 
         for (n,m) in self.context.messages.items():
             oof.write( '\n'.join( m.objc_field_num_to_name_func() ) )
 
-        print( '\n'.join( self.context.objc_unit_to_name() ) )
+        oof.write( '\n'.join( self.context.objc_field_num_to_name() ) )
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser( description='Auto Generate Parser files' )
