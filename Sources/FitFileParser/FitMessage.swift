@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import FitFileParserTypes
+import FitFileParserObjc
 
 /// This object contains all the information about a message in a FitFile
 /// It will interpret the different fit types into the most relevant swift type
@@ -21,28 +21,30 @@ public class FitMessage {
     public let messageType : FitMessageType
     private let values : [FitFieldKey:Double]
     private let enums : [FitFieldKey:String]
+    private let dates : [FitFieldKey:Date]
     private var devfields : [FitFieldKey:Double]?
     private var devunits : [FitFieldKey:String]?
     
     public var messageTypeDescription : String?{
-        return rzfit_mesg_num_string(input: messageType)
+        return rzfit_swift_mesg_num_to_name(input: messageType)
     }
 
     private var cacheInterpretation : [FitFieldKey:FitFieldValue]
     
-    public init(mesg_num  : FIT_MESG_NUM, mesg_values : [FitFieldKey:Double], mesg_enums : [FitFieldKey:String]) {
+    public init(mesg_num  : FIT_MESG_NUM, mesg_values : [FitFieldKey:Double], mesg_enums : [FitFieldKey:String], mesg_dates : [FitFieldKey:Date]) {
         messageType = mesg_num
         values = mesg_values
         enums = mesg_enums
+        dates = mesg_dates
         cacheInterpretation = [:]
         devfields = nil
         devunits = nil
-        
     }
     
     public convenience init(mesg_num : FIT_MESG_NUM, withFitFields:[FitFieldKey:FitFieldValue]) {
         var ivalues : [FitFieldKey:Double] = [:]
         var ienums  : [FitFieldKey:String] = [:]
+        var idates  : [FitFieldKey:Date]   = [:]
         
         for (key,field) in withFitFields {
             if let coord = field.coordinate{
@@ -55,11 +57,10 @@ public class FitMessage {
             }else if let du = field.valueUnit {
                 ivalues[ key ] = du.value
             }else if let da = field.time {
-                // Fit file are in seconds since UTC 00:00 Dec 31 1989 = -347241600
-                ivalues[ key ] = da.timeIntervalSinceReferenceDate+347241600
+                idates[ key ] = da
             }
         }
-        self.init(mesg_num: mesg_num, mesg_values: ivalues, mesg_enums: ienums)
+        self.init(mesg_num: mesg_num, mesg_values: ivalues, mesg_enums: ienums, mesg_dates: idates)
     }
     
     func addDevFieldValues(fields:[FitFieldKey:Double],units:[FitFieldKey:String],native:[FitFieldKey:Int]) {
@@ -93,7 +94,10 @@ public class FitMessage {
         }
         
         var rv :[String:FitFieldValue] = [:]
-        
+
+        for (key,val) in dates {
+            rv[key] = FitFieldValue(withTime: val)
+        }
         for (key,val) in values {
             if( key.hasSuffix("_lat") ) {
                 let lon = key.replacingOccurrences(of: "_lat", with: "_long")
@@ -106,37 +110,14 @@ public class FitMessage {
             }else if( key.hasSuffix( "_long") ){
                 // handled by _lat
                 continue
-            }
-            else if( key == "timestamp" || key == "start_time" || key == "local_timestamp" || key == "time_created"){
-                // Fit file are in seconds since UTC 00:00 Dec 31 1989 = -347241600
-                let date = Date(timeIntervalSinceReferenceDate: -347241600+val)
-                rv[key] = FitFieldValue(withTime: date )
-            }
-            else if let unit = rzfit_unit_for_field(field: key) {
-                rv[key] =  FitFieldValue(withValue: val, andUnit: unit)
-            }else if( key == "product" ){
-                let product_int : FIT_UINT16 = FIT_UINT16(val)
-                if let mapped = rzfit_garmin_product_string(input: product_int ) {
-                    rv[key] = FitFieldValue(withName:  mapped)
-                }else{
-                    rv[key] = FitFieldValue(withName: "\(product_int)")
-                }
-            }else if( key == "device_type" ){
-                let device_type_int = FIT_UINT8(val)
-                if let mapped = rzfit_antplus_device_type_string(input: device_type_int) {
-                    rv[key] = FitFieldValue(withName: mapped)
-                }else{
-                    rv[key] = FitFieldValue(withName: "\(device_type_int)")
-                }
-                
-            }else if( self.messageType == FIT_MESG_NUM_FIELD_DESCRIPTION && key == "native_field_num" ){
+            /*}else if( self.messageType == FIT_MESG_NUM_FIELD_DESCRIPTION && key == "native_field_num" ){
                 if let mesgnumstr = enums["native_mesg_num"],
                     let mesgnum = rzfit_string_to_mesg(mesg: mesgnumstr),
                     let native = rzfit_field_num_to_field(messageType: mesgnum, fieldNum: FIT_UINT16(val)) {
                     rv[key] = FitFieldValue(withName: native)
                 }else{
                     rv[key] = FitFieldValue(withValue: val)
-                }
+                }*/
             }else{
                 rv[key] = FitFieldValue(withValue: val )
             }
@@ -180,7 +161,7 @@ public class FitMessage {
         var rv : [String:String] = [:]
         
         for field in values.keys {
-            if let unit = rzfit_unit_for_field(field: field) {
+            if let unit = rzfit_swift_unit_for_field(field: field) {
                 rv[field] = unit
             }
         }

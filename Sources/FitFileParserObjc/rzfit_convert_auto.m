@@ -1,6 +1,7 @@
 // This file is auto generated, Do not edit
 
 #include "rzfit_convert_auto.h"
+#include "fit_example.h"
 
 NSString * objc_rzfit_field_num_for_record(FIT_UINT16 field) {
   switch (field) {

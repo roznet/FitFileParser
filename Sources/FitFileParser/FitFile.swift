@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import FitFileParserTypes
 import FitFileParserObjc
 
 public typealias FitMessageType = FIT_MESG_NUM
@@ -69,7 +68,7 @@ public class FitFile {
         var state : FIT_CONVERT_STATE = FIT_CONVERT_STATE()
         var convert_return : FIT_CONVERT_RETURN = FIT_CONVERT_CONTINUE
         
-        let dev_parser = FitDevDataParser(&state, knownUnits: rzfit_known_units())
+        let dev_parser = FitDevDataParser(&state, knownUnits: rzfit_swift_known_units())
         
         FitConvert_Init(&state, FIT_TRUE)
         dev_parser.initState(&state)
@@ -104,26 +103,14 @@ public class FitFile {
                                         devnative = _devnative
                                     }
                                 }
-                                if( state.raw_mesg == 1){
+                                if let interp = FitInterpretMesg(&state),
+                                   let doubles = interp.numbers as? [String:Double]{
+                                    let fmesg = FitMessage(mesg_num: mesg, mesg_values: doubles, mesg_enums: interp.strings, mesg_dates: interp.dates)
+                                    if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
+                                        fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
+                                    }
                                     
-                                    if let interp = FitInterpretMesg(&state),
-                                       let doubles = interp.numbers as? [String:Double]{
-                                        let fmesg = FitMessage(mesg_num: mesg, mesg_values: doubles, mesg_enums: interp.strings)
-                                        if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
-                                            fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
-                                        }
-                                        
-                                        bldmsg.append(fmesg)
-                                    }
-                                }else{
-                                    if let fmesg = rzfit_build_mesg(num: mesg, uptr: uptr)
-                                    {
-                                        if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
-                                            fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
-                                        }
-                                        
-                                        bldmsg.append(fmesg)
-                                    }
+                                    bldmsg.append(fmesg)
                                 }
                             }
                         default:
@@ -198,7 +185,7 @@ public class FitFile {
     /// - Parameter messageType: FitMessageType, the int of the message type i the file
     /// - Returns: description string extracted from the sdk name.
     public func messageTypeDescription( messageType:FitMessageType) -> String? {
-        return rzfit_mesg_num_string(input: messageType)
+        return rzfit_swift_mesg_num_to_name(input: messageType)
     }
     
     /// List of Message Type converted to its description String in the order received in the file
@@ -206,7 +193,7 @@ public class FitFile {
     public func messageTypesDescriptions() -> [String] {
         var rv : [String] = []
         for one in messageTypes {
-            if let oneStr = rzfit_mesg_num_string(input: one) {
+            if let oneStr = rzfit_swift_mesg_num_to_name(input: one) {
                 rv.append(oneStr)
             }
         }
@@ -217,7 +204,7 @@ public class FitFile {
     /// - Parameter forDescription: a string
     /// - Returns: FitMessageType or nil if string does not correspond to any type
     public static func messageType( forDescription : String) -> FitMessageType? {
-        return rzfit_string_to_mesg(mesg: forDescription)
+        return rzfit_swift_name_to_mesg_num(input: forDescription)
     }
     
     /// Check if message type is available in the file

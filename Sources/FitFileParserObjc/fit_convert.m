@@ -552,7 +552,7 @@ void Fit_InitRawMesg(FIT_CONVERT_STATE *state){
 
                                  if (timestamp_offset != FIT_UINT16_INVALID)
                                  {
-                                    if (*((FIT_UINT32 *)&state->u.mesg[timestamp_offset]) != FIT_DATE_TIME_INVALID)
+                                    if (*((FIT_UINT32 *)&state->u.mesg[timestamp_offset]) != FIT_UINT32_INVALID)
                                     {
                                        memcpy(&state->timestamp, &state->u.mesg[timestamp_offset], sizeof(state->timestamp));
                                        state->last_time_offset = (FIT_UINT8)(state->timestamp & FIT_HDR_TIME_OFFSET_MASK);

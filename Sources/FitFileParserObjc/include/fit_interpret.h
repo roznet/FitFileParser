@@ -7,6 +7,7 @@
 
 @import Foundation;
 #import "fit_config.h"
+#import "fit_convert.h"
 
 @interface FitInterpretMesg : NSObject
 

@@ -4479,11 +4479,26 @@ NSString * rzfit_objc_unit_to_name( FIT_UNIT fit_unit ){
 #pragma mark - message field name section
 
 
-NSString * rzfit_objc_file_id_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_file_id_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 0: return @"type";
     case 1: return @"manufacturer";
-    case 2: return @"product";
+    case 2:
+    {
+      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+         return @"favero_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+         return @"garmin_product";
+      }else{
+        return @"product";
+      }
+    }
     case 3: return @"serial_number";
     case 4: return @"time_created";
     case 5: return @"number";
@@ -4518,10 +4533,25 @@ NSString * rzfit_objc_software_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"software_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_slave_device_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_slave_device_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 0: return @"manufacturer";
-    case 1: return @"product";
+    case 1:
+    {
+      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+         return @"favero_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+         return @"garmin_product";
+      }else{
+        return @"product";
+      }
+    }
     default: return [NSString stringWithFormat:@"slave_device_field_num_%u", (unsigned int)field_num];
   }
 }
@@ -4545,13 +4575,24 @@ NSString * rzfit_objc_file_capabilities_field_num_to_name( FIT_UINT8 field_num )
     default: return [NSString stringWithFormat:@"file_capabilities_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_mesg_capabilities_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_mesg_capabilities_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 254: return @"message_index";
     case 0: return @"file";
     case 1: return @"mesg_num";
     case 2: return @"count_type";
-    case 3: return @"count";
+    case 3:
+    {
+      if( [strings[@"count_type"] isEqualToString:@"num_per_file"] ){
+         return @"num_per_file";
+      }else if( [strings[@"count_type"] isEqualToString:@"max_per_file"] ){
+         return @"max_per_file";
+      }else if( [strings[@"count_type"] isEqualToString:@"max_per_file_type"] ){
+         return @"max_per_file_type";
+      }else{
+        return @"count";
+      }
+    }
     default: return [NSString stringWithFormat:@"mesg_capabilities_field_num_%u", (unsigned int)field_num];
   }
 }
@@ -4706,11 +4747,20 @@ NSString * rzfit_objc_connectivity_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"connectivity_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_watchface_settings_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_watchface_settings_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 254: return @"message_index";
     case 0: return @"mode";
-    case 1: return @"layout";
+    case 1:
+    {
+      if( [strings[@"mode"] isEqualToString:@"digital"] ){
+         return @"digital_layout";
+      }else if( [strings[@"mode"] isEqualToString:@"analog"] ){
+         return @"analog_layout";
+      }else{
+        return @"layout";
+      }
+    }
     default: return [NSString stringWithFormat:@"watchface_settings_field_num_%u", (unsigned int)field_num];
   }
 }
@@ -4780,7 +4830,7 @@ NSString * rzfit_objc_met_zone_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"met_zone_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_dive_settings_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_dive_settings_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 254: return @"message_index";
     case 0: return @"name";
@@ -4803,7 +4853,16 @@ NSString * rzfit_objc_dive_settings_field_num_to_name( FIT_UINT8 field_num ){
     case 17: return @"repeat_dive_interval";
     case 18: return @"safety_stop_time";
     case 19: return @"heart_rate_source_type";
-    case 20: return @"heart_rate_source";
+    case 20:
+    {
+      if( [strings[@"heart_rate_source_type"] isEqualToString:@"antplus"] ){
+         return @"heart_rate_antplus_device_type";
+      }else if( [strings[@"heart_rate_source_type"] isEqualToString:@"local"] ){
+         return @"heart_rate_local_device_type";
+      }else{
+        return @"heart_rate_source";
+      }
+    }
     default: return [NSString stringWithFormat:@"dive_settings_field_num_%u", (unsigned int)field_num];
   }
 }
@@ -4859,7 +4918,7 @@ NSString * rzfit_objc_activity_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"activity_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 254: return @"message_index";
     case 253: return @"timestamp";
@@ -4873,15 +4932,46 @@ NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num ){
     case 7: return @"total_elapsed_time";
     case 8: return @"total_timer_time";
     case 9: return @"total_distance";
-    case 10: return @"total_cycles";
+    case 10:
+    {
+      if( [strings[@"sport"] isEqualToString:@"running"] ){
+         return @"total_strides";
+      }else if( [strings[@"sport"] isEqualToString:@"walking"] ){
+         return @"total_strides";
+      }else if( [strings[@"sport"] isEqualToString:@"cycling"] ){
+         return @"total_strokes";
+      }else if( [strings[@"sport"] isEqualToString:@"swimming"] ){
+         return @"total_strokes";
+      }else if( [strings[@"sport"] isEqualToString:@"rowing"] ){
+         return @"total_strokes";
+      }else if( [strings[@"sport"] isEqualToString:@"stand_up_paddleboarding"] ){
+         return @"total_strokes";
+      }else{
+        return @"total_cycles";
+      }
+    }
     case 11: return @"total_calories";
     case 13: return @"total_fat_calories";
     case 14: return @"avg_speed";
     case 15: return @"max_speed";
     case 16: return @"avg_heart_rate";
     case 17: return @"max_heart_rate";
-    case 18: return @"avg_cadence";
-    case 19: return @"max_cadence";
+    case 18:
+    {
+      if( [strings[@"sport"] isEqualToString:@"running"] ){
+         return @"avg_running_cadence";
+      }else{
+        return @"avg_cadence";
+      }
+    }
+    case 19:
+    {
+      if( [strings[@"sport"] isEqualToString:@"running"] ){
+         return @"max_running_cadence";
+      }else{
+        return @"max_cadence";
+      }
+    }
     case 20: return @"avg_power";
     case 21: return @"max_power";
     case 22: return @"total_ascent";
@@ -4991,7 +5081,7 @@ NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"session_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_lap_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_lap_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 254: return @"message_index";
     case 253: return @"timestamp";
@@ -5005,15 +5095,46 @@ NSString * rzfit_objc_lap_field_num_to_name( FIT_UINT8 field_num ){
     case 7: return @"total_elapsed_time";
     case 8: return @"total_timer_time";
     case 9: return @"total_distance";
-    case 10: return @"total_cycles";
+    case 10:
+    {
+      if( [strings[@"sport"] isEqualToString:@"running"] ){
+         return @"total_strides";
+      }else if( [strings[@"sport"] isEqualToString:@"walking"] ){
+         return @"total_strides";
+      }else if( [strings[@"sport"] isEqualToString:@"cycling"] ){
+         return @"total_strokes";
+      }else if( [strings[@"sport"] isEqualToString:@"swimming"] ){
+         return @"total_strokes";
+      }else if( [strings[@"sport"] isEqualToString:@"rowing"] ){
+         return @"total_strokes";
+      }else if( [strings[@"sport"] isEqualToString:@"stand_up_paddleboarding"] ){
+         return @"total_strokes";
+      }else{
+        return @"total_cycles";
+      }
+    }
     case 11: return @"total_calories";
     case 12: return @"total_fat_calories";
     case 13: return @"avg_speed";
     case 14: return @"max_speed";
     case 15: return @"avg_heart_rate";
     case 16: return @"max_heart_rate";
-    case 17: return @"avg_cadence";
-    case 18: return @"max_cadence";
+    case 17:
+    {
+      if( [strings[@"sport"] isEqualToString:@"running"] ){
+         return @"avg_running_cadence";
+      }else{
+        return @"avg_cadence";
+      }
+    }
+    case 18:
+    {
+      if( [strings[@"sport"] isEqualToString:@"running"] ){
+         return @"max_running_cadence";
+      }else{
+        return @"max_cadence";
+      }
+    }
     case 19: return @"avg_power";
     case 20: return @"max_power";
     case 21: return @"total_ascent";
@@ -5210,13 +5331,62 @@ NSString * rzfit_objc_record_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"record_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_event_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_event_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"event";
     case 1: return @"event_type";
     case 2: return @"data16";
-    case 3: return @"data";
+    case 3:
+    {
+      if( [strings[@"event"] isEqualToString:@"timer"] ){
+         return @"timer_trigger";
+      }else if( [strings[@"event"] isEqualToString:@"course_point"] ){
+         return @"course_point_index";
+      }else if( [strings[@"event"] isEqualToString:@"battery"] ){
+         return @"battery_level";
+      }else if( [strings[@"event"] isEqualToString:@"virtual_partner_pace"] ){
+         return @"virtual_partner_speed";
+      }else if( [strings[@"event"] isEqualToString:@"hr_high_alert"] ){
+         return @"hr_high_alert";
+      }else if( [strings[@"event"] isEqualToString:@"hr_low_alert"] ){
+         return @"hr_low_alert";
+      }else if( [strings[@"event"] isEqualToString:@"speed_high_alert"] ){
+         return @"speed_high_alert";
+      }else if( [strings[@"event"] isEqualToString:@"speed_low_alert"] ){
+         return @"speed_low_alert";
+      }else if( [strings[@"event"] isEqualToString:@"cad_high_alert"] ){
+         return @"cad_high_alert";
+      }else if( [strings[@"event"] isEqualToString:@"cad_low_alert"] ){
+         return @"cad_low_alert";
+      }else if( [strings[@"event"] isEqualToString:@"power_high_alert"] ){
+         return @"power_high_alert";
+      }else if( [strings[@"event"] isEqualToString:@"power_low_alert"] ){
+         return @"power_low_alert";
+      }else if( [strings[@"event"] isEqualToString:@"time_duration_alert"] ){
+         return @"time_duration_alert";
+      }else if( [strings[@"event"] isEqualToString:@"distance_duration_alert"] ){
+         return @"distance_duration_alert";
+      }else if( [strings[@"event"] isEqualToString:@"calorie_duration_alert"] ){
+         return @"calorie_duration_alert";
+      }else if( [strings[@"event"] isEqualToString:@"fitness_equipment"] ){
+         return @"fitness_equipment_state";
+      }else if( [strings[@"event"] isEqualToString:@"sport_point"] ){
+         return @"sport_point";
+      }else if( [strings[@"event"] isEqualToString:@"front_gear_change"] ){
+         return @"gear_change_data";
+      }else if( [strings[@"event"] isEqualToString:@"rear_gear_change"] ){
+         return @"gear_change_data";
+      }else if( [strings[@"event"] isEqualToString:@"rider_position_change"] ){
+         return @"rider_position";
+      }else if( [strings[@"event"] isEqualToString:@"comm_timeout"] ){
+         return @"comm_timeout";
+      }else if( [strings[@"event"] isEqualToString:@"radar_threat_alert"] ){
+         return @"radar_threat_alert";
+      }else{
+        return @"data";
+      }
+    }
     case 4: return @"event_group";
     case 7: return @"score";
     case 8: return @"opponent_score";
@@ -5230,14 +5400,38 @@ NSString * rzfit_objc_event_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"event_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_device_info_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_device_info_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"device_index";
-    case 1: return @"device_type";
+    case 1:
+    {
+      if( [strings[@"source_type"] isEqualToString:@"antplus"] ){
+         return @"antplus_device_type";
+      }else if( [strings[@"source_type"] isEqualToString:@"ant"] ){
+         return @"ant_device_type";
+      }else{
+        return @"device_type";
+      }
+    }
     case 2: return @"manufacturer";
     case 3: return @"serial_number";
-    case 4: return @"product";
+    case 4:
+    {
+      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+         return @"favero_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+         return @"garmin_product";
+      }else{
+        return @"product";
+      }
+    }
     case 5: return @"software_version";
     case 6: return @"hardware_version";
     case 7: return @"cum_operating_time";
@@ -5253,12 +5447,27 @@ NSString * rzfit_objc_device_info_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"device_info_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_training_file_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_training_file_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"type";
     case 1: return @"manufacturer";
-    case 2: return @"product";
+    case 2:
+    {
+      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+         return @"favero_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+         return @"garmin_product";
+      }else{
+        return @"product";
+      }
+    }
     case 3: return @"serial_number";
     case 4: return @"time_created";
     default: return [NSString stringWithFormat:@"training_file_field_num_%u", (unsigned int)field_num];
@@ -5380,11 +5589,20 @@ NSString * rzfit_objc_barometer_data_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"barometer_data_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_three_d_sensor_calibration_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_three_d_sensor_calibration_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"sensor_type";
-    case 1: return @"calibration_factor";
+    case 1:
+    {
+      if( [strings[@"sensor_type"] isEqualToString:@"accelerometer"] ){
+         return @"accel_cal_factor";
+      }else if( [strings[@"sensor_type"] isEqualToString:@"gyroscope"] ){
+         return @"gyro_cal_factor";
+      }else{
+        return @"calibration_factor";
+      }
+    }
     case 2: return @"calibration_divisor";
     case 3: return @"level_shift";
     case 4: return @"offset_cal";
@@ -5392,11 +5610,18 @@ NSString * rzfit_objc_three_d_sensor_calibration_field_num_to_name( FIT_UINT8 fi
     default: return [NSString stringWithFormat:@"three_d_sensor_calibration_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_one_d_sensor_calibration_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_one_d_sensor_calibration_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"sensor_type";
-    case 1: return @"calibration_factor";
+    case 1:
+    {
+      if( [strings[@"sensor_type"] isEqualToString:@"barometer"] ){
+         return @"baro_cal_factor";
+      }else{
+        return @"calibration_factor";
+      }
+    }
     case 2: return @"calibration_divisor";
     case 3: return @"level_shift";
     case 4: return @"offset_cal";
@@ -5576,7 +5801,7 @@ NSString * rzfit_objc_segment_point_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"segment_point_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_segment_lap_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_segment_lap_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 254: return @"message_index";
     case 253: return @"timestamp";
@@ -5590,7 +5815,14 @@ NSString * rzfit_objc_segment_lap_field_num_to_name( FIT_UINT8 field_num ){
     case 7: return @"total_elapsed_time";
     case 8: return @"total_timer_time";
     case 9: return @"total_distance";
-    case 10: return @"total_cycles";
+    case 10:
+    {
+      if( [strings[@"sport"] isEqualToString:@"cycling"] ){
+         return @"total_strokes";
+      }else{
+        return @"total_cycles";
+      }
+    }
     case 11: return @"total_calories";
     case 12: return @"total_fat_calories";
     case 13: return @"avg_speed";
@@ -5711,16 +5943,112 @@ NSString * rzfit_objc_workout_session_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"workout_session_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_workout_step_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_workout_step_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 254: return @"message_index";
     case 0: return @"wkt_step_name";
     case 1: return @"duration_type";
-    case 2: return @"duration_value";
+    case 2:
+    {
+      if( [strings[@"duration_type"] isEqualToString:@"time"] ){
+         return @"duration_time";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repetition_time"] ){
+         return @"duration_time";
+      }else if( [strings[@"duration_type"] isEqualToString:@"distance"] ){
+         return @"duration_distance";
+      }else if( [strings[@"duration_type"] isEqualToString:@"hr_less_than"] ){
+         return @"duration_hr";
+      }else if( [strings[@"duration_type"] isEqualToString:@"hr_greater_than"] ){
+         return @"duration_hr";
+      }else if( [strings[@"duration_type"] isEqualToString:@"calories"] ){
+         return @"duration_calories";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_steps_cmplt"] ){
+         return @"duration_step";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_time"] ){
+         return @"duration_step";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_distance"] ){
+         return @"duration_step";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_calories"] ){
+         return @"duration_step";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_less_than"] ){
+         return @"duration_step";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_greater_than"] ){
+         return @"duration_step";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_less_than"] ){
+         return @"duration_step";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_greater_than"] ){
+         return @"duration_step";
+      }else if( [strings[@"duration_type"] isEqualToString:@"power_less_than"] ){
+         return @"duration_power";
+      }else if( [strings[@"duration_type"] isEqualToString:@"power_greater_than"] ){
+         return @"duration_power";
+      }else if( [strings[@"duration_type"] isEqualToString:@"reps"] ){
+         return @"duration_reps";
+      }else{
+        return @"duration_value";
+      }
+    }
     case 3: return @"target_type";
-    case 4: return @"target_value";
-    case 5: return @"custom_target_value_low";
-    case 6: return @"custom_target_value_high";
+    case 4:
+    {
+      if( [strings[@"target_type"] isEqualToString:@"speed"] ){
+         return @"target_speed_zone";
+      }else if( [strings[@"target_type"] isEqualToString:@"heart_rate"] ){
+         return @"target_hr_zone";
+      }else if( [strings[@"target_type"] isEqualToString:@"cadence"] ){
+         return @"target_cadence_zone";
+      }else if( [strings[@"target_type"] isEqualToString:@"power"] ){
+         return @"target_power_zone";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_steps_cmplt"] ){
+         return @"repeat_steps";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_time"] ){
+         return @"repeat_time";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_distance"] ){
+         return @"repeat_distance";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_calories"] ){
+         return @"repeat_calories";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_less_than"] ){
+         return @"repeat_hr";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_greater_than"] ){
+         return @"repeat_hr";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_less_than"] ){
+         return @"repeat_power";
+      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_greater_than"] ){
+         return @"repeat_power";
+      }else if( [strings[@"target_type"] isEqualToString:@"swim_stroke"] ){
+         return @"target_stroke_type";
+      }else{
+        return @"target_value";
+      }
+    }
+    case 5:
+    {
+      if( [strings[@"target_type"] isEqualToString:@"speed"] ){
+         return @"custom_target_speed_low";
+      }else if( [strings[@"target_type"] isEqualToString:@"heart_rate"] ){
+         return @"custom_target_heart_rate_low";
+      }else if( [strings[@"target_type"] isEqualToString:@"cadence"] ){
+         return @"custom_target_cadence_low";
+      }else if( [strings[@"target_type"] isEqualToString:@"power"] ){
+         return @"custom_target_power_low";
+      }else{
+        return @"custom_target_value_low";
+      }
+    }
+    case 6:
+    {
+      if( [strings[@"target_type"] isEqualToString:@"speed"] ){
+         return @"custom_target_speed_high";
+      }else if( [strings[@"target_type"] isEqualToString:@"heart_rate"] ){
+         return @"custom_target_heart_rate_high";
+      }else if( [strings[@"target_type"] isEqualToString:@"cadence"] ){
+         return @"custom_target_cadence_high";
+      }else if( [strings[@"target_type"] isEqualToString:@"power"] ){
+         return @"custom_target_power_high";
+      }else{
+        return @"custom_target_value_high";
+      }
+    }
     case 7: return @"intensity";
     case 8: return @"notes";
     case 9: return @"equipment";
@@ -5740,10 +6068,25 @@ NSString * rzfit_objc_exercise_title_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"exercise_title_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_schedule_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_schedule_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 0: return @"manufacturer";
-    case 1: return @"product";
+    case 1:
+    {
+      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+         return @"favero_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+         return @"garmin_product";
+      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+         return @"garmin_product";
+      }else{
+        return @"product";
+      }
+    }
     case 2: return @"serial_number";
     case 3: return @"time_created";
     case 4: return @"completed";
@@ -5812,13 +6155,26 @@ NSString * rzfit_objc_monitoring_info_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"monitoring_info_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_monitoring_field_num_to_name( FIT_UINT8 field_num ){
+NSString * rzfit_objc_monitoring_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"device_index";
     case 1: return @"calories";
     case 2: return @"distance";
-    case 3: return @"cycles";
+    case 3:
+    {
+      if( [strings[@"activity_type"] isEqualToString:@"walking"] ){
+         return @"steps";
+      }else if( [strings[@"activity_type"] isEqualToString:@"running"] ){
+         return @"steps";
+      }else if( [strings[@"activity_type"] isEqualToString:@"cycling"] ){
+         return @"strokes";
+      }else if( [strings[@"activity_type"] isEqualToString:@"swimming"] ){
+         return @"strokes";
+      }else{
+        return @"cycles";
+      }
+    }
     case 4: return @"active_time";
     case 5: return @"activity_type";
     case 6: return @"activity_subtype";
@@ -6000,9 +6356,9 @@ NSString * rzfit_objc_climb_pro_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"climb_pro_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field ){
+NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings ){
   switch( global_mesg_num ){
-   case 0: return rzfit_objc_file_id_field_num_to_name(field);
+   case 0: return rzfit_objc_file_id_field_num_to_name(field,strings);
    case 1: return rzfit_objc_capabilities_field_num_to_name(field);
    case 2: return rzfit_objc_device_settings_field_num_to_name(field);
    case 3: return rzfit_objc_user_profile_field_num_to_name(field);
@@ -6015,14 +6371,14 @@ NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 
    case 10: return rzfit_objc_met_zone_field_num_to_name(field);
    case 12: return rzfit_objc_sport_field_num_to_name(field);
    case 15: return rzfit_objc_goal_field_num_to_name(field);
-   case 18: return rzfit_objc_session_field_num_to_name(field);
-   case 19: return rzfit_objc_lap_field_num_to_name(field);
+   case 18: return rzfit_objc_session_field_num_to_name(field,strings);
+   case 19: return rzfit_objc_lap_field_num_to_name(field,strings);
    case 20: return rzfit_objc_record_field_num_to_name(field);
-   case 21: return rzfit_objc_event_field_num_to_name(field);
-   case 23: return rzfit_objc_device_info_field_num_to_name(field);
+   case 21: return rzfit_objc_event_field_num_to_name(field,strings);
+   case 23: return rzfit_objc_device_info_field_num_to_name(field,strings);
    case 26: return rzfit_objc_workout_field_num_to_name(field);
-   case 27: return rzfit_objc_workout_step_field_num_to_name(field);
-   case 28: return rzfit_objc_schedule_field_num_to_name(field);
+   case 27: return rzfit_objc_workout_step_field_num_to_name(field,strings);
+   case 28: return rzfit_objc_schedule_field_num_to_name(field,strings);
    case 30: return rzfit_objc_weight_scale_field_num_to_name(field);
    case 31: return rzfit_objc_course_field_num_to_name(field);
    case 32: return rzfit_objc_course_point_field_num_to_name(field);
@@ -6030,39 +6386,39 @@ NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 
    case 34: return rzfit_objc_activity_field_num_to_name(field);
    case 35: return rzfit_objc_software_field_num_to_name(field);
    case 37: return rzfit_objc_file_capabilities_field_num_to_name(field);
-   case 38: return rzfit_objc_mesg_capabilities_field_num_to_name(field);
+   case 38: return rzfit_objc_mesg_capabilities_field_num_to_name(field,strings);
    case 39: return rzfit_objc_field_capabilities_field_num_to_name(field);
    case 49: return rzfit_objc_file_creator_field_num_to_name(field);
    case 51: return rzfit_objc_blood_pressure_field_num_to_name(field);
    case 53: return rzfit_objc_speed_zone_field_num_to_name(field);
-   case 55: return rzfit_objc_monitoring_field_num_to_name(field);
-   case 72: return rzfit_objc_training_file_field_num_to_name(field);
+   case 55: return rzfit_objc_monitoring_field_num_to_name(field,strings);
+   case 72: return rzfit_objc_training_file_field_num_to_name(field,strings);
    case 78: return rzfit_objc_hrv_field_num_to_name(field);
    case 80: return rzfit_objc_ant_rx_field_num_to_name(field);
    case 81: return rzfit_objc_ant_tx_field_num_to_name(field);
    case 82: return rzfit_objc_ant_channel_id_field_num_to_name(field);
    case 101: return rzfit_objc_length_field_num_to_name(field);
    case 103: return rzfit_objc_monitoring_info_field_num_to_name(field);
-   case 106: return rzfit_objc_slave_device_field_num_to_name(field);
+   case 106: return rzfit_objc_slave_device_field_num_to_name(field,strings);
    case 127: return rzfit_objc_connectivity_field_num_to_name(field);
    case 128: return rzfit_objc_weather_conditions_field_num_to_name(field);
    case 129: return rzfit_objc_weather_alert_field_num_to_name(field);
    case 131: return rzfit_objc_cadence_zone_field_num_to_name(field);
    case 132: return rzfit_objc_hr_field_num_to_name(field);
-   case 142: return rzfit_objc_segment_lap_field_num_to_name(field);
+   case 142: return rzfit_objc_segment_lap_field_num_to_name(field,strings);
    case 145: return rzfit_objc_memo_glob_field_num_to_name(field);
    case 148: return rzfit_objc_segment_id_field_num_to_name(field);
    case 149: return rzfit_objc_segment_leaderboard_entry_field_num_to_name(field);
    case 150: return rzfit_objc_segment_point_field_num_to_name(field);
    case 151: return rzfit_objc_segment_file_field_num_to_name(field);
    case 158: return rzfit_objc_workout_session_field_num_to_name(field);
-   case 159: return rzfit_objc_watchface_settings_field_num_to_name(field);
+   case 159: return rzfit_objc_watchface_settings_field_num_to_name(field,strings);
    case 160: return rzfit_objc_gps_metadata_field_num_to_name(field);
    case 161: return rzfit_objc_camera_event_field_num_to_name(field);
    case 162: return rzfit_objc_timestamp_correlation_field_num_to_name(field);
    case 164: return rzfit_objc_gyroscope_data_field_num_to_name(field);
    case 165: return rzfit_objc_accelerometer_data_field_num_to_name(field);
-   case 167: return rzfit_objc_three_d_sensor_calibration_field_num_to_name(field);
+   case 167: return rzfit_objc_three_d_sensor_calibration_field_num_to_name(field,strings);
    case 169: return rzfit_objc_video_frame_field_num_to_name(field);
    case 174: return rzfit_objc_obdii_data_field_num_to_name(field);
    case 177: return rzfit_objc_nmea_sentence_field_num_to_name(field);
@@ -6079,10 +6435,10 @@ NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 
    case 207: return rzfit_objc_developer_data_id_field_num_to_name(field);
    case 208: return rzfit_objc_magnetometer_data_field_num_to_name(field);
    case 209: return rzfit_objc_barometer_data_field_num_to_name(field);
-   case 210: return rzfit_objc_one_d_sensor_calibration_field_num_to_name(field);
+   case 210: return rzfit_objc_one_d_sensor_calibration_field_num_to_name(field,strings);
    case 225: return rzfit_objc_set_field_num_to_name(field);
    case 227: return rzfit_objc_stress_level_field_num_to_name(field);
-   case 258: return rzfit_objc_dive_settings_field_num_to_name(field);
+   case 258: return rzfit_objc_dive_settings_field_num_to_name(field,strings);
    case 259: return rzfit_objc_dive_gas_field_num_to_name(field);
    case 262: return rzfit_objc_dive_alarm_field_num_to_name(field);
    case 264: return rzfit_objc_exercise_title_field_num_to_name(field);

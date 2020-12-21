@@ -50,7 +50,40 @@ class Type :
         for d in self.values:
             print( '   {}: {}'.format( d['value'],d['name'] ) )
 
+    def swift_define(self):
+        rv = [ ]
+        for d in self.values:
+            rv.append( 'let FIT_{}_{} : FIT_MESG_NUM = {}'.format( self.name.upper(), d['name'].upper(), d['value'] ) )
+        return rv
+        
+            
+    def swift_to_name(self):
+        rv = [ 'public func rzfit_swift_{}_to_name(input : {}) -> String?'.format( self.name, self.objc_type() ),
+               '{',
+               '   switch input {'
+              ]
+        for d in self.values:
+            rv.append( '    case {}: return "{}";'.format( d['value'], d['name'] ) )
+        rv.append( '   default: return nil;' )
+        rv.extend( [ '  }',
+                     '}',
+                     ''] )
+        return rv
 
+    def swift_from_name(self):
+        rv = [ 'public func rzfit_swift_name_to_{}(input : String) -> {}'.format( self.name, self.objc_type() ),
+               '{',
+               '   switch input {'
+              ]
+        for d in self.values:
+            rv.append( '    case "{}": return {};'.format( d['name'], d['value'] ) )
+        rv.append( '   default: return {}_INVALID;'.format( self.objc_type() ) )
+        rv.extend( [ '  }',
+                     '}',
+                     '' ] )
+        return rv
+
+            
     def objc_to_name_function_name(self):
         return 'rzfit_objc_{}_to_name'.format( self.name )
 
@@ -105,7 +138,31 @@ class Field:
         print( '  {}: {}({})'.format(self.field_num, self.name,self.field_type ))
 
     def objc_case_statement(self):
-        return '    case {}: return @"{}";'.format( self.field_num, self.name )
+        if self.relative:
+            rv = [ '    case {}:'.format( self.field_num ),
+                   '    {' ]
+            if_statement = 'if'
+            for r in self.relative:
+                if not r.relfield:
+                    print( 'bug', self.name, r.name )
+                relfields = r.relfield.replace('\n','').split( ',' )
+                relvals   = r.relfieldvalue.replace('\n','').split( ',' )
+                for (onefield, oneval) in zip( relfields, relvals ):
+                    rv.extend( [ '      {}( [strings[@"{}"] isEqualToString:@"{}"] ){{'.format( if_statement, onefield, oneval ),
+                                 '         return @"{}";'.format( r.name ),
+                                ] )
+                    if_statement = '}else if'
+            if if_statement == 'if':
+                rv.append( '    }' )
+            else:
+                rv.extend( [ '      }else{',
+                             '        return @"{}";'.format( self.name ),
+                             '      }'
+                            ])
+            rv.append( '    }' )
+            return rv
+        else:
+            return [ '    case {}: return @"{}";'.format( self.field_num, self.name ) ]
 
     def objc_type_info(self):
         pass
@@ -151,7 +208,6 @@ class Field:
             for r in self.relative:
                 if not r.relfield:
                     print( 'bug', self.name, r.name )
-                    pprint.pprint( self.relative )
                 fit_field_info = r.fit_field_info(types,units)
                 if fit_field_info:
                     relfields = r.relfield.replace('\n','').split( ',' )
@@ -206,10 +262,15 @@ class Message:
         return 'rzfit_objc_{}_field_num_to_name'.format( self.name )
             
     def objc_field_num_to_name_func(self):
-        rv = [ 'NSString * {}( FIT_UINT8 field_num ){{'.format( self.objc_field_num_to_name_func_name() ),
-               '  switch( field_num ){' ]
+        rv = []
+
+        if self.is_complex():
+            rv.append( 'NSString * {}( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){{'.format( self.objc_field_num_to_name_func_name() ) ),
+        else:
+            rv.append( 'NSString * {}( FIT_UINT8 field_num ){{'.format( self.objc_field_num_to_name_func_name() ) )
+        rv.append( '  switch( field_num ){'  )
         for field in self.fields:
-            rv.append( field.objc_case_statement() )
+            rv.extend( field.objc_case_statement() )
         rv.extend( [ '    default: return [NSString stringWithFormat:@"{}_field_num_%u", (unsigned int)field_num];'.format( self.name) ,
                      '  }',
                      '}',
@@ -247,6 +308,9 @@ class Message:
                           '}',
                           ] )
         return rv
+
+    def field_to_unit(self,field_to_unit):
+        pass
     
 class Context:
     def __init__(self,args):
@@ -280,6 +344,31 @@ class Context:
             elif current and row[2]:
                 current.add( row, self.units )
 
+    def swift_unit_functions(self):
+        rv = []
+        rv = [ 'func rzfit_swift_known_units( ) -> [String] {' ,
+               '  return  ['
+               ]
+        for k in self.units.keys():
+            rv.append( '  "{}",'.format( k.replace( '\n', '' ) ) )
+        rv.extend( [ '  ]' ,
+                     '}',
+                     ''
+                     ] )
+
+        rv.extend( [ 'func rzfit_swift_unit_for_field( field : String ) -> String? {',
+                     '  switch field {'
+                     ] )
+
+        field_to_unit = {}
+        for (name,message) in self.messages.items():
+            message.field_to_unit(field_to_unit)
+            
+        rv.extend( [ '    default: return nil',
+                     '   }',
+                     '}' ] )
+        return rv
+                
     def objc_field_info(self):
         mesg_num = self.types['mesg_num']
         done = dict()
@@ -342,7 +431,7 @@ class Context:
 
     def objc_field_num_to_name(self):
         mesg_num = self.types['mesg_num']
-        rv = [ 'NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field ){',
+        rv = [ 'NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings ){',
                '  switch( global_mesg_num ){'
                ]
         for t in mesg_num.values:
@@ -351,7 +440,10 @@ class Context:
                 print( 'missing {}'.format( mesg_name ) )
             else:
                 mesg = self.messages[ mesg_name ]
-                rv.append( '   case {}: return {}(field);'.format( t['value'], mesg.objc_field_num_to_name_func_name() ) )
+                if mesg.is_complex():
+                    rv.append( '   case {}: return {}(field,strings);'.format( t['value'], mesg.objc_field_num_to_name_func_name() ) )
+                else:
+                    rv.append( '   case {}: return {}(field);'.format( t['value'], mesg.objc_field_num_to_name_func_name() ) )
         rv.extend( [ '    default: return [NSString stringWithFormat:@"MESG_NUM_%u_FIELD_%u", (unsigned int)global_mesg_num, (unsigned int)field];' ,
                      '  }',
                      '}',
@@ -368,8 +460,41 @@ class Convert :
     def outfile_to_objc_pair(self):
         return ( '../Sources/FitFileParserTypes/fit_map.m','fit_map.h' ) 
 
-    
-    def run(self):
+
+    def generate_swift_file(self):
+        oof = open( '../Sources/FitFileParser/rzfit_swift_map.swift', 'w' )
+
+        rv =  [
+            '// This file is auto generated, Do not edit',
+            '',
+            '//MARK: - types definitions',
+            ''
+            'public typealias FIT_MESG_NUM = UInt16',
+            'public typealias FIT_UINT16 = UInt16',
+            ''
+            'let FIT_UINT16_INVALID : FIT_UINT16 = 0xFFFF',
+            '',
+            '//MARK: - constant definitions',
+            ''
+        ]
+        
+
+        mesg_num = self.context.types['mesg_num']
+        rv.extend( mesg_num.swift_define() )
+        rv.extend( [
+            '',
+            '',
+            '//MARK: - convertion functions',
+            ''
+            ] )
+        rv.extend(  mesg_num.swift_to_name() )
+        rv.extend( mesg_num.swift_from_name() )
+        rv.extend( self.context.swift_unit_functions() )
+        
+        oof.write( '\n'.join( rv ) )
+        
+
+    def generate_objc_file(self):
         (objcf, objch) = self.outfile_to_objc_pair()
 
         hf = os.path.basename( objch )
@@ -419,7 +544,10 @@ class Convert :
         ] ) )
 
         oof.write( '\n'.join( self.context.objc_field_info() ) )
-
+    
+    def run(self):
+        self.generate_objc_file()
+        self.generate_swift_file()
         
         
 if __name__ == "__main__":

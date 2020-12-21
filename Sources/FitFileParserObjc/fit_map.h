@@ -7,6 +7,7 @@
 
 #ifndef Header_h
 #define Header_h
+@import Foundation;
 #import "fit.h"
 
 typedef FIT_UINT8 FIT_TYPE;
@@ -33,7 +34,7 @@ extern NSString * rzfit_objc_type_to_name( FIT_TYPE fit_type, FIT_UINT32 val );
 extern NSString * rzfit_objc_unit_to_name( FIT_UNIT fit_unit );
 
 extern FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings );
-extern NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field );
+extern NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings );
 extern NSString * rzfit_objc_mesg_num_to_name( FIT_UINT16 mesg_num);
 
 #endif /* Header_h */

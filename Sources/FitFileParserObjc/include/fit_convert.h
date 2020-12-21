@@ -20,7 +20,36 @@
 #if !defined(FIT_CONVERT_H)
 #define FIT_CONVERT_H
 
-#include "fit_product.h"
+#include "fit.h"
+
+///////////////////////////////////////////////////////////////////////
+// Message Conversion Structures
+///////////////////////////////////////////////////////////////////////
+
+typedef struct
+{
+   FIT_UINT8 base_type;
+   FIT_UINT16 offset_in;
+   FIT_UINT16 offset_local;
+   FIT_UINT8 size;
+   FIT_UINT8 num;
+} FIT_FIELD_CONVERT;
+
+typedef struct
+{
+   FIT_UINT8 reserved_1;
+   FIT_UINT8 arch;
+   FIT_UINT16 global_mesg_num;
+   FIT_UINT8 num_fields;
+   FIT_FIELD_CONVERT fields[91];
+} FIT_MESG_CONVERT;
+
+///////////////////////////////////////////////////////////////////////
+// Messages
+///////////////////////////////////////////////////////////////////////
+
+#define FIT_MESG_SIZE       254
+#define FIT_MESG_DEF_SIZE   278
 
 
 
@@ -175,9 +204,9 @@ typedef struct
 // Returns the global message number of the decoded message.
 ///////////////////////////////////////////////////////////////////////
 #if defined(FIT_CONVERT_MULTI_THREAD)
-   FIT_MESG_NUM FitConvert_GetMessageNumber(FIT_CONVERT_STATE *state);
+   FIT_UINT16 FitConvert_GetMessageNumber(FIT_CONVERT_STATE *state);
 #else
-   FIT_MESG_NUM FitConvert_GetMessageNumber(void);
+   FIT_UINT16 FitConvert_GetMessageNumber(void);
 #endif
 
 ///////////////////////////////////////////////////////////////////////

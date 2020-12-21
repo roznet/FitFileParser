@@ -30,10 +30,8 @@
         FIT_UINT8 *mesg_buf = state->u.mesg;
         FIT_UINT8 field;
         FIT_UINT16 global_mesg_num = state->convert_table[state->mesg_index].global_mesg_num;
-        if( global_mesg_num == 0){
-            //
-        }
         FIT_UINT8 num_fields = state->convert_table[state->mesg_index].num_fields;
+        
         for (field = 0; field < num_fields; field++)
         {
             // FIT_MESG_CONVERT
@@ -180,7 +178,7 @@
                     mesg_buf += base_type_size;
                 }
             }
-            NSString * field_name = rzfit_objc_field_num_to_name(global_mesg_num, field_num);
+            NSString * field_name = rzfit_objc_field_num_to_name(global_mesg_num, field_num,strings);
             if( num ){
                 if( field_info.scale != FIT_SCALE_NONE){
                     double adjustedValue = num.doubleValue / (double) field_info.scale ;

@@ -27,6 +27,7 @@
 #include "rzfit_parse_dev_data.h"
 
 #include "rzfit_convert_auto.h"
+#include "fit_convert.h"
 #include "fit_example.h"
 
 const FIT_UINT16 kMaxDevFields = 64;
