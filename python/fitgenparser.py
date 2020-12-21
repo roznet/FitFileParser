@@ -64,7 +64,7 @@ class Type :
                ]
         for d in self.values:
             rv.append( '    case {}: return @"{}";'.format( d['value'], d['name'] ) )
-        rv.extend( [ '    default: return [NSString stringWithFormat:@"{}_%u", (unsigned int){}];'.format( self.name, var_name ),
+        rv.extend( [   '    default: return [NSString stringWithFormat:@"{}_%u", (unsigned int){}];'.format( self.name, var_name ),
                      '  }',
                      '}',
                      '',
@@ -73,29 +73,33 @@ class Type :
         return rv
 
     def objc_type_function_call_statement(self):
-        rv = [ '  case {}:'.format( self.type_num ) ,
-               '  {',
-               '     {} val = ({})fit_type;'.format( self.objc_type(), self.objc_type() ),
-               '     return {}(val);'.format( self.objc_to_name_function_name() ),
-               '  }',
+        rv = [ 
+               '     case {}: return {}( ({}) val);'.format( self.type_num, self.objc_to_name_function_name(), self.objc_type() ),
                
                ]
         return rv
     
 class Field:
     def __init__(self,row):
-        self.name = row[2]
         self.field_num = row[1]
+        self.name = row[2]
         self.field_type = row[3]
         self.array = row[4]
         self.component = row[5]
         self.scale = row[6]
         self.offset = row[7]
         self.unit = row[8]
+        self.relfield = row[11]
+        self.relfieldvalue = row[12]
+        self.relative = []
 
-    def add_reference( self,row ):
-        # ignore for now
-        pass
+    def add_reference( self,row, units ):
+        field = Field(row)
+        if field.unit:
+            if field.unit not in units:
+                units[field.unit] = len(units)
+            field.unit_num = units[field.unit]
+        self.relative.append( field )
 
     def description(self):
         print( '  {}: {}({})'.format(self.field_num, self.name,self.field_type ))
@@ -105,6 +109,71 @@ class Field:
 
     def objc_type_info(self):
         pass
+
+    def is_complex(self):
+        return self.relative
+
+    def fit_field_info(self,types,units):
+        rv = None
+        scale = 0
+        offset = 0
+        unit = 0
+        fit_type = 0
+        flags = 0
+        report = False
+        if self.scale and isinstance(self.scale, int ):
+            scale = self.scale
+            report = True
+        if self.offset:
+            offset = self.offset
+            report = True
+        if self.field_type and self.field_type in types:
+            fit_type = types[ self.field_type ].type_num
+            if self.field_type == 'date_time' or self.field_type == 'local_date_time':
+                flags = 1
+            report = True
+        if self.unit and self.unit in units:
+            unit = units[ self.unit ]
+            report = True
+        if report:
+            rv = '(FIT_FIELD_INFO){{.scale = {}, .offset = {}, .fit_type = {}, .fit_unit = {}, .fit_flag = {} }}'.format( scale,offset,fit_type,unit,flags )
+
+        return rv
+
+    
+    def field_info(self,types,units):
+        rv = []
+        if self.relative:
+            rv.extend( [ '    case {}:'.format( self.field_num ),
+                         '    {',
+                         ] )
+            if_statement = 'if'
+            for r in self.relative:
+                if not r.relfield:
+                    print( 'bug', self.name, r.name )
+                    pprint.pprint( self.relative )
+                fit_field_info = r.fit_field_info(types,units)
+                if fit_field_info:
+                    relfields = r.relfield.replace('\n','').split( ',' )
+                    relvals   = r.relfieldvalue.replace('\n','').split( ',' )
+                    for (onefield, oneval) in zip( relfields, relvals ):
+                        rv.extend( [ '      {}( [strings[@"{}"] isEqualToString:@"{}"] ){{'.format( if_statement, onefield, oneval ),
+                                     '         return {};'.format( fit_field_info ),
+                                    ] )
+                        if_statement = '}else if'
+            if if_statement != 'if':
+                rv.append(  '      }'  )
+            else:
+                rv.append(  '          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };' )
+
+            rv.append( '    }' )
+                    
+        else:
+            fit_field_info = self.fit_field_info(types,units)
+            if fit_field_info:
+                rv.append( '    case {}: return {}; // {}'.format( self.field_num, fit_field_info, self.name ) )
+                
+        return rv
     
 class Message:
     '''
@@ -117,7 +186,7 @@ class Message:
         self.fields = []
 
     def add(self,row,units={}):
-        if row[1]:
+        if row[1] is not None:
             field = Field( row )
             if field.unit:
                 if field.unit not in units:
@@ -126,7 +195,7 @@ class Message:
                 
             self.fields.append( field )
         elif len(self.fields)>0:
-            self.fields[-1].add_reference(row )
+            self.fields[-1].add_reference(row, units )
 
     def description(self):
         print( self.name )
@@ -147,7 +216,38 @@ class Message:
                      '',
                      ] )
         return rv
-                   
+
+    def objc_field_info_func_name(self):
+        return 'rzfit_objc_{}_field_info'.format( self.name )
+
+    def is_complex(self):
+        rv = False
+        for f in self.fields:
+            if f.is_complex():
+                rv = True
+        return rv
+    
+    def objc_field_info(self, types, units ):
+        needed = []
+        for f in self.fields:
+            one = f.field_info(types, units )
+            if one:
+                needed.extend( one )
+        rv = []
+        if needed:
+            if self.is_complex():
+                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){{'.format( self.objc_field_info_func_name() ) )
+            else:
+                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field){{'.format( self.objc_field_info_func_name() ) )
+                
+            rv.append( '  switch( field ){' ),
+            rv.extend( needed )
+            rv.extend( [  '    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };',
+                          '  }',
+                          '}',
+                          ] )
+        return rv
+    
 class Context:
     def __init__(self,args):
 
@@ -179,7 +279,39 @@ class Context:
                 self.messages[current.name] = current
             elif current and row[2]:
                 current.add( row, self.units )
+
+    def objc_field_info(self):
+        mesg_num = self.types['mesg_num']
+        done = dict()
+        rv = []
+        for m in mesg_num.values:
+            mesg_name = m['name']
+            if mesg_name in self.messages:
+                message = self.messages[mesg_name]
+                mesg_info = message.objc_field_info(self.types, self.units)
+                if mesg_info:
+                    rv.extend( mesg_info )
+                    done[ mesg_name ] = 1
                 
+        rv.extend( [ 'FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings ){'
+                     '  switch(global_mesg_num){',
+                    ] )
+        for m in mesg_num.values:
+            mesg_num = m['value']
+            mesg_name = m['name']
+            if mesg_name in done:
+                message = self.messages[mesg_name]
+                if message.is_complex():
+                    rv.append( '    case {}: return {}(field,strings);'.format( mesg_num, message.objc_field_info_func_name() ) )
+                else:
+                    rv.append( '    case {}: return {}(field);'.format( mesg_num, message.objc_field_info_func_name() ) )
+        rv.extend( [ '    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };',
+                     '  }',
+                     '}'
+                     ] )
+        return rv
+            
+        
     def objc_unit_to_name(self):
         rv = [ 'NSString * rzfit_objc_unit_to_name( FIT_UNIT fit_unit ){',
                '  switch( fit_unit ){'
@@ -280,6 +412,15 @@ class Convert :
             oof.write( '\n'.join( m.objc_field_num_to_name_func() ) )
 
         oof.write( '\n'.join( self.context.objc_field_num_to_name() ) )
+        
+        oof.write( '\n'.join( [
+            '#pragma mark - field info section\n',
+            '\n'
+        ] ) )
+
+        oof.write( '\n'.join( self.context.objc_field_info() ) )
+
+        
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser( description='Auto Generate Parser files' )

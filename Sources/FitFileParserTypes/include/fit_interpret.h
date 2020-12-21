@@ -12,6 +12,7 @@
 
 @property (nonatomic,readonly,nonnull) NSDictionary<NSString*,NSNumber*>*numbers;
 @property (nonatomic,readonly,nonnull) NSDictionary<NSString*,NSString*>*strings;
+@property (nonatomic,readonly,nonnull) NSDictionary<NSString*,NSDate*>*dates;
 
 -(nullable instancetype)init:(nonnull FIT_CONVERT_STATE*)state;
 

@@ -14,6 +14,7 @@
 
 @property (nonatomic,retain,nonnull) NSDictionary<NSString*,NSNumber*>*numbers;
 @property (nonatomic,retain,nonnull) NSDictionary<NSString*,NSString*>*strings;
+@property (nonatomic,retain,nonnull) NSDictionary<NSString*,NSDate*>*dates;
 
 @end
 
@@ -24,11 +25,14 @@
     if( self ){
         NSMutableDictionary<NSString*,NSString*> * strings = [NSMutableDictionary dictionary];
         NSMutableDictionary<NSString*,NSNumber*> * numbers = [NSMutableDictionary dictionary];
-        
+        NSMutableDictionary<NSString*,NSDate*> * dates = [NSMutableDictionary dictionary];
+
         FIT_UINT8 *mesg_buf = state->u.mesg;
         FIT_UINT8 field;
         FIT_UINT16 global_mesg_num = state->convert_table[state->mesg_index].global_mesg_num;
-        
+        if( global_mesg_num == 0){
+            //
+        }
         FIT_UINT8 num_fields = state->convert_table[state->mesg_index].num_fields;
         for (field = 0; field < num_fields; field++)
         {
@@ -44,10 +48,11 @@
                 continue;
             
             base_type_size = fit_base_type_sizes[base_type_num];
-            FIT_FIELD_INFO field_info = rzfit_objc_field_info( global_mesg_num, field_num );
+            FIT_FIELD_INFO field_info = rzfit_objc_field_info( global_mesg_num, field_num, strings );
             
             NSNumber * num = nil;
             NSString * string = nil;
+            NSDate * date = nil;
             if( base_type_num==7){ // String
                 FIT_BOOL has_zero = 0;
                 const char * start = (const char*)mesg_buf;
@@ -124,7 +129,12 @@
                             {
                                 FIT_UINT32 val = *(FIT_UINT32*)mesg_buf;
                                 if( val != FIT_UINT32_INVALID ){
-                                    if( field_info.fit_type != FIT_TYPE_NONE){
+                                    if( (field_info.fit_flag & FIT_FLAG_DATE) == FIT_FLAG_DATE){
+                                        // Fit file are in seconds since UTC 00:00 Dec 31 1989 = -347241600
+                                        NSTimeInterval ti = (NSTimeInterval)val - 347241600;
+                                        date = [NSDate dateWithTimeIntervalSinceReferenceDate:ti];
+                                    }
+                                    else if( field_info.fit_type != FIT_TYPE_NONE){
                                         string = rzfit_objc_type_to_name(field_info.fit_type, val);
                                     }else{
                                         num = @( val );
@@ -170,8 +180,8 @@
                     mesg_buf += base_type_size;
                 }
             }
+            NSString * field_name = rzfit_objc_field_num_to_name(global_mesg_num, field_num);
             if( num ){
-                NSString * field_name = rzfit_objc_field_num_to_name(global_mesg_num, field_num);
                 if( field_info.scale != FIT_SCALE_NONE){
                     double adjustedValue = num.doubleValue / (double) field_info.scale ;
                     if( field_info.offset != FIT_OFFSET_NONE ){
@@ -182,13 +192,15 @@
                     numbers[ field_name ] = num;
                 }
             }
-            if( string ){
-                NSString * field_name = rzfit_objc_field_num_to_name(global_mesg_num, field_num);
+            else if( string ){
                 strings[ field_name ] = string;
+            }else if( date ){
+                dates[ field_name ] = date;
             }
-
         }
-
+        self.numbers = numbers;
+        self.strings = strings;
+        self.dates = dates;
     }
     return self;
 }
