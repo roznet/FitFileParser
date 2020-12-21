@@ -37,10 +37,13 @@ class Type :
         self.base_type = base_type
         self.type_num = type_num
         self.values = []
+        self.values_map = {}
+        
 
     def add_row(self,row):
         if len(row)>4 and row[0] is None and row[1] is None:
             self.values.append( { 'name': row[2], 'value':row[3] } )
+            self.values_map[row[2]] = row[3]
             return True
         else:
             return False
@@ -58,9 +61,9 @@ class Type :
         
             
     def swift_to_name(self):
-        rv = [ 'public func rzfit_swift_{}_to_name(input : {}) -> String?'.format( self.name, self.objc_type() ),
+        rv = [ 'public func rzfit_swift_{}_to_name({} : {}) -> String?'.format( self.name, self.name, self.objc_type() ),
                '{',
-               '   switch input {'
+               '   switch {} {{'.format( self.name ),
               ]
         for d in self.values:
             rv.append( '    case {}: return "{}";'.format( d['value'], d['name'] ) )
@@ -71,9 +74,9 @@ class Type :
         return rv
 
     def swift_from_name(self):
-        rv = [ 'public func rzfit_swift_name_to_{}(input : String) -> {}'.format( self.name, self.objc_type() ),
+        rv = [ 'public func rzfit_swift_name_to_{}(name : String) -> {}'.format( self.name, self.objc_type() ),
                '{',
-               '   switch input {'
+               '   switch name {'
               ]
         for d in self.values:
             rv.append( '    case "{}": return {};'.format( d['name'], d['value'] ) )
@@ -164,6 +167,23 @@ class Field:
         else:
             return [ '    case {}: return @"{}";'.format( self.field_num, self.name ) ]
 
+    def name_to_units(self):
+        rv = {}
+        if self.unit:
+            rv = { self.name: self.unit}
+
+        for relative in self.relative:
+            sub = relative.name_to_units()
+            for (k,v) in sub.items():
+                if k not in rv:
+                    rv[k] = v
+                else:
+                    if rv[k] != v:
+                        print( 'inconsistent for {}: {} {}'.format( self.name, v, rv[k] ) )
+                        
+        return rv
+        
+        
     def objc_type_info(self):
         pass
 
@@ -309,8 +329,12 @@ class Message:
                           ] )
         return rv
 
-    def field_to_unit(self,field_to_unit):
-        pass
+    def field_to_unit(self,all_fields):
+        for f in self.fields:
+            for (k,v) in f.name_to_units().items():
+                if k not in all_fields:
+                    all_fields[k] = {}
+                all_fields[k][self.name] = v
     
 class Context:
     def __init__(self,args):
@@ -356,13 +380,28 @@ class Context:
                      ''
                      ] )
 
-        rv.extend( [ 'func rzfit_swift_unit_for_field( field : String ) -> String? {',
+        rv.extend( [ 'func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> String? {',
                      '  switch field {'
                      ] )
 
         field_to_unit = {}
+        mesg_num = self.types['mesg_num']
         for (name,message) in self.messages.items():
             message.field_to_unit(field_to_unit)
+
+        for (f,defs) in field_to_unit.items():
+            units = set(defs.values())
+            if len( units ) == 1:
+                rv.append( '   case "{}": return "{}"'.format( f, next(iter(units))).replace( '\n','' ) )
+            else:
+                rv.extend( [ '    case "{}": '.format( f ),
+                             '        switch mesg_num {',
+                            ] )
+                for (m,u) in defs.items():
+                    rv.append( '      case {}: return "{}" // {}'.format( mesg_num.values_map[m], u, m ) )
+                rv.extend( [ '      default: return nil',
+                             '     }'
+                             ] )
             
         rv.extend( [ '    default: return nil',
                      '   }',
@@ -458,7 +497,7 @@ class Convert :
         self.context = Context(args)
         
     def outfile_to_objc_pair(self):
-        return ( '../Sources/FitFileParserTypes/fit_map.m','fit_map.h' ) 
+        return ( '../Sources/FitFileParserObjc/fit_map.m','fit_map.h' ) 
 
 
     def generate_swift_file(self):

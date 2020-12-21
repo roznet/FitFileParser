@@ -26,7 +26,7 @@ public class FitMessage {
     private var devunits : [FitFieldKey:String]?
     
     public var messageTypeDescription : String?{
-        return rzfit_swift_mesg_num_to_name(input: messageType)
+        return rzfit_swift_mesg_num_to_name(mesg_num: messageType)
     }
 
     private var cacheInterpretation : [FitFieldKey:FitFieldValue]
@@ -161,7 +161,7 @@ public class FitMessage {
         var rv : [String:String] = [:]
         
         for field in values.keys {
-            if let unit = rzfit_swift_unit_for_field(field: field) {
+            if let unit = rzfit_swift_unit_for_field(mesg_num: self.messageType, field: field) {
                 rv[field] = unit
             }
         }

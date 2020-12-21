@@ -185,7 +185,7 @@ public class FitFile {
     /// - Parameter messageType: FitMessageType, the int of the message type i the file
     /// - Returns: description string extracted from the sdk name.
     public func messageTypeDescription( messageType:FitMessageType) -> String? {
-        return rzfit_swift_mesg_num_to_name(input: messageType)
+        return rzfit_swift_mesg_num_to_name(mesg_num: messageType)
     }
     
     /// List of Message Type converted to its description String in the order received in the file
@@ -193,7 +193,7 @@ public class FitFile {
     public func messageTypesDescriptions() -> [String] {
         var rv : [String] = []
         for one in messageTypes {
-            if let oneStr = rzfit_swift_mesg_num_to_name(input: one) {
+            if let oneStr = rzfit_swift_mesg_num_to_name(mesg_num: one) {
                 rv.append(oneStr)
             }
         }
@@ -204,7 +204,7 @@ public class FitFile {
     /// - Parameter forDescription: a string
     /// - Returns: FitMessageType or nil if string does not correspond to any type
     public static func messageType( forDescription : String) -> FitMessageType? {
-        return rzfit_swift_name_to_mesg_num(input: forDescription)
+        return rzfit_swift_name_to_mesg_num(name: forDescription)
     }
     
     /// Check if message type is available in the file
