@@ -1,10 +1,106 @@
 // This file is auto generated, Do not edit
 
 import FitFileParserObjc
+public extension FitMessageType {
+  func name() -> String {
+    return rzfit_swift_mesg_num_to_string(self)
+  }
+  static let invalid : FitMessageType = 0xFFFF
+  static let file_id : FitMessageType = 0
+  static let capabilities : FitMessageType = 1
+  static let device_settings : FitMessageType = 2
+  static let user_profile : FitMessageType = 3
+  static let hrm_profile : FitMessageType = 4
+  static let sdm_profile : FitMessageType = 5
+  static let bike_profile : FitMessageType = 6
+  static let zones_target : FitMessageType = 7
+  static let hr_zone : FitMessageType = 8
+  static let power_zone : FitMessageType = 9
+  static let met_zone : FitMessageType = 10
+  static let sport : FitMessageType = 12
+  static let goal : FitMessageType = 15
+  static let session : FitMessageType = 18
+  static let lap : FitMessageType = 19
+  static let record : FitMessageType = 20
+  static let event : FitMessageType = 21
+  static let device_info : FitMessageType = 23
+  static let workout : FitMessageType = 26
+  static let workout_step : FitMessageType = 27
+  static let schedule : FitMessageType = 28
+  static let weight_scale : FitMessageType = 30
+  static let course : FitMessageType = 31
+  static let course_point : FitMessageType = 32
+  static let totals : FitMessageType = 33
+  static let activity : FitMessageType = 34
+  static let software : FitMessageType = 35
+  static let file_capabilities : FitMessageType = 37
+  static let mesg_capabilities : FitMessageType = 38
+  static let field_capabilities : FitMessageType = 39
+  static let file_creator : FitMessageType = 49
+  static let blood_pressure : FitMessageType = 51
+  static let speed_zone : FitMessageType = 53
+  static let monitoring : FitMessageType = 55
+  static let training_file : FitMessageType = 72
+  static let hrv : FitMessageType = 78
+  static let ant_rx : FitMessageType = 80
+  static let ant_tx : FitMessageType = 81
+  static let ant_channel_id : FitMessageType = 82
+  static let length : FitMessageType = 101
+  static let monitoring_info : FitMessageType = 103
+  static let pad : FitMessageType = 105
+  static let slave_device : FitMessageType = 106
+  static let connectivity : FitMessageType = 127
+  static let weather_conditions : FitMessageType = 128
+  static let weather_alert : FitMessageType = 129
+  static let cadence_zone : FitMessageType = 131
+  static let hr : FitMessageType = 132
+  static let segment_lap : FitMessageType = 142
+  static let memo_glob : FitMessageType = 145
+  static let segment_id : FitMessageType = 148
+  static let segment_leaderboard_entry : FitMessageType = 149
+  static let segment_point : FitMessageType = 150
+  static let segment_file : FitMessageType = 151
+  static let workout_session : FitMessageType = 158
+  static let watchface_settings : FitMessageType = 159
+  static let gps_metadata : FitMessageType = 160
+  static let camera_event : FitMessageType = 161
+  static let timestamp_correlation : FitMessageType = 162
+  static let gyroscope_data : FitMessageType = 164
+  static let accelerometer_data : FitMessageType = 165
+  static let three_d_sensor_calibration : FitMessageType = 167
+  static let video_frame : FitMessageType = 169
+  static let obdii_data : FitMessageType = 174
+  static let nmea_sentence : FitMessageType = 177
+  static let aviation_attitude : FitMessageType = 178
+  static let video : FitMessageType = 184
+  static let video_title : FitMessageType = 185
+  static let video_description : FitMessageType = 186
+  static let video_clip : FitMessageType = 187
+  static let ohr_settings : FitMessageType = 188
+  static let exd_screen_configuration : FitMessageType = 200
+  static let exd_data_field_configuration : FitMessageType = 201
+  static let exd_data_concept_configuration : FitMessageType = 202
+  static let field_description : FitMessageType = 206
+  static let developer_data_id : FitMessageType = 207
+  static let magnetometer_data : FitMessageType = 208
+  static let barometer_data : FitMessageType = 209
+  static let one_d_sensor_calibration : FitMessageType = 210
+  static let set : FitMessageType = 225
+  static let stress_level : FitMessageType = 227
+  static let dive_settings : FitMessageType = 258
+  static let dive_gas : FitMessageType = 259
+  static let dive_alarm : FitMessageType = 262
+  static let exercise_title : FitMessageType = 264
+  static let dive_summary : FitMessageType = 268
+  static let jump : FitMessageType = 285
+  static let climb_pro : FitMessageType = 317
+  static let mfg_range_min : FitMessageType = 0xFF00
+  static let mfg_range_max : FitMessageType = 0xFFFE
+}
 
 //MARK: - convertion to string functions
 
-public func rzfit_swift_file_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_file_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 1: return "device";
@@ -31,7 +127,7 @@ public func rzfit_swift_file_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_mesg_num_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_mesg_num_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "file_id";
@@ -128,7 +224,7 @@ public func rzfit_swift_mesg_num_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-public func rzfit_swift_checksum_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_checksum_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "clear";
@@ -137,7 +233,7 @@ public func rzfit_swift_checksum_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-public func rzfit_swift_file_flags_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_file_flags_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x02: return "read";
@@ -147,7 +243,7 @@ public func rzfit_swift_file_flags_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-public func rzfit_swift_mesg_count_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_mesg_count_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "num_per_file";
@@ -157,7 +253,7 @@ public func rzfit_swift_mesg_count_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_date_time_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_date_time_to_string(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 0x10000000: return "min";
@@ -165,7 +261,7 @@ public func rzfit_swift_date_time_to_string(_ input : FIT_UINT32) -> String
   }
 }
 
-public func rzfit_swift_local_date_time_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_local_date_time_to_string(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 0x10000000: return "min";
@@ -173,7 +269,7 @@ public func rzfit_swift_local_date_time_to_string(_ input : FIT_UINT32) -> Strin
   }
 }
 
-public func rzfit_swift_message_index_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_message_index_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0x8000: return "selected";
@@ -183,7 +279,7 @@ public func rzfit_swift_message_index_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-public func rzfit_swift_device_index_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_device_index_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "creator";
@@ -191,7 +287,7 @@ public func rzfit_swift_device_index_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-public func rzfit_swift_gender_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_gender_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "female";
@@ -200,7 +296,7 @@ public func rzfit_swift_gender_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_language_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_language_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "english";
@@ -246,7 +342,7 @@ public func rzfit_swift_language_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_language_bits_0_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_language_bits_0_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "english";
@@ -261,7 +357,7 @@ public func rzfit_swift_language_bits_0_to_string(_ input : FIT_UINT8Z) -> Strin
   }
 }
 
-public func rzfit_swift_language_bits_1_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_language_bits_1_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "dutch";
@@ -276,7 +372,7 @@ public func rzfit_swift_language_bits_1_to_string(_ input : FIT_UINT8Z) -> Strin
   }
 }
 
-public func rzfit_swift_language_bits_2_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_language_bits_2_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "slovenian";
@@ -291,7 +387,7 @@ public func rzfit_swift_language_bits_2_to_string(_ input : FIT_UINT8Z) -> Strin
   }
 }
 
-public func rzfit_swift_language_bits_3_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_language_bits_3_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "bulgarian";
@@ -306,7 +402,7 @@ public func rzfit_swift_language_bits_3_to_string(_ input : FIT_UINT8Z) -> Strin
   }
 }
 
-public func rzfit_swift_language_bits_4_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_language_bits_4_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "brazilian_portuguese";
@@ -319,7 +415,7 @@ public func rzfit_swift_language_bits_4_to_string(_ input : FIT_UINT8Z) -> Strin
   }
 }
 
-public func rzfit_swift_time_zone_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_time_zone_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "almaty";
@@ -432,7 +528,7 @@ public func rzfit_swift_time_zone_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_display_measure_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_display_measure_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "metric";
@@ -442,7 +538,7 @@ public func rzfit_swift_display_measure_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_display_heart_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_display_heart_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "bpm";
@@ -452,7 +548,7 @@ public func rzfit_swift_display_heart_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_display_power_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_display_power_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "watts";
@@ -461,7 +557,7 @@ public func rzfit_swift_display_power_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_display_position_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_display_position_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "degree";
@@ -510,7 +606,7 @@ public func rzfit_swift_display_position_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_switch_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_switch_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "off";
@@ -520,7 +616,7 @@ public func rzfit_swift_switch_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_sport_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_sport_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -578,7 +674,7 @@ public func rzfit_swift_sport_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_sport_bits_0_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_sport_bits_0_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "generic";
@@ -593,7 +689,7 @@ public func rzfit_swift_sport_bits_0_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-public func rzfit_swift_sport_bits_1_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_sport_bits_1_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "tennis";
@@ -608,7 +704,7 @@ public func rzfit_swift_sport_bits_1_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-public func rzfit_swift_sport_bits_2_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_sport_bits_2_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "mountaineering";
@@ -623,7 +719,7 @@ public func rzfit_swift_sport_bits_2_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-public func rzfit_swift_sport_bits_3_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_sport_bits_3_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "driving";
@@ -638,7 +734,7 @@ public func rzfit_swift_sport_bits_3_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-public func rzfit_swift_sport_bits_4_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_sport_bits_4_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "sailing";
@@ -653,7 +749,7 @@ public func rzfit_swift_sport_bits_4_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-public func rzfit_swift_sport_bits_5_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_sport_bits_5_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "water_skiing";
@@ -668,7 +764,7 @@ public func rzfit_swift_sport_bits_5_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-public func rzfit_swift_sport_bits_6_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_sport_bits_6_to_string(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "floor_climbing";
@@ -676,7 +772,7 @@ public func rzfit_swift_sport_bits_6_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-public func rzfit_swift_sub_sport_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_sub_sport_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -744,7 +840,7 @@ public func rzfit_swift_sub_sport_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_sport_event_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_sport_event_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "uncategorized";
@@ -760,7 +856,7 @@ public func rzfit_swift_sport_event_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_activity_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_activity_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "manual";
@@ -769,7 +865,7 @@ public func rzfit_swift_activity_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_intensity_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_intensity_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "active";
@@ -780,7 +876,7 @@ public func rzfit_swift_intensity_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_session_trigger_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_session_trigger_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "activity_end";
@@ -791,7 +887,7 @@ public func rzfit_swift_session_trigger_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_autolap_trigger_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_autolap_trigger_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "time";
@@ -805,7 +901,7 @@ public func rzfit_swift_autolap_trigger_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_lap_trigger_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_lap_trigger_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "manual";
@@ -821,7 +917,7 @@ public func rzfit_swift_lap_trigger_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_time_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_time_mode_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "hour12";
@@ -834,7 +930,7 @@ public func rzfit_swift_time_mode_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_backlight_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_backlight_mode_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "off";
@@ -848,7 +944,7 @@ public func rzfit_swift_backlight_mode_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_date_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_date_mode_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "day_month";
@@ -857,7 +953,7 @@ public func rzfit_swift_date_mode_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_backlight_timeout_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_backlight_timeout_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "infinite";
@@ -865,7 +961,7 @@ public func rzfit_swift_backlight_timeout_to_string(_ input : FIT_UINT8) -> Stri
   }
 }
 
-public func rzfit_swift_event_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_event_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "timer";
@@ -909,7 +1005,7 @@ public func rzfit_swift_event_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_event_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_event_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "start";
@@ -926,7 +1022,7 @@ public func rzfit_swift_event_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_timer_trigger_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_timer_trigger_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "manual";
@@ -936,7 +1032,7 @@ public func rzfit_swift_timer_trigger_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_fitness_equipment_state_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_fitness_equipment_state_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "ready";
@@ -947,7 +1043,7 @@ public func rzfit_swift_fitness_equipment_state_to_string(_ input : FIT_ENUM) ->
   }
 }
 
-public func rzfit_swift_tone_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_tone_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "off";
@@ -958,7 +1054,7 @@ public func rzfit_swift_tone_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_autoscroll_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_autoscroll_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "none";
@@ -969,7 +1065,7 @@ public func rzfit_swift_autoscroll_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_activity_class_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_activity_class_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0x7F: return "level";
@@ -979,7 +1075,7 @@ public func rzfit_swift_activity_class_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_hr_zone_calc_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_hr_zone_calc_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "custom";
@@ -989,7 +1085,7 @@ public func rzfit_swift_hr_zone_calc_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_pwr_zone_calc_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_pwr_zone_calc_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "custom";
@@ -998,7 +1094,7 @@ public func rzfit_swift_pwr_zone_calc_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_wkt_step_duration_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_wkt_step_duration_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "time";
@@ -1036,7 +1132,7 @@ public func rzfit_swift_wkt_step_duration_to_string(_ input : FIT_ENUM) -> Strin
   }
 }
 
-public func rzfit_swift_wkt_step_target_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_wkt_step_target_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "speed";
@@ -1057,7 +1153,7 @@ public func rzfit_swift_wkt_step_target_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_goal_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_goal_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "time";
@@ -1071,7 +1167,7 @@ public func rzfit_swift_goal_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_goal_recurrence_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_goal_recurrence_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "off";
@@ -1084,7 +1180,7 @@ public func rzfit_swift_goal_recurrence_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_goal_source_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_goal_source_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "auto";
@@ -1094,7 +1190,7 @@ public func rzfit_swift_goal_source_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_schedule_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_schedule_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "workout";
@@ -1103,7 +1199,7 @@ public func rzfit_swift_schedule_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_course_point_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_course_point_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -1136,7 +1232,7 @@ public func rzfit_swift_course_point_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_manufacturer_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_manufacturer_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 1: return "garmin";
@@ -1328,7 +1424,7 @@ public func rzfit_swift_manufacturer_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-public func rzfit_swift_garmin_product_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_garmin_product_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 1: return "hrm1";
@@ -1653,7 +1749,7 @@ public func rzfit_swift_garmin_product_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-public func rzfit_swift_antplus_device_type_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_antplus_device_type_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 1: return "antfs";
@@ -1684,7 +1780,7 @@ public func rzfit_swift_antplus_device_type_to_string(_ input : FIT_UINT8) -> St
   }
 }
 
-public func rzfit_swift_ant_network_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_ant_network_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "public";
@@ -1695,7 +1791,7 @@ public func rzfit_swift_ant_network_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_workout_capabilities_to_string(_ input : FIT_UINT32Z) -> String
+func rzfit_swift_workout_capabilities_to_string(_ input : FIT_UINT32Z) -> String
 {
    switch input {
     case 0x00000001: return "interval";
@@ -1716,7 +1812,7 @@ public func rzfit_swift_workout_capabilities_to_string(_ input : FIT_UINT32Z) ->
   }
 }
 
-public func rzfit_swift_battery_status_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_battery_status_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 1: return "new";
@@ -1730,7 +1826,7 @@ public func rzfit_swift_battery_status_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-public func rzfit_swift_hr_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_hr_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "normal";
@@ -1739,7 +1835,7 @@ public func rzfit_swift_hr_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_course_capabilities_to_string(_ input : FIT_UINT32Z) -> String
+func rzfit_swift_course_capabilities_to_string(_ input : FIT_UINT32Z) -> String
 {
    switch input {
     case 0x00000001: return "processed";
@@ -1757,7 +1853,7 @@ public func rzfit_swift_course_capabilities_to_string(_ input : FIT_UINT32Z) -> 
   }
 }
 
-public func rzfit_swift_weight_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_weight_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0xFFFE: return "calculating";
@@ -1765,7 +1861,7 @@ public func rzfit_swift_weight_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-public func rzfit_swift_workout_hr_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_workout_hr_to_string(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 100: return "bpm_offset";
@@ -1773,7 +1869,7 @@ public func rzfit_swift_workout_hr_to_string(_ input : FIT_UINT32) -> String
   }
 }
 
-public func rzfit_swift_workout_power_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_workout_power_to_string(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 1000: return "watts_offset";
@@ -1781,7 +1877,7 @@ public func rzfit_swift_workout_power_to_string(_ input : FIT_UINT32) -> String
   }
 }
 
-public func rzfit_swift_bp_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_bp_status_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "no_error";
@@ -1793,7 +1889,7 @@ public func rzfit_swift_bp_status_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_user_local_id_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_user_local_id_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0x0000: return "local_min";
@@ -1806,7 +1902,7 @@ public func rzfit_swift_user_local_id_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-public func rzfit_swift_swim_stroke_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_swim_stroke_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "freestyle";
@@ -1820,7 +1916,7 @@ public func rzfit_swift_swim_stroke_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_activity_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_activity_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -1836,7 +1932,7 @@ public func rzfit_swift_activity_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_activity_subtype_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_activity_subtype_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -1863,7 +1959,7 @@ public func rzfit_swift_activity_subtype_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_activity_level_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_activity_level_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "low";
@@ -1873,7 +1969,7 @@ public func rzfit_swift_activity_level_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_side_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_side_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "right";
@@ -1882,7 +1978,7 @@ public func rzfit_swift_side_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_left_right_balance_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_left_right_balance_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0x7F: return "mask";
@@ -1891,7 +1987,7 @@ public func rzfit_swift_left_right_balance_to_string(_ input : FIT_UINT8) -> Str
   }
 }
 
-public func rzfit_swift_left_right_balance_100_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_left_right_balance_100_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0x3FFF: return "mask";
@@ -1900,7 +1996,7 @@ public func rzfit_swift_left_right_balance_100_to_string(_ input : FIT_UINT16) -
   }
 }
 
-public func rzfit_swift_length_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_length_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "idle";
@@ -1909,7 +2005,7 @@ public func rzfit_swift_length_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_day_of_week_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_day_of_week_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "sunday";
@@ -1923,7 +2019,7 @@ public func rzfit_swift_day_of_week_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_connectivity_capabilities_to_string(_ input : FIT_UINT32Z) -> String
+func rzfit_swift_connectivity_capabilities_to_string(_ input : FIT_UINT32Z) -> String
 {
    switch input {
     case 0x00000001: return "bluetooth";
@@ -1962,7 +2058,7 @@ public func rzfit_swift_connectivity_capabilities_to_string(_ input : FIT_UINT32
   }
 }
 
-public func rzfit_swift_weather_report_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_weather_report_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "current";
@@ -1972,7 +2068,7 @@ public func rzfit_swift_weather_report_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_weather_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_weather_status_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "clear";
@@ -2000,7 +2096,7 @@ public func rzfit_swift_weather_status_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_weather_severity_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_weather_severity_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "unknown";
@@ -2012,7 +2108,7 @@ public func rzfit_swift_weather_severity_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_weather_severe_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_weather_severe_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "unspecified";
@@ -2104,21 +2200,21 @@ public func rzfit_swift_weather_severe_type_to_string(_ input : FIT_ENUM) -> Str
   }
 }
 
-public func rzfit_swift_time_into_day_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_time_into_day_to_string(_ input : FIT_UINT32) -> String
 {
    switch input {
    default: return "time_into_day_\(input)"
   }
 }
 
-public func rzfit_swift_localtime_into_day_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_localtime_into_day_to_string(_ input : FIT_UINT32) -> String
 {
    switch input {
    default: return "localtime_into_day_\(input)"
   }
 }
 
-public func rzfit_swift_stroke_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_stroke_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "no_event";
@@ -2131,7 +2227,7 @@ public func rzfit_swift_stroke_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_body_location_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_body_location_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "left_leg";
@@ -2178,7 +2274,7 @@ public func rzfit_swift_body_location_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_segment_lap_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_segment_lap_status_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "end";
@@ -2187,7 +2283,7 @@ public func rzfit_swift_segment_lap_status_to_string(_ input : FIT_ENUM) -> Stri
   }
 }
 
-public func rzfit_swift_segment_leaderboard_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_segment_leaderboard_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "overall";
@@ -2205,7 +2301,7 @@ public func rzfit_swift_segment_leaderboard_type_to_string(_ input : FIT_ENUM) -
   }
 }
 
-public func rzfit_swift_segment_delete_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_segment_delete_status_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "do_not_delete";
@@ -2215,7 +2311,7 @@ public func rzfit_swift_segment_delete_status_to_string(_ input : FIT_ENUM) -> S
   }
 }
 
-public func rzfit_swift_segment_selection_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_segment_selection_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "starred";
@@ -2224,7 +2320,7 @@ public func rzfit_swift_segment_selection_type_to_string(_ input : FIT_ENUM) -> 
   }
 }
 
-public func rzfit_swift_source_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_source_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "ant";
@@ -2237,14 +2333,14 @@ public func rzfit_swift_source_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_local_device_type_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_local_device_type_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
    default: return "local_device_type_\(input)"
   }
 }
 
-public func rzfit_swift_display_orientation_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_display_orientation_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "auto";
@@ -2256,7 +2352,7 @@ public func rzfit_swift_display_orientation_to_string(_ input : FIT_ENUM) -> Str
   }
 }
 
-public func rzfit_swift_workout_equipment_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_workout_equipment_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "none";
@@ -2269,7 +2365,7 @@ public func rzfit_swift_workout_equipment_to_string(_ input : FIT_ENUM) -> Strin
   }
 }
 
-public func rzfit_swift_watchface_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_watchface_mode_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "digital";
@@ -2280,7 +2376,7 @@ public func rzfit_swift_watchface_mode_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_digital_watchface_layout_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_digital_watchface_layout_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "traditional";
@@ -2290,7 +2386,7 @@ public func rzfit_swift_digital_watchface_layout_to_string(_ input : FIT_ENUM) -
   }
 }
 
-public func rzfit_swift_analog_watchface_layout_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_analog_watchface_layout_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "minimal";
@@ -2300,7 +2396,7 @@ public func rzfit_swift_analog_watchface_layout_to_string(_ input : FIT_ENUM) ->
   }
 }
 
-public func rzfit_swift_rider_position_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_rider_position_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "seated";
@@ -2311,7 +2407,7 @@ public func rzfit_swift_rider_position_type_to_string(_ input : FIT_ENUM) -> Str
   }
 }
 
-public func rzfit_swift_power_phase_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_power_phase_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "power_phase_start_angle";
@@ -2322,7 +2418,7 @@ public func rzfit_swift_power_phase_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_camera_event_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_camera_event_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "video_start";
@@ -2342,7 +2438,7 @@ public func rzfit_swift_camera_event_type_to_string(_ input : FIT_ENUM) -> Strin
   }
 }
 
-public func rzfit_swift_sensor_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_sensor_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "accelerometer";
@@ -2353,7 +2449,7 @@ public func rzfit_swift_sensor_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_bike_light_network_config_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_bike_light_network_config_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "auto";
@@ -2364,7 +2460,7 @@ public func rzfit_swift_bike_light_network_config_type_to_string(_ input : FIT_E
   }
 }
 
-public func rzfit_swift_comm_timeout_type_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_comm_timeout_type_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "wildcard_pairing_timeout";
@@ -2375,7 +2471,7 @@ public func rzfit_swift_comm_timeout_type_to_string(_ input : FIT_UINT16) -> Str
   }
 }
 
-public func rzfit_swift_camera_orientation_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_camera_orientation_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "camera_orientation_0";
@@ -2386,7 +2482,7 @@ public func rzfit_swift_camera_orientation_type_to_string(_ input : FIT_ENUM) ->
   }
 }
 
-public func rzfit_swift_attitude_stage_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_attitude_stage_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "failed";
@@ -2397,7 +2493,7 @@ public func rzfit_swift_attitude_stage_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_attitude_validity_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_attitude_validity_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0x0001: return "track_angle_heading_valid";
@@ -2417,7 +2513,7 @@ public func rzfit_swift_attitude_validity_to_string(_ input : FIT_UINT16) -> Str
   }
 }
 
-public func rzfit_swift_auto_sync_frequency_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_auto_sync_frequency_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "never";
@@ -2429,7 +2525,7 @@ public func rzfit_swift_auto_sync_frequency_to_string(_ input : FIT_ENUM) -> Str
   }
 }
 
-public func rzfit_swift_exd_layout_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_exd_layout_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "full_screen";
@@ -2444,7 +2540,7 @@ public func rzfit_swift_exd_layout_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_exd_display_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_exd_display_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "numerical";
@@ -2462,7 +2558,7 @@ public func rzfit_swift_exd_display_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_exd_data_units_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_exd_data_units_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "no_units";
@@ -2519,7 +2615,7 @@ public func rzfit_swift_exd_data_units_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_exd_qualifiers_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_exd_qualifiers_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "no_qualifier";
@@ -2570,7 +2666,7 @@ public func rzfit_swift_exd_qualifiers_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_exd_descriptors_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_exd_descriptors_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "bike_light_battery_status";
@@ -2674,7 +2770,7 @@ public func rzfit_swift_exd_descriptors_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_auto_activity_detect_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_auto_activity_detect_to_string(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 0x00000000: return "none";
@@ -2688,7 +2784,7 @@ public func rzfit_swift_auto_activity_detect_to_string(_ input : FIT_UINT32) -> 
   }
 }
 
-public func rzfit_swift_supported_exd_screen_layouts_to_string(_ input : FIT_UINT32Z) -> String
+func rzfit_swift_supported_exd_screen_layouts_to_string(_ input : FIT_UINT32Z) -> String
 {
    switch input {
     case 0x00000001: return "full_screen";
@@ -2703,7 +2799,7 @@ public func rzfit_swift_supported_exd_screen_layouts_to_string(_ input : FIT_UIN
   }
 }
 
-public func rzfit_swift_fit_base_type_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_fit_base_type_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "enum";
@@ -2727,7 +2823,7 @@ public func rzfit_swift_fit_base_type_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-public func rzfit_swift_turn_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_turn_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "arriving_idx";
@@ -2772,7 +2868,7 @@ public func rzfit_swift_turn_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_bike_light_beam_angle_mode_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_bike_light_beam_angle_mode_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "manual";
@@ -2781,7 +2877,7 @@ public func rzfit_swift_bike_light_beam_angle_mode_to_string(_ input : FIT_UINT8
   }
 }
 
-public func rzfit_swift_fit_base_unit_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_fit_base_unit_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "other";
@@ -2791,7 +2887,7 @@ public func rzfit_swift_fit_base_unit_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-public func rzfit_swift_set_type_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_set_type_to_string(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "rest";
@@ -2800,7 +2896,7 @@ public func rzfit_swift_set_type_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-public func rzfit_swift_exercise_category_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_exercise_category_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bench_press";
@@ -2841,7 +2937,7 @@ public func rzfit_swift_exercise_category_to_string(_ input : FIT_UINT16) -> Str
   }
 }
 
-public func rzfit_swift_bench_press_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_bench_press_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_dumbbell_chest_press_on_swiss_ball";
@@ -2875,7 +2971,7 @@ public func rzfit_swift_bench_press_exercise_name_to_string(_ input : FIT_UINT16
   }
 }
 
-public func rzfit_swift_calf_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_calf_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "3_way_calf_raise";
@@ -2903,7 +2999,7 @@ public func rzfit_swift_calf_raise_exercise_name_to_string(_ input : FIT_UINT16)
   }
 }
 
-public func rzfit_swift_cardio_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_cardio_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bob_and_weave_circle";
@@ -2932,7 +3028,7 @@ public func rzfit_swift_cardio_exercise_name_to_string(_ input : FIT_UINT16) -> 
   }
 }
 
-public func rzfit_swift_carry_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_carry_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bar_holds";
@@ -2944,7 +3040,7 @@ public func rzfit_swift_carry_exercise_name_to_string(_ input : FIT_UINT16) -> S
   }
 }
 
-public func rzfit_swift_chop_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_chop_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "cable_pull_through";
@@ -2974,7 +3070,7 @@ public func rzfit_swift_chop_exercise_name_to_string(_ input : FIT_UINT16) -> St
   }
 }
 
-public func rzfit_swift_core_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_core_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "abs_jabs";
@@ -3054,7 +3150,7 @@ public func rzfit_swift_core_exercise_name_to_string(_ input : FIT_UINT16) -> St
   }
 }
 
-public func rzfit_swift_crunch_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_crunch_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bicycle_crunch";
@@ -3146,7 +3242,7 @@ public func rzfit_swift_crunch_exercise_name_to_string(_ input : FIT_UINT16) -> 
   }
 }
 
-public func rzfit_swift_curl_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_curl_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_dumbbell_biceps_curl";
@@ -3197,7 +3293,7 @@ public func rzfit_swift_curl_exercise_name_to_string(_ input : FIT_UINT16) -> St
   }
 }
 
-public func rzfit_swift_deadlift_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_deadlift_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_deadlift";
@@ -3223,7 +3319,7 @@ public func rzfit_swift_deadlift_exercise_name_to_string(_ input : FIT_UINT16) -
   }
 }
 
-public func rzfit_swift_flye_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_flye_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "cable_crossover";
@@ -3240,7 +3336,7 @@ public func rzfit_swift_flye_exercise_name_to_string(_ input : FIT_UINT16) -> St
   }
 }
 
-public func rzfit_swift_hip_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_hip_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_hip_thrust_on_floor";
@@ -3297,7 +3393,7 @@ public func rzfit_swift_hip_raise_exercise_name_to_string(_ input : FIT_UINT16) 
   }
 }
 
-public func rzfit_swift_hip_stability_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_hip_stability_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "band_side_lying_leg_raise";
@@ -3338,7 +3434,7 @@ public func rzfit_swift_hip_stability_exercise_name_to_string(_ input : FIT_UINT
   }
 }
 
-public func rzfit_swift_hip_swing_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_hip_swing_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "single_arm_kettlebell_swing";
@@ -3348,7 +3444,7 @@ public func rzfit_swift_hip_swing_exercise_name_to_string(_ input : FIT_UINT16) 
   }
 }
 
-public func rzfit_swift_hyperextension_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_hyperextension_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "back_extension_with_opposite_arm_and_leg_reach";
@@ -3395,7 +3491,7 @@ public func rzfit_swift_hyperextension_exercise_name_to_string(_ input : FIT_UIN
   }
 }
 
-public func rzfit_swift_lateral_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_lateral_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "45_degree_cable_external_rotation";
@@ -3436,7 +3532,7 @@ public func rzfit_swift_lateral_raise_exercise_name_to_string(_ input : FIT_UINT
   }
 }
 
-public func rzfit_swift_leg_curl_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_leg_curl_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "leg_curl";
@@ -3455,7 +3551,7 @@ public func rzfit_swift_leg_curl_exercise_name_to_string(_ input : FIT_UINT16) -
   }
 }
 
-public func rzfit_swift_leg_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_leg_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "hanging_knee_raise";
@@ -3484,7 +3580,7 @@ public func rzfit_swift_leg_raise_exercise_name_to_string(_ input : FIT_UINT16) 
   }
 }
 
-public func rzfit_swift_lunge_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_lunge_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "overhead_lunge";
@@ -3572,7 +3668,7 @@ public func rzfit_swift_lunge_exercise_name_to_string(_ input : FIT_UINT16) -> S
   }
 }
 
-public func rzfit_swift_olympic_lift_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_olympic_lift_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_hang_power_clean";
@@ -3600,7 +3696,7 @@ public func rzfit_swift_olympic_lift_exercise_name_to_string(_ input : FIT_UINT1
   }
 }
 
-public func rzfit_swift_plank_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_plank_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "45_degree_plank";
@@ -3742,7 +3838,7 @@ public func rzfit_swift_plank_exercise_name_to_string(_ input : FIT_UINT16) -> S
   }
 }
 
-public func rzfit_swift_plyo_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_plyo_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_jump_lunge";
@@ -3782,7 +3878,7 @@ public func rzfit_swift_plyo_exercise_name_to_string(_ input : FIT_UINT16) -> St
   }
 }
 
-public func rzfit_swift_pull_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_pull_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "banded_pull_ups";
@@ -3828,7 +3924,7 @@ public func rzfit_swift_pull_up_exercise_name_to_string(_ input : FIT_UINT16) ->
   }
 }
 
-public func rzfit_swift_push_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_push_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "chest_press_with_band";
@@ -3914,7 +4010,7 @@ public func rzfit_swift_push_up_exercise_name_to_string(_ input : FIT_UINT16) ->
   }
 }
 
-public func rzfit_swift_row_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_row_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_straight_leg_deadlift_to_row";
@@ -3955,7 +4051,7 @@ public func rzfit_swift_row_exercise_name_to_string(_ input : FIT_UINT16) -> Str
   }
 }
 
-public func rzfit_swift_shoulder_press_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_shoulder_press_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_dumbbell_shoulder_press";
@@ -3986,7 +4082,7 @@ public func rzfit_swift_shoulder_press_exercise_name_to_string(_ input : FIT_UIN
   }
 }
 
-public func rzfit_swift_shoulder_stability_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_shoulder_stability_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "90_degree_cable_external_rotation";
@@ -4026,7 +4122,7 @@ public func rzfit_swift_shoulder_stability_exercise_name_to_string(_ input : FIT
   }
 }
 
-public func rzfit_swift_shrug_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_shrug_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_jump_shrug";
@@ -4050,7 +4146,7 @@ public func rzfit_swift_shrug_exercise_name_to_string(_ input : FIT_UINT16) -> S
   }
 }
 
-public func rzfit_swift_sit_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_sit_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_sit_up";
@@ -4095,7 +4191,7 @@ public func rzfit_swift_sit_up_exercise_name_to_string(_ input : FIT_UINT16) -> 
   }
 }
 
-public func rzfit_swift_squat_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_squat_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "leg_press";
@@ -4194,7 +4290,7 @@ public func rzfit_swift_squat_exercise_name_to_string(_ input : FIT_UINT16) -> S
   }
 }
 
-public func rzfit_swift_total_body_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_total_body_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "burpee";
@@ -4214,7 +4310,7 @@ public func rzfit_swift_total_body_exercise_name_to_string(_ input : FIT_UINT16)
   }
 }
 
-public func rzfit_swift_triceps_extension_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_triceps_extension_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bench_dip";
@@ -4262,7 +4358,7 @@ public func rzfit_swift_triceps_extension_exercise_name_to_string(_ input : FIT_
   }
 }
 
-public func rzfit_swift_warm_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_warm_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "quadruped_rocking";
@@ -4300,7 +4396,7 @@ public func rzfit_swift_warm_up_exercise_name_to_string(_ input : FIT_UINT16) ->
   }
 }
 
-public func rzfit_swift_run_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_run_exercise_name_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "run";
@@ -4311,7 +4407,7 @@ public func rzfit_swift_run_exercise_name_to_string(_ input : FIT_UINT16) -> Str
   }
 }
 
-public func rzfit_swift_water_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_water_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "fresh";
@@ -4322,7 +4418,7 @@ public func rzfit_swift_water_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_tissue_model_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_tissue_model_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "zhl_16c";
@@ -4330,7 +4426,7 @@ public func rzfit_swift_tissue_model_type_to_string(_ input : FIT_ENUM) -> Strin
   }
 }
 
-public func rzfit_swift_dive_gas_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_dive_gas_status_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "disabled";
@@ -4340,7 +4436,7 @@ public func rzfit_swift_dive_gas_status_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_dive_alarm_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_dive_alarm_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "depth";
@@ -4349,7 +4445,7 @@ public func rzfit_swift_dive_alarm_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_dive_backlight_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_dive_backlight_mode_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "at_depth";
@@ -4358,7 +4454,7 @@ public func rzfit_swift_dive_backlight_mode_to_string(_ input : FIT_ENUM) -> Str
   }
 }
 
-public func rzfit_swift_favero_product_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_favero_product_to_string(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 10: return "assioma_uno";
@@ -4367,7 +4463,7 @@ public func rzfit_swift_favero_product_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-public func rzfit_swift_climb_pro_event_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_climb_pro_event_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "approach";
@@ -4377,7 +4473,7 @@ public func rzfit_swift_climb_pro_event_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_tap_sensitivity_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_tap_sensitivity_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "high";
@@ -4387,7 +4483,7 @@ public func rzfit_swift_tap_sensitivity_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-public func rzfit_swift_radar_threat_level_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_radar_threat_level_type_to_string(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "threat_unknown";
@@ -4567,7 +4663,7 @@ func rzfit_swift_type_to_string(fit_type : FIT_UINT8, val : FIT_UINT32 ) -> Stri
     default: return "fit_type_\(fit_type)_\(val)"
   }
 }
-public func rzfit_swift_mesg_num_from_string(_ input : String) -> FIT_UINT16
+func rzfit_swift_mesg_num_from_string(_ input : String) -> FIT_UINT16
 {
    switch input {
     case "file_id": return 0;

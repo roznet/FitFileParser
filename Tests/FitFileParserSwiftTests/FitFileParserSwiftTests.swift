@@ -16,7 +16,7 @@ final class FitFileParserSwiftTests: XCTestCase {
         let path  = self.findResource(name: "running.fit")
         if let data = try? Data(contentsOf: path) {
             let fit_fast = FitFile(data: data, parsingType: FitFile.ParsingType.fast)
-            XCTAssertTrue(fit_fast.hasMessageType(messageType: FIT_MESG_NUM_SESSION))
+            XCTAssertTrue(fit_fast.hasMessageType(messageType: FitMessageType.session))
             
             /*let fit_generic = FitFile(data: data, parsingType: FitFile.ParsingType.generic)
             
@@ -34,10 +34,10 @@ final class FitFileParserSwiftTests: XCTestCase {
         if let data = try? Data(contentsOf: path) {
             measure {
                 let fit = FitFile(data: data)
-                XCTAssertTrue(fit.hasMessageType(messageType: FIT_MESG_NUM_SESSION))
+                XCTAssertTrue(fit.hasMessageType(messageType: FitMessageType.session))
                 
-                let records = fit.messages(forMessageType: FIT_MESG_NUM_SESSION)
-                let countRecords = fit.countByMessageType()[FIT_MESG_NUM_SESSION]
+                let records = fit.messages(forMessageType: FitMessageType.session)
+                let countRecords = fit.countByMessageType()[FitMessageType.session]
                 XCTAssertEqual(records.count, countRecords)
             }
         }

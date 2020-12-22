@@ -62,18 +62,23 @@ class Type :
     def value_for_string(self,val):
         return self.values_map[val]
     
-    def swift_define(self):
-        rv = [ ]
+    def swift_stmt_extension(self,use_type):
+        rv = [ 'public extension {} {{'.format( use_type ),
+               '  func name() -> String {',
+               '    return rzfit_swift_mesg_num_to_string(self)',
+               '  }',
+               '  static let invalid : FitMessageType = 0xFFFF'
+              ]
         for d in self.values:
-            rv.append( 'public let FIT_{}_{} : {} = {}'.format( self.name.upper(), d['name'].upper(), self.fit_name(), d['value'] ) )
+            rv.append( '  static let {} : {} = {}'.format( d['name'], use_type, d['value'] ) )
+        rv.append( '}' )
         return rv
-
 
     def swift_fname_to_string(self):
         return f'rzfit_swift_{self.name}_to_string'
     
     def swift_func_to_string(self):
-        rv = [ 'public func {}(_ input : {}) -> String'.format( self.swift_fname_to_string(), self.objc_type() ),
+        rv = [ 'func {}(_ input : {}) -> String'.format( self.swift_fname_to_string(), self.objc_type() ),
                '{',
                '   switch input {{'.format( self.name ),
               ]
@@ -89,7 +94,7 @@ class Type :
         return f'rzfit_swift_{self.name}_from_string'
     
     def swift_func_from_string(self):
-        rv = [ 'public func {}(_ input : String) -> {}'.format( self.swift_fname_from_string(), self.objc_type() ),
+        rv = [ 'func {}(_ input : String) -> {}'.format( self.swift_fname_from_string(), self.objc_type() ),
                '{',
                '   switch input {'
               ]
@@ -1007,6 +1012,7 @@ class Convert :
         ]
         
         mesg_num = self.context.types['mesg_num']
+        rv.extend( mesg_num.swift_stmt_extension('FitMessageType' ) )
         rv.extend( [
             '',
             '//MARK: - convertion to string functions',
