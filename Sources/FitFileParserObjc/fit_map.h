@@ -31,7 +31,6 @@ typedef struct {
     FIT_UINT8Z   fit_flag; //
 } FIT_FIELD_INFO;
 
-extern NSString * rzfit_objc_type_to_name( FIT_TYPE fit_type, FIT_UINT32 val );
 extern NSString * rzfit_objc_unit_to_name( FIT_UNIT fit_unit );
 
 extern FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp );

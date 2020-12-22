@@ -18,6 +18,64 @@ extension String {
     }
 }
 
+extension FitInterpretMesg {
+    func build_fit_message() -> FitMessage{
+        var doubles : [String:Double] = [:]
+        var strings : [String:String] = [:]
+        var dates   : [String:Date] = [:]
+        
+        let max_fields = Int(FIT_INTERP_MAX_FIELD)
+            /*
+        FIT_UINT16 string_fields[FIT_INTERP_MAX_FIELD];
+        FIT_UINT16 double_fields[FIT_INTERP_MAX_FIELD];
+        FIT_UINT16 date_fields[FIT_INTERP_MAX_FIELD];
+
+        double double_values[FIT_INTERP_MAX_FIELD];
+        NSTimeInterval date_values[FIT_INTERP_MAX_FIELD];
+        FIT_UINT32 string_values[FIT_INTERP_MAX_FIELD];
+        FIT_UINT8 string_types[FIT_INTERP_MAX_FIELD];
+*/
+        
+        let string_fields_lookup = withUnsafeMutablePointer(to: &self.fields.string_fields) { $0.withMemoryRebound(to: FIT_UINT16.self, capacity: max_fields) { $0 } }
+        let double_fields_lookup = withUnsafeMutablePointer(to: &self.fields.double_fields) { $0.withMemoryRebound(to: FIT_UINT16.self, capacity: max_fields) { $0 } }
+        let date_fields_lookup = withUnsafeMutablePointer(to: &self.fields.date_fields) { $0.withMemoryRebound(to: FIT_UINT16.self, capacity: max_fields) { $0 } }
+        
+        let string_values_lookup = withUnsafeMutablePointer(to: &self.fields.string_values) { $0.withMemoryRebound(to: FIT_UINT32.self, capacity: max_fields) { $0 } }
+        let string_types_lookup = withUnsafeMutablePointer(to: &self.fields.string_types) { $0.withMemoryRebound(to: FIT_UINT8.self, capacity: max_fields) { $0 } }
+        let double_values_lookup = withUnsafeMutablePointer(to: &self.fields.double_values) { $0.withMemoryRebound(to: Double.self, capacity: max_fields) { $0 } }
+        let date_values_lookup = withUnsafeMutablePointer(to: &self.fields.date_values) { $0.withMemoryRebound(to: TimeInterval.self, capacity: max_fields) { $0 } }
+
+
+        for ii  in 0...self.fields.string_count{
+            let i = Int(ii)
+            let field = rzfit_swift_field_num_to_string(mesg_num: fields.global_mesg_num,
+                                                        field_num: string_fields_lookup[i],
+                                                        strings: strings)
+            
+            strings[field] = rzfit_swift_type_to_string(fit_type: string_types_lookup[i],
+                                                        val: string_values_lookup[i])
+        }
+        for ii in 0...self.fields.double_count{
+            let i = Int(ii)
+            let field = rzfit_swift_field_num_to_string(mesg_num: fields.global_mesg_num,
+                                                        field_num: double_fields_lookup[i],
+                                                        strings: strings)
+            doubles[field] = double_values_lookup[i]
+        }
+        for ii in 0...self.fields.date_count{
+            let i = Int(ii)
+            let field = rzfit_swift_field_num_to_string(mesg_num: fields.global_mesg_num,
+                                                        field_num: date_fields_lookup[i],
+                                                        strings: strings)
+            dates[field] = Date(timeIntervalSinceReferenceDate: date_values_lookup[i])
+        }
+
+
+        let fmesg = FitMessage(mesg_num: self.fields.global_mesg_num, mesg_values: doubles, mesg_enums: strings, mesg_dates: dates)
+        return fmesg
+    }
+}
+
 /// The class FitFile will hold the parsed representation of a fit file
 /// It will contains the messages that can be queries and organized by messages type
 ///   FitMessageType is an Int corresponding to the original Fit Message Number
@@ -26,6 +84,8 @@ extension String {
 /// for each message type
 public class FitFile {
     public typealias Sample = (count:Int,one:FitFieldValue)
+    
+    public enum ParsingType { case generic, fast }
     
     /// The list of messages in the order they appeared in the original file
     public private(set) var messages : [FitMessage]
@@ -64,7 +124,7 @@ public class FitFile {
     
     /// Main constructor  that will parse the fit file and organize all the data in swift structures
     /// - Parameter data: data in fit format
-    public init( data : Data){
+    public init( data : Data, parsingType : ParsingType = .fast){
         var state : FIT_CONVERT_STATE = FIT_CONVERT_STATE()
         var convert_return : FIT_CONVERT_RETURN = FIT_CONVERT_CONTINUE
         
@@ -72,7 +132,12 @@ public class FitFile {
         
         FitConvert_Init(&state, FIT_TRUE)
         dev_parser.initState(&state)
-        state.raw_mesg = 1;
+        switch parsingType {
+        case .fast:
+            state.raw_mesg = 0;
+        case .generic:
+            state.raw_mesg = 1;
+        }
         
         var bldmsg : [FitMessage] = []
         var bldmsgnum : Set<FitMessageType> = []
@@ -103,21 +168,24 @@ public class FitFile {
                                         devnative = _devnative
                                     }
                                 }
-                                if interp.interpret(&state){
-                                    var doubles : [String:Double] = [:]
-                                    var strings : [String:String] = [:]
-                                    var dates   : [String:Date] = [:]
-                                    
-                                    for i in 0...interp.fields.double_count{
+                                if( state.raw_mesg == 1){
+                                    if interp.interpret(&state){
+                                        let fmesg = interp.build_fit_message()
+                                        if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
+                                            fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
+                                        }
                                         
+                                        bldmsg.append(fmesg)
                                     }
-                                    
-                                    let fmesg = FitMessage(mesg_num: mesg, mesg_values: doubles, mesg_enums: strings, mesg_dates: dates)
-                                    if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
-                                        fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
+                                }else{
+                                    if let fmesg = rzfit_swift_build_mesg(mesg_num: mesg, uptr: uptr)
+                                    {
+                                        if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
+                                            fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
+                                        }
+                                        
+                                        bldmsg.append(fmesg)
                                     }
-                                    
-                                    bldmsg.append(fmesg)
                                 }
                             }
                         default:
@@ -137,16 +205,16 @@ public class FitFile {
     /// - Parameters:
     ///   - data: Data in fit file format
     ///   - fileURL: a url of the file the data came from
-    public convenience init?(data: Data, fileURL:URL){
-        self.init(data: data)
+    public convenience init?(data: Data, fileURL:URL, parsingType : ParsingType = .fast){
+        self.init(data: data, parsingType: parsingType)
         self.sourceURL = fileURL
     }
     
     /// Open and parse a file in fit format
     /// - Parameter file: URL pointing to a fit file
-    public convenience init?( file :URL){
+    public convenience init?( file :URL, parsingType : ParsingType = .fast){
         if let data = try? Data(contentsOf: file) {
-            self.init(data: data)
+            self.init(data: data, parsingType: parsingType)
             self.sourceURL = file
             
         }else{
@@ -192,7 +260,7 @@ public class FitFile {
     /// - Parameter messageType: FitMessageType, the int of the message type i the file
     /// - Returns: description string extracted from the sdk name.
     public func messageTypeDescription( messageType:FitMessageType) -> String? {
-        return rzfit_swift_mesg_num_to_name(mesg_num: messageType)
+        return rzfit_swift_mesg_num_to_string(messageType)
     }
     
     /// List of Message Type converted to its description String in the order received in the file
@@ -200,9 +268,8 @@ public class FitFile {
     public func messageTypesDescriptions() -> [String] {
         var rv : [String] = []
         for one in messageTypes {
-            if let oneStr = rzfit_swift_mesg_num_to_name(mesg_num: one) {
-                rv.append(oneStr)
-            }
+            let oneStr = rzfit_swift_mesg_num_to_string(one)
+            rv.append(oneStr)
         }
         return rv
     }
@@ -211,7 +278,7 @@ public class FitFile {
     /// - Parameter forDescription: a string
     /// - Returns: FitMessageType or nil if string does not correspond to any type
     public static func messageType( forDescription : String) -> FitMessageType? {
-        return rzfit_swift_name_to_mesg_num(name: forDescription)
+        return rzfit_swift_mesg_num_from_string(forDescription)
     }
     
     /// Check if message type is available in the file

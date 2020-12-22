@@ -97,7 +97,8 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
                             FIT_UINT8 val = *(FIT_UINT8*)mesg_buf;
                             if( val != FIT_UINT8_INVALID ){
                                 if( field_info.fit_type != FIT_TYPE_NONE){
-                                    _fields.string_values[ _fields.string_count ] = rzfit_objc_type_to_name(field_info.fit_type,val);
+                                    _fields.string_values[ _fields.string_count ] = val;
+                                    _fields.string_types[ _fields.string_count ] = field_info.fit_type;
                                     added_string = true;
                                 }else{
                                     _fields.double_values[ _fields.double_count ] = (double)val;
@@ -121,7 +122,8 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
                             FIT_UINT16 val = *(FIT_UINT16*)mesg_buf;
                             if( val != FIT_UINT16_INVALID ){
                                 if( field_info.fit_type != FIT_TYPE_NONE){
-                                    _fields.string_values[ _fields.string_count ] = rzfit_objc_type_to_name(field_info.fit_type, val);
+                                    _fields.string_values[ _fields.string_count ] = val;
+                                    _fields.string_types[ _fields.string_count ] = field_info.fit_type;
                                     added_string = true;
                                 }else{
                                     _fields.double_values[ _fields.double_count ] = (double)val;
@@ -151,7 +153,8 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
                                     added_date = true;
                                 }
                                 else if( field_info.fit_type != FIT_TYPE_NONE){
-                                    _fields.string_values[ _fields.string_count ] = rzfit_objc_type_to_name(field_info.fit_type, val);
+                                    _fields.string_values[ _fields.string_count ] = val;
+                                    _fields.string_types[ _fields.string_count ] = field_info.fit_type;
                                     added_string = true;
                                 }else{
                                     _fields.double_values[ _fields.double_count ] = (double)val;

@@ -4238,7 +4238,7 @@ NSString * rzfit_objc_radar_threat_level_type_to_string( FIT_ENUM radar_threat_l
 #pragma mark - type conversion section
 
 
-NSString * rzfit_objc_type_to_name( FIT_TYPE fit_type, FIT_UINT32 val ){
+NSString * rzfit_objc_type_to_string( FIT_TYPE fit_type, FIT_UINT32 val ){
   switch( fit_type ){
      case 1: return rzfit_objc_file_to_string( (FIT_ENUM) val);
      case 2: return rzfit_objc_mesg_num_to_string( (FIT_UINT16) val);
@@ -4410,7 +4410,7 @@ NSString * rzfit_objc_type_to_name( FIT_TYPE fit_type, FIT_UINT32 val ){
 #pragma mark - unit conversion section
 
 
-NSString * <bound method Context.objc_fname_unit_to_string of <__main__.Context object at 0x10afe2d30>>( FIT_UNIT fit_unit ){
+NSString * rzfit_objc_unit_to_string( FIT_UNIT fit_unit ){
   switch( fit_unit ){
     case 1: return @"s";
     case 2: return @"ms";
@@ -6381,7 +6381,7 @@ NSString * rzfit_objc_climb_pro_field_num_to_string( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"climb_pro_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp ){
+NSString * rzfit_objc_field_num_to_string( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp ){
   switch( global_mesg_num ){
    case 0: return rzfit_objc_file_id_field_num_to_string(field,interp);
    case 1: return rzfit_objc_capabilities_field_num_to_string(field);

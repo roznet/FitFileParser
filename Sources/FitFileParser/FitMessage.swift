@@ -26,7 +26,7 @@ public class FitMessage {
     private var devunits : [FitFieldKey:String]?
     
     public var messageTypeDescription : String?{
-        return rzfit_swift_mesg_num_to_name(mesg_num: messageType)
+        return rzfit_swift_mesg_num_to_string(messageType)
     }
 
     private var cacheInterpretation : [FitFieldKey:FitFieldValue]
