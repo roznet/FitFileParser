@@ -229,6 +229,26 @@ class Field:
         else:
             return [ '    case {}: return @"{}";'.format( self.field_num, self.name ) ]
 
+    def swift_stmt_case_convert_to_string(self,ctx,message):
+        rv = []
+        if self.references:
+            if_statement = 'if'
+
+            for r in self.references:
+                if not r.reference_field:
+                    print( 'bug', self.name, r.name )
+                if r.name in ctx.types:
+                    r_type_obj = ctx.types[r.name]
+                    for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
+                        ref_type_obj = message.type_for_field(ctx,onefield)
+                        rv.extend( [ '      {} x.{} == {} {{'.format( if_statement, onefield, ref_type_obj.value_for_string(oneval) ),
+                                     '        rv[ "{}" ] = {}({}(x.{}))'.format( r.name,r_type_obj.swift_fname_to_string(), r_type_obj.objc_type(), self.name ),
+                                     ] )
+                        if_statement = '}else if'
+            if if_statement != 'if':
+                rv.append( '    }' )
+
+        return rv
 
     def swift_stmt_case_to_string(self,ctx,message):
         if self.references:
@@ -554,14 +574,14 @@ class StructElem :
             if self.is_type(ctx) and not self.is_array():
                 lines = [ prefix + 'if( x.{} != {}_INVALID ) {{'.format( self.member, field.objc_type(ctx)  ) ]
                 if self.field.is_complex():
-                    lines.extend( [ '    // FIXME: handle complex',
-                                    '  }'] )
+                    lines.extend( field.swift_stmt_case_convert_to_string(ctx,message) )
                 else:
                     type_obj = ctx.types[self.field.field_type]
                     lines.extend( [
                           prefix + '  rv[ "{}" ] = {}(x.{})'.format( self.member,type_obj.swift_fname_to_string(), self.member ),
-                          prefix + '}'
                          ])
+                lines.append( prefix + '}' )
+
             elif self.type_name == 'string':
                 lines = [ prefix + 'rv[ "{}" ] = withUnsafeBytes(of: &x.{}) {{ (rawPtr) -> String in'.format(self.member,self.member),
                           prefix + '  let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)',

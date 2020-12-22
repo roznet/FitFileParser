@@ -5235,7 +5235,17 @@ func rzfit_swift_file_id_string_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> 
     rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
-    // FIXME: handle complex
+      if x.manufacturer == 263 {
+        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 1 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 15 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 13 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 89 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+    }
   }
   if( x.type != FIT_FILE_INVALID ) {
     rv[ "type" ] = rzfit_swift_file_to_string(x.type)
@@ -5304,7 +5314,17 @@ func rzfit_swift_slave_device_string_dict( ptr : UnsafePointer<FIT_SLAVE_DEVICE_
     rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
-    // FIXME: handle complex
+      if x.manufacturer == 263 {
+        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 1 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 15 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 13 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 89 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+    }
   }
   return rv
 }
@@ -5375,7 +5395,6 @@ func rzfit_swift_mesg_capabilities_string_dict( ptr : UnsafePointer<FIT_MESG_CAP
     rv[ "mesg_num" ] = rzfit_swift_mesg_num_to_string(x.mesg_num)
   }
   if( x.count != FIT_UINT16_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.file != FIT_FILE_INVALID ) {
     rv[ "file" ] = rzfit_swift_file_to_string(x.file)
@@ -6029,7 +6048,6 @@ func rzfit_swift_dive_settings_string_dict( ptr : UnsafePointer<FIT_DIVE_SETTING
     return String(cString: ptr)
   }
   if( x.heart_rate_source != FIT_UINT8_INVALID ) {
-    // FIXME: handle complex
   }
   return rv
 }
@@ -6430,7 +6448,6 @@ func rzfit_swift_session_string_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> 
   var rv : [String:String] = [:]
   var x : FIT_SESSION_MESG = ptr.pointee
   if( x.total_cycles != FIT_UINT32_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -6451,10 +6468,8 @@ func rzfit_swift_session_string_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> 
     rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
   }
   if( x.avg_cadence != FIT_UINT8_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.max_cadence != FIT_UINT8_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.trigger != FIT_SESSION_TRIGGER_INVALID ) {
     rv[ "trigger" ] = rzfit_swift_session_trigger_to_string(x.trigger)
@@ -6717,7 +6732,6 @@ func rzfit_swift_lap_string_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:
   var rv : [String:String] = [:]
   let x : FIT_LAP_MESG = ptr.pointee
   if( x.total_cycles != FIT_UINT32_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -6735,10 +6749,8 @@ func rzfit_swift_lap_string_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:
     rv[ "event_type" ] = rzfit_swift_event_type_to_string(x.event_type)
   }
   if( x.avg_cadence != FIT_UINT8_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.max_cadence != FIT_UINT8_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.intensity != FIT_INTENSITY_INVALID ) {
     rv[ "intensity" ] = rzfit_swift_intensity_to_string(x.intensity)
@@ -7084,7 +7096,11 @@ func rzfit_swift_event_string_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [Str
   var rv : [String:String] = [:]
   let x : FIT_EVENT_MESG = ptr.pointee
   if( x.data != FIT_UINT32_INVALID ) {
-    // FIXME: handle complex
+      if x.event == 0 {
+        rv[ "timer_trigger" ] = rzfit_swift_timer_trigger_to_string(FIT_ENUM(x.data))
+      }else if x.event == 27 {
+        rv[ "fitness_equipment_state" ] = rzfit_swift_fitness_equipment_state_to_string(FIT_ENUM(x.data))
+    }
   }
   if( x.event != FIT_EVENT_INVALID ) {
     rv[ "event" ] = rzfit_swift_event_to_string(x.event)
@@ -7150,13 +7166,25 @@ func rzfit_swift_device_info_string_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_ME
     rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
-    // FIXME: handle complex
+      if x.manufacturer == 263 {
+        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 1 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 15 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 13 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 89 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+    }
   }
   if( x.device_index != FIT_DEVICE_INDEX_INVALID ) {
     rv[ "device_index" ] = rzfit_swift_device_index_to_string(x.device_index)
   }
   if( x.device_type != FIT_UINT8_INVALID ) {
-    // FIXME: handle complex
+      if x.source_type == 1 {
+        rv[ "antplus_device_type" ] = rzfit_swift_antplus_device_type_to_string(FIT_UINT8(x.device_type))
+    }
   }
   if( x.battery_status != FIT_BATTERY_STATUS_INVALID ) {
     rv[ "battery_status" ] = rzfit_swift_battery_status_to_string(x.battery_status)
@@ -7201,7 +7229,17 @@ func rzfit_swift_training_file_string_dict( ptr : UnsafePointer<FIT_TRAINING_FIL
     rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
-    // FIXME: handle complex
+      if x.manufacturer == 263 {
+        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 1 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 15 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 13 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 89 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+    }
   }
   if( x.type != FIT_FILE_INVALID ) {
     rv[ "type" ] = rzfit_swift_file_to_string(x.type)
@@ -7863,7 +7901,6 @@ func rzfit_swift_segment_lap_string_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_ME
   var rv : [String:String] = [:]
   var x : FIT_SEGMENT_LAP_MESG = ptr.pointee
   if( x.total_cycles != FIT_UINT32_INVALID ) {
-    // FIXME: handle complex
   }
   rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
@@ -8028,16 +8065,12 @@ func rzfit_swift_workout_step_string_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_
     return String(cString: ptr)
   }
   if( x.duration_value != FIT_UINT32_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.target_value != FIT_UINT32_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.custom_target_value_low != FIT_UINT32_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.custom_target_value_high != FIT_UINT32_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -8113,7 +8146,17 @@ func rzfit_swift_schedule_string_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -
     rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
-    // FIXME: handle complex
+      if x.manufacturer == 263 {
+        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 1 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 15 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 13 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+      }else if x.manufacturer == 89 {
+        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+    }
   }
   if( x.type != FIT_SCHEDULE_INVALID ) {
     rv[ "type" ] = rzfit_swift_schedule_to_string(x.type)
@@ -8355,7 +8398,6 @@ func rzfit_swift_monitoring_string_dict( ptr : UnsafePointer<FIT_MONITORING_MESG
   var rv : [String:String] = [:]
   let x : FIT_MONITORING_MESG = ptr.pointee
   if( x.cycles != FIT_UINT32_INVALID ) {
-    // FIXME: handle complex
   }
   if( x.device_index != FIT_DEVICE_INDEX_INVALID ) {
     rv[ "device_index" ] = rzfit_swift_device_index_to_string(x.device_index)

@@ -110,14 +110,17 @@ public class FitMessage {
             }else if( key.hasSuffix( "_long") ){
                 // handled by _lat
                 continue
-            /*}else if( self.messageType == FIT_MESG_NUM_FIELD_DESCRIPTION && key == "native_field_num" ){
-                if let mesgnumstr = enums["native_mesg_num"],
-                    let mesgnum = rzfit_string_to_mesg(mesg: mesgnumstr),
-                    let native = rzfit_field_num_to_field(messageType: mesgnum, fieldNum: FIT_UINT16(val)) {
+            }else if let unit = rzfit_swift_unit_for_field(mesg_num: self.messageType, field: key) {                
+                rv[key] =  FitFieldValue(withValue: val, andUnit: unit)
+            }else if( self.messageType == FIT_MESG_NUM_FIELD_DESCRIPTION && key == "native_field_num" ){
+                if let mesgnumstr = enums["native_mesg_num"] {
+                    let mesgnum = rzfit_swift_mesg_num_from_string(mesgnumstr)
+                    let native = rzfit_swift_field_num_to_string(mesg_num: mesgnum, field_num:FIT_UINT16(val), strings: self.enums)
+                    
                     rv[key] = FitFieldValue(withName: native)
                 }else{
                     rv[key] = FitFieldValue(withValue: val)
-                }*/
+                }
             }else{
                 rv[key] = FitFieldValue(withValue: val )
             }
