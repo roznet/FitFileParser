@@ -4479,21 +4479,22 @@ NSString * rzfit_objc_unit_to_name( FIT_UNIT fit_unit ){
 #pragma mark - message field name section
 
 
-NSString * rzfit_objc_file_id_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_file_id_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 0: return @"type";
     case 1: return @"manufacturer";
     case 2:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return @"garmin_product";
       }else{
         return @"product";
@@ -4533,20 +4534,21 @@ NSString * rzfit_objc_software_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"software_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_slave_device_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_slave_device_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 0: return @"manufacturer";
     case 1:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return @"garmin_product";
       }else{
         return @"product";
@@ -4575,7 +4577,7 @@ NSString * rzfit_objc_file_capabilities_field_num_to_name( FIT_UINT8 field_num )
     default: return [NSString stringWithFormat:@"file_capabilities_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_mesg_capabilities_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_mesg_capabilities_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 254: return @"message_index";
     case 0: return @"file";
@@ -4583,11 +4585,12 @@ NSString * rzfit_objc_mesg_capabilities_field_num_to_name( FIT_UINT8 field_num, 
     case 2: return @"count_type";
     case 3:
     {
-      if( [strings[@"count_type"] isEqualToString:@"num_per_file"] ){
+      FIT_UINT32 count_type = fit_interp_string_value(interp, 5);
+      if( count_type == 0 ){ // num_per_file 
          return @"num_per_file";
-      }else if( [strings[@"count_type"] isEqualToString:@"max_per_file"] ){
+      }else if( count_type == 1 ){ // max_per_file 
          return @"max_per_file";
-      }else if( [strings[@"count_type"] isEqualToString:@"max_per_file_type"] ){
+      }else if( count_type == 2 ){ // max_per_file_type 
          return @"max_per_file_type";
       }else{
         return @"count";
@@ -4747,15 +4750,16 @@ NSString * rzfit_objc_connectivity_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"connectivity_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_watchface_settings_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_watchface_settings_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 254: return @"message_index";
     case 0: return @"mode";
     case 1:
     {
-      if( [strings[@"mode"] isEqualToString:@"digital"] ){
+      FIT_UINT32 mode = fit_interp_string_value(interp, 97);
+      if( mode == 0 ){ // digital 
          return @"digital_layout";
-      }else if( [strings[@"mode"] isEqualToString:@"analog"] ){
+      }else if( mode == 1 ){ // analog 
          return @"analog_layout";
       }else{
         return @"layout";
@@ -4830,7 +4834,7 @@ NSString * rzfit_objc_met_zone_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"met_zone_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_dive_settings_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_dive_settings_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 254: return @"message_index";
     case 0: return @"name";
@@ -4855,9 +4859,10 @@ NSString * rzfit_objc_dive_settings_field_num_to_name( FIT_UINT8 field_num, NSDi
     case 19: return @"heart_rate_source_type";
     case 20:
     {
-      if( [strings[@"heart_rate_source_type"] isEqualToString:@"antplus"] ){
+      FIT_UINT32 heart_rate_source_type = fit_interp_string_value(interp, 93);
+      if( heart_rate_source_type == 1 ){ // antplus 
          return @"heart_rate_antplus_device_type";
-      }else if( [strings[@"heart_rate_source_type"] isEqualToString:@"local"] ){
+      }else if( heart_rate_source_type == 5 ){ // local 
          return @"heart_rate_local_device_type";
       }else{
         return @"heart_rate_source";
@@ -4918,7 +4923,7 @@ NSString * rzfit_objc_activity_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"activity_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 254: return @"message_index";
     case 253: return @"timestamp";
@@ -4934,17 +4939,18 @@ NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num, NSDictiona
     case 9: return @"total_distance";
     case 10:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return @"total_strides";
-      }else if( [strings[@"sport"] isEqualToString:@"walking"] ){
+      }else if( sport == 11 ){ // walking 
          return @"total_strides";
-      }else if( [strings[@"sport"] isEqualToString:@"cycling"] ){
+      }else if( sport == 2 ){ // cycling 
          return @"total_strokes";
-      }else if( [strings[@"sport"] isEqualToString:@"swimming"] ){
+      }else if( sport == 5 ){ // swimming 
          return @"total_strokes";
-      }else if( [strings[@"sport"] isEqualToString:@"rowing"] ){
+      }else if( sport == 15 ){ // rowing 
          return @"total_strokes";
-      }else if( [strings[@"sport"] isEqualToString:@"stand_up_paddleboarding"] ){
+      }else if( sport == 37 ){ // stand_up_paddleboarding 
          return @"total_strokes";
       }else{
         return @"total_cycles";
@@ -4958,7 +4964,8 @@ NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num, NSDictiona
     case 17: return @"max_heart_rate";
     case 18:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return @"avg_running_cadence";
       }else{
         return @"avg_cadence";
@@ -4966,7 +4973,8 @@ NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num, NSDictiona
     }
     case 19:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return @"max_running_cadence";
       }else{
         return @"max_cadence";
@@ -5081,7 +5089,7 @@ NSString * rzfit_objc_session_field_num_to_name( FIT_UINT8 field_num, NSDictiona
     default: return [NSString stringWithFormat:@"session_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_lap_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_lap_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 254: return @"message_index";
     case 253: return @"timestamp";
@@ -5097,17 +5105,18 @@ NSString * rzfit_objc_lap_field_num_to_name( FIT_UINT8 field_num, NSDictionary<N
     case 9: return @"total_distance";
     case 10:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return @"total_strides";
-      }else if( [strings[@"sport"] isEqualToString:@"walking"] ){
+      }else if( sport == 11 ){ // walking 
          return @"total_strides";
-      }else if( [strings[@"sport"] isEqualToString:@"cycling"] ){
+      }else if( sport == 2 ){ // cycling 
          return @"total_strokes";
-      }else if( [strings[@"sport"] isEqualToString:@"swimming"] ){
+      }else if( sport == 5 ){ // swimming 
          return @"total_strokes";
-      }else if( [strings[@"sport"] isEqualToString:@"rowing"] ){
+      }else if( sport == 15 ){ // rowing 
          return @"total_strokes";
-      }else if( [strings[@"sport"] isEqualToString:@"stand_up_paddleboarding"] ){
+      }else if( sport == 37 ){ // stand_up_paddleboarding 
          return @"total_strokes";
       }else{
         return @"total_cycles";
@@ -5121,7 +5130,8 @@ NSString * rzfit_objc_lap_field_num_to_name( FIT_UINT8 field_num, NSDictionary<N
     case 16: return @"max_heart_rate";
     case 17:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return @"avg_running_cadence";
       }else{
         return @"avg_cadence";
@@ -5129,7 +5139,8 @@ NSString * rzfit_objc_lap_field_num_to_name( FIT_UINT8 field_num, NSDictionary<N
     }
     case 18:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return @"max_running_cadence";
       }else{
         return @"max_cadence";
@@ -5331,7 +5342,7 @@ NSString * rzfit_objc_record_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"record_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_event_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_event_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"event";
@@ -5339,49 +5350,50 @@ NSString * rzfit_objc_event_field_num_to_name( FIT_UINT8 field_num, NSDictionary
     case 2: return @"data16";
     case 3:
     {
-      if( [strings[@"event"] isEqualToString:@"timer"] ){
+      FIT_UINT32 event = fit_interp_string_value(interp, 42);
+      if( event == 0 ){ // timer 
          return @"timer_trigger";
-      }else if( [strings[@"event"] isEqualToString:@"course_point"] ){
+      }else if( event == 10 ){ // course_point 
          return @"course_point_index";
-      }else if( [strings[@"event"] isEqualToString:@"battery"] ){
+      }else if( event == 11 ){ // battery 
          return @"battery_level";
-      }else if( [strings[@"event"] isEqualToString:@"virtual_partner_pace"] ){
+      }else if( event == 12 ){ // virtual_partner_pace 
          return @"virtual_partner_speed";
-      }else if( [strings[@"event"] isEqualToString:@"hr_high_alert"] ){
+      }else if( event == 13 ){ // hr_high_alert 
          return @"hr_high_alert";
-      }else if( [strings[@"event"] isEqualToString:@"hr_low_alert"] ){
+      }else if( event == 14 ){ // hr_low_alert 
          return @"hr_low_alert";
-      }else if( [strings[@"event"] isEqualToString:@"speed_high_alert"] ){
+      }else if( event == 15 ){ // speed_high_alert 
          return @"speed_high_alert";
-      }else if( [strings[@"event"] isEqualToString:@"speed_low_alert"] ){
+      }else if( event == 16 ){ // speed_low_alert 
          return @"speed_low_alert";
-      }else if( [strings[@"event"] isEqualToString:@"cad_high_alert"] ){
+      }else if( event == 17 ){ // cad_high_alert 
          return @"cad_high_alert";
-      }else if( [strings[@"event"] isEqualToString:@"cad_low_alert"] ){
+      }else if( event == 18 ){ // cad_low_alert 
          return @"cad_low_alert";
-      }else if( [strings[@"event"] isEqualToString:@"power_high_alert"] ){
+      }else if( event == 19 ){ // power_high_alert 
          return @"power_high_alert";
-      }else if( [strings[@"event"] isEqualToString:@"power_low_alert"] ){
+      }else if( event == 20 ){ // power_low_alert 
          return @"power_low_alert";
-      }else if( [strings[@"event"] isEqualToString:@"time_duration_alert"] ){
+      }else if( event == 23 ){ // time_duration_alert 
          return @"time_duration_alert";
-      }else if( [strings[@"event"] isEqualToString:@"distance_duration_alert"] ){
+      }else if( event == 24 ){ // distance_duration_alert 
          return @"distance_duration_alert";
-      }else if( [strings[@"event"] isEqualToString:@"calorie_duration_alert"] ){
+      }else if( event == 25 ){ // calorie_duration_alert 
          return @"calorie_duration_alert";
-      }else if( [strings[@"event"] isEqualToString:@"fitness_equipment"] ){
+      }else if( event == 27 ){ // fitness_equipment 
          return @"fitness_equipment_state";
-      }else if( [strings[@"event"] isEqualToString:@"sport_point"] ){
+      }else if( event == 33 ){ // sport_point 
          return @"sport_point";
-      }else if( [strings[@"event"] isEqualToString:@"front_gear_change"] ){
+      }else if( event == 42 ){ // front_gear_change 
          return @"gear_change_data";
-      }else if( [strings[@"event"] isEqualToString:@"rear_gear_change"] ){
+      }else if( event == 43 ){ // rear_gear_change 
          return @"gear_change_data";
-      }else if( [strings[@"event"] isEqualToString:@"rider_position_change"] ){
+      }else if( event == 44 ){ // rider_position_change 
          return @"rider_position";
-      }else if( [strings[@"event"] isEqualToString:@"comm_timeout"] ){
+      }else if( event == 47 ){ // comm_timeout 
          return @"comm_timeout";
-      }else if( [strings[@"event"] isEqualToString:@"radar_threat_alert"] ){
+      }else if( event == 75 ){ // radar_threat_alert 
          return @"radar_threat_alert";
       }else{
         return @"data";
@@ -5400,15 +5412,16 @@ NSString * rzfit_objc_event_field_num_to_name( FIT_UINT8 field_num, NSDictionary
     default: return [NSString stringWithFormat:@"event_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_device_info_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_device_info_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"device_index";
     case 1:
     {
-      if( [strings[@"source_type"] isEqualToString:@"antplus"] ){
+      FIT_UINT32 source_type = fit_interp_string_value(interp, 93);
+      if( source_type == 1 ){ // antplus 
          return @"antplus_device_type";
-      }else if( [strings[@"source_type"] isEqualToString:@"ant"] ){
+      }else if( source_type == 0 ){ // ant 
          return @"ant_device_type";
       }else{
         return @"device_type";
@@ -5418,15 +5431,16 @@ NSString * rzfit_objc_device_info_field_num_to_name( FIT_UINT8 field_num, NSDict
     case 3: return @"serial_number";
     case 4:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return @"garmin_product";
       }else{
         return @"product";
@@ -5447,22 +5461,23 @@ NSString * rzfit_objc_device_info_field_num_to_name( FIT_UINT8 field_num, NSDict
     default: return [NSString stringWithFormat:@"device_info_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_training_file_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_training_file_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"type";
     case 1: return @"manufacturer";
     case 2:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return @"garmin_product";
       }else{
         return @"product";
@@ -5589,15 +5604,16 @@ NSString * rzfit_objc_barometer_data_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"barometer_data_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_three_d_sensor_calibration_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_three_d_sensor_calibration_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"sensor_type";
     case 1:
     {
-      if( [strings[@"sensor_type"] isEqualToString:@"accelerometer"] ){
+      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 103);
+      if( sensor_type == 0 ){ // accelerometer 
          return @"accel_cal_factor";
-      }else if( [strings[@"sensor_type"] isEqualToString:@"gyroscope"] ){
+      }else if( sensor_type == 1 ){ // gyroscope 
          return @"gyro_cal_factor";
       }else{
         return @"calibration_factor";
@@ -5610,13 +5626,14 @@ NSString * rzfit_objc_three_d_sensor_calibration_field_num_to_name( FIT_UINT8 fi
     default: return [NSString stringWithFormat:@"three_d_sensor_calibration_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_one_d_sensor_calibration_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_one_d_sensor_calibration_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"sensor_type";
     case 1:
     {
-      if( [strings[@"sensor_type"] isEqualToString:@"barometer"] ){
+      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 103);
+      if( sensor_type == 3 ){ // barometer 
          return @"baro_cal_factor";
       }else{
         return @"calibration_factor";
@@ -5801,7 +5818,7 @@ NSString * rzfit_objc_segment_point_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"segment_point_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_segment_lap_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_segment_lap_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 254: return @"message_index";
     case 253: return @"timestamp";
@@ -5817,7 +5834,8 @@ NSString * rzfit_objc_segment_lap_field_num_to_name( FIT_UINT8 field_num, NSDict
     case 9: return @"total_distance";
     case 10:
     {
-      if( [strings[@"sport"] isEqualToString:@"cycling"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 2 ){ // cycling 
          return @"total_strokes";
       }else{
         return @"total_cycles";
@@ -5943,46 +5961,47 @@ NSString * rzfit_objc_workout_session_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"workout_session_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_workout_step_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_workout_step_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 254: return @"message_index";
     case 0: return @"wkt_step_name";
     case 1: return @"duration_type";
     case 2:
     {
-      if( [strings[@"duration_type"] isEqualToString:@"time"] ){
+      FIT_UINT32 duration_type = fit_interp_string_value(interp, 51);
+      if( duration_type == 0 ){ // time 
          return @"duration_time";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repetition_time"] ){
+      }else if( duration_type == 28 ){ // repetition_time 
          return @"duration_time";
-      }else if( [strings[@"duration_type"] isEqualToString:@"distance"] ){
+      }else if( duration_type == 1 ){ // distance 
          return @"duration_distance";
-      }else if( [strings[@"duration_type"] isEqualToString:@"hr_less_than"] ){
+      }else if( duration_type == 2 ){ // hr_less_than 
          return @"duration_hr";
-      }else if( [strings[@"duration_type"] isEqualToString:@"hr_greater_than"] ){
+      }else if( duration_type == 3 ){ // hr_greater_than 
          return @"duration_hr";
-      }else if( [strings[@"duration_type"] isEqualToString:@"calories"] ){
+      }else if( duration_type == 4 ){ // calories 
          return @"duration_calories";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_steps_cmplt"] ){
+      }else if( duration_type == 6 ){ // repeat_until_steps_cmplt 
          return @"duration_step";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_time"] ){
+      }else if( duration_type == 7 ){ // repeat_until_time 
          return @"duration_step";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_distance"] ){
+      }else if( duration_type == 8 ){ // repeat_until_distance 
          return @"duration_step";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_calories"] ){
+      }else if( duration_type == 9 ){ // repeat_until_calories 
          return @"duration_step";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_less_than"] ){
+      }else if( duration_type == 10 ){ // repeat_until_hr_less_than 
          return @"duration_step";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_greater_than"] ){
+      }else if( duration_type == 11 ){ // repeat_until_hr_greater_than 
          return @"duration_step";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_less_than"] ){
+      }else if( duration_type == 12 ){ // repeat_until_power_less_than 
          return @"duration_step";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_greater_than"] ){
+      }else if( duration_type == 13 ){ // repeat_until_power_greater_than 
          return @"duration_step";
-      }else if( [strings[@"duration_type"] isEqualToString:@"power_less_than"] ){
+      }else if( duration_type == 14 ){ // power_less_than 
          return @"duration_power";
-      }else if( [strings[@"duration_type"] isEqualToString:@"power_greater_than"] ){
+      }else if( duration_type == 15 ){ // power_greater_than 
          return @"duration_power";
-      }else if( [strings[@"duration_type"] isEqualToString:@"reps"] ){
+      }else if( duration_type == 29 ){ // reps 
          return @"duration_reps";
       }else{
         return @"duration_value";
@@ -5991,31 +6010,33 @@ NSString * rzfit_objc_workout_step_field_num_to_name( FIT_UINT8 field_num, NSDic
     case 3: return @"target_type";
     case 4:
     {
-      if( [strings[@"target_type"] isEqualToString:@"speed"] ){
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      FIT_UINT32 duration_type = fit_interp_string_value(interp, 51);
+      if( target_type == 0 ){ // speed 
          return @"target_speed_zone";
-      }else if( [strings[@"target_type"] isEqualToString:@"heart_rate"] ){
+      }else if( target_type == 1 ){ // heart_rate 
          return @"target_hr_zone";
-      }else if( [strings[@"target_type"] isEqualToString:@"cadence"] ){
+      }else if( target_type == 3 ){ // cadence 
          return @"target_cadence_zone";
-      }else if( [strings[@"target_type"] isEqualToString:@"power"] ){
+      }else if( target_type == 4 ){ // power 
          return @"target_power_zone";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_steps_cmplt"] ){
+      }else if( duration_type == 6 ){ // repeat_until_steps_cmplt 
          return @"repeat_steps";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_time"] ){
+      }else if( duration_type == 7 ){ // repeat_until_time 
          return @"repeat_time";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_distance"] ){
+      }else if( duration_type == 8 ){ // repeat_until_distance 
          return @"repeat_distance";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_calories"] ){
+      }else if( duration_type == 9 ){ // repeat_until_calories 
          return @"repeat_calories";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_less_than"] ){
+      }else if( duration_type == 10 ){ // repeat_until_hr_less_than 
          return @"repeat_hr";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_greater_than"] ){
+      }else if( duration_type == 11 ){ // repeat_until_hr_greater_than 
          return @"repeat_hr";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_less_than"] ){
+      }else if( duration_type == 12 ){ // repeat_until_power_less_than 
          return @"repeat_power";
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_greater_than"] ){
+      }else if( duration_type == 13 ){ // repeat_until_power_greater_than 
          return @"repeat_power";
-      }else if( [strings[@"target_type"] isEqualToString:@"swim_stroke"] ){
+      }else if( target_type == 11 ){ // swim_stroke 
          return @"target_stroke_type";
       }else{
         return @"target_value";
@@ -6023,13 +6044,14 @@ NSString * rzfit_objc_workout_step_field_num_to_name( FIT_UINT8 field_num, NSDic
     }
     case 5:
     {
-      if( [strings[@"target_type"] isEqualToString:@"speed"] ){
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      if( target_type == 0 ){ // speed 
          return @"custom_target_speed_low";
-      }else if( [strings[@"target_type"] isEqualToString:@"heart_rate"] ){
+      }else if( target_type == 1 ){ // heart_rate 
          return @"custom_target_heart_rate_low";
-      }else if( [strings[@"target_type"] isEqualToString:@"cadence"] ){
+      }else if( target_type == 3 ){ // cadence 
          return @"custom_target_cadence_low";
-      }else if( [strings[@"target_type"] isEqualToString:@"power"] ){
+      }else if( target_type == 4 ){ // power 
          return @"custom_target_power_low";
       }else{
         return @"custom_target_value_low";
@@ -6037,13 +6059,14 @@ NSString * rzfit_objc_workout_step_field_num_to_name( FIT_UINT8 field_num, NSDic
     }
     case 6:
     {
-      if( [strings[@"target_type"] isEqualToString:@"speed"] ){
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      if( target_type == 0 ){ // speed 
          return @"custom_target_speed_high";
-      }else if( [strings[@"target_type"] isEqualToString:@"heart_rate"] ){
+      }else if( target_type == 1 ){ // heart_rate 
          return @"custom_target_heart_rate_high";
-      }else if( [strings[@"target_type"] isEqualToString:@"cadence"] ){
+      }else if( target_type == 3 ){ // cadence 
          return @"custom_target_cadence_high";
-      }else if( [strings[@"target_type"] isEqualToString:@"power"] ){
+      }else if( target_type == 4 ){ // power 
          return @"custom_target_power_high";
       }else{
         return @"custom_target_value_high";
@@ -6068,20 +6091,21 @@ NSString * rzfit_objc_exercise_title_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"exercise_title_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_schedule_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_schedule_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 0: return @"manufacturer";
     case 1:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return @"garmin_product";
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return @"garmin_product";
       }else{
         return @"product";
@@ -6155,7 +6179,7 @@ NSString * rzfit_objc_monitoring_info_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"monitoring_info_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_monitoring_field_num_to_name( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_monitoring_field_num_to_name( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
     case 253: return @"timestamp";
     case 0: return @"device_index";
@@ -6163,13 +6187,14 @@ NSString * rzfit_objc_monitoring_field_num_to_name( FIT_UINT8 field_num, NSDicti
     case 2: return @"distance";
     case 3:
     {
-      if( [strings[@"activity_type"] isEqualToString:@"walking"] ){
+      FIT_UINT32 activity_type = fit_interp_string_value(interp, 72);
+      if( activity_type == 6 ){ // walking 
          return @"steps";
-      }else if( [strings[@"activity_type"] isEqualToString:@"running"] ){
+      }else if( activity_type == 1 ){ // running 
          return @"steps";
-      }else if( [strings[@"activity_type"] isEqualToString:@"cycling"] ){
+      }else if( activity_type == 2 ){ // cycling 
          return @"strokes";
-      }else if( [strings[@"activity_type"] isEqualToString:@"swimming"] ){
+      }else if( activity_type == 5 ){ // swimming 
          return @"strokes";
       }else{
         return @"cycles";
@@ -6356,9 +6381,9 @@ NSString * rzfit_objc_climb_pro_field_num_to_name( FIT_UINT8 field_num ){
     default: return [NSString stringWithFormat:@"climb_pro_field_num_%u", (unsigned int)field_num];
   }
 }
-NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings ){
+NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp ){
   switch( global_mesg_num ){
-   case 0: return rzfit_objc_file_id_field_num_to_name(field,strings);
+   case 0: return rzfit_objc_file_id_field_num_to_name(field,interp);
    case 1: return rzfit_objc_capabilities_field_num_to_name(field);
    case 2: return rzfit_objc_device_settings_field_num_to_name(field);
    case 3: return rzfit_objc_user_profile_field_num_to_name(field);
@@ -6371,14 +6396,14 @@ NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 
    case 10: return rzfit_objc_met_zone_field_num_to_name(field);
    case 12: return rzfit_objc_sport_field_num_to_name(field);
    case 15: return rzfit_objc_goal_field_num_to_name(field);
-   case 18: return rzfit_objc_session_field_num_to_name(field,strings);
-   case 19: return rzfit_objc_lap_field_num_to_name(field,strings);
+   case 18: return rzfit_objc_session_field_num_to_name(field,interp);
+   case 19: return rzfit_objc_lap_field_num_to_name(field,interp);
    case 20: return rzfit_objc_record_field_num_to_name(field);
-   case 21: return rzfit_objc_event_field_num_to_name(field,strings);
-   case 23: return rzfit_objc_device_info_field_num_to_name(field,strings);
+   case 21: return rzfit_objc_event_field_num_to_name(field,interp);
+   case 23: return rzfit_objc_device_info_field_num_to_name(field,interp);
    case 26: return rzfit_objc_workout_field_num_to_name(field);
-   case 27: return rzfit_objc_workout_step_field_num_to_name(field,strings);
-   case 28: return rzfit_objc_schedule_field_num_to_name(field,strings);
+   case 27: return rzfit_objc_workout_step_field_num_to_name(field,interp);
+   case 28: return rzfit_objc_schedule_field_num_to_name(field,interp);
    case 30: return rzfit_objc_weight_scale_field_num_to_name(field);
    case 31: return rzfit_objc_course_field_num_to_name(field);
    case 32: return rzfit_objc_course_point_field_num_to_name(field);
@@ -6386,39 +6411,39 @@ NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 
    case 34: return rzfit_objc_activity_field_num_to_name(field);
    case 35: return rzfit_objc_software_field_num_to_name(field);
    case 37: return rzfit_objc_file_capabilities_field_num_to_name(field);
-   case 38: return rzfit_objc_mesg_capabilities_field_num_to_name(field,strings);
+   case 38: return rzfit_objc_mesg_capabilities_field_num_to_name(field,interp);
    case 39: return rzfit_objc_field_capabilities_field_num_to_name(field);
    case 49: return rzfit_objc_file_creator_field_num_to_name(field);
    case 51: return rzfit_objc_blood_pressure_field_num_to_name(field);
    case 53: return rzfit_objc_speed_zone_field_num_to_name(field);
-   case 55: return rzfit_objc_monitoring_field_num_to_name(field,strings);
-   case 72: return rzfit_objc_training_file_field_num_to_name(field,strings);
+   case 55: return rzfit_objc_monitoring_field_num_to_name(field,interp);
+   case 72: return rzfit_objc_training_file_field_num_to_name(field,interp);
    case 78: return rzfit_objc_hrv_field_num_to_name(field);
    case 80: return rzfit_objc_ant_rx_field_num_to_name(field);
    case 81: return rzfit_objc_ant_tx_field_num_to_name(field);
    case 82: return rzfit_objc_ant_channel_id_field_num_to_name(field);
    case 101: return rzfit_objc_length_field_num_to_name(field);
    case 103: return rzfit_objc_monitoring_info_field_num_to_name(field);
-   case 106: return rzfit_objc_slave_device_field_num_to_name(field,strings);
+   case 106: return rzfit_objc_slave_device_field_num_to_name(field,interp);
    case 127: return rzfit_objc_connectivity_field_num_to_name(field);
    case 128: return rzfit_objc_weather_conditions_field_num_to_name(field);
    case 129: return rzfit_objc_weather_alert_field_num_to_name(field);
    case 131: return rzfit_objc_cadence_zone_field_num_to_name(field);
    case 132: return rzfit_objc_hr_field_num_to_name(field);
-   case 142: return rzfit_objc_segment_lap_field_num_to_name(field,strings);
+   case 142: return rzfit_objc_segment_lap_field_num_to_name(field,interp);
    case 145: return rzfit_objc_memo_glob_field_num_to_name(field);
    case 148: return rzfit_objc_segment_id_field_num_to_name(field);
    case 149: return rzfit_objc_segment_leaderboard_entry_field_num_to_name(field);
    case 150: return rzfit_objc_segment_point_field_num_to_name(field);
    case 151: return rzfit_objc_segment_file_field_num_to_name(field);
    case 158: return rzfit_objc_workout_session_field_num_to_name(field);
-   case 159: return rzfit_objc_watchface_settings_field_num_to_name(field,strings);
+   case 159: return rzfit_objc_watchface_settings_field_num_to_name(field,interp);
    case 160: return rzfit_objc_gps_metadata_field_num_to_name(field);
    case 161: return rzfit_objc_camera_event_field_num_to_name(field);
    case 162: return rzfit_objc_timestamp_correlation_field_num_to_name(field);
    case 164: return rzfit_objc_gyroscope_data_field_num_to_name(field);
    case 165: return rzfit_objc_accelerometer_data_field_num_to_name(field);
-   case 167: return rzfit_objc_three_d_sensor_calibration_field_num_to_name(field,strings);
+   case 167: return rzfit_objc_three_d_sensor_calibration_field_num_to_name(field,interp);
    case 169: return rzfit_objc_video_frame_field_num_to_name(field);
    case 174: return rzfit_objc_obdii_data_field_num_to_name(field);
    case 177: return rzfit_objc_nmea_sentence_field_num_to_name(field);
@@ -6435,10 +6460,10 @@ NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 
    case 207: return rzfit_objc_developer_data_id_field_num_to_name(field);
    case 208: return rzfit_objc_magnetometer_data_field_num_to_name(field);
    case 209: return rzfit_objc_barometer_data_field_num_to_name(field);
-   case 210: return rzfit_objc_one_d_sensor_calibration_field_num_to_name(field,strings);
+   case 210: return rzfit_objc_one_d_sensor_calibration_field_num_to_name(field,interp);
    case 225: return rzfit_objc_set_field_num_to_name(field);
    case 227: return rzfit_objc_stress_level_field_num_to_name(field);
-   case 258: return rzfit_objc_dive_settings_field_num_to_name(field,strings);
+   case 258: return rzfit_objc_dive_settings_field_num_to_name(field,interp);
    case 259: return rzfit_objc_dive_gas_field_num_to_name(field);
    case 262: return rzfit_objc_dive_alarm_field_num_to_name(field);
    case 264: return rzfit_objc_exercise_title_field_num_to_name(field);
@@ -6451,21 +6476,22 @@ NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 
 #pragma mark - field info section
 
 
-FIT_FIELD_INFO rzfit_objc_file_id_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_file_id_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 1, .fit_unit = 0, .fit_flag = 0 }; // type
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 2:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
     }
@@ -6609,7 +6635,7 @@ FIT_FIELD_INFO rzfit_objc_goal_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_session_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_session_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
@@ -6625,17 +6651,18 @@ FIT_FIELD_INFO rzfit_objc_session_field_info(FIT_UINT16 field, NSDictionary<NSSt
     case 9: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 7, .fit_flag = 0 }; // total_distance
     case 10:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 20, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"walking"] ){
+      }else if( sport == 11 ){ // walking 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 20, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"cycling"] ){
+      }else if( sport == 2 ){ // cycling 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"swimming"] ){
+      }else if( sport == 5 ){ // swimming 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"rowing"] ){
+      }else if( sport == 15 ){ // rowing 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"stand_up_paddleboarding"] ){
+      }else if( sport == 37 ){ // stand_up_paddleboarding 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
       }
     }
@@ -6647,13 +6674,15 @@ FIT_FIELD_INFO rzfit_objc_session_field_info(FIT_UINT16 field, NSDictionary<NSSt
     case 17: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 9, .fit_flag = 0 }; // max_heart_rate
     case 18:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 };
       }
     }
     case 19:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 };
       }
     }
@@ -6756,7 +6785,7 @@ FIT_FIELD_INFO rzfit_objc_session_field_info(FIT_UINT16 field, NSDictionary<NSSt
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_lap_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_lap_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
@@ -6772,17 +6801,18 @@ FIT_FIELD_INFO rzfit_objc_lap_field_info(FIT_UINT16 field, NSDictionary<NSString
     case 9: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 7, .fit_flag = 0 }; // total_distance
     case 10:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 20, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"walking"] ){
+      }else if( sport == 11 ){ // walking 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 20, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"cycling"] ){
+      }else if( sport == 2 ){ // cycling 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"swimming"] ){
+      }else if( sport == 5 ){ // swimming 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"rowing"] ){
+      }else if( sport == 15 ){ // rowing 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
-      }else if( [strings[@"sport"] isEqualToString:@"stand_up_paddleboarding"] ){
+      }else if( sport == 37 ){ // stand_up_paddleboarding 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
       }
     }
@@ -6794,13 +6824,15 @@ FIT_FIELD_INFO rzfit_objc_lap_field_info(FIT_UINT16 field, NSDictionary<NSString
     case 16: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 9, .fit_flag = 0 }; // max_heart_rate
     case 17:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 };
       }
     }
     case 18:
     {
-      if( [strings[@"sport"] isEqualToString:@"running"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 };
       }
     }
@@ -6966,48 +6998,49 @@ FIT_FIELD_INFO rzfit_objc_record_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_event_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_event_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 42, .fit_unit = 0, .fit_flag = 0 }; // event
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 43, .fit_unit = 0, .fit_flag = 0 }; // event_type
     case 3:
     {
-      if( [strings[@"event"] isEqualToString:@"timer"] ){
+      FIT_UINT32 event = fit_interp_string_value(interp, 42);
+      if( event == 0 ){ // timer 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 44, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"course_point"] ){
+      }else if( event == 10 ){ // course_point 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"battery"] ){
+      }else if( event == 11 ){ // battery 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 41, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"virtual_partner_pace"] ){
+      }else if( event == 12 ){ // virtual_partner_pace 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 12, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"hr_high_alert"] ){
+      }else if( event == 13 ){ // hr_high_alert 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 9, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"hr_low_alert"] ){
+      }else if( event == 14 ){ // hr_low_alert 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 9, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"speed_high_alert"] ){
+      }else if( event == 15 ){ // speed_high_alert 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 12, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"speed_low_alert"] ){
+      }else if( event == 16 ){ // speed_low_alert 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 12, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"cad_high_alert"] ){
+      }else if( event == 17 ){ // cad_high_alert 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"cad_low_alert"] ){
+      }else if( event == 18 ){ // cad_low_alert 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"power_high_alert"] ){
+      }else if( event == 19 ){ // power_high_alert 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 14, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"power_low_alert"] ){
+      }else if( event == 20 ){ // power_low_alert 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 14, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"time_duration_alert"] ){
+      }else if( event == 23 ){ // time_duration_alert 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"distance_duration_alert"] ){
+      }else if( event == 24 ){ // distance_duration_alert 
          return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 7, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"calorie_duration_alert"] ){
+      }else if( event == 25 ){ // calorie_duration_alert 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 42, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"fitness_equipment"] ){
+      }else if( event == 27 ){ // fitness_equipment 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 45, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"rider_position_change"] ){
+      }else if( event == 44 ){ // rider_position_change 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 100, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"event"] isEqualToString:@"comm_timeout"] ){
+      }else if( event == 47 ){ // comm_timeout 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 105, .fit_unit = 0, .fit_flag = 0 };
       }
     }
@@ -7016,28 +7049,30 @@ FIT_FIELD_INFO rzfit_objc_event_field_info(FIT_UINT16 field, NSDictionary<NSStri
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_device_info_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_device_info_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 9, .fit_unit = 0, .fit_flag = 0 }; // device_index
     case 1:
     {
-      if( [strings[@"source_type"] isEqualToString:@"antplus"] ){
+      FIT_UINT32 source_type = fit_interp_string_value(interp, 93);
+      if( source_type == 1 ){ // antplus 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 60, .fit_unit = 0, .fit_flag = 0 };
       }
     }
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 4:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
     }
@@ -7061,72 +7096,77 @@ FIT_FIELD_INFO rzfit_objc_workout_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_workout_step_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_workout_step_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 51, .fit_unit = 0, .fit_flag = 0 }; // duration_type
     case 2:
     {
-      if( [strings[@"duration_type"] isEqualToString:@"time"] ){
+      FIT_UINT32 duration_type = fit_interp_string_value(interp, 51);
+      if( duration_type == 0 ){ // time 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"repetition_time"] ){
+      }else if( duration_type == 28 ){ // repetition_time 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"distance"] ){
+      }else if( duration_type == 1 ){ // distance 
          return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 7, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"hr_less_than"] ){
+      }else if( duration_type == 2 ){ // hr_less_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 50, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"hr_greater_than"] ){
+      }else if( duration_type == 3 ){ // hr_greater_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 50, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"calories"] ){
+      }else if( duration_type == 4 ){ // calories 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 42, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"power_less_than"] ){
+      }else if( duration_type == 14 ){ // power_less_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 51, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"power_greater_than"] ){
+      }else if( duration_type == 15 ){ // power_greater_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 51, .fit_flag = 0 };
       }
     }
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 52, .fit_unit = 0, .fit_flag = 0 }; // target_type
     case 4:
     {
-      if( [strings[@"duration_type"] isEqualToString:@"repeat_until_time"] ){
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      FIT_UINT32 duration_type = fit_interp_string_value(interp, 51);
+      if( duration_type == 7 ){ // repeat_until_time 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_distance"] ){
+      }else if( duration_type == 8 ){ // repeat_until_distance 
          return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 7, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_calories"] ){
+      }else if( duration_type == 9 ){ // repeat_until_calories 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 42, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_less_than"] ){
+      }else if( duration_type == 10 ){ // repeat_until_hr_less_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 50, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_hr_greater_than"] ){
+      }else if( duration_type == 11 ){ // repeat_until_hr_greater_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 50, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_less_than"] ){
+      }else if( duration_type == 12 ){ // repeat_until_power_less_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 51, .fit_flag = 0 };
-      }else if( [strings[@"duration_type"] isEqualToString:@"repeat_until_power_greater_than"] ){
+      }else if( duration_type == 13 ){ // repeat_until_power_greater_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 51, .fit_flag = 0 };
-      }else if( [strings[@"target_type"] isEqualToString:@"swim_stroke"] ){
+      }else if( target_type == 11 ){ // swim_stroke 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 71, .fit_unit = 0, .fit_flag = 0 };
       }
     }
     case 5:
     {
-      if( [strings[@"target_type"] isEqualToString:@"speed"] ){
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      if( target_type == 0 ){ // speed 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 12, .fit_flag = 0 };
-      }else if( [strings[@"target_type"] isEqualToString:@"heart_rate"] ){
+      }else if( target_type == 1 ){ // heart_rate 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 50, .fit_flag = 0 };
-      }else if( [strings[@"target_type"] isEqualToString:@"cadence"] ){
+      }else if( target_type == 3 ){ // cadence 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
-      }else if( [strings[@"target_type"] isEqualToString:@"power"] ){
+      }else if( target_type == 4 ){ // power 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 51, .fit_flag = 0 };
       }
     }
     case 6:
     {
-      if( [strings[@"target_type"] isEqualToString:@"speed"] ){
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      if( target_type == 0 ){ // speed 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 12, .fit_flag = 0 };
-      }else if( [strings[@"target_type"] isEqualToString:@"heart_rate"] ){
+      }else if( target_type == 1 ){ // heart_rate 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 50, .fit_flag = 0 };
-      }else if( [strings[@"target_type"] isEqualToString:@"cadence"] ){
+      }else if( target_type == 3 ){ // cadence 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
-      }else if( [strings[@"target_type"] isEqualToString:@"power"] ){
+      }else if( target_type == 4 ){ // power 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 51, .fit_flag = 0 };
       }
     }
@@ -7138,20 +7178,21 @@ FIT_FIELD_INFO rzfit_objc_workout_step_field_info(FIT_UINT16 field, NSDictionary
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_schedule_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_schedule_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 1:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
     }
@@ -7236,7 +7277,7 @@ FIT_FIELD_INFO rzfit_objc_file_capabilities_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_mesg_capabilities_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_mesg_capabilities_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 1, .fit_unit = 0, .fit_flag = 0 }; // file
@@ -7244,6 +7285,7 @@ FIT_FIELD_INFO rzfit_objc_mesg_capabilities_field_info(FIT_UINT16 field, NSDicti
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 5, .fit_unit = 0, .fit_flag = 0 }; // count_type
     case 3:
     {
+      FIT_UINT32 count_type = fit_interp_string_value(interp, 5);
           return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
     }
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -7280,7 +7322,7 @@ FIT_FIELD_INFO rzfit_objc_speed_zone_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_monitoring_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_monitoring_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 9, .fit_unit = 0, .fit_flag = 0 }; // device_index
@@ -7288,13 +7330,14 @@ FIT_FIELD_INFO rzfit_objc_monitoring_field_info(FIT_UINT16 field, NSDictionary<N
     case 2: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 7, .fit_flag = 0 }; // distance
     case 3:
     {
-      if( [strings[@"activity_type"] isEqualToString:@"walking"] ){
+      FIT_UINT32 activity_type = fit_interp_string_value(interp, 72);
+      if( activity_type == 6 ){ // walking 
          return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 4, .fit_flag = 0 };
-      }else if( [strings[@"activity_type"] isEqualToString:@"running"] ){
+      }else if( activity_type == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 4, .fit_flag = 0 };
-      }else if( [strings[@"activity_type"] isEqualToString:@"cycling"] ){
+      }else if( activity_type == 2 ){ // cycling 
          return (FIT_FIELD_INFO){.scale = 2, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
-      }else if( [strings[@"activity_type"] isEqualToString:@"swimming"] ){
+      }else if( activity_type == 5 ){ // swimming 
          return (FIT_FIELD_INFO){.scale = 2, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
       }
     }
@@ -7324,22 +7367,23 @@ FIT_FIELD_INFO rzfit_objc_monitoring_field_info(FIT_UINT16 field, NSDictionary<N
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_training_file_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_training_file_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 1, .fit_unit = 0, .fit_flag = 0 }; // type
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 2:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
     }
@@ -7404,20 +7448,21 @@ FIT_FIELD_INFO rzfit_objc_monitoring_info_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_slave_device_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_slave_device_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 1:
     {
-      if( [strings[@"manufacturer"] isEqualToString:@"favero_electronics"] ){
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"garmin"] ){
+      }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream"] ){
+      }else if( manufacturer == 15 ){ // dynastream 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"dynastream_oem"] ){
+      }else if( manufacturer == 13 ){ // dynastream_oem 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"manufacturer"] isEqualToString:@"tacx"] ){
+      }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
     }
@@ -7470,7 +7515,7 @@ FIT_FIELD_INFO rzfit_objc_hr_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_segment_lap_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_segment_lap_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
@@ -7486,7 +7531,8 @@ FIT_FIELD_INFO rzfit_objc_segment_lap_field_info(FIT_UINT16 field, NSDictionary<
     case 9: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 7, .fit_flag = 0 }; // total_distance
     case 10:
     {
-      if( [strings[@"sport"] isEqualToString:@"cycling"] ){
+      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      if( sport == 2 ){ // cycling 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
       }
     }
@@ -7615,15 +7661,16 @@ FIT_FIELD_INFO rzfit_objc_workout_session_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_watchface_settings_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_watchface_settings_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 97, .fit_unit = 0, .fit_flag = 0 }; // mode
     case 1:
     {
-      if( [strings[@"mode"] isEqualToString:@"digital"] ){
+      FIT_UINT32 mode = fit_interp_string_value(interp, 97);
+      if( mode == 0 ){ // digital 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 98, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"mode"] isEqualToString:@"analog"] ){
+      }else if( mode == 1 ){ // analog 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 99, .fit_unit = 0, .fit_flag = 0 };
       }
     }
@@ -7696,15 +7743,16 @@ FIT_FIELD_INFO rzfit_objc_accelerometer_data_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_three_d_sensor_calibration_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_three_d_sensor_calibration_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 103, .fit_unit = 0, .fit_flag = 0 }; // sensor_type
     case 1:
     {
-      if( [strings[@"sensor_type"] isEqualToString:@"accelerometer"] ){
+      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 103);
+      if( sensor_type == 0 ){ // accelerometer 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 44, .fit_flag = 0 };
-      }else if( [strings[@"sensor_type"] isEqualToString:@"gyroscope"] ){
+      }else if( sensor_type == 1 ){ // gyroscope 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 43, .fit_flag = 0 };
       }
     }
@@ -7845,13 +7893,14 @@ FIT_FIELD_INFO rzfit_objc_barometer_data_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_one_d_sensor_calibration_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_one_d_sensor_calibration_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 103, .fit_unit = 0, .fit_flag = 0 }; // sensor_type
     case 1:
     {
-      if( [strings[@"sensor_type"] isEqualToString:@"barometer"] ){
+      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 103);
+      if( sensor_type == 3 ){ // barometer 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 38, .fit_flag = 0 };
       }
     }
@@ -7879,7 +7928,7 @@ FIT_FIELD_INFO rzfit_objc_stress_level_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_dive_settings_field_info(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){
+FIT_FIELD_INFO rzfit_objc_dive_settings_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 157, .fit_unit = 0, .fit_flag = 0 }; // model
@@ -7897,9 +7946,10 @@ FIT_FIELD_INFO rzfit_objc_dive_settings_field_info(FIT_UINT16 field, NSDictionar
     case 19: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 93, .fit_unit = 0, .fit_flag = 0 }; // heart_rate_source_type
     case 20:
     {
-      if( [strings[@"heart_rate_source_type"] isEqualToString:@"antplus"] ){
+      FIT_UINT32 heart_rate_source_type = fit_interp_string_value(interp, 93);
+      if( heart_rate_source_type == 1 ){ // antplus 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 60, .fit_unit = 0, .fit_flag = 0 };
-      }else if( [strings[@"heart_rate_source_type"] isEqualToString:@"local"] ){
+      }else if( heart_rate_source_type == 5 ){ // local 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 94, .fit_unit = 0, .fit_flag = 0 };
       }
     }
@@ -7973,8 +8023,8 @@ FIT_FIELD_INFO rzfit_objc_climb_pro_field_info(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
-FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings ){  switch(global_mesg_num){
-    case 0: return rzfit_objc_file_id_field_info(field,strings);
+FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp ){  switch(global_mesg_num){
+    case 0: return rzfit_objc_file_id_field_info(field,interp);
     case 1: return rzfit_objc_capabilities_field_info(field);
     case 2: return rzfit_objc_device_settings_field_info(field);
     case 3: return rzfit_objc_user_profile_field_info(field);
@@ -7987,14 +8037,14 @@ FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 fie
     case 10: return rzfit_objc_met_zone_field_info(field);
     case 12: return rzfit_objc_sport_field_info(field);
     case 15: return rzfit_objc_goal_field_info(field);
-    case 18: return rzfit_objc_session_field_info(field,strings);
-    case 19: return rzfit_objc_lap_field_info(field,strings);
+    case 18: return rzfit_objc_session_field_info(field,interp);
+    case 19: return rzfit_objc_lap_field_info(field,interp);
     case 20: return rzfit_objc_record_field_info(field);
-    case 21: return rzfit_objc_event_field_info(field,strings);
-    case 23: return rzfit_objc_device_info_field_info(field,strings);
+    case 21: return rzfit_objc_event_field_info(field,interp);
+    case 23: return rzfit_objc_device_info_field_info(field,interp);
     case 26: return rzfit_objc_workout_field_info(field);
-    case 27: return rzfit_objc_workout_step_field_info(field,strings);
-    case 28: return rzfit_objc_schedule_field_info(field,strings);
+    case 27: return rzfit_objc_workout_step_field_info(field,interp);
+    case 28: return rzfit_objc_schedule_field_info(field,interp);
     case 30: return rzfit_objc_weight_scale_field_info(field);
     case 31: return rzfit_objc_course_field_info(field);
     case 32: return rzfit_objc_course_point_field_info(field);
@@ -8002,37 +8052,37 @@ FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 fie
     case 34: return rzfit_objc_activity_field_info(field);
     case 35: return rzfit_objc_software_field_info(field);
     case 37: return rzfit_objc_file_capabilities_field_info(field);
-    case 38: return rzfit_objc_mesg_capabilities_field_info(field,strings);
+    case 38: return rzfit_objc_mesg_capabilities_field_info(field,interp);
     case 39: return rzfit_objc_field_capabilities_field_info(field);
     case 51: return rzfit_objc_blood_pressure_field_info(field);
     case 53: return rzfit_objc_speed_zone_field_info(field);
-    case 55: return rzfit_objc_monitoring_field_info(field,strings);
-    case 72: return rzfit_objc_training_file_field_info(field,strings);
+    case 55: return rzfit_objc_monitoring_field_info(field,interp);
+    case 72: return rzfit_objc_training_file_field_info(field,interp);
     case 78: return rzfit_objc_hrv_field_info(field);
     case 80: return rzfit_objc_ant_rx_field_info(field);
     case 81: return rzfit_objc_ant_tx_field_info(field);
     case 82: return rzfit_objc_ant_channel_id_field_info(field);
     case 101: return rzfit_objc_length_field_info(field);
     case 103: return rzfit_objc_monitoring_info_field_info(field);
-    case 106: return rzfit_objc_slave_device_field_info(field,strings);
+    case 106: return rzfit_objc_slave_device_field_info(field,interp);
     case 128: return rzfit_objc_weather_conditions_field_info(field);
     case 129: return rzfit_objc_weather_alert_field_info(field);
     case 131: return rzfit_objc_cadence_zone_field_info(field);
     case 132: return rzfit_objc_hr_field_info(field);
-    case 142: return rzfit_objc_segment_lap_field_info(field,strings);
+    case 142: return rzfit_objc_segment_lap_field_info(field,interp);
     case 145: return rzfit_objc_memo_glob_field_info(field);
     case 148: return rzfit_objc_segment_id_field_info(field);
     case 149: return rzfit_objc_segment_leaderboard_entry_field_info(field);
     case 150: return rzfit_objc_segment_point_field_info(field);
     case 151: return rzfit_objc_segment_file_field_info(field);
     case 158: return rzfit_objc_workout_session_field_info(field);
-    case 159: return rzfit_objc_watchface_settings_field_info(field,strings);
+    case 159: return rzfit_objc_watchface_settings_field_info(field,interp);
     case 160: return rzfit_objc_gps_metadata_field_info(field);
     case 161: return rzfit_objc_camera_event_field_info(field);
     case 162: return rzfit_objc_timestamp_correlation_field_info(field);
     case 164: return rzfit_objc_gyroscope_data_field_info(field);
     case 165: return rzfit_objc_accelerometer_data_field_info(field);
-    case 167: return rzfit_objc_three_d_sensor_calibration_field_info(field,strings);
+    case 167: return rzfit_objc_three_d_sensor_calibration_field_info(field,interp);
     case 169: return rzfit_objc_video_frame_field_info(field);
     case 174: return rzfit_objc_obdii_data_field_info(field);
     case 177: return rzfit_objc_nmea_sentence_field_info(field);
@@ -8049,10 +8099,10 @@ FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 fie
     case 207: return rzfit_objc_developer_data_id_field_info(field);
     case 208: return rzfit_objc_magnetometer_data_field_info(field);
     case 209: return rzfit_objc_barometer_data_field_info(field);
-    case 210: return rzfit_objc_one_d_sensor_calibration_field_info(field,strings);
+    case 210: return rzfit_objc_one_d_sensor_calibration_field_info(field,interp);
     case 225: return rzfit_objc_set_field_info(field);
     case 227: return rzfit_objc_stress_level_field_info(field);
-    case 258: return rzfit_objc_dive_settings_field_info(field,strings);
+    case 258: return rzfit_objc_dive_settings_field_info(field,interp);
     case 259: return rzfit_objc_dive_gas_field_info(field);
     case 262: return rzfit_objc_dive_alarm_field_info(field);
     case 264: return rzfit_objc_exercise_title_field_info(field);

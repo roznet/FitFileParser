@@ -80,7 +80,7 @@ public class FitFile {
         
         var devnative : [FitFieldKey:Int] = [:]
         var devunits : [FitFieldKey:String] = [:]
-        
+        let interp = FitInterpretMesg()
         while convert_return == FIT_CONVERT_CONTINUE {
             data.withUnsafeBytes({ (ptrBuffer: UnsafeRawBufferPointer) in
                 if let ptr = ptrBuffer.baseAddress {
@@ -103,9 +103,16 @@ public class FitFile {
                                         devnative = _devnative
                                     }
                                 }
-                                if let interp = FitInterpretMesg(&state),
-                                   let doubles = interp.numbers as? [String:Double]{
-                                    let fmesg = FitMessage(mesg_num: mesg, mesg_values: doubles, mesg_enums: interp.strings, mesg_dates: interp.dates)
+                                if interp.interpret(&state){
+                                    var doubles : [String:Double] = [:]
+                                    var strings : [String:String] = [:]
+                                    var dates   : [String:Date] = [:]
+                                    
+                                    for i in 0...interp.fields.double_count{
+                                        
+                                    }
+                                    
+                                    let fmesg = FitMessage(mesg_num: mesg, mesg_values: doubles, mesg_enums: strings, mesg_dates: dates)
                                     if let dev = dev_parser.parseData() as? [FitFieldKey:Double]{
                                         fmesg.addDevFieldValues(fields: dev, units: devunits, native: devnative)
                                     }

@@ -23,15 +23,16 @@ def fix_variable_name( var_name ):
         return 'switch_'
     return var_name
 
-class BaseType : 
-    def __init__(self,name,c_type,fit_type_enum,invalid):
-        self.name = name
-        self.c_type = c_type
-        self.fit_type = fit_type_enum
-        self.invalid = invalid
-
-        
 class Type :
+    '''
+    Represent a type and its values
+       name: type name (ex: mesg_num)
+       base_type: c type (ex: uint16)
+       type_num: internal number for the type
+       values: dict of name/value (ex: [{'name': 'record', 'value':20 },{'name':'session','value'::18 } ] )
+       values_map: dict name: value (ex: {'record':20, 'session':18 } )
+    '''
+    
     def __init__(self,name, base_type, type_num):
         self.name = name
         self.base_type = base_type
@@ -56,7 +57,7 @@ class Type :
     def swift_define(self):
         rv = [ ]
         for d in self.values:
-            rv.append( 'let FIT_{}_{} : FIT_MESG_NUM = {}'.format( self.name.upper(), d['name'].upper(), d['value'] ) )
+            rv.append( 'public let FIT_{}_{} : FIT_MESG_NUM = {}'.format( self.name.upper(), d['name'].upper(), d['value'] ) )
         return rv
         
             
@@ -116,18 +117,37 @@ class Type :
         return rv
     
 class Field:
+    '''
+    field_num: field number (ex: 1)
+    name: field name (ex: 'manufacturer' or 'product')
+    field_type: type (ex: 'manufacturer' or 'uint16'
+    scale,offset: None or value
+    unit: None or str (ex: 'bpm')
+
+    references: None or array of sub fields with reference_field/reference_field_value (ex [ Field(garmin_product) ]
+    
+    reference_field: None or array of field to check if should be used (ex: ['manufacturer','sport'] )
+    reference_field_value: None or array of value to check if should be used (ex: ['garmin','running'] )
+    '''
     def __init__(self,row):
         self.field_num = row[1]
         self.name = row[2]
         self.field_type = row[3]
-        self.array = row[4]
-        self.component = row[5]
         self.scale = row[6]
         self.offset = row[7]
         self.unit = row[8]
-        self.relfield = row[11]
-        self.relfieldvalue = row[12]
-        self.relative = []
+        self.reference_field = row[11]
+        if row[11]:
+            self.reference_field = row[11].replace( '\n','').split( ',' )
+        else:
+            self.reference_field = []
+        if row[12]:
+            self.reference_field_value = row[12].replace( '\n','').split( ',' )
+        else:
+            self.reference_field_value = []
+        if len(self.reference_field_value) != len(self.reference_field):
+            print( 'bug inconsistent reference_field {} {} {}'.format( self.name, row[11], row[12] ) )
+        self.references = []
 
     def add_reference( self,row, units ):
         field = Field(row)
@@ -135,23 +155,39 @@ class Field:
             if field.unit not in units:
                 units[field.unit] = len(units)
             field.unit_num = units[field.unit]
-        self.relative.append( field )
+        self.references.append( field )
 
     def description(self):
         print( '  {}: {}({})'.format(self.field_num, self.name,self.field_type ))
 
-    def objc_case_statement(self):
-        if self.relative:
+    def objc_build_references_variables(self,message,types):
+        all_var = dict()
+        for r in self.references:
+            if not r.reference_field:
+                print( 'bug', self.name, r.name )
+            for one in r.reference_field:
+                all_var[ one ] = types[message.fields_map[one].field_type]
+        rv = []
+        for one,type_num in all_var.items():
+            rv.append( '      FIT_UINT32 {} = fit_interp_string_value(interp, {});'.format( one, type_num.type_num ) )
+
+        return rv;
+            
+
+        
+    def objc_case_statement(self,message,types):
+        if self.references:
             rv = [ '    case {}:'.format( self.field_num ),
                    '    {' ]
             if_statement = 'if'
-            for r in self.relative:
-                if not r.relfield:
+
+            rv.extend( self.objc_build_references_variables(message,types) );
+                       
+            for r in self.references:
+                if not r.reference_field:
                     print( 'bug', self.name, r.name )
-                relfields = r.relfield.replace('\n','').split( ',' )
-                relvals   = r.relfieldvalue.replace('\n','').split( ',' )
-                for (onefield, oneval) in zip( relfields, relvals ):
-                    rv.extend( [ '      {}( [strings[@"{}"] isEqualToString:@"{}"] ){{'.format( if_statement, onefield, oneval ),
+                for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
+                    rv.extend( [ '      {}( {} == {} ){{ // {} '.format( if_statement, onefield, types[message.fields_map[onefield].field_type].values_map[oneval],oneval ),
                                  '         return @"{}";'.format( r.name ),
                                 ] )
                     if_statement = '}else if'
@@ -172,8 +208,8 @@ class Field:
         if self.unit:
             rv = { self.name: self.unit}
 
-        for relative in self.relative:
-            sub = relative.name_to_units()
+        for references in self.references:
+            sub = references.name_to_units()
             for (k,v) in sub.items():
                 if k not in rv:
                     rv[k] = v
@@ -188,7 +224,7 @@ class Field:
         pass
 
     def is_complex(self):
-        return self.relative
+        return self.references
 
     def fit_field_info(self,types,units):
         rv = None
@@ -218,22 +254,22 @@ class Field:
         return rv
 
     
-    def field_info(self,types,units):
+    def field_info(self,message,types,units):
         rv = []
-        if self.relative:
+        if self.references:
             rv.extend( [ '    case {}:'.format( self.field_num ),
                          '    {',
                          ] )
             if_statement = 'if'
-            for r in self.relative:
-                if not r.relfield:
+            rv.extend( self.objc_build_references_variables(message,types) )
+                       
+            for r in self.references:
+                if not r.reference_field:
                     print( 'bug', self.name, r.name )
                 fit_field_info = r.fit_field_info(types,units)
                 if fit_field_info:
-                    relfields = r.relfield.replace('\n','').split( ',' )
-                    relvals   = r.relfieldvalue.replace('\n','').split( ',' )
-                    for (onefield, oneval) in zip( relfields, relvals ):
-                        rv.extend( [ '      {}( [strings[@"{}"] isEqualToString:@"{}"] ){{'.format( if_statement, onefield, oneval ),
+                    for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
+                        rv.extend( [ '      {}( {} == {} ){{ // {} '.format( if_statement, onefield, types[message.fields_map[onefield].field_type].values_map[oneval],oneval ),
                                      '         return {};'.format( fit_field_info ),
                                     ] )
                         if_statement = '}else if'
@@ -260,6 +296,7 @@ class Message:
     def __init__(self,name):
         self.name = name
         self.fields = []
+        self.fields_map = {}
 
     def add(self,row,units={}):
         if row[1] is not None:
@@ -270,6 +307,7 @@ class Message:
                 field.unit_num = units[field.unit]
                 
             self.fields.append( field )
+            self.fields_map[ field.name ] = field
         elif len(self.fields)>0:
             self.fields[-1].add_reference(row, units )
 
@@ -281,16 +319,16 @@ class Message:
     def objc_field_num_to_name_func_name(self):
         return 'rzfit_objc_{}_field_num_to_name'.format( self.name )
             
-    def objc_field_num_to_name_func(self):
+    def objc_field_num_to_name_func(self,types):
         rv = []
 
         if self.is_complex():
-            rv.append( 'NSString * {}( FIT_UINT8 field_num, NSDictionary<NSString*,NSString*>*strings ){{'.format( self.objc_field_num_to_name_func_name() ) ),
+            rv.append( 'NSString * {}( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){{'.format( self.objc_field_num_to_name_func_name() ) ),
         else:
             rv.append( 'NSString * {}( FIT_UINT8 field_num ){{'.format( self.objc_field_num_to_name_func_name() ) )
         rv.append( '  switch( field_num ){'  )
         for field in self.fields:
-            rv.extend( field.objc_case_statement() )
+            rv.extend( field.objc_case_statement(self,types) )
         rv.extend( [ '    default: return [NSString stringWithFormat:@"{}_field_num_%u", (unsigned int)field_num];'.format( self.name) ,
                      '  }',
                      '}',
@@ -311,13 +349,13 @@ class Message:
     def objc_field_info(self, types, units ):
         needed = []
         for f in self.fields:
-            one = f.field_info(types, units )
+            one = f.field_info(self, types, units )
             if one:
                 needed.extend( one )
         rv = []
         if needed:
             if self.is_complex():
-                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings){{'.format( self.objc_field_info_func_name() ) )
+                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field, FIT_INTERP_FIELD * interp){{'.format( self.objc_field_info_func_name() ) )
             else:
                 rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field){{'.format( self.objc_field_info_func_name() ) )
                 
@@ -421,7 +459,7 @@ class Context:
                     rv.extend( mesg_info )
                     done[ mesg_name ] = 1
                 
-        rv.extend( [ 'FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings ){'
+        rv.extend( [ 'FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp ){'
                      '  switch(global_mesg_num){',
                     ] )
         for m in mesg_num.values:
@@ -430,7 +468,7 @@ class Context:
             if mesg_name in done:
                 message = self.messages[mesg_name]
                 if message.is_complex():
-                    rv.append( '    case {}: return {}(field,strings);'.format( mesg_num, message.objc_field_info_func_name() ) )
+                    rv.append( '    case {}: return {}(field,interp);'.format( mesg_num, message.objc_field_info_func_name() ) )
                 else:
                     rv.append( '    case {}: return {}(field);'.format( mesg_num, message.objc_field_info_func_name() ) )
         rv.extend( [ '    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };',
@@ -470,7 +508,7 @@ class Context:
 
     def objc_field_num_to_name(self):
         mesg_num = self.types['mesg_num']
-        rv = [ 'NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field, NSDictionary<NSString*,NSString*>*strings ){',
+        rv = [ 'NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp ){',
                '  switch( global_mesg_num ){'
                ]
         for t in mesg_num.values:
@@ -480,7 +518,7 @@ class Context:
             else:
                 mesg = self.messages[ mesg_name ]
                 if mesg.is_complex():
-                    rv.append( '   case {}: return {}(field,strings);'.format( t['value'], mesg.objc_field_num_to_name_func_name() ) )
+                    rv.append( '   case {}: return {}(field,interp);'.format( t['value'], mesg.objc_field_num_to_name_func_name() ) )
                 else:
                     rv.append( '   case {}: return {}(field);'.format( t['value'], mesg.objc_field_num_to_name_func_name() ) )
         rv.extend( [ '    default: return [NSString stringWithFormat:@"MESG_NUM_%u_FIELD_%u", (unsigned int)global_mesg_num, (unsigned int)field];' ,
@@ -573,7 +611,7 @@ class Convert :
         ] ) )
 
         for (n,m) in self.context.messages.items():
-            oof.write( '\n'.join( m.objc_field_num_to_name_func() ) )
+            oof.write( '\n'.join( m.objc_field_num_to_name_func(self.context.types) ) )
 
         oof.write( '\n'.join( self.context.objc_field_num_to_name() ) )
         
