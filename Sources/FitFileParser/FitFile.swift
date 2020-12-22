@@ -22,19 +22,9 @@ extension FitInterpretMesg {
     func build_fit_message() -> FitMessage{
         var doubles : [String:Double] = [:]
         var strings : [String:String] = [:]
-        var dates   : [String:Date] = [:]
+        var dates   : [String:Date]   = [:]
         
         let max_fields = Int(FIT_INTERP_MAX_FIELD)
-            /*
-        FIT_UINT16 string_fields[FIT_INTERP_MAX_FIELD];
-        FIT_UINT16 double_fields[FIT_INTERP_MAX_FIELD];
-        FIT_UINT16 date_fields[FIT_INTERP_MAX_FIELD];
-
-        double double_values[FIT_INTERP_MAX_FIELD];
-        NSTimeInterval date_values[FIT_INTERP_MAX_FIELD];
-        FIT_UINT32 string_values[FIT_INTERP_MAX_FIELD];
-        FIT_UINT8 string_types[FIT_INTERP_MAX_FIELD];
-*/
         
         let string_fields_lookup = withUnsafeMutablePointer(to: &self.fields.string_fields) { $0.withMemoryRebound(to: FIT_UINT16.self, capacity: max_fields) { $0 } }
         let double_fields_lookup = withUnsafeMutablePointer(to: &self.fields.double_fields) { $0.withMemoryRebound(to: FIT_UINT16.self, capacity: max_fields) { $0 } }
@@ -44,7 +34,6 @@ extension FitInterpretMesg {
         let string_types_lookup = withUnsafeMutablePointer(to: &self.fields.string_types) { $0.withMemoryRebound(to: FIT_UINT8.self, capacity: max_fields) { $0 } }
         let double_values_lookup = withUnsafeMutablePointer(to: &self.fields.double_values) { $0.withMemoryRebound(to: Double.self, capacity: max_fields) { $0 } }
         let date_values_lookup = withUnsafeMutablePointer(to: &self.fields.date_values) { $0.withMemoryRebound(to: TimeInterval.self, capacity: max_fields) { $0 } }
-
 
         for ii  in 0...self.fields.string_count{
             let i = Int(ii)

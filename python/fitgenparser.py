@@ -481,7 +481,7 @@ class StructElem :
 
 
     def is_type(self,ctx):
-        return self.type_name in ctx.types or self.field.is_complex()
+        return (self.type_name in ctx.types or self.field.is_complex() ) and not self.is_date(ctx)
     def is_string(self,ctx):
         if self.is_type(ctx) or self.type_name =='string':
             return True
@@ -659,10 +659,10 @@ class Struct :
         return( rv )
     
     def swift_fname_date_dict(self):
-        return 'rzfit_swift_{}_value_dict'.format( self.message.name )
+        return 'rzfit_swift_{}_date_dict'.format( self.message.name )
     
     def swift_func_date_dict(self,ctx):
-        rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Date] {{'.format( self.swift_fname_value_dict(), self.struct_name ),
+        rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Date] {{'.format( self.swift_fname_date_dict(), self.struct_name ),
                ]
         elems = []
         

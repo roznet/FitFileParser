@@ -5227,9 +5227,6 @@ func rzfit_swift_file_id_value_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [
 func rzfit_swift_file_id_string_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_FILE_ID_MESG = ptr.pointee
-  if( x.time_created != FIT_DATE_TIME_INVALID ) {
-    rv[ "time_created" ] = rzfit_swift_date_time_to_string(x.time_created)
-  }
   rv[ "product_name" ] = withUnsafeBytes(of: &x.product_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
@@ -5245,7 +5242,7 @@ func rzfit_swift_file_id_string_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> 
   }
   return rv
 }
-func rzfit_swift_file_id_value_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:Date] {
+func rzfit_swift_file_id_date_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_FILE_ID_MESG = ptr.pointee
   if x.time_created != FIT_DATE_TIME_INVALID  {
@@ -5270,7 +5267,7 @@ func rzfit_swift_file_creator_value_dict( ptr : UnsafePointer<FIT_FILE_CREATOR_M
 func rzfit_swift_file_creator_string_dict( ptr : UnsafePointer<FIT_FILE_CREATOR_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_file_creator_value_dict( ptr : UnsafePointer<FIT_FILE_CREATOR_MESG>) -> [String:Date] {
+func rzfit_swift_file_creator_date_dict( ptr : UnsafePointer<FIT_FILE_CREATOR_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_software_value_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:Double] {
@@ -5294,7 +5291,7 @@ func rzfit_swift_software_string_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -
   }
   return rv
 }
-func rzfit_swift_software_value_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:Date] {
+func rzfit_swift_software_date_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_slave_device_value_dict( ptr : UnsafePointer<FIT_SLAVE_DEVICE_MESG>) -> [String:Double] {
@@ -5311,7 +5308,7 @@ func rzfit_swift_slave_device_string_dict( ptr : UnsafePointer<FIT_SLAVE_DEVICE_
   }
   return rv
 }
-func rzfit_swift_slave_device_value_dict( ptr : UnsafePointer<FIT_SLAVE_DEVICE_MESG>) -> [String:Date] {
+func rzfit_swift_slave_device_date_dict( ptr : UnsafePointer<FIT_SLAVE_DEVICE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_capabilities_value_dict( ptr : UnsafePointer<FIT_CAPABILITIES_MESG>) -> [String:Double] {
@@ -5328,7 +5325,7 @@ func rzfit_swift_capabilities_string_dict( ptr : UnsafePointer<FIT_CAPABILITIES_
   }
   return rv
 }
-func rzfit_swift_capabilities_value_dict( ptr : UnsafePointer<FIT_CAPABILITIES_MESG>) -> [String:Date] {
+func rzfit_swift_capabilities_date_dict( ptr : UnsafePointer<FIT_CAPABILITIES_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_file_capabilities_value_dict( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:Double] {
@@ -5362,7 +5359,7 @@ func rzfit_swift_file_capabilities_string_dict( ptr : UnsafePointer<FIT_FILE_CAP
   }
   return rv
 }
-func rzfit_swift_file_capabilities_value_dict( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:Date] {
+func rzfit_swift_file_capabilities_date_dict( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_mesg_capabilities_value_dict( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:Double] {
@@ -5388,7 +5385,7 @@ func rzfit_swift_mesg_capabilities_string_dict( ptr : UnsafePointer<FIT_MESG_CAP
   }
   return rv
 }
-func rzfit_swift_mesg_capabilities_value_dict( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:Date] {
+func rzfit_swift_mesg_capabilities_date_dict( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_field_capabilities_value_dict( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:Double] {
@@ -5418,7 +5415,7 @@ func rzfit_swift_field_capabilities_string_dict( ptr : UnsafePointer<FIT_FIELD_C
   }
   return rv
 }
-func rzfit_swift_field_capabilities_value_dict( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:Date] {
+func rzfit_swift_field_capabilities_date_dict( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_device_settings_value_dict( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:Double] {
@@ -5453,9 +5450,6 @@ func rzfit_swift_device_settings_value_dict( ptr : UnsafePointer<FIT_DEVICE_SETT
 func rzfit_swift_device_settings_string_dict( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_DEVICE_SETTINGS_MESG = ptr.pointee
-  if( x.clock_time != FIT_DATE_TIME_INVALID ) {
-    rv[ "clock_time" ] = rzfit_swift_date_time_to_string(x.clock_time)
-  }
   if( x.backlight_mode != FIT_BACKLIGHT_MODE_INVALID ) {
     rv[ "backlight_mode" ] = rzfit_swift_backlight_mode_to_string(x.backlight_mode)
   }
@@ -5473,7 +5467,7 @@ func rzfit_swift_device_settings_string_dict( ptr : UnsafePointer<FIT_DEVICE_SET
   }
   return rv
 }
-func rzfit_swift_device_settings_value_dict( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:Date] {
+func rzfit_swift_device_settings_date_dict( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_DEVICE_SETTINGS_MESG = ptr.pointee
   if x.clock_time != FIT_DATE_TIME_INVALID  {
@@ -5574,7 +5568,7 @@ func rzfit_swift_user_profile_string_dict( ptr : UnsafePointer<FIT_USER_PROFILE_
   }
   return rv
 }
-func rzfit_swift_user_profile_value_dict( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:Date] {
+func rzfit_swift_user_profile_date_dict( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_hrm_profile_value_dict( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:Double] {
@@ -5606,7 +5600,7 @@ func rzfit_swift_hrm_profile_string_dict( ptr : UnsafePointer<FIT_HRM_PROFILE_ME
   }
   return rv
 }
-func rzfit_swift_hrm_profile_value_dict( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:Date] {
+func rzfit_swift_hrm_profile_date_dict( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_sdm_profile_value_dict( ptr : UnsafePointer<FIT_SDM_PROFILE_MESG>) -> [String:Double] {
@@ -5650,7 +5644,7 @@ func rzfit_swift_sdm_profile_string_dict( ptr : UnsafePointer<FIT_SDM_PROFILE_ME
   }
   return rv
 }
-func rzfit_swift_sdm_profile_value_dict( ptr : UnsafePointer<FIT_SDM_PROFILE_MESG>) -> [String:Date] {
+func rzfit_swift_sdm_profile_date_dict( ptr : UnsafePointer<FIT_SDM_PROFILE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_bike_profile_value_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:Double] {
@@ -5780,7 +5774,7 @@ func rzfit_swift_bike_profile_string_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_
   }
   return rv
 }
-func rzfit_swift_bike_profile_value_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:Date] {
+func rzfit_swift_bike_profile_date_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_connectivity_value_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:Double] {
@@ -5845,7 +5839,7 @@ func rzfit_swift_connectivity_string_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_
   }
   return rv
 }
-func rzfit_swift_connectivity_value_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:Date] {
+func rzfit_swift_connectivity_date_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_zones_target_value_dict( ptr : UnsafePointer<FIT_ZONES_TARGET_MESG>) -> [String:Double] {
@@ -5876,7 +5870,7 @@ func rzfit_swift_zones_target_string_dict( ptr : UnsafePointer<FIT_ZONES_TARGET_
   }
   return rv
 }
-func rzfit_swift_zones_target_value_dict( ptr : UnsafePointer<FIT_ZONES_TARGET_MESG>) -> [String:Date] {
+func rzfit_swift_zones_target_date_dict( ptr : UnsafePointer<FIT_ZONES_TARGET_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_sport_value_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:Double] {
@@ -5897,7 +5891,7 @@ func rzfit_swift_sport_string_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [Str
   }
   return rv
 }
-func rzfit_swift_sport_value_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:Date] {
+func rzfit_swift_sport_date_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_hr_zone_value_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:Double] {
@@ -5921,7 +5915,7 @@ func rzfit_swift_hr_zone_string_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> 
   }
   return rv
 }
-func rzfit_swift_hr_zone_value_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_hr_zone_date_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_speed_zone_value_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:Double] {
@@ -5945,7 +5939,7 @@ func rzfit_swift_speed_zone_string_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG
   }
   return rv
 }
-func rzfit_swift_speed_zone_value_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_speed_zone_date_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_cadence_zone_value_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:Double] {
@@ -5969,7 +5963,7 @@ func rzfit_swift_cadence_zone_string_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_
   }
   return rv
 }
-func rzfit_swift_cadence_zone_value_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_cadence_zone_date_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_power_zone_value_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:Double] {
@@ -5993,7 +5987,7 @@ func rzfit_swift_power_zone_string_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG
   }
   return rv
 }
-func rzfit_swift_power_zone_value_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_power_zone_date_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_met_zone_value_dict( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:Double] {
@@ -6021,7 +6015,7 @@ func rzfit_swift_met_zone_string_dict( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -
   }
   return rv
 }
-func rzfit_swift_met_zone_value_dict( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_met_zone_date_dict( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_dive_settings_value_dict( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:Double] {
@@ -6039,7 +6033,7 @@ func rzfit_swift_dive_settings_string_dict( ptr : UnsafePointer<FIT_DIVE_SETTING
   }
   return rv
 }
-func rzfit_swift_dive_settings_value_dict( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:Date] {
+func rzfit_swift_dive_settings_date_dict( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_goal_value_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:Double] {
@@ -6070,12 +6064,6 @@ func rzfit_swift_goal_value_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String
 func rzfit_swift_goal_string_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_GOAL_MESG = ptr.pointee
-  if( x.start_date != FIT_DATE_TIME_INVALID ) {
-    rv[ "start_date" ] = rzfit_swift_date_time_to_string(x.start_date)
-  }
-  if( x.end_date != FIT_DATE_TIME_INVALID ) {
-    rv[ "end_date" ] = rzfit_swift_date_time_to_string(x.end_date)
-  }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
   }
@@ -6096,7 +6084,7 @@ func rzfit_swift_goal_string_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [Strin
   }
   return rv
 }
-func rzfit_swift_goal_value_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:Date] {
+func rzfit_swift_goal_date_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_GOAL_MESG = ptr.pointee
   if x.start_date != FIT_DATE_TIME_INVALID  {
@@ -6129,12 +6117,6 @@ func rzfit_swift_activity_value_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) ->
 func rzfit_swift_activity_string_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_ACTIVITY_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  if( x.local_timestamp != FIT_LOCAL_DATE_TIME_INVALID ) {
-    rv[ "local_timestamp" ] = rzfit_swift_local_date_time_to_string(x.local_timestamp)
-  }
   if( x.type != FIT_ACTIVITY_INVALID ) {
     rv[ "type" ] = rzfit_swift_activity_to_string(x.type)
   }
@@ -6146,7 +6128,7 @@ func rzfit_swift_activity_string_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -
   }
   return rv
 }
-func rzfit_swift_activity_value_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> [String:Date] {
+func rzfit_swift_activity_date_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_ACTIVITY_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -6447,12 +6429,6 @@ func rzfit_swift_session_value_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [
 func rzfit_swift_session_string_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SESSION_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  if( x.start_time != FIT_DATE_TIME_INVALID ) {
-    rv[ "start_time" ] = rzfit_swift_date_time_to_string(x.start_time)
-  }
   if( x.total_cycles != FIT_UINT32_INVALID ) {
     // FIXME: handle complex
   }
@@ -6495,7 +6471,7 @@ func rzfit_swift_session_string_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> 
   }
   return rv
 }
-func rzfit_swift_session_value_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:Date] {
+func rzfit_swift_session_date_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_SESSION_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -6740,12 +6716,6 @@ func rzfit_swift_lap_value_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:D
 func rzfit_swift_lap_string_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_LAP_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  if( x.start_time != FIT_DATE_TIME_INVALID ) {
-    rv[ "start_time" ] = rzfit_swift_date_time_to_string(x.start_time)
-  }
   if( x.total_cycles != FIT_UINT32_INVALID ) {
     // FIXME: handle complex
   }
@@ -6787,7 +6757,7 @@ func rzfit_swift_lap_string_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:
   }
   return rv
 }
-func rzfit_swift_lap_value_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:Date] {
+func rzfit_swift_lap_date_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_LAP_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -6844,12 +6814,6 @@ func rzfit_swift_length_value_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [St
 func rzfit_swift_length_string_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_LENGTH_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  if( x.start_time != FIT_DATE_TIME_INVALID ) {
-    rv[ "start_time" ] = rzfit_swift_date_time_to_string(x.start_time)
-  }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
   }
@@ -6867,7 +6831,7 @@ func rzfit_swift_length_string_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [S
   }
   return rv
 }
-func rzfit_swift_length_value_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [String:Date] {
+func rzfit_swift_length_date_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_LENGTH_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7052,9 +7016,6 @@ func rzfit_swift_record_value_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [St
 func rzfit_swift_record_string_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_RECORD_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   if( x.left_right_balance != FIT_LEFT_RIGHT_BALANCE_INVALID ) {
     rv[ "left_right_balance" ] = rzfit_swift_left_right_balance_to_string(x.left_right_balance)
   }
@@ -7069,7 +7030,7 @@ func rzfit_swift_record_string_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [S
   }
   return rv
 }
-func rzfit_swift_record_value_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [String:Date] {
+func rzfit_swift_record_date_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_RECORD_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7122,9 +7083,6 @@ func rzfit_swift_event_value_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [Stri
 func rzfit_swift_event_string_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_EVENT_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   if( x.data != FIT_UINT32_INVALID ) {
     // FIXME: handle complex
   }
@@ -7139,7 +7097,7 @@ func rzfit_swift_event_string_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [Str
   }
   return rv
 }
-func rzfit_swift_event_value_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [String:Date] {
+func rzfit_swift_event_date_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_EVENT_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7184,9 +7142,6 @@ func rzfit_swift_device_info_value_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MES
 func rzfit_swift_device_info_string_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_DEVICE_INFO_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   rv[ "product_name" ] = withUnsafeBytes(of: &x.product_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
@@ -7221,7 +7176,7 @@ func rzfit_swift_device_info_string_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_ME
   }
   return rv
 }
-func rzfit_swift_device_info_value_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:Date] {
+func rzfit_swift_device_info_date_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_DEVICE_INFO_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7242,12 +7197,6 @@ func rzfit_swift_training_file_value_dict( ptr : UnsafePointer<FIT_TRAINING_FILE
 func rzfit_swift_training_file_string_dict( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_TRAINING_FILE_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  if( x.time_created != FIT_DATE_TIME_INVALID ) {
-    rv[ "time_created" ] = rzfit_swift_date_time_to_string(x.time_created)
-  }
   if( x.manufacturer != FIT_MANUFACTURER_INVALID ) {
     rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
   }
@@ -7259,7 +7208,7 @@ func rzfit_swift_training_file_string_dict( ptr : UnsafePointer<FIT_TRAINING_FIL
   }
   return rv
 }
-func rzfit_swift_training_file_value_dict( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:Date] {
+func rzfit_swift_training_file_date_dict( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_TRAINING_FILE_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7278,7 +7227,7 @@ func rzfit_swift_hrv_value_dict( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:D
 func rzfit_swift_hrv_string_dict( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_hrv_value_dict( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Date] {
+func rzfit_swift_hrv_date_dict( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_weather_conditions_value_dict( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:Double] {
@@ -7329,15 +7278,9 @@ func rzfit_swift_weather_conditions_value_dict( ptr : UnsafePointer<FIT_WEATHER_
 func rzfit_swift_weather_conditions_string_dict( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_WEATHER_CONDITIONS_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   rv[ "location" ] = withUnsafeBytes(of: &x.location) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
-  }
-  if( x.observed_at_time != FIT_DATE_TIME_INVALID ) {
-    rv[ "observed_at_time" ] = rzfit_swift_date_time_to_string(x.observed_at_time)
   }
   if( x.weather_report != FIT_WEATHER_REPORT_INVALID ) {
     rv[ "weather_report" ] = rzfit_swift_weather_report_to_string(x.weather_report)
@@ -7350,7 +7293,7 @@ func rzfit_swift_weather_conditions_string_dict( ptr : UnsafePointer<FIT_WEATHER
   }
   return rv
 }
-func rzfit_swift_weather_conditions_value_dict( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:Date] {
+func rzfit_swift_weather_conditions_date_dict( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_WEATHER_CONDITIONS_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7369,18 +7312,9 @@ func rzfit_swift_weather_alert_value_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT
 func rzfit_swift_weather_alert_string_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_WEATHER_ALERT_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   rv[ "report_id" ] = withUnsafeBytes(of: &x.report_id) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
-  }
-  if( x.issue_time != FIT_DATE_TIME_INVALID ) {
-    rv[ "issue_time" ] = rzfit_swift_date_time_to_string(x.issue_time)
-  }
-  if( x.expire_time != FIT_DATE_TIME_INVALID ) {
-    rv[ "expire_time" ] = rzfit_swift_date_time_to_string(x.expire_time)
   }
   if( x.severity != FIT_WEATHER_SEVERITY_INVALID ) {
     rv[ "severity" ] = rzfit_swift_weather_severity_to_string(x.severity)
@@ -7390,7 +7324,7 @@ func rzfit_swift_weather_alert_string_dict( ptr : UnsafePointer<FIT_WEATHER_ALER
   }
   return rv
 }
-func rzfit_swift_weather_alert_value_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:Date] {
+func rzfit_swift_weather_alert_date_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_WEATHER_ALERT_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7419,16 +7353,13 @@ func rzfit_swift_nmea_sentence_value_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE
 func rzfit_swift_nmea_sentence_string_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_NMEA_SENTENCE_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   rv[ "sentence" ] = withUnsafeBytes(of: &x.sentence) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
   }
   return rv
 }
-func rzfit_swift_nmea_sentence_value_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:Date] {
+func rzfit_swift_nmea_sentence_date_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_NMEA_SENTENCE_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7447,14 +7378,9 @@ func rzfit_swift_aviation_attitude_value_dict( ptr : UnsafePointer<FIT_AVIATION_
   return rv
 }
 func rzfit_swift_aviation_attitude_string_dict( ptr : UnsafePointer<FIT_AVIATION_ATTITUDE_MESG>) -> [String:String] {
-  var rv : [String:String] = [:]
-  let x : FIT_AVIATION_ATTITUDE_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  return rv
+  return [:]
 }
-func rzfit_swift_aviation_attitude_value_dict( ptr : UnsafePointer<FIT_AVIATION_ATTITUDE_MESG>) -> [String:Date] {
+func rzfit_swift_aviation_attitude_date_dict( ptr : UnsafePointer<FIT_AVIATION_ATTITUDE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_AVIATION_ATTITUDE_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7484,7 +7410,7 @@ func rzfit_swift_video_title_string_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_ME
   }
   return rv
 }
-func rzfit_swift_video_title_value_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:Date] {
+func rzfit_swift_video_title_date_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_video_description_value_dict( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:Double] {
@@ -7508,7 +7434,7 @@ func rzfit_swift_video_description_string_dict( ptr : UnsafePointer<FIT_VIDEO_DE
   }
   return rv
 }
-func rzfit_swift_video_description_value_dict( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:Date] {
+func rzfit_swift_video_description_date_dict( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_set_value_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Double] {
@@ -7523,7 +7449,7 @@ func rzfit_swift_set_value_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:D
 func rzfit_swift_set_string_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_set_value_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Date] {
+func rzfit_swift_set_date_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_course_value_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:Double] {
@@ -7547,7 +7473,7 @@ func rzfit_swift_course_string_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [S
   }
   return rv
 }
-func rzfit_swift_course_value_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:Date] {
+func rzfit_swift_course_date_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_course_point_value_dict( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:Double] {
@@ -7574,9 +7500,6 @@ func rzfit_swift_course_point_value_dict( ptr : UnsafePointer<FIT_COURSE_POINT_M
 func rzfit_swift_course_point_string_dict( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_COURSE_POINT_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
@@ -7589,7 +7512,7 @@ func rzfit_swift_course_point_string_dict( ptr : UnsafePointer<FIT_COURSE_POINT_
   }
   return rv
 }
-func rzfit_swift_course_point_value_dict( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:Date] {
+func rzfit_swift_course_point_date_dict( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_COURSE_POINT_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -7641,7 +7564,7 @@ func rzfit_swift_segment_id_string_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG
   }
   return rv
 }
-func rzfit_swift_segment_id_value_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>) -> [String:Date] {
+func rzfit_swift_segment_id_date_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_segment_leaderboard_entry_value_dict( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:Double] {
@@ -7676,7 +7599,7 @@ func rzfit_swift_segment_leaderboard_entry_string_dict( ptr : UnsafePointer<FIT_
   }
   return rv
 }
-func rzfit_swift_segment_leaderboard_entry_value_dict( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:Date] {
+func rzfit_swift_segment_leaderboard_entry_date_dict( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_segment_point_value_dict( ptr : UnsafePointer<FIT_SEGMENT_POINT_MESG>) -> [String:Double] {
@@ -7708,7 +7631,7 @@ func rzfit_swift_segment_point_string_dict( ptr : UnsafePointer<FIT_SEGMENT_POIN
   }
   return rv
 }
-func rzfit_swift_segment_point_value_dict( ptr : UnsafePointer<FIT_SEGMENT_POINT_MESG>) -> [String:Date] {
+func rzfit_swift_segment_point_date_dict( ptr : UnsafePointer<FIT_SEGMENT_POINT_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_segment_lap_value_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:Double] {
@@ -7939,12 +7862,6 @@ func rzfit_swift_segment_lap_value_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MES
 func rzfit_swift_segment_lap_string_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SEGMENT_LAP_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  if( x.start_time != FIT_DATE_TIME_INVALID ) {
-    rv[ "start_time" ] = rzfit_swift_date_time_to_string(x.start_time)
-  }
   if( x.total_cycles != FIT_UINT32_INVALID ) {
     // FIXME: handle complex
   }
@@ -7985,7 +7902,7 @@ func rzfit_swift_segment_lap_string_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_ME
   }
   return rv
 }
-func rzfit_swift_segment_lap_value_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:Date] {
+func rzfit_swift_segment_lap_date_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_SEGMENT_LAP_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -8023,7 +7940,7 @@ func rzfit_swift_segment_file_string_dict( ptr : UnsafePointer<FIT_SEGMENT_FILE_
   }
   return rv
 }
-func rzfit_swift_segment_file_value_dict( ptr : UnsafePointer<FIT_SEGMENT_FILE_MESG>) -> [String:Date] {
+func rzfit_swift_segment_file_date_dict( ptr : UnsafePointer<FIT_SEGMENT_FILE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_workout_value_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [String:Double] {
@@ -8060,7 +7977,7 @@ func rzfit_swift_workout_string_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> 
   }
   return rv
 }
-func rzfit_swift_workout_value_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [String:Date] {
+func rzfit_swift_workout_date_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_workout_session_value_dict( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:Double] {
@@ -8097,7 +8014,7 @@ func rzfit_swift_workout_session_string_dict( ptr : UnsafePointer<FIT_WORKOUT_SE
   }
   return rv
 }
-func rzfit_swift_workout_session_value_dict( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:Date] {
+func rzfit_swift_workout_session_date_dict( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_workout_step_value_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:Double] {
@@ -8146,7 +8063,7 @@ func rzfit_swift_workout_step_string_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_
   }
   return rv
 }
-func rzfit_swift_workout_step_value_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:Date] {
+func rzfit_swift_workout_step_date_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_exercise_title_value_dict( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:Double] {
@@ -8173,7 +8090,7 @@ func rzfit_swift_exercise_title_string_dict( ptr : UnsafePointer<FIT_EXERCISE_TI
   }
   return rv
 }
-func rzfit_swift_exercise_title_value_dict( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:Date] {
+func rzfit_swift_exercise_title_date_dict( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_schedule_value_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:Double] {
@@ -8192,12 +8109,6 @@ func rzfit_swift_schedule_value_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) ->
 func rzfit_swift_schedule_string_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_SCHEDULE_MESG = ptr.pointee
-  if( x.time_created != FIT_DATE_TIME_INVALID ) {
-    rv[ "time_created" ] = rzfit_swift_date_time_to_string(x.time_created)
-  }
-  if( x.scheduled_time != FIT_LOCAL_DATE_TIME_INVALID ) {
-    rv[ "scheduled_time" ] = rzfit_swift_local_date_time_to_string(x.scheduled_time)
-  }
   if( x.manufacturer != FIT_MANUFACTURER_INVALID ) {
     rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
   }
@@ -8209,7 +8120,7 @@ func rzfit_swift_schedule_string_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -
   }
   return rv
 }
-func rzfit_swift_schedule_value_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:Date] {
+func rzfit_swift_schedule_date_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_SCHEDULE_MESG = ptr.pointee
   if x.time_created != FIT_DATE_TIME_INVALID  {
@@ -8254,9 +8165,6 @@ func rzfit_swift_totals_value_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [St
 func rzfit_swift_totals_string_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_TOTALS_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
   }
@@ -8265,7 +8173,7 @@ func rzfit_swift_totals_string_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [S
   }
   return rv
 }
-func rzfit_swift_totals_value_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [String:Date] {
+func rzfit_swift_totals_date_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_TOTALS_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -8322,9 +8230,6 @@ func rzfit_swift_weight_scale_value_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_M
 func rzfit_swift_weight_scale_string_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_WEIGHT_SCALE_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   if( x.weight != FIT_WEIGHT_INVALID ) {
     rv[ "weight" ] = rzfit_swift_weight_to_string(x.weight)
   }
@@ -8333,7 +8238,7 @@ func rzfit_swift_weight_scale_string_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_
   }
   return rv
 }
-func rzfit_swift_weight_scale_value_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_MESG>) -> [String:Date] {
+func rzfit_swift_weight_scale_date_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_WEIGHT_SCALE_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -8378,9 +8283,6 @@ func rzfit_swift_blood_pressure_value_dict( ptr : UnsafePointer<FIT_BLOOD_PRESSU
 func rzfit_swift_blood_pressure_string_dict( ptr : UnsafePointer<FIT_BLOOD_PRESSURE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_BLOOD_PRESSURE_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   if( x.user_profile_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "user_profile_index" ] = rzfit_swift_message_index_to_string(x.user_profile_index)
   }
@@ -8392,7 +8294,7 @@ func rzfit_swift_blood_pressure_string_dict( ptr : UnsafePointer<FIT_BLOOD_PRESS
   }
   return rv
 }
-func rzfit_swift_blood_pressure_value_dict( ptr : UnsafePointer<FIT_BLOOD_PRESSURE_MESG>) -> [String:Date] {
+func rzfit_swift_blood_pressure_date_dict( ptr : UnsafePointer<FIT_BLOOD_PRESSURE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_BLOOD_PRESSURE_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -8405,17 +8307,9 @@ func rzfit_swift_monitoring_info_value_dict( ptr : UnsafePointer<FIT_MONITORING_
   return [:]
 }
 func rzfit_swift_monitoring_info_string_dict( ptr : UnsafePointer<FIT_MONITORING_INFO_MESG>) -> [String:String] {
-  var rv : [String:String] = [:]
-  let x : FIT_MONITORING_INFO_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  if( x.local_timestamp != FIT_LOCAL_DATE_TIME_INVALID ) {
-    rv[ "local_timestamp" ] = rzfit_swift_local_date_time_to_string(x.local_timestamp)
-  }
-  return rv
+  return [:]
 }
-func rzfit_swift_monitoring_info_value_dict( ptr : UnsafePointer<FIT_MONITORING_INFO_MESG>) -> [String:Date] {
+func rzfit_swift_monitoring_info_date_dict( ptr : UnsafePointer<FIT_MONITORING_INFO_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_MONITORING_INFO_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -8460,14 +8354,8 @@ func rzfit_swift_monitoring_value_dict( ptr : UnsafePointer<FIT_MONITORING_MESG>
 func rzfit_swift_monitoring_string_dict( ptr : UnsafePointer<FIT_MONITORING_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_MONITORING_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
   if( x.cycles != FIT_UINT32_INVALID ) {
     // FIXME: handle complex
-  }
-  if( x.local_timestamp != FIT_LOCAL_DATE_TIME_INVALID ) {
-    rv[ "local_timestamp" ] = rzfit_swift_local_date_time_to_string(x.local_timestamp)
   }
   if( x.device_index != FIT_DEVICE_INDEX_INVALID ) {
     rv[ "device_index" ] = rzfit_swift_device_index_to_string(x.device_index)
@@ -8480,7 +8368,7 @@ func rzfit_swift_monitoring_string_dict( ptr : UnsafePointer<FIT_MONITORING_MESG
   }
   return rv
 }
-func rzfit_swift_monitoring_value_dict( ptr : UnsafePointer<FIT_MONITORING_MESG>) -> [String:Date] {
+func rzfit_swift_monitoring_date_dict( ptr : UnsafePointer<FIT_MONITORING_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_MONITORING_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -8507,14 +8395,9 @@ func rzfit_swift_hr_value_dict( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:Dou
   return rv
 }
 func rzfit_swift_hr_string_dict( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:String] {
-  var rv : [String:String] = [:]
-  let x : FIT_HR_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  return rv
+  return [:]
 }
-func rzfit_swift_hr_value_dict( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:Date] {
+func rzfit_swift_hr_date_dict( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_HR_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -8541,14 +8424,9 @@ func rzfit_swift_ant_rx_value_dict( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [St
   return rv
 }
 func rzfit_swift_ant_rx_string_dict( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [String:String] {
-  var rv : [String:String] = [:]
-  let x : FIT_ANT_RX_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  return rv
+  return [:]
 }
-func rzfit_swift_ant_rx_value_dict( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [String:Date] {
+func rzfit_swift_ant_rx_date_dict( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_ANT_RX_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -8575,14 +8453,9 @@ func rzfit_swift_ant_tx_value_dict( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [St
   return rv
 }
 func rzfit_swift_ant_tx_string_dict( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [String:String] {
-  var rv : [String:String] = [:]
-  let x : FIT_ANT_TX_MESG = ptr.pointee
-  if( x.timestamp != FIT_DATE_TIME_INVALID ) {
-    rv[ "timestamp" ] = rzfit_swift_date_time_to_string(x.timestamp)
-  }
-  return rv
+  return [:]
 }
-func rzfit_swift_ant_tx_value_dict( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [String:Date] {
+func rzfit_swift_ant_tx_date_dict( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_ANT_TX_MESG = ptr.pointee
   if x.timestamp != FIT_DATE_TIME_INVALID  {
@@ -8616,7 +8489,7 @@ func rzfit_swift_exd_screen_configuration_string_dict( ptr : UnsafePointer<FIT_E
   }
   return rv
 }
-func rzfit_swift_exd_screen_configuration_value_dict( ptr : UnsafePointer<FIT_EXD_SCREEN_CONFIGURATION_MESG>) -> [String:Date] {
+func rzfit_swift_exd_screen_configuration_date_dict( ptr : UnsafePointer<FIT_EXD_SCREEN_CONFIGURATION_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_exd_data_field_configuration_value_dict( ptr : UnsafePointer<FIT_EXD_DATA_FIELD_CONFIGURATION_MESG>) -> [String:Double] {
@@ -8652,7 +8525,7 @@ func rzfit_swift_exd_data_field_configuration_string_dict( ptr : UnsafePointer<F
   }
   return rv
 }
-func rzfit_swift_exd_data_field_configuration_value_dict( ptr : UnsafePointer<FIT_EXD_DATA_FIELD_CONFIGURATION_MESG>) -> [String:Date] {
+func rzfit_swift_exd_data_field_configuration_date_dict( ptr : UnsafePointer<FIT_EXD_DATA_FIELD_CONFIGURATION_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_exd_data_concept_configuration_value_dict( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:Double] {
@@ -8706,7 +8579,7 @@ func rzfit_swift_exd_data_concept_configuration_string_dict( ptr : UnsafePointer
   }
   return rv
 }
-func rzfit_swift_exd_data_concept_configuration_value_dict( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:Date] {
+func rzfit_swift_exd_data_concept_configuration_date_dict( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_field_description_value_dict( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Double] {
@@ -8758,7 +8631,7 @@ func rzfit_swift_field_description_string_dict( ptr : UnsafePointer<FIT_FIELD_DE
   }
   return rv
 }
-func rzfit_swift_field_description_value_dict( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Date] {
+func rzfit_swift_field_description_date_dict( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_developer_data_id_value_dict( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Double] {
@@ -8782,7 +8655,7 @@ func rzfit_swift_developer_data_id_string_dict( ptr : UnsafePointer<FIT_DEVELOPE
   }
   return rv
 }
-func rzfit_swift_developer_data_id_value_dict( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Date] {
+func rzfit_swift_developer_data_id_date_dict( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_file_id_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
@@ -10714,448 +10587,448 @@ func rzfit_swift_build_mesg(mesg_num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>
       rv = FitMessage( mesg_num:    0,
                        mesg_values: rzfit_swift_file_id_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_file_id_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_file_id_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_file_id_date_dict(ptr: $0))
       }
     case 1: // capabilities
       uptr.withMemoryRebound(to: FIT_CAPABILITIES_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    1,
                        mesg_values: rzfit_swift_capabilities_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_capabilities_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_capabilities_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_capabilities_date_dict(ptr: $0))
       }
     case 2: // device_settings
       uptr.withMemoryRebound(to: FIT_DEVICE_SETTINGS_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    2,
                        mesg_values: rzfit_swift_device_settings_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_device_settings_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_device_settings_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_device_settings_date_dict(ptr: $0))
       }
     case 3: // user_profile
       uptr.withMemoryRebound(to: FIT_USER_PROFILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    3,
                        mesg_values: rzfit_swift_user_profile_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_user_profile_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_user_profile_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_user_profile_date_dict(ptr: $0))
       }
     case 4: // hrm_profile
       uptr.withMemoryRebound(to: FIT_HRM_PROFILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    4,
                        mesg_values: rzfit_swift_hrm_profile_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_hrm_profile_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_hrm_profile_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_hrm_profile_date_dict(ptr: $0))
       }
     case 5: // sdm_profile
       uptr.withMemoryRebound(to: FIT_SDM_PROFILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    5,
                        mesg_values: rzfit_swift_sdm_profile_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_sdm_profile_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_sdm_profile_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_sdm_profile_date_dict(ptr: $0))
       }
     case 6: // bike_profile
       uptr.withMemoryRebound(to: FIT_BIKE_PROFILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    6,
                        mesg_values: rzfit_swift_bike_profile_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_bike_profile_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_bike_profile_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_bike_profile_date_dict(ptr: $0))
       }
     case 7: // zones_target
       uptr.withMemoryRebound(to: FIT_ZONES_TARGET_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    7,
                        mesg_values: rzfit_swift_zones_target_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_zones_target_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_zones_target_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_zones_target_date_dict(ptr: $0))
       }
     case 8: // hr_zone
       uptr.withMemoryRebound(to: FIT_HR_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    8,
                        mesg_values: rzfit_swift_hr_zone_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_hr_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_hr_zone_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_hr_zone_date_dict(ptr: $0))
       }
     case 9: // power_zone
       uptr.withMemoryRebound(to: FIT_POWER_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    9,
                        mesg_values: rzfit_swift_power_zone_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_power_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_power_zone_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_power_zone_date_dict(ptr: $0))
       }
     case 10: // met_zone
       uptr.withMemoryRebound(to: FIT_MET_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    10,
                        mesg_values: rzfit_swift_met_zone_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_met_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_met_zone_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_met_zone_date_dict(ptr: $0))
       }
     case 12: // sport
       uptr.withMemoryRebound(to: FIT_SPORT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    12,
                        mesg_values: rzfit_swift_sport_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_sport_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_sport_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_sport_date_dict(ptr: $0))
       }
     case 15: // goal
       uptr.withMemoryRebound(to: FIT_GOAL_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    15,
                        mesg_values: rzfit_swift_goal_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_goal_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_goal_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_goal_date_dict(ptr: $0))
       }
     case 18: // session
       uptr.withMemoryRebound(to: FIT_SESSION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    18,
                        mesg_values: rzfit_swift_session_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_session_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_session_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_session_date_dict(ptr: $0))
       }
     case 19: // lap
       uptr.withMemoryRebound(to: FIT_LAP_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    19,
                        mesg_values: rzfit_swift_lap_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_lap_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_lap_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_lap_date_dict(ptr: $0))
       }
     case 20: // record
       uptr.withMemoryRebound(to: FIT_RECORD_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    20,
                        mesg_values: rzfit_swift_record_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_record_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_record_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_record_date_dict(ptr: $0))
       }
     case 21: // event
       uptr.withMemoryRebound(to: FIT_EVENT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    21,
                        mesg_values: rzfit_swift_event_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_event_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_event_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_event_date_dict(ptr: $0))
       }
     case 23: // device_info
       uptr.withMemoryRebound(to: FIT_DEVICE_INFO_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    23,
                        mesg_values: rzfit_swift_device_info_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_device_info_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_device_info_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_device_info_date_dict(ptr: $0))
       }
     case 26: // workout
       uptr.withMemoryRebound(to: FIT_WORKOUT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    26,
                        mesg_values: rzfit_swift_workout_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_workout_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_workout_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_workout_date_dict(ptr: $0))
       }
     case 27: // workout_step
       uptr.withMemoryRebound(to: FIT_WORKOUT_STEP_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    27,
                        mesg_values: rzfit_swift_workout_step_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_workout_step_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_workout_step_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_workout_step_date_dict(ptr: $0))
       }
     case 28: // schedule
       uptr.withMemoryRebound(to: FIT_SCHEDULE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    28,
                        mesg_values: rzfit_swift_schedule_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_schedule_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_schedule_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_schedule_date_dict(ptr: $0))
       }
     case 30: // weight_scale
       uptr.withMemoryRebound(to: FIT_WEIGHT_SCALE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    30,
                        mesg_values: rzfit_swift_weight_scale_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_weight_scale_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_weight_scale_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_weight_scale_date_dict(ptr: $0))
       }
     case 31: // course
       uptr.withMemoryRebound(to: FIT_COURSE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    31,
                        mesg_values: rzfit_swift_course_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_course_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_course_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_course_date_dict(ptr: $0))
       }
     case 32: // course_point
       uptr.withMemoryRebound(to: FIT_COURSE_POINT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    32,
                        mesg_values: rzfit_swift_course_point_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_course_point_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_course_point_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_course_point_date_dict(ptr: $0))
       }
     case 33: // totals
       uptr.withMemoryRebound(to: FIT_TOTALS_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    33,
                        mesg_values: rzfit_swift_totals_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_totals_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_totals_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_totals_date_dict(ptr: $0))
       }
     case 34: // activity
       uptr.withMemoryRebound(to: FIT_ACTIVITY_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    34,
                        mesg_values: rzfit_swift_activity_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_activity_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_activity_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_activity_date_dict(ptr: $0))
       }
     case 35: // software
       uptr.withMemoryRebound(to: FIT_SOFTWARE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    35,
                        mesg_values: rzfit_swift_software_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_software_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_software_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_software_date_dict(ptr: $0))
       }
     case 37: // file_capabilities
       uptr.withMemoryRebound(to: FIT_FILE_CAPABILITIES_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    37,
                        mesg_values: rzfit_swift_file_capabilities_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_file_capabilities_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_file_capabilities_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_file_capabilities_date_dict(ptr: $0))
       }
     case 38: // mesg_capabilities
       uptr.withMemoryRebound(to: FIT_MESG_CAPABILITIES_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    38,
                        mesg_values: rzfit_swift_mesg_capabilities_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_mesg_capabilities_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_mesg_capabilities_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_mesg_capabilities_date_dict(ptr: $0))
       }
     case 39: // field_capabilities
       uptr.withMemoryRebound(to: FIT_FIELD_CAPABILITIES_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    39,
                        mesg_values: rzfit_swift_field_capabilities_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_field_capabilities_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_field_capabilities_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_field_capabilities_date_dict(ptr: $0))
       }
     case 49: // file_creator
       uptr.withMemoryRebound(to: FIT_FILE_CREATOR_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    49,
                        mesg_values: rzfit_swift_file_creator_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_file_creator_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_file_creator_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_file_creator_date_dict(ptr: $0))
       }
     case 51: // blood_pressure
       uptr.withMemoryRebound(to: FIT_BLOOD_PRESSURE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    51,
                        mesg_values: rzfit_swift_blood_pressure_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_blood_pressure_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_blood_pressure_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_blood_pressure_date_dict(ptr: $0))
       }
     case 53: // speed_zone
       uptr.withMemoryRebound(to: FIT_SPEED_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    53,
                        mesg_values: rzfit_swift_speed_zone_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_speed_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_speed_zone_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_speed_zone_date_dict(ptr: $0))
       }
     case 55: // monitoring
       uptr.withMemoryRebound(to: FIT_MONITORING_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    55,
                        mesg_values: rzfit_swift_monitoring_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_monitoring_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_monitoring_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_monitoring_date_dict(ptr: $0))
       }
     case 72: // training_file
       uptr.withMemoryRebound(to: FIT_TRAINING_FILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    72,
                        mesg_values: rzfit_swift_training_file_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_training_file_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_training_file_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_training_file_date_dict(ptr: $0))
       }
     case 78: // hrv
       uptr.withMemoryRebound(to: FIT_HRV_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    78,
                        mesg_values: rzfit_swift_hrv_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_hrv_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_hrv_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_hrv_date_dict(ptr: $0))
       }
     case 80: // ant_rx
       uptr.withMemoryRebound(to: FIT_ANT_RX_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    80,
                        mesg_values: rzfit_swift_ant_rx_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_ant_rx_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_ant_rx_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_ant_rx_date_dict(ptr: $0))
       }
     case 81: // ant_tx
       uptr.withMemoryRebound(to: FIT_ANT_TX_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    81,
                        mesg_values: rzfit_swift_ant_tx_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_ant_tx_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_ant_tx_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_ant_tx_date_dict(ptr: $0))
       }
     case 101: // length
       uptr.withMemoryRebound(to: FIT_LENGTH_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    101,
                        mesg_values: rzfit_swift_length_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_length_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_length_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_length_date_dict(ptr: $0))
       }
     case 103: // monitoring_info
       uptr.withMemoryRebound(to: FIT_MONITORING_INFO_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    103,
                        mesg_values: rzfit_swift_monitoring_info_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_monitoring_info_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_monitoring_info_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_monitoring_info_date_dict(ptr: $0))
       }
     case 106: // slave_device
       uptr.withMemoryRebound(to: FIT_SLAVE_DEVICE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    106,
                        mesg_values: rzfit_swift_slave_device_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_slave_device_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_slave_device_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_slave_device_date_dict(ptr: $0))
       }
     case 127: // connectivity
       uptr.withMemoryRebound(to: FIT_CONNECTIVITY_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    127,
                        mesg_values: rzfit_swift_connectivity_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_connectivity_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_connectivity_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_connectivity_date_dict(ptr: $0))
       }
     case 128: // weather_conditions
       uptr.withMemoryRebound(to: FIT_WEATHER_CONDITIONS_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    128,
                        mesg_values: rzfit_swift_weather_conditions_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_weather_conditions_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_weather_conditions_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_weather_conditions_date_dict(ptr: $0))
       }
     case 129: // weather_alert
       uptr.withMemoryRebound(to: FIT_WEATHER_ALERT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    129,
                        mesg_values: rzfit_swift_weather_alert_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_weather_alert_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_weather_alert_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_weather_alert_date_dict(ptr: $0))
       }
     case 131: // cadence_zone
       uptr.withMemoryRebound(to: FIT_CADENCE_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    131,
                        mesg_values: rzfit_swift_cadence_zone_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_cadence_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_cadence_zone_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_cadence_zone_date_dict(ptr: $0))
       }
     case 132: // hr
       uptr.withMemoryRebound(to: FIT_HR_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    132,
                        mesg_values: rzfit_swift_hr_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_hr_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_hr_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_hr_date_dict(ptr: $0))
       }
     case 142: // segment_lap
       uptr.withMemoryRebound(to: FIT_SEGMENT_LAP_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    142,
                        mesg_values: rzfit_swift_segment_lap_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_segment_lap_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_lap_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_segment_lap_date_dict(ptr: $0))
       }
     case 148: // segment_id
       uptr.withMemoryRebound(to: FIT_SEGMENT_ID_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    148,
                        mesg_values: rzfit_swift_segment_id_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_segment_id_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_id_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_segment_id_date_dict(ptr: $0))
       }
     case 149: // segment_leaderboard_entry
       uptr.withMemoryRebound(to: FIT_SEGMENT_LEADERBOARD_ENTRY_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    149,
                        mesg_values: rzfit_swift_segment_leaderboard_entry_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_segment_leaderboard_entry_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_leaderboard_entry_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_segment_leaderboard_entry_date_dict(ptr: $0))
       }
     case 150: // segment_point
       uptr.withMemoryRebound(to: FIT_SEGMENT_POINT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    150,
                        mesg_values: rzfit_swift_segment_point_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_segment_point_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_point_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_segment_point_date_dict(ptr: $0))
       }
     case 151: // segment_file
       uptr.withMemoryRebound(to: FIT_SEGMENT_FILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    151,
                        mesg_values: rzfit_swift_segment_file_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_segment_file_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_file_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_segment_file_date_dict(ptr: $0))
       }
     case 158: // workout_session
       uptr.withMemoryRebound(to: FIT_WORKOUT_SESSION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    158,
                        mesg_values: rzfit_swift_workout_session_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_workout_session_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_workout_session_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_workout_session_date_dict(ptr: $0))
       }
     case 177: // nmea_sentence
       uptr.withMemoryRebound(to: FIT_NMEA_SENTENCE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    177,
                        mesg_values: rzfit_swift_nmea_sentence_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_nmea_sentence_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_nmea_sentence_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_nmea_sentence_date_dict(ptr: $0))
       }
     case 178: // aviation_attitude
       uptr.withMemoryRebound(to: FIT_AVIATION_ATTITUDE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    178,
                        mesg_values: rzfit_swift_aviation_attitude_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_aviation_attitude_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_aviation_attitude_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_aviation_attitude_date_dict(ptr: $0))
       }
     case 185: // video_title
       uptr.withMemoryRebound(to: FIT_VIDEO_TITLE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    185,
                        mesg_values: rzfit_swift_video_title_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_video_title_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_video_title_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_video_title_date_dict(ptr: $0))
       }
     case 186: // video_description
       uptr.withMemoryRebound(to: FIT_VIDEO_DESCRIPTION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    186,
                        mesg_values: rzfit_swift_video_description_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_video_description_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_video_description_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_video_description_date_dict(ptr: $0))
       }
     case 200: // exd_screen_configuration
       uptr.withMemoryRebound(to: FIT_EXD_SCREEN_CONFIGURATION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    200,
                        mesg_values: rzfit_swift_exd_screen_configuration_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_exd_screen_configuration_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_exd_screen_configuration_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_exd_screen_configuration_date_dict(ptr: $0))
       }
     case 201: // exd_data_field_configuration
       uptr.withMemoryRebound(to: FIT_EXD_DATA_FIELD_CONFIGURATION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    201,
                        mesg_values: rzfit_swift_exd_data_field_configuration_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_exd_data_field_configuration_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_exd_data_field_configuration_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_exd_data_field_configuration_date_dict(ptr: $0))
       }
     case 202: // exd_data_concept_configuration
       uptr.withMemoryRebound(to: FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    202,
                        mesg_values: rzfit_swift_exd_data_concept_configuration_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_exd_data_concept_configuration_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_exd_data_concept_configuration_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_exd_data_concept_configuration_date_dict(ptr: $0))
       }
     case 206: // field_description
       uptr.withMemoryRebound(to: FIT_FIELD_DESCRIPTION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    206,
                        mesg_values: rzfit_swift_field_description_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_field_description_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_field_description_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_field_description_date_dict(ptr: $0))
       }
     case 207: // developer_data_id
       uptr.withMemoryRebound(to: FIT_DEVELOPER_DATA_ID_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    207,
                        mesg_values: rzfit_swift_developer_data_id_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_developer_data_id_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_developer_data_id_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_developer_data_id_date_dict(ptr: $0))
       }
     case 225: // set
       uptr.withMemoryRebound(to: FIT_SET_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    225,
                        mesg_values: rzfit_swift_set_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_set_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_set_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_set_date_dict(ptr: $0))
       }
     case 258: // dive_settings
       uptr.withMemoryRebound(to: FIT_DIVE_SETTINGS_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    258,
                        mesg_values: rzfit_swift_dive_settings_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_dive_settings_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_dive_settings_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_dive_settings_date_dict(ptr: $0))
       }
     case 264: // exercise_title
       uptr.withMemoryRebound(to: FIT_EXERCISE_TITLE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    264,
                        mesg_values: rzfit_swift_exercise_title_value_dict(ptr: $0),
                        mesg_enums:  rzfit_swift_exercise_title_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_exercise_title_value_dict(ptr: $0))
+                       mesg_dates:  rzfit_swift_exercise_title_date_dict(ptr: $0))
       }
     default:
        rv = FitMessage( mesg_num: mesg_num, mesg_values: [:], mesg_enums: [:], mesg_dates: [:])
