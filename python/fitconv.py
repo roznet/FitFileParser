@@ -746,28 +746,17 @@ class Convert :
                     in_typedef = None
 
 
-    def parse_excel(self):
-        wb = openpyxl.load_workbook(filename='Profile.xlsx')
-
-        ws_types = list(wb['Types'].values)
-        ws_messages = list(wb['Messages'].values)
-        pprint.pprint( ws_types[0] )
-
-                    
     def run(self):
-        if True:
-            self.parse_excel()
-        else:
-            self.parse_input_file()
+        self.parse_input_file()
 
-            self.generate_output_file()
-            self.generate_json_file()
+        self.generate_output_file()
+        self.generate_json_file()
 
                    
 if __name__ == "__main__":
     parser = argparse.ArgumentParser( description='Auto Generate swift file' )
     parser.add_argument( '-o', '--outputfile', default = 'Sources/FitFileParser/rzfit_convert_auto.swift' )
-    parser.add_argument( '-i', '--inputfile',  default = 'Sources/FitFileParserTypes/include/fit_example.h' )
+    parser.add_argument( '-i', '--inputfile',  default = 'Sources/FitFileParserObjc/include/fit_example.h' )
     parser.add_argument( '-m', '--mapfile',    default = 'fit_map.json' )
     args = parser.parse_args()
     conv = Convert( args )
