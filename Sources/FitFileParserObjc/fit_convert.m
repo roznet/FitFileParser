@@ -50,7 +50,7 @@ void Fit_InitRawMesg(FIT_CONVERT_STATE *state){
        FIT_UINT8 field_size;
 
        if (base_type_num >= FIT_BASE_TYPES)
-          return FIT_FALSE;
+          return ;
 
        base_type_size = fit_base_type_sizes[base_type_num];
 
@@ -61,7 +61,7 @@ void Fit_InitRawMesg(FIT_CONVERT_STATE *state){
        }
     }
 
-    return FIT_TRUE;
+    return ;
 
 }
 
