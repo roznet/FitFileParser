@@ -20,37 +20,7 @@
 #if !defined(FIT_CONVERT_H)
 #define FIT_CONVERT_H
 
-#include "fit.h"
-
-///////////////////////////////////////////////////////////////////////
-// Message Conversion Structures
-///////////////////////////////////////////////////////////////////////
-
-typedef struct
-{
-   FIT_UINT8 base_type;
-   FIT_UINT16 offset_in;
-   FIT_UINT16 offset_local;
-   FIT_UINT8 size;
-   FIT_UINT8 num;
-} FIT_FIELD_CONVERT;
-
-typedef struct
-{
-   FIT_UINT8 reserved_1;
-   FIT_UINT8 arch;
-   FIT_UINT16 global_mesg_num;
-   FIT_UINT8 num_fields;
-   FIT_FIELD_CONVERT fields[91];
-} FIT_MESG_CONVERT;
-
-///////////////////////////////////////////////////////////////////////
-// Messages
-///////////////////////////////////////////////////////////////////////
-
-#define FIT_MESG_SIZE       254
-#define FIT_MESG_DEF_SIZE   278
-
+#include "fit_example.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////

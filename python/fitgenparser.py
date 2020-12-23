@@ -1121,7 +1121,6 @@ if __name__ == "__main__":
     parser.add_argument( 'profile', default = 'Profile.xlsx' )
     parser.add_argument( '-o', '--outputfile', default = '../Sources/FitFileParser/rzfit_convert_auto.swift' )
     parser.add_argument( '-i', '--inputfile',  default = '../Sources/FitFileParserObjc/include/fit_example.h' )
-    parser.add_argument( '-m', '--mapfile',    default = 'fit_map.json' )
     args = parser.parse_args()
     conv = Convert( args )
     
