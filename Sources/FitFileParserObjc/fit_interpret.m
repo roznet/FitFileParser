@@ -11,9 +11,11 @@
 #import "fit_interpret.h"
 
 FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field){
-    for( FIT_UINT8 i=0;i<interp->string_count;i++){
-        if( interp->string_fields[i] == field ){
-            return interp->string_values[i];
+    if( interp != nil){
+        for( FIT_UINT8 i=0;i<interp->string_count;i++){
+            if( interp->string_fields[i] == field ){
+                return interp->string_values[i];
+            }
         }
     }
     return FIT_UINT32_INVALID;

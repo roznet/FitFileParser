@@ -26,9 +26,9 @@
 
 #include "rzfit_parse_dev_data.h"
 
-#include "rzfit_convert_auto.h"
 #include "fit_convert.h"
 #include "fit_example.h"
+#include "fit_map.h"
 
 const FIT_UINT16 kMaxDevFields = 64;
 
@@ -88,7 +88,7 @@ const FIT_UINT16 kMaxDevFields = 64;
         
         if( unit.length > 0){
             if( mesg->native_mesg_num != FIT_MESG_NUM_INVALID && mesg->native_field_num != FIT_FIELD_NUM_INVALID){
-                NSString * native = objc_rzfit_field_num_to_field(mesg->native_mesg_num,mesg->native_field_num);
+                NSString * native = rzfit_objc_field_num_to_string(mesg->native_mesg_num,mesg->native_field_num,nil);
                 if( native ){
                     // record both so later we can find it as native as well
                     self.cacheUnits[native] = unit;
@@ -122,7 +122,7 @@ const FIT_UINT16 kMaxDevFields = 64;
             
             NSString * name = [NSString stringWithCString:desc->field_name encoding:NSUTF8StringEncoding];
             if( desc->native_mesg_num != FIT_MESG_NUM_INVALID && desc->native_field_num != FIT_FIELD_NUM_INVALID){
-                NSString * native = objc_rzfit_field_num_to_field(desc->native_mesg_num,desc->native_field_num);
+                NSString * native = rzfit_objc_field_num_to_string(desc->native_mesg_num,desc->native_field_num,nil);
                 if( native ){
                     name = native;
                 }

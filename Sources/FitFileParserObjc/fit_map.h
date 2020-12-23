@@ -34,7 +34,6 @@ typedef struct {
 extern NSString * rzfit_objc_unit_to_name( FIT_UNIT fit_unit );
 
 extern FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp );
-extern NSString * rzfit_objc_field_num_to_name( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp );
-extern NSString * rzfit_objc_mesg_num_to_name( FIT_UINT16 mesg_num);
-
+extern NSString * rzfit_objc_field_num_to_string( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp );
+extern NSString * rzfit_objc_mesg_num_to_string( FIT_UINT16 mesg_num);
 #endif /* Header_h */
