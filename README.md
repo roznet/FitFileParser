@@ -16,29 +16,38 @@ It's fairly straight forward to use from an xcode project, following the standar
 
 - you can use the File/Swift Package/Add package dependency function, choose your project and enter the url of the package `https://github.com/roznet/FitFileParser`
 - Add the package as a dependency to your target
-- `import FitFileParser` and potentially `import FitFileParsertypes` in the source code where you want to parse a fit file
+- `import FitFileParser` in the target code where you want to parse a fit file
 
 ## How to use
 
 A fit file is loaded using `let fitfile = FitFile(file: URL)` or `let fitfile = FitFile(data : Data)`
 
-You can then use access function like `fitfile.messages(forMessageType: FIT_MESG_NUM_SESSION)`
+The type FitMessageType represent the messages type (mesg_num in the sdk). You can access all the known messages with syntax like `FitMessageType.record`, `FitMessageType.session`, `FitMessageType.sport`, ...
+
+You can then use access function like `fitfile.messages(forMessageType: FitMessageType.session)` to get objects of type `FitMessage`
+
+The function `message.interpretedFields()` provide access to the fields for the message as a dictionary of keys to `FitFieldValue` which can be either a date, a string, a double value, a double value with unit or a gps coordinate.
 
 ## Approach
 
-This code takes the example c code from the official SDK and integrate it into swift to generate a native object with an array of messages made of native swift dictionaries. It also adds support for developer fields.
+This code builds upon the example c code from the official SDK and integrate it into swift to generate a native object with an array of messages made of native swift dictionaries. It also adds support for developer fields.
 
-All the keys and fields are generated from the c structure that are parsed in `fit_convert.c` from the example SDK. The file `fit_example.h` contains all the definition and a script fitconv.py parses that and automatically generate the swift code to build the native swift structures.
+All the keys and fields are generated from the types defined in `Profile.xlsx` from the example SDK. 
+
+There are two available approaches to parsing, determined by the `parsingType` argument in the `FitFile` constructor:
+
+- `.fast` this method will only parse the fields defined as an example in the `Profile.xlsx` and therefore in `fit_example.h` from the sdk. This approach is the fastest as it 
+- `.generic` this method will blindly convert all the messages found in the files, interpreting as much as possible from the information in `Profile.xlsx` as possible, but also building information from unkonwn messages and types. This approach is a bit slower as more dynamic
 
 ## Update for a new SDK
 
 When a new SDK is available, after download, use the `diffsdk.py` utility that will generate the diffs for [ksdiff](https://kaleidoscope.app) to merge the new code
 
-You need to then run the `fitconv.py` script that will automatically update the swift code for the latest version of the sdk
+You need to then run the `fitgenparser.py` script that will automatically update the swift code for the latest version of the sdk
 
 ## Why implement this Library?
 
-The main purpose of this library was speed of parsing the fit file for the ConnectStats use case. It is not the most elegant or the most flexible.
+The main purpose of this library was speed of parsing the fit file for the ConnectStats use case.
 
 This library was built to replace the original cpp code from the SDK used in ConnectStats and FitFileExplorer. As ConnectStats now [receives the FIT files](https://github.com/roznet/connectstats_server) from Garmin, the files are parsed live on the phone as they are received and performance was therefore important for the user experience. 
 
