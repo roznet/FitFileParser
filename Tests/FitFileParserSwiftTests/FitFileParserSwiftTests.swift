@@ -18,10 +18,9 @@ final class FitFileParserSwiftTests: XCTestCase {
             let fit_fast = FitFile(data: data, parsingType: FitFile.ParsingType.fast)
             XCTAssertTrue(fit_fast.hasMessageType(messageType: FitMessageType.session))
             
-            /*let fit_generic = FitFile(data: data, parsingType: FitFile.ParsingType.generic)
-            
+            let fit_generic = FitFile(data: data, parsingType: FitFile.ParsingType.generic)
             XCTAssertTrue(fit_generic.hasMessageType(messageType: FIT_MESG_NUM_SESSION))
-            
+            /*
             let session_fast = fit_fast.messages(forMessageType: FIT_MESG_NUM_SESSION)
             let session_generic = fit_fast.messages(forMessageType: FIT_MESG_NUM_SESSION)
             

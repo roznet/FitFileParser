@@ -10,6 +10,7 @@
 #import "fit_convert.h"
 
 #define FIT_INTERP_MAX_FIELD 128
+#define FIT_DYNAMIC_STRING 0xFF
 
 typedef struct {
     FIT_UINT16 global_mesg_num;
@@ -35,6 +36,7 @@ extern FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * _Nonnull  interp, 
 @interface FitInterpretMesg : NSObject
 
 @property (nonatomic,assign) FIT_INTERP_FIELD fields;
+@property (nonatomic,readonly,nonnull) NSArray<NSString*>* dynamicStrings;
 
 -(BOOL)interpret:(nonnull FIT_CONVERT_STATE*)state;
 

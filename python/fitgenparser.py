@@ -342,8 +342,8 @@ class Field:
                         if_statement = '}else if'
             if if_statement != 'if':
                 rv.append(  '      }'  )
-            else:
-                rv.append(  '          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };' )
+
+            rv.append(  '      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };' )
 
             rv.append( '    }' )
                     

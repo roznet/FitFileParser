@@ -35,23 +35,28 @@ extension FitInterpretMesg {
         let double_values_lookup = withUnsafeMutablePointer(to: &self.fields.double_values) { $0.withMemoryRebound(to: Double.self, capacity: max_fields) { $0 } }
         let date_values_lookup = withUnsafeMutablePointer(to: &self.fields.date_values) { $0.withMemoryRebound(to: TimeInterval.self, capacity: max_fields) { $0 } }
 
-        for ii  in 0...self.fields.string_count{
+        for ii  in 0..<self.fields.string_count{
             let i = Int(ii)
             let field = rzfit_swift_field_num_to_string(mesg_num: fields.global_mesg_num,
                                                         field_num: string_fields_lookup[i],
                                                         strings: strings)
-            
-            strings[field] = rzfit_swift_type_to_string(fit_type: string_types_lookup[i],
-                                                        val: string_values_lookup[i])
+            let fit_type : FIT_UINT8 = string_types_lookup[i]
+            let val : FIT_UINT32 = string_values_lookup[i]
+            if fit_type == FIT_DYNAMIC_STRING {
+                let str : String = self.dynamicStrings[Int(val)]
+                strings[field] = str
+            }else{
+                strings[field] = rzfit_swift_type_to_string(fit_type: fit_type, val: val)
+            }
         }
-        for ii in 0...self.fields.double_count{
+        for ii in 0..<self.fields.double_count{
             let i = Int(ii)
             let field = rzfit_swift_field_num_to_string(mesg_num: fields.global_mesg_num,
                                                         field_num: double_fields_lookup[i],
                                                         strings: strings)
             doubles[field] = double_values_lookup[i]
         }
-        for ii in 0...self.fields.date_count{
+        for ii in 0..<self.fields.date_count{
             let i = Int(ii)
             let field = rzfit_swift_field_num_to_string(mesg_num: fields.global_mesg_num,
                                                         field_num: date_fields_lookup[i],

@@ -22,6 +22,7 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
 }
 
 @interface FitInterpretMesg ()
+@property (nonatomic,retain) NSMutableArray<NSString*>* dynamicStringsStore;
 @end
 
 @implementation FitInterpretMesg
@@ -29,8 +30,18 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
 -(instancetype)init{
     self = [super init];
     if( self ){
+        self.dynamicStringsStore = [NSMutableArray array];
     }
     return self;
+}
+
+-(NSArray*)dynamicStrings{
+    return self.dynamicStringsStore;
+}
+
+-(NSString*)description{
+    NSString * mesg = rzfit_objc_mesg_num_to_string(_fields.global_mesg_num);
+    return [NSString stringWithFormat:@"<%@:%@(%@) values[%@] dates[%@] strings[%@}>", NSStringFromClass([self class]), mesg, @(_fields.global_mesg_num), @(_fields.double_count),@(_fields.date_count), @(_fields.string_count)  ];
 }
 
 -(BOOL)interpret:(nonnull FIT_CONVERT_STATE*)state{
@@ -38,13 +49,14 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
     _fields.date_count = 0;
     _fields.double_count = 0;
     _fields.string_count = 0;
+    [self.dynamicStringsStore removeAllObjects];
     
     FIT_UINT8 *mesg_buf = state->u.mesg;
     FIT_UINT8 field;
     FIT_UINT16 global_mesg_num = state->convert_table[state->mesg_index].global_mesg_num;
     FIT_UINT8 num_fields = state->convert_table[state->mesg_index].num_fields;
     _fields.global_mesg_num = global_mesg_num;
-    
+
     for (field = 0; field < num_fields; field++)
     {
         FIT_UINT8 base_type_num = state->convert_table[state->mesg_index].fields[field].base_type & FIT_BASE_TYPE_NUM_MASK;
@@ -57,11 +69,10 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
         
         base_type_size = fit_base_type_sizes[base_type_num];
         FIT_FIELD_INFO field_info = rzfit_objc_field_info( global_mesg_num, field_num, &_fields );
-        
         BOOL added_double = false;
         BOOL added_string = false;
         BOOL added_date   = false;
-        
+
         if( base_type_num==7){ // String
             FIT_BOOL has_zero = 0;
             const char * start = (const char*)mesg_buf;
@@ -71,10 +82,12 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
                 }
                 mesg_buf += base_type_size;
             }
+            _fields.string_values[ _fields.string_count ] = self.dynamicStrings.count;
+            _fields.string_types[ _fields.string_count ] = FIT_DYNAMIC_STRING;
             if( has_zero ){
-                _fields.string_values[ _fields.string_count ] = [NSString stringWithCString:start encoding:NSUTF8StringEncoding];
+                [self.dynamicStringsStore addObject:[NSString stringWithCString:start encoding:NSUTF8StringEncoding] ];
             }else{
-                _fields.string_values[ _fields.string_count ] = @"";
+                [self.dynamicStringsStore addObject:@"" ];
             }
             added_string = true;
         }else{
