@@ -36,8 +36,8 @@ All the keys and fields are generated from the types defined in `Profile.xlsx` f
 
 There are two available approaches to parsing, determined by the `parsingType` argument in the `FitFile` constructor:
 
-- `.fast` this method will only parse the fields defined as an example in the `Profile.xlsx` and therefore in `fit_example.h` from the sdk. This approach is the fastest as it 
-- `.generic` this method will blindly convert all the messages found in the files, interpreting as much as possible from the information in `Profile.xlsx` as possible, but also building information from unkonwn messages and types. This approach is a bit slower as more dynamic
+- `.fast` this method will only parse the fields defined as an example in the `Profile.xlsx` and therefore in `fit_example.h` from the sdk. This approach is the fastest as it relies on pre-defined static parsing of the fields.
+- `.generic` this method will blindly convert all the messages found in the files, interpreting as much as possible from the information in `Profile.xlsx` as possible, but also building information from unkonwn messages and types. This approach is a bit slower as tries to interpret each fields dynamically.
 
 ## Update for a new SDK
 
