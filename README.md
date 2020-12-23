@@ -31,10 +31,11 @@ The function `message.interpretedFields()` provide access to the fields for the 
 Here is a full example:
 
 ```swift
+let fit = FitFile(file: url )
 var gps : [CLLocationCoordinate2D] = []
 var hr  : [Double] = []
 var ts  : [Date]   = []
-for message in fit_fast.messages(forMessageType: FitMessageType.record) {
+for message in fit.messages(forMessageType: FitMessageType.record) {
      if let one_gps = message.interpretedField(key: "position")?.coordinate,
         let one_hr  = message.interpretedField(key: "heart_rate")?.valueUnit?.value,
         let one_ts  = message.interpretedField(key: "timestamp")?.time {
