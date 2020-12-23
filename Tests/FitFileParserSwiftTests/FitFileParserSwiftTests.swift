@@ -20,11 +20,15 @@ final class FitFileParserSwiftTests: XCTestCase {
             
             let fit_generic = FitFile(data: data, parsingType: FitFile.ParsingType.generic)
             XCTAssertTrue(fit_generic.hasMessageType(messageType: FIT_MESG_NUM_SESSION))
-            /*
-            let session_fast = fit_fast.messages(forMessageType: FIT_MESG_NUM_SESSION)
-            let session_generic = fit_fast.messages(forMessageType: FIT_MESG_NUM_SESSION)
             
-            print("\(session_fast) \(session_generic)")*/
+            let session_fast = fit_fast.messages(forMessageType: FIT_MESG_NUM_SESSION).first?.interpretedFields()
+            let session_generic = fit_fast.messages(forMessageType: FIT_MESG_NUM_SESSION).first?.interpretedFields()
+            XCTAssertNotNil(session_fast)
+            XCTAssertNotNil(session_generic)
+            if let session_fast = session_fast, let session_generic = session_generic{
+                XCTAssertEqual(session_fast.count, session_generic.count)
+                XCTAssertEqual(session_fast, session_generic)
+            }
         }
     }
     

@@ -30,9 +30,39 @@ import CoreLocation
 
 public typealias FitDoubleUnit = (value:Double,unit:String)
 
+func optionalsAreEqual<T: Comparable>(_ firstVal: T?, _ secondVal: T?) -> Bool{
+
+    if let firstVal = firstVal, let secondVal = secondVal {
+        return firstVal == secondVal
+    }
+    else{
+        return firstVal == nil && secondVal == nil
+   }
+}
 
 /// An object to contain fit value with a single swift type no matter what the underlying type is
-public class FitFieldValue {
+public class FitFieldValue : Equatable{
+    
+    public static func == (lhs: FitFieldValue, rhs: FitFieldValue) -> Bool {
+        if  lhs.type == rhs.type && lhs.developer == rhs.developer{
+            switch lhs.type {
+            case .coordinate:
+                return optionalsAreEqual(lhs.coordinate?.latitude, rhs.coordinate?.latitude) && optionalsAreEqual(lhs.coordinate?.longitude, rhs.coordinate?.longitude)
+            case .time:
+                return optionalsAreEqual(lhs.time, rhs.time)
+            case .value:
+                return optionalsAreEqual(lhs.value, rhs.value)
+            case .valueUnit:
+                return optionalsAreEqual(lhs.valueUnit?.value, rhs.valueUnit?.value) && optionalsAreEqual(lhs.valueUnit?.unit, rhs.valueUnit?.unit)
+            case .name:
+                return optionalsAreEqual(lhs.name, rhs.name)
+            case .invalid:
+                return true
+            }
+        }
+        return false
+    }
+    
     public enum ValueType {
         case coordinate, time, value, valueUnit, name, invalid
     }
