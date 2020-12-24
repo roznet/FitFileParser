@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "FitFileparser",
+    name: "FitFileParser",
     platforms: [
             .macOS(.v10_14), .iOS(.v11)
     ],
