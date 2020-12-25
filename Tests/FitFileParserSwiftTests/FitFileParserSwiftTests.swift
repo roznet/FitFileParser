@@ -13,6 +13,8 @@ final class FitFileParserSwiftTests: XCTestCase {
     }
     
     func testParsingTypes(){
+        // Note this is very basic testing, because a lot of testing of the library is done in https://github.com/roznet/connectstats
+        // Will move move testing to this library at some point
         let path  = self.findResource(name: "running.fit")
         if let data = try? Data(contentsOf: path) {
             let fit_fast = FitFile(data: data, parsingType: FitFile.ParsingType.fast)
