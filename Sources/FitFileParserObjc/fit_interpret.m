@@ -56,7 +56,7 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
     FIT_UINT16 global_mesg_num = state->convert_table[state->mesg_index].global_mesg_num;
     FIT_UINT8 num_fields = state->convert_table[state->mesg_index].num_fields;
     _fields.global_mesg_num = global_mesg_num;
-
+    
     for (field = 0; field < num_fields; field++)
     {
         FIT_UINT8 base_type_num = state->convert_table[state->mesg_index].fields[field].base_type & FIT_BASE_TYPE_NUM_MASK;
@@ -91,136 +91,152 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
             }
             added_string = true;
         }else{
-            
+            BOOL in_array = false;
+            NSMutableString * arrayString = nil;
+
             for (field_size = 0; field_size < state->convert_table[state->mesg_index].fields[field].size; field_size += base_type_size)
             {
-                if( added_double == false ){
-                    switch( base_type_num ){
-                        case 1:
-                        {
-                            FIT_SINT8 val = *(FIT_SINT8*)mesg_buf;
-                            if( val != FIT_SINT8_INVALID){
-                                _fields.double_values[_fields.double_count] = (double)val;
-                                added_double = true;
-                            }
-                            break;
+                switch( base_type_num ){
+                    case 1:
+                    {
+                        FIT_SINT8 val = *(FIT_SINT8*)mesg_buf;
+                        if( val != FIT_SINT8_INVALID){
+                            _fields.double_values[_fields.double_count] = (double)val;
+                            added_double = true;
                         }
-                        case 0: // FIT_ENUM is FIT_UINT8
-                        case 2: // FIT_UINT8
-                        case 10: // FIT_UINT8Z (flag but same size)
-                        {
-                            FIT_UINT8 val = *(FIT_UINT8*)mesg_buf;
-                            if( val != FIT_UINT8_INVALID ){
-                                if( field_info.fit_type != FIT_TYPE_NONE){
-                                    _fields.string_values[ _fields.string_count ] = val;
-                                    _fields.string_types[ _fields.string_count ] = field_info.fit_type;
-                                    added_string = true;
-                                }else{
-                                    _fields.double_values[ _fields.double_count ] = (double)val;
-                                    added_double = true;
-                                }
-                            }
-                            break;
-                        }
-                        case 3:
-                        {
-                            FIT_SINT16 val = *(FIT_SINT16*)mesg_buf;
-                            if( val != FIT_SINT16_INVALID ){
+                        break;
+                    }
+                    case 0: // FIT_ENUM is FIT_UINT8
+                    case 2: // FIT_UINT8
+                    case 10: // FIT_UINT8Z (flag but same size)
+                    {
+                        FIT_UINT8 val = *(FIT_UINT8*)mesg_buf;
+                        if( val != FIT_UINT8_INVALID ){
+                            if( field_info.fit_type != FIT_TYPE_NONE){
+                                _fields.string_values[ _fields.string_count ] = val;
+                                _fields.string_types[ _fields.string_count ] = field_info.fit_type;
+                                added_string = true;
+                            }else{
                                 _fields.double_values[ _fields.double_count ] = (double)val;
                                 added_double = true;
                             }
-                            break;
                         }
-                        case 4:
-                        case 11: // FIT_UINT16Z (flag but same size)
-                        {
-                            FIT_UINT16 val = *(FIT_UINT16*)mesg_buf;
-                            if( val != FIT_UINT16_INVALID ){
-                                if( field_info.fit_type != FIT_TYPE_NONE){
-                                    _fields.string_values[ _fields.string_count ] = val;
-                                    _fields.string_types[ _fields.string_count ] = field_info.fit_type;
-                                    added_string = true;
-                                }else{
-                                    _fields.double_values[ _fields.double_count ] = (double)val;
-                                    added_double = true;
-                                }
-                            }
-                            break;
+                        break;
+                    }
+                    case 3:
+                    {
+                        FIT_SINT16 val = *(FIT_SINT16*)mesg_buf;
+                        if( val != FIT_SINT16_INVALID ){
+                            _fields.double_values[ _fields.double_count ] = (double)val;
+                            added_double = true;
                         }
-                        case 5:
-                        {
-                            FIT_SINT32 val = *(FIT_SINT32*)mesg_buf;
-                            if( val != FIT_SINT32_INVALID ){
+                        break;
+                    }
+                    case 4:
+                    case 11: // FIT_UINT16Z (flag but same size)
+                    {
+                        FIT_UINT16 val = *(FIT_UINT16*)mesg_buf;
+                        if( val != FIT_UINT16_INVALID ){
+                            if( field_info.fit_type != FIT_TYPE_NONE){
+                                _fields.string_values[ _fields.string_count ] = val;
+                                _fields.string_types[ _fields.string_count ] = field_info.fit_type;
+                                added_string = true;
+                            }else{
                                 _fields.double_values[ _fields.double_count ] = (double)val;
                                 added_double = true;
                             }
-                            break;
                         }
-                        case 6:
-                        case 12: // FIT_UINT32Z (flag but same size)
-                        {
-                            FIT_UINT32 val = *(FIT_UINT32*)mesg_buf;
-                            if( val != FIT_UINT32_INVALID ){
-                                if( (field_info.fit_flag & FIT_FLAG_DATE) == FIT_FLAG_DATE){
-                                    // Fit file are in seconds since UTC 00:00 Dec 31 1989 = -347241600
-                                    NSTimeInterval ti = (NSTimeInterval)val - 347241600;
-                                    _fields.date_values[ _fields.date_count ] = ti;
-                                    added_date = true;
-                                }
-                                else if( field_info.fit_type != FIT_TYPE_NONE){
-                                    _fields.string_values[ _fields.string_count ] = val;
-                                    _fields.string_types[ _fields.string_count ] = field_info.fit_type;
-                                    added_string = true;
-                                }else{
-                                    _fields.double_values[ _fields.double_count ] = (double)val;
-                                    added_double = true;
-                                }
+                        break;
+                    }
+                    case 5:
+                    {
+                        FIT_SINT32 val = *(FIT_SINT32*)mesg_buf;
+                        if( val != FIT_SINT32_INVALID ){
+                            _fields.double_values[ _fields.double_count ] = (double)val;
+                            added_double = true;
+                        }
+                        break;
+                    }
+                    case 6:
+                    case 12: // FIT_UINT32Z (flag but same size)
+                    {
+                        FIT_UINT32 val = *(FIT_UINT32*)mesg_buf;
+                        if( val != FIT_UINT32_INVALID ){
+                            if( (field_info.fit_flag & FIT_FLAG_DATE) == FIT_FLAG_DATE){
+                                // Fit file are in seconds since UTC 00:00 Dec 31 1989 = -347241600
+                                NSTimeInterval ti = (NSTimeInterval)val - 347241600;
+                                _fields.date_values[ _fields.date_count ] = ti;
+                                added_date = true;
                             }
-                            break;
-                        }
-                        case 8:
-                        {
-                            FIT_FLOAT32 val = *(FIT_FLOAT32*)mesg_buf;
-                            if( val != FIT_FLOAT32_INVALID ){
+                            else if( field_info.fit_type != FIT_TYPE_NONE){
+                                _fields.string_values[ _fields.string_count ] = val;
+                                _fields.string_types[ _fields.string_count ] = field_info.fit_type;
+                                added_string = true;
+                            }else{
                                 _fields.double_values[ _fields.double_count ] = (double)val;
                                 added_double = true;
                             }
-                            break;
                         }
-                        case 9:
-                        {
-                            FIT_FLOAT64 val = *(FIT_FLOAT64*)mesg_buf;
-                            if( val != FIT_FLOAT32_INVALID ){
-                                _fields.double_values[ _fields.double_count ] = (double)val;
-                                added_double = true;
-                            }
-                            break;
+                        break;
+                    }
+                    case 8:
+                    {
+                        FIT_FLOAT32 val = *(FIT_FLOAT32*)mesg_buf;
+                        if( val != FIT_FLOAT32_INVALID ){
+                            _fields.double_values[ _fields.double_count ] = (double)val;
+                            added_double = true;
                         }
-                        case 14:
-                        {
-                            FIT_SINT64 val = *(FIT_SINT64*)mesg_buf;
-                            if( val != FIT_SINT64_INVALID){
-                                _fields.double_values[ _fields.double_count ] = (double)val;
-                                added_double = true;
-                            }
-                            break;
+                        break;
+                    }
+                    case 9:
+                    {
+                        FIT_FLOAT64 val = *(FIT_FLOAT64*)mesg_buf;
+                        if( val != FIT_FLOAT32_INVALID ){
+                            _fields.double_values[ _fields.double_count ] = (double)val;
+                            added_double = true;
                         }
-                        case 15:
-                        case 16: // FIT_UINT64Z (flag, note no type of size 64)
-                        {
-                            FIT_UINT64 val = *(FIT_UINT64*)mesg_buf;
-                            if( val != FIT_UINT64_INVALID){
-                                _fields.double_values[ _fields.double_count ] = (double)val;
-                                added_double = true;
-                            }
-                            break;
+                        break;
+                    }
+                    case 14:
+                    {
+                        FIT_SINT64 val = *(FIT_SINT64*)mesg_buf;
+                        if( val != FIT_SINT64_INVALID){
+                            _fields.double_values[ _fields.double_count ] = (double)val;
+                            added_double = true;
                         }
+                        break;
+                    }
+                    case 15:
+                    case 16: // FIT_UINT64Z (flag, note no type of size 64)
+                    {
+                        FIT_UINT64 val = *(FIT_UINT64*)mesg_buf;
+                        if( val != FIT_UINT64_INVALID){
+                            _fields.double_values[ _fields.double_count ] = (double)val;
+                            added_double = true;
+                        }
+                        break;
                     }
                 }
+                // Skip case of array of date or strings.
+                if( in_array && added_double){
+                    if( arrayString ){
+                        [arrayString appendFormat:@"|%@",@(_fields.double_values[_fields.double_count]) ];
+                    }else{
+                        arrayString = [NSMutableString stringWithFormat:@"%@",@(_fields.double_values[_fields.double_count]) ];
+                        _fields.string_values[ _fields.string_count ] = self.dynamicStrings.count;
+                        _fields.string_types[ _fields.string_count ] = FIT_DYNAMIC_STRING;
+                        [self.dynamicStringsStore addObject:arrayString ];
+                        _fields.string_types[ _fields.string_count ] = FIT_DYNAMIC_STRING;
+                    }
+                    
+                    // In array we are converting doubles into strings
+                    added_double = false;
+                    added_string = true;
+                }
+                in_array = true;
                 mesg_buf += base_type_size;
             }
         }
-        //NSString * field_name = rzfit_objc_field_num_to_name(global_mesg_num, field_num,&_fields);
         if( added_double ){
             if( field_info.scale != FIT_SCALE_NONE){
                 _fields.double_values[ _fields.double_count ] /= (double) field_info.scale;
