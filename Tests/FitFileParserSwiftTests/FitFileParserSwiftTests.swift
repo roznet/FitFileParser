@@ -23,6 +23,32 @@ final class FitFileParserSwiftTests: XCTestCase {
             let fit_generic = FitFile(data: data, parsingType: FitFile.ParsingType.generic)
             XCTAssertTrue(fit_generic.hasMessageType(messageType: FIT_MESG_NUM_SESSION))
             
+            // test all the fields are parsed the same between the two methods
+            var generic_idx : Int = 0
+            let generic_messages = fit_generic.messages
+            for message in fit_fast.messages {
+                XCTAssertLessThan(generic_idx, generic_messages.count)
+                if generic_idx < generic_messages.count {
+                    while generic_idx < generic_messages.count && generic_messages[generic_idx].messageType != message.messageType{
+                        generic_idx+=1
+                    }
+                }
+                if generic_idx < generic_messages.count {
+                    let generic_message = generic_messages[generic_idx]
+                    for (fast_key,fast_value) in message.interpretedFields() {
+                        if fast_value.type == .name && fast_value.name == ""{
+                            // skip empty string, not interpreted the same
+                            continue
+                        }
+                        XCTAssertNotNil(generic_message.interpretedField(key: fast_key))
+                        if let generic_value = generic_message.interpretedField(key: fast_key){
+                            XCTAssertEqual(generic_value, fast_value)
+                        }
+                    }
+                    generic_idx+=1
+                }
+            }
+            
             let session_fast = fit_fast.messages(forMessageType: FIT_MESG_NUM_SESSION).first?.interpretedFields()
             let session_generic = fit_fast.messages(forMessageType: FIT_MESG_NUM_SESSION).first?.interpretedFields()
             XCTAssertNotNil(session_fast)

@@ -35,20 +35,38 @@ extension FitInterpretMesg {
         let double_values_lookup = withUnsafeMutablePointer(to: &self.fields.double_values) { $0.withMemoryRebound(to: Double.self, capacity: max_fields) { $0 } }
         let date_values_lookup = withUnsafeMutablePointer(to: &self.fields.date_values) { $0.withMemoryRebound(to: TimeInterval.self, capacity: max_fields) { $0 } }
 
+        var incomplete : [Int] = []
         for ii  in 0..<self.fields.string_count{
             let i = Int(ii)
             let field = rzfit_swift_field_num_to_string(mesg_num: fields.global_mesg_num,
                                                         field_num: string_fields_lookup[i],
                                                         strings: strings)
-            let fit_type : FIT_UINT8 = string_types_lookup[i]
-            let val : FIT_UINT32 = string_values_lookup[i]
-            if fit_type == FIT_DYNAMIC_STRING {
-                let str : String = self.dynamicStrings[Int(val)]
-                strings[field] = str
-            }else{
+            if field != "__INCOMPLETE__" {
+                let fit_type : FIT_UINT8 = string_types_lookup[i]
+                let val : FIT_UINT32 = string_values_lookup[i]
+                if fit_type == FIT_TYPE_DYNAMIC_STRING {
+                    let str : String = self.dynamicStrings[Int(val)]
+                    strings[field] = str
+                }else{
+                    strings[field] = rzfit_swift_type_to_string(fit_type: fit_type, val: val)
+                }
+            }
+            else{
+                incomplete.append( i )
+            }
+        }
+        for i in incomplete{
+            let field = rzfit_swift_field_num_to_string(mesg_num: fields.global_mesg_num,
+                                                        field_num: string_fields_lookup[i],
+                                                        strings: strings)
+            if field != "__INCOMPLETE__" {
+                let fit_type : FIT_UINT8 = string_types_lookup[i]
+                let val : FIT_UINT32 = string_values_lookup[i]
+                // we know it can't be dynamic string if in incomplete
                 strings[field] = rzfit_swift_type_to_string(fit_type: fit_type, val: val)
             }
         }
+        
         for ii in 0..<self.fields.double_count{
             let i = Int(ii)
             let field = rzfit_swift_field_num_to_string(mesg_num: fields.global_mesg_num,

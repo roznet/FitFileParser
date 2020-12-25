@@ -83,7 +83,7 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
                 mesg_buf += base_type_size;
             }
             _fields.string_values[ _fields.string_count ] = self.dynamicStrings.count;
-            _fields.string_types[ _fields.string_count ] = FIT_DYNAMIC_STRING;
+            _fields.string_types[ _fields.string_count ] = FIT_TYPE_DYNAMIC_STRING;
             if( has_zero ){
                 [self.dynamicStringsStore addObject:[NSString stringWithCString:start encoding:NSUTF8StringEncoding] ];
             }else{
@@ -224,9 +224,9 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
                     }else{
                         arrayString = [NSMutableString stringWithFormat:@"%@",@(_fields.double_values[_fields.double_count]) ];
                         _fields.string_values[ _fields.string_count ] = self.dynamicStrings.count;
-                        _fields.string_types[ _fields.string_count ] = FIT_DYNAMIC_STRING;
+                        _fields.string_types[ _fields.string_count ] = FIT_TYPE_DYNAMIC_STRING;
                         [self.dynamicStringsStore addObject:arrayString ];
-                        _fields.string_types[ _fields.string_count ] = FIT_DYNAMIC_STRING;
+                        _fields.string_types[ _fields.string_count ] = FIT_TYPE_DYNAMIC_STRING;
                     }
                     
                     // In array we are converting doubles into strings
@@ -254,6 +254,17 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
             _fields.date_fields[ _fields.date_count ] = field_num;
             _fields.date_count++;
         }
+    }
+    // Now do a loop for fix strings that have pending types
+    // this means the depending field wasn't populated in the first loop
+    for (field = 0; field < _fields.string_count; field++){
+        if( _fields.string_types[ field ] == FIT_TYPE_PENDING ){
+            FIT_UINT16 field_num = _fields.string_fields[ field ];
+            FIT_FIELD_INFO field_info = rzfit_objc_field_info( global_mesg_num, field_num, &_fields );
+            _fields.string_types[ field ] = field_info.fit_type;
+
+        }
+        
     }
     return true;
 }

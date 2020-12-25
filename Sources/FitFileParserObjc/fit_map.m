@@ -4485,7 +4485,7 @@ NSString * rzfit_objc_file_id_field_num_to_string( FIT_UINT8 field_num, FIT_INTE
     case 1: return @"manufacturer";
     case 2:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 1);
       if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
       }else if( manufacturer == 1 ){ // garmin 
@@ -4539,7 +4539,7 @@ NSString * rzfit_objc_slave_device_field_num_to_string( FIT_UINT8 field_num, FIT
     case 0: return @"manufacturer";
     case 1:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 0);
       if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
       }else if( manufacturer == 1 ){ // garmin 
@@ -4585,7 +4585,7 @@ NSString * rzfit_objc_mesg_capabilities_field_num_to_string( FIT_UINT8 field_num
     case 2: return @"count_type";
     case 3:
     {
-      FIT_UINT32 count_type = fit_interp_string_value(interp, 5);
+      FIT_UINT32 count_type = fit_interp_string_value(interp, 2);
       if( count_type == 0 ){ // num_per_file 
          return @"num_per_file";
       }else if( count_type == 1 ){ // max_per_file 
@@ -4756,7 +4756,7 @@ NSString * rzfit_objc_watchface_settings_field_num_to_string( FIT_UINT8 field_nu
     case 0: return @"mode";
     case 1:
     {
-      FIT_UINT32 mode = fit_interp_string_value(interp, 97);
+      FIT_UINT32 mode = fit_interp_string_value(interp, 0);
       if( mode == 0 ){ // digital 
          return @"digital_layout";
       }else if( mode == 1 ){ // analog 
@@ -4859,7 +4859,7 @@ NSString * rzfit_objc_dive_settings_field_num_to_string( FIT_UINT8 field_num, FI
     case 19: return @"heart_rate_source_type";
     case 20:
     {
-      FIT_UINT32 heart_rate_source_type = fit_interp_string_value(interp, 93);
+      FIT_UINT32 heart_rate_source_type = fit_interp_string_value(interp, 19);
       if( heart_rate_source_type == 1 ){ // antplus 
          return @"heart_rate_antplus_device_type";
       }else if( heart_rate_source_type == 5 ){ // local 
@@ -4939,7 +4939,7 @@ NSString * rzfit_objc_session_field_num_to_string( FIT_UINT8 field_num, FIT_INTE
     case 9: return @"total_distance";
     case 10:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 5);
       if( sport == 1 ){ // running 
          return @"total_strides";
       }else if( sport == 11 ){ // walking 
@@ -4964,7 +4964,7 @@ NSString * rzfit_objc_session_field_num_to_string( FIT_UINT8 field_num, FIT_INTE
     case 17: return @"max_heart_rate";
     case 18:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 5);
       if( sport == 1 ){ // running 
          return @"avg_running_cadence";
       }else{
@@ -4973,7 +4973,7 @@ NSString * rzfit_objc_session_field_num_to_string( FIT_UINT8 field_num, FIT_INTE
     }
     case 19:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 5);
       if( sport == 1 ){ // running 
          return @"max_running_cadence";
       }else{
@@ -5105,7 +5105,7 @@ NSString * rzfit_objc_lap_field_num_to_string( FIT_UINT8 field_num, FIT_INTERP_F
     case 9: return @"total_distance";
     case 10:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 25);
       if( sport == 1 ){ // running 
          return @"total_strides";
       }else if( sport == 11 ){ // walking 
@@ -5130,7 +5130,7 @@ NSString * rzfit_objc_lap_field_num_to_string( FIT_UINT8 field_num, FIT_INTERP_F
     case 16: return @"max_heart_rate";
     case 17:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 25);
       if( sport == 1 ){ // running 
          return @"avg_running_cadence";
       }else{
@@ -5139,7 +5139,7 @@ NSString * rzfit_objc_lap_field_num_to_string( FIT_UINT8 field_num, FIT_INTERP_F
     }
     case 18:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 25);
       if( sport == 1 ){ // running 
          return @"max_running_cadence";
       }else{
@@ -5350,7 +5350,7 @@ NSString * rzfit_objc_event_field_num_to_string( FIT_UINT8 field_num, FIT_INTERP
     case 2: return @"data16";
     case 3:
     {
-      FIT_UINT32 event = fit_interp_string_value(interp, 42);
+      FIT_UINT32 event = fit_interp_string_value(interp, 0);
       if( event == 0 ){ // timer 
          return @"timer_trigger";
       }else if( event == 10 ){ // course_point 
@@ -5418,7 +5418,7 @@ NSString * rzfit_objc_device_info_field_num_to_string( FIT_UINT8 field_num, FIT_
     case 0: return @"device_index";
     case 1:
     {
-      FIT_UINT32 source_type = fit_interp_string_value(interp, 93);
+      FIT_UINT32 source_type = fit_interp_string_value(interp, 25);
       if( source_type == 1 ){ // antplus 
          return @"antplus_device_type";
       }else if( source_type == 0 ){ // ant 
@@ -5431,7 +5431,7 @@ NSString * rzfit_objc_device_info_field_num_to_string( FIT_UINT8 field_num, FIT_
     case 3: return @"serial_number";
     case 4:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 2);
       if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
       }else if( manufacturer == 1 ){ // garmin 
@@ -5468,7 +5468,7 @@ NSString * rzfit_objc_training_file_field_num_to_string( FIT_UINT8 field_num, FI
     case 1: return @"manufacturer";
     case 2:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 1);
       if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
       }else if( manufacturer == 1 ){ // garmin 
@@ -5610,7 +5610,7 @@ NSString * rzfit_objc_three_d_sensor_calibration_field_num_to_string( FIT_UINT8 
     case 0: return @"sensor_type";
     case 1:
     {
-      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 103);
+      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 0);
       if( sensor_type == 0 ){ // accelerometer 
          return @"accel_cal_factor";
       }else if( sensor_type == 1 ){ // gyroscope 
@@ -5632,7 +5632,7 @@ NSString * rzfit_objc_one_d_sensor_calibration_field_num_to_string( FIT_UINT8 fi
     case 0: return @"sensor_type";
     case 1:
     {
-      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 103);
+      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 0);
       if( sensor_type == 3 ){ // barometer 
          return @"baro_cal_factor";
       }else{
@@ -5968,7 +5968,7 @@ NSString * rzfit_objc_workout_step_field_num_to_string( FIT_UINT8 field_num, FIT
     case 1: return @"duration_type";
     case 2:
     {
-      FIT_UINT32 duration_type = fit_interp_string_value(interp, 51);
+      FIT_UINT32 duration_type = fit_interp_string_value(interp, 1);
       if( duration_type == 0 ){ // time 
          return @"duration_time";
       }else if( duration_type == 28 ){ // repetition_time 
@@ -6010,8 +6010,8 @@ NSString * rzfit_objc_workout_step_field_num_to_string( FIT_UINT8 field_num, FIT
     case 3: return @"target_type";
     case 4:
     {
-      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
-      FIT_UINT32 duration_type = fit_interp_string_value(interp, 51);
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 3);
+      FIT_UINT32 duration_type = fit_interp_string_value(interp, 1);
       if( target_type == 0 ){ // speed 
          return @"target_speed_zone";
       }else if( target_type == 1 ){ // heart_rate 
@@ -6044,7 +6044,7 @@ NSString * rzfit_objc_workout_step_field_num_to_string( FIT_UINT8 field_num, FIT
     }
     case 5:
     {
-      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 3);
       if( target_type == 0 ){ // speed 
          return @"custom_target_speed_low";
       }else if( target_type == 1 ){ // heart_rate 
@@ -6059,7 +6059,7 @@ NSString * rzfit_objc_workout_step_field_num_to_string( FIT_UINT8 field_num, FIT
     }
     case 6:
     {
-      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 3);
       if( target_type == 0 ){ // speed 
          return @"custom_target_speed_high";
       }else if( target_type == 1 ){ // heart_rate 
@@ -6096,7 +6096,7 @@ NSString * rzfit_objc_schedule_field_num_to_string( FIT_UINT8 field_num, FIT_INT
     case 0: return @"manufacturer";
     case 1:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 0);
       if( manufacturer == 263 ){ // favero_electronics 
          return @"favero_product";
       }else if( manufacturer == 1 ){ // garmin 
@@ -6187,7 +6187,7 @@ NSString * rzfit_objc_monitoring_field_num_to_string( FIT_UINT8 field_num, FIT_I
     case 2: return @"distance";
     case 3:
     {
-      FIT_UINT32 activity_type = fit_interp_string_value(interp, 72);
+      FIT_UINT32 activity_type = fit_interp_string_value(interp, 5);
       if( activity_type == 6 ){ // walking 
          return @"steps";
       }else if( activity_type == 1 ){ // running 
@@ -6482,7 +6482,7 @@ FIT_FIELD_INFO rzfit_objc_file_id_field_info(FIT_UINT16 field, FIT_INTERP_FIELD 
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 2:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 1);
       if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
@@ -6494,7 +6494,7 @@ FIT_FIELD_INFO rzfit_objc_file_id_field_info(FIT_UINT16 field, FIT_INTERP_FIELD 
       }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // time_created
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -6652,7 +6652,7 @@ FIT_FIELD_INFO rzfit_objc_session_field_info(FIT_UINT16 field, FIT_INTERP_FIELD 
     case 9: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_distance
     case 10:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 5);
       if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
       }else if( sport == 11 ){ // walking 
@@ -6666,7 +6666,7 @@ FIT_FIELD_INFO rzfit_objc_session_field_info(FIT_UINT16 field, FIT_INTERP_FIELD 
       }else if( sport == 37 ){ // stand_up_paddleboarding 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 22, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 }; // total_calories
     case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 }; // total_fat_calories
@@ -6676,19 +6676,19 @@ FIT_FIELD_INFO rzfit_objc_session_field_info(FIT_UINT16 field, FIT_INTERP_FIELD 
     case 17: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 10, .fit_flag = 0 }; // max_heart_rate
     case 18:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 5);
       if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 24, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 19:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 5);
       if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 24, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 20: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 15, .fit_flag = 0 }; // avg_power
     case 21: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 15, .fit_flag = 0 }; // max_power
@@ -6805,7 +6805,7 @@ FIT_FIELD_INFO rzfit_objc_lap_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * in
     case 9: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_distance
     case 10:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 25);
       if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 21, .fit_flag = 0 };
       }else if( sport == 11 ){ // walking 
@@ -6819,7 +6819,7 @@ FIT_FIELD_INFO rzfit_objc_lap_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * in
       }else if( sport == 37 ){ // stand_up_paddleboarding 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 22, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 }; // total_calories
     case 12: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 }; // total_fat_calories
@@ -6829,19 +6829,19 @@ FIT_FIELD_INFO rzfit_objc_lap_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * in
     case 16: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 10, .fit_flag = 0 }; // max_heart_rate
     case 17:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 25);
       if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 24, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 18:
     {
-      FIT_UINT32 sport = fit_interp_string_value(interp, 23);
+      FIT_UINT32 sport = fit_interp_string_value(interp, 25);
       if( sport == 1 ){ // running 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 24, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 19: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 15, .fit_flag = 0 }; // avg_power
     case 20: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 15, .fit_flag = 0 }; // max_power
@@ -7012,7 +7012,7 @@ FIT_FIELD_INFO rzfit_objc_event_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * 
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 43, .fit_unit = 0, .fit_flag = 0 }; // event_type
     case 3:
     {
-      FIT_UINT32 event = fit_interp_string_value(interp, 42);
+      FIT_UINT32 event = fit_interp_string_value(interp, 0);
       if( event == 0 ){ // timer 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 44, .fit_unit = 0, .fit_flag = 0 };
       }else if( event == 10 ){ // course_point 
@@ -7050,7 +7050,7 @@ FIT_FIELD_INFO rzfit_objc_event_field_info(FIT_UINT16 field, FIT_INTERP_FIELD * 
       }else if( event == 47 ){ // comm_timeout 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 105, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 9, .fit_unit = 0, .fit_flag = 0 }; // device_index
     case 21: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 164, .fit_unit = 0, .fit_flag = 0 }; // radar_threat_level_max
@@ -7063,16 +7063,16 @@ FIT_FIELD_INFO rzfit_objc_device_info_field_info(FIT_UINT16 field, FIT_INTERP_FI
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 9, .fit_unit = 0, .fit_flag = 0 }; // device_index
     case 1:
     {
-      FIT_UINT32 source_type = fit_interp_string_value(interp, 93);
+      FIT_UINT32 source_type = fit_interp_string_value(interp, 25);
       if( source_type == 1 ){ // antplus 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 60, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 4:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 2);
       if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
@@ -7084,7 +7084,7 @@ FIT_FIELD_INFO rzfit_objc_device_info_field_info(FIT_UINT16 field, FIT_INTERP_FI
       }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 5: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // software_version
     case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // cum_operating_time
@@ -7112,7 +7112,7 @@ FIT_FIELD_INFO rzfit_objc_workout_step_field_info(FIT_UINT16 field, FIT_INTERP_F
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 51, .fit_unit = 0, .fit_flag = 0 }; // duration_type
     case 2:
     {
-      FIT_UINT32 duration_type = fit_interp_string_value(interp, 51);
+      FIT_UINT32 duration_type = fit_interp_string_value(interp, 1);
       if( duration_type == 0 ){ // time 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 };
       }else if( duration_type == 28 ){ // repetition_time 
@@ -7130,13 +7130,13 @@ FIT_FIELD_INFO rzfit_objc_workout_step_field_info(FIT_UINT16 field, FIT_INTERP_F
       }else if( duration_type == 15 ){ // power_greater_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 52, .fit_unit = 0, .fit_flag = 0 }; // target_type
     case 4:
     {
-      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
-      FIT_UINT32 duration_type = fit_interp_string_value(interp, 51);
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 3);
+      FIT_UINT32 duration_type = fit_interp_string_value(interp, 1);
       if( duration_type == 7 ){ // repeat_until_time 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 };
       }else if( duration_type == 8 ){ // repeat_until_distance 
@@ -7154,11 +7154,11 @@ FIT_FIELD_INFO rzfit_objc_workout_step_field_info(FIT_UINT16 field, FIT_INTERP_F
       }else if( target_type == 11 ){ // swim_stroke 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 71, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 5:
     {
-      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 3);
       if( target_type == 0 ){ // speed 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
       }else if( target_type == 1 ){ // heart_rate 
@@ -7168,11 +7168,11 @@ FIT_FIELD_INFO rzfit_objc_workout_step_field_info(FIT_UINT16 field, FIT_INTERP_F
       }else if( target_type == 4 ){ // power 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 6:
     {
-      FIT_UINT32 target_type = fit_interp_string_value(interp, 52);
+      FIT_UINT32 target_type = fit_interp_string_value(interp, 3);
       if( target_type == 0 ){ // speed 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
       }else if( target_type == 1 ){ // heart_rate 
@@ -7182,7 +7182,7 @@ FIT_FIELD_INFO rzfit_objc_workout_step_field_info(FIT_UINT16 field, FIT_INTERP_F
       }else if( target_type == 4 ){ // power 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 34, .fit_unit = 0, .fit_flag = 0 }; // intensity
     case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 96, .fit_unit = 0, .fit_flag = 0 }; // equipment
@@ -7197,7 +7197,7 @@ FIT_FIELD_INFO rzfit_objc_schedule_field_info(FIT_UINT16 field, FIT_INTERP_FIELD
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 1:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 0);
       if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
@@ -7209,7 +7209,7 @@ FIT_FIELD_INFO rzfit_objc_schedule_field_info(FIT_UINT16 field, FIT_INTERP_FIELD
       }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // time_created
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 56, .fit_unit = 0, .fit_flag = 0 }; // type
@@ -7300,8 +7300,8 @@ FIT_FIELD_INFO rzfit_objc_mesg_capabilities_field_info(FIT_UINT16 field, FIT_INT
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 5, .fit_unit = 0, .fit_flag = 0 }; // count_type
     case 3:
     {
-      FIT_UINT32 count_type = fit_interp_string_value(interp, 5);
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      FIT_UINT32 count_type = fit_interp_string_value(interp, 2);
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
@@ -7345,7 +7345,7 @@ FIT_FIELD_INFO rzfit_objc_monitoring_field_info(FIT_UINT16 field, FIT_INTERP_FIE
     case 2: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // distance
     case 3:
     {
-      FIT_UINT32 activity_type = fit_interp_string_value(interp, 72);
+      FIT_UINT32 activity_type = fit_interp_string_value(interp, 5);
       if( activity_type == 6 ){ // walking 
          return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 5, .fit_flag = 0 };
       }else if( activity_type == 1 ){ // running 
@@ -7355,7 +7355,7 @@ FIT_FIELD_INFO rzfit_objc_monitoring_field_info(FIT_UINT16 field, FIT_INTERP_FIE
       }else if( activity_type == 5 ){ // swimming 
          return (FIT_FIELD_INFO){.scale = 2, .offset = 0, .fit_type = 0, .fit_unit = 22, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 4: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // active_time
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 72, .fit_unit = 0, .fit_flag = 0 }; // activity_type
@@ -7390,7 +7390,7 @@ FIT_FIELD_INFO rzfit_objc_training_file_field_info(FIT_UINT16 field, FIT_INTERP_
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 2:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 1);
       if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
@@ -7402,7 +7402,7 @@ FIT_FIELD_INFO rzfit_objc_training_file_field_info(FIT_UINT16 field, FIT_INTERP_
       }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // time_created
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -7470,7 +7470,7 @@ FIT_FIELD_INFO rzfit_objc_slave_device_field_info(FIT_UINT16 field, FIT_INTERP_F
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
     case 1:
     {
-      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 58);
+      FIT_UINT32 manufacturer = fit_interp_string_value(interp, 0);
       if( manufacturer == 263 ){ // favero_electronics 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
@@ -7482,7 +7482,7 @@ FIT_FIELD_INFO rzfit_objc_slave_device_field_info(FIT_UINT16 field, FIT_INTERP_F
       }else if( manufacturer == 89 ){ // tacx 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
@@ -7553,7 +7553,7 @@ FIT_FIELD_INFO rzfit_objc_segment_lap_field_info(FIT_UINT16 field, FIT_INTERP_FI
       if( sport == 2 ){ // cycling 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 22, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 }; // total_calories
     case 12: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 }; // total_fat_calories
@@ -7686,13 +7686,13 @@ FIT_FIELD_INFO rzfit_objc_watchface_settings_field_info(FIT_UINT16 field, FIT_IN
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 97, .fit_unit = 0, .fit_flag = 0 }; // mode
     case 1:
     {
-      FIT_UINT32 mode = fit_interp_string_value(interp, 97);
+      FIT_UINT32 mode = fit_interp_string_value(interp, 0);
       if( mode == 0 ){ // digital 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 98, .fit_unit = 0, .fit_flag = 0 };
       }else if( mode == 1 ){ // analog 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 99, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
@@ -7769,13 +7769,13 @@ FIT_FIELD_INFO rzfit_objc_three_d_sensor_calibration_field_info(FIT_UINT16 field
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 103, .fit_unit = 0, .fit_flag = 0 }; // sensor_type
     case 1:
     {
-      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 103);
+      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 0);
       if( sensor_type == 0 ){ // accelerometer 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 45, .fit_flag = 0 };
       }else if( sensor_type == 1 ){ // gyroscope 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 44, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // calibration_divisor
     case 5: return (FIT_FIELD_INFO){.scale = 65535, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // orientation_matrix
@@ -7920,11 +7920,11 @@ FIT_FIELD_INFO rzfit_objc_one_d_sensor_calibration_field_info(FIT_UINT16 field, 
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 103, .fit_unit = 0, .fit_flag = 0 }; // sensor_type
     case 1:
     {
-      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 103);
+      FIT_UINT32 sensor_type = fit_interp_string_value(interp, 0);
       if( sensor_type == 3 ){ // barometer 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 39, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // calibration_divisor
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -7968,13 +7968,13 @@ FIT_FIELD_INFO rzfit_objc_dive_settings_field_info(FIT_UINT16 field, FIT_INTERP_
     case 19: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 93, .fit_unit = 0, .fit_flag = 0 }; // heart_rate_source_type
     case 20:
     {
-      FIT_UINT32 heart_rate_source_type = fit_interp_string_value(interp, 93);
+      FIT_UINT32 heart_rate_source_type = fit_interp_string_value(interp, 19);
       if( heart_rate_source_type == 1 ){ // antplus 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 60, .fit_unit = 0, .fit_flag = 0 };
       }else if( heart_rate_source_type == 5 ){ // local 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 94, .fit_unit = 0, .fit_flag = 0 };
       }
-      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }

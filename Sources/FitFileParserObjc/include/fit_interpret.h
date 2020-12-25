@@ -10,7 +10,9 @@
 #import "fit_convert.h"
 
 #define FIT_INTERP_MAX_FIELD 128
-#define FIT_DYNAMIC_STRING 0xFF
+// Note this assume there are less than 0xFE type, currently number is 164...
+#define FIT_TYPE_DYNAMIC_STRING 0xFF
+#define FIT_TYPE_PENDING 0xFE
 
 typedef struct {
     FIT_UINT16 global_mesg_num;

@@ -5209,7 +5209,1931 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    }
 }
 
-//MARK: - fit message convert functions
+//MARK: - fit convert fields
+
+func rzfit_swift_file_id_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 0: return "type"
+    case 1: return "manufacturer"
+    case 2:
+      if strings["manufacturer"] == "favero_electronics" {
+        return "favero_product"
+      }else if strings["manufacturer"] == "garmin" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream_oem" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "tacx" {
+        return "garmin_product"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 3: return "serial_number"
+    case 4: return "time_created"
+    case 5: return "number"
+    case 8: return "product_name"
+    default: return "file_id_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_file_creator_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "software_version"
+    case 1: return "hardware_version"
+    default: return "file_creator_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_timestamp_correlation_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "fractional_timestamp"
+    case 1: return "system_timestamp"
+    case 2: return "fractional_system_timestamp"
+    case 3: return "local_timestamp"
+    case 4: return "timestamp_ms"
+    case 5: return "system_timestamp_ms"
+    default: return "timestamp_correlation_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_software_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 3: return "version"
+    case 5: return "part_number"
+    default: return "software_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_slave_device_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 0: return "manufacturer"
+    case 1:
+      if strings["manufacturer"] == "favero_electronics" {
+        return "favero_product"
+      }else if strings["manufacturer"] == "garmin" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream_oem" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "tacx" {
+        return "garmin_product"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    default: return "slave_device_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "languages"
+    case 1: return "sports"
+    case 21: return "workouts_supported"
+    case 23: return "connectivity_supported"
+    default: return "capabilities_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_file_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "type"
+    case 1: return "flags"
+    case 2: return "directory"
+    case 3: return "max_count"
+    case 4: return "max_size"
+    default: return "file_capabilities_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_mesg_capabilities_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "file"
+    case 1: return "mesg_num"
+    case 2: return "count_type"
+    case 3:
+      if strings["count_type"] == "num_per_file" {
+        return "num_per_file"
+      }else if strings["count_type"] == "max_per_file" {
+        return "max_per_file"
+      }else if strings["count_type"] == "max_per_file_type" {
+        return "max_per_file_type"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    default: return "mesg_capabilities_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_field_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "file"
+    case 1: return "mesg_num"
+    case 2: return "field_num"
+    case 3: return "count"
+    default: return "field_capabilities_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_device_settings_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "active_time_zone"
+    case 1: return "utc_offset"
+    case 2: return "time_offset"
+    case 4: return "time_mode"
+    case 5: return "time_zone_offset"
+    case 12: return "backlight_mode"
+    case 36: return "activity_tracker_enabled"
+    case 39: return "clock_time"
+    case 40: return "pages_enabled"
+    case 46: return "move_alert_enabled"
+    case 47: return "date_mode"
+    case 55: return "display_orientation"
+    case 56: return "mounting_side"
+    case 57: return "default_page"
+    case 58: return "autosync_min_steps"
+    case 59: return "autosync_min_time"
+    case 80: return "lactate_threshold_autodetect_enabled"
+    case 86: return "ble_auto_upload_enabled"
+    case 89: return "auto_sync_frequency"
+    case 90: return "auto_activity_detect"
+    case 94: return "number_of_screens"
+    case 95: return "smart_notification_display_orientation"
+    case 134: return "tap_interface"
+    case 174: return "tap_sensitivity"
+    default: return "device_settings_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_user_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "friendly_name"
+    case 1: return "gender"
+    case 2: return "age"
+    case 3: return "height"
+    case 4: return "weight"
+    case 5: return "language"
+    case 6: return "elev_setting"
+    case 7: return "weight_setting"
+    case 8: return "resting_heart_rate"
+    case 9: return "default_max_running_heart_rate"
+    case 10: return "default_max_biking_heart_rate"
+    case 11: return "default_max_heart_rate"
+    case 12: return "hr_setting"
+    case 13: return "speed_setting"
+    case 14: return "dist_setting"
+    case 16: return "power_setting"
+    case 17: return "activity_class"
+    case 18: return "position_setting"
+    case 21: return "temperature_setting"
+    case 22: return "local_id"
+    case 23: return "global_id"
+    case 28: return "wake_time"
+    case 29: return "sleep_time"
+    case 30: return "height_setting"
+    case 31: return "user_running_step_length"
+    case 32: return "user_walking_step_length"
+    case 47: return "depth_setting"
+    case 49: return "dive_count"
+    default: return "user_profile_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_hrm_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "enabled"
+    case 1: return "hrm_ant_id"
+    case 2: return "log_hrv"
+    case 3: return "hrm_ant_id_trans_type"
+    default: return "hrm_profile_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_sdm_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "enabled"
+    case 1: return "sdm_ant_id"
+    case 2: return "sdm_cal_factor"
+    case 3: return "odometer"
+    case 4: return "speed_source"
+    case 5: return "sdm_ant_id_trans_type"
+    case 7: return "odometer_rollover"
+    default: return "sdm_profile_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_bike_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "name"
+    case 1: return "sport"
+    case 2: return "sub_sport"
+    case 3: return "odometer"
+    case 4: return "bike_spd_ant_id"
+    case 5: return "bike_cad_ant_id"
+    case 6: return "bike_spdcad_ant_id"
+    case 7: return "bike_power_ant_id"
+    case 8: return "custom_wheelsize"
+    case 9: return "auto_wheelsize"
+    case 10: return "bike_weight"
+    case 11: return "power_cal_factor"
+    case 12: return "auto_wheel_cal"
+    case 13: return "auto_power_zero"
+    case 14: return "id"
+    case 15: return "spd_enabled"
+    case 16: return "cad_enabled"
+    case 17: return "spdcad_enabled"
+    case 18: return "power_enabled"
+    case 19: return "crank_length"
+    case 20: return "enabled"
+    case 21: return "bike_spd_ant_id_trans_type"
+    case 22: return "bike_cad_ant_id_trans_type"
+    case 23: return "bike_spdcad_ant_id_trans_type"
+    case 24: return "bike_power_ant_id_trans_type"
+    case 37: return "odometer_rollover"
+    case 38: return "front_gear_num"
+    case 39: return "front_gear"
+    case 40: return "rear_gear_num"
+    case 41: return "rear_gear"
+    case 44: return "shimano_di2_enabled"
+    default: return "bike_profile_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_connectivity_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "bluetooth_enabled"
+    case 1: return "bluetooth_le_enabled"
+    case 2: return "ant_enabled"
+    case 3: return "name"
+    case 4: return "live_tracking_enabled"
+    case 5: return "weather_conditions_enabled"
+    case 6: return "weather_alerts_enabled"
+    case 7: return "auto_activity_upload_enabled"
+    case 8: return "course_download_enabled"
+    case 9: return "workout_download_enabled"
+    case 10: return "gps_ephemeris_download_enabled"
+    case 11: return "incident_detection_enabled"
+    case 12: return "grouptrack_enabled"
+    default: return "connectivity_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_watchface_settings_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "mode"
+    case 1:
+      if strings["mode"] == "digital" {
+        return "digital_layout"
+      }else if strings["mode"] == "analog" {
+        return "analog_layout"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    default: return "watchface_settings_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_ohr_settings_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "enabled"
+    default: return "ohr_settings_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_zones_target_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 1: return "max_heart_rate"
+    case 2: return "threshold_heart_rate"
+    case 3: return "functional_threshold_power"
+    case 5: return "hr_calc_type"
+    case 7: return "pwr_calc_type"
+    default: return "zones_target_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_sport_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "sport"
+    case 1: return "sub_sport"
+    case 3: return "name"
+    default: return "sport_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_hr_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 1: return "high_bpm"
+    case 2: return "name"
+    default: return "hr_zone_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_speed_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "high_value"
+    case 1: return "name"
+    default: return "speed_zone_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_cadence_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "high_value"
+    case 1: return "name"
+    default: return "cadence_zone_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_power_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 1: return "high_value"
+    case 2: return "name"
+    default: return "power_zone_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_met_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 1: return "high_bpm"
+    case 2: return "calories"
+    case 3: return "fat_calories"
+    default: return "met_zone_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_dive_settings_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "name"
+    case 1: return "model"
+    case 2: return "gf_low"
+    case 3: return "gf_high"
+    case 4: return "water_type"
+    case 5: return "water_density"
+    case 6: return "po2_warn"
+    case 7: return "po2_critical"
+    case 8: return "po2_deco"
+    case 9: return "safety_stop_enabled"
+    case 10: return "bottom_depth"
+    case 11: return "bottom_time"
+    case 12: return "apnea_countdown_enabled"
+    case 13: return "apnea_countdown_time"
+    case 14: return "backlight_mode"
+    case 15: return "backlight_brightness"
+    case 16: return "backlight_timeout"
+    case 17: return "repeat_dive_interval"
+    case 18: return "safety_stop_time"
+    case 19: return "heart_rate_source_type"
+    case 20:
+      if strings["heart_rate_source_type"] == "antplus" {
+        return "heart_rate_antplus_device_type"
+      }else if strings["heart_rate_source_type"] == "local" {
+        return "heart_rate_local_device_type"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    default: return "dive_settings_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_dive_alarm_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "depth"
+    case 1: return "time"
+    case 2: return "enabled"
+    case 3: return "alarm_type"
+    case 4: return "sound"
+    case 5: return "dive_types"
+    default: return "dive_alarm_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_dive_gas_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "helium_content"
+    case 1: return "oxygen_content"
+    case 2: return "status"
+    default: return "dive_gas_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_goal_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "sport"
+    case 1: return "sub_sport"
+    case 2: return "start_date"
+    case 3: return "end_date"
+    case 4: return "type"
+    case 5: return "value"
+    case 6: return "repeat"
+    case 7: return "target_value"
+    case 8: return "recurrence"
+    case 9: return "recurrence_value"
+    case 10: return "enabled"
+    case 11: return "source"
+    default: return "goal_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_activity_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "total_timer_time"
+    case 1: return "num_sessions"
+    case 2: return "type"
+    case 3: return "event"
+    case 4: return "event_type"
+    case 5: return "local_timestamp"
+    case 6: return "event_group"
+    default: return "activity_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_session_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 253: return "timestamp"
+    case 0: return "event"
+    case 1: return "event_type"
+    case 2: return "start_time"
+    case 3: return "start_position_lat"
+    case 4: return "start_position_long"
+    case 5: return "sport"
+    case 6: return "sub_sport"
+    case 7: return "total_elapsed_time"
+    case 8: return "total_timer_time"
+    case 9: return "total_distance"
+    case 10:
+      if strings["sport"] == "running" {
+        return "total_strides"
+      }else if strings["sport"] == "walking" {
+        return "total_strides"
+      }else if strings["sport"] == "cycling" {
+        return "total_strokes"
+      }else if strings["sport"] == "swimming" {
+        return "total_strokes"
+      }else if strings["sport"] == "rowing" {
+        return "total_strokes"
+      }else if strings["sport"] == "stand_up_paddleboarding" {
+        return "total_strokes"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 11: return "total_calories"
+    case 13: return "total_fat_calories"
+    case 14: return "avg_speed"
+    case 15: return "max_speed"
+    case 16: return "avg_heart_rate"
+    case 17: return "max_heart_rate"
+    case 18:
+      if strings["sport"] == "running" {
+        return "avg_running_cadence"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 19:
+      if strings["sport"] == "running" {
+        return "max_running_cadence"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 20: return "avg_power"
+    case 21: return "max_power"
+    case 22: return "total_ascent"
+    case 23: return "total_descent"
+    case 24: return "total_training_effect"
+    case 25: return "first_lap_index"
+    case 26: return "num_laps"
+    case 27: return "event_group"
+    case 28: return "trigger"
+    case 29: return "nec_lat"
+    case 30: return "nec_long"
+    case 31: return "swc_lat"
+    case 32: return "swc_long"
+    case 33: return "num_lengths"
+    case 34: return "normalized_power"
+    case 35: return "training_stress_score"
+    case 36: return "intensity_factor"
+    case 37: return "left_right_balance"
+    case 41: return "avg_stroke_count"
+    case 42: return "avg_stroke_distance"
+    case 43: return "swim_stroke"
+    case 44: return "pool_length"
+    case 45: return "threshold_power"
+    case 46: return "pool_length_unit"
+    case 47: return "num_active_lengths"
+    case 48: return "total_work"
+    case 49: return "avg_altitude"
+    case 50: return "max_altitude"
+    case 51: return "gps_accuracy"
+    case 52: return "avg_grade"
+    case 53: return "avg_pos_grade"
+    case 54: return "avg_neg_grade"
+    case 55: return "max_pos_grade"
+    case 56: return "max_neg_grade"
+    case 57: return "avg_temperature"
+    case 58: return "max_temperature"
+    case 59: return "total_moving_time"
+    case 60: return "avg_pos_vertical_speed"
+    case 61: return "avg_neg_vertical_speed"
+    case 62: return "max_pos_vertical_speed"
+    case 63: return "max_neg_vertical_speed"
+    case 64: return "min_heart_rate"
+    case 65: return "time_in_hr_zone"
+    case 66: return "time_in_speed_zone"
+    case 67: return "time_in_cadence_zone"
+    case 68: return "time_in_power_zone"
+    case 69: return "avg_lap_time"
+    case 70: return "best_lap_index"
+    case 71: return "min_altitude"
+    case 82: return "player_score"
+    case 83: return "opponent_score"
+    case 84: return "opponent_name"
+    case 85: return "stroke_count"
+    case 86: return "zone_count"
+    case 87: return "max_ball_speed"
+    case 88: return "avg_ball_speed"
+    case 89: return "avg_vertical_oscillation"
+    case 90: return "avg_stance_time_percent"
+    case 91: return "avg_stance_time"
+    case 92: return "avg_fractional_cadence"
+    case 93: return "max_fractional_cadence"
+    case 94: return "total_fractional_cycles"
+    case 95: return "avg_total_hemoglobin_conc"
+    case 96: return "min_total_hemoglobin_conc"
+    case 97: return "max_total_hemoglobin_conc"
+    case 98: return "avg_saturated_hemoglobin_percent"
+    case 99: return "min_saturated_hemoglobin_percent"
+    case 100: return "max_saturated_hemoglobin_percent"
+    case 101: return "avg_left_torque_effectiveness"
+    case 102: return "avg_right_torque_effectiveness"
+    case 103: return "avg_left_pedal_smoothness"
+    case 104: return "avg_right_pedal_smoothness"
+    case 105: return "avg_combined_pedal_smoothness"
+    case 111: return "sport_index"
+    case 112: return "time_standing"
+    case 113: return "stand_count"
+    case 114: return "avg_left_pco"
+    case 115: return "avg_right_pco"
+    case 116: return "avg_left_power_phase"
+    case 117: return "avg_left_power_phase_peak"
+    case 118: return "avg_right_power_phase"
+    case 119: return "avg_right_power_phase_peak"
+    case 120: return "avg_power_position"
+    case 121: return "max_power_position"
+    case 122: return "avg_cadence_position"
+    case 123: return "max_cadence_position"
+    case 124: return "enhanced_avg_speed"
+    case 125: return "enhanced_max_speed"
+    case 126: return "enhanced_avg_altitude"
+    case 127: return "enhanced_min_altitude"
+    case 128: return "enhanced_max_altitude"
+    case 129: return "avg_lev_motor_power"
+    case 130: return "max_lev_motor_power"
+    case 131: return "lev_battery_consumption"
+    case 132: return "avg_vertical_ratio"
+    case 133: return "avg_stance_time_balance"
+    case 134: return "avg_step_length"
+    case 137: return "total_anaerobic_training_effect"
+    case 139: return "avg_vam"
+    case 181: return "total_grit"
+    case 182: return "total_flow"
+    case 183: return "jump_count"
+    case 186: return "avg_grit"
+    case 187: return "avg_flow"
+    case 199: return "total_fractional_ascent"
+    case 200: return "total_fractional_descent"
+    default: return "session_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_lap_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 253: return "timestamp"
+    case 0: return "event"
+    case 1: return "event_type"
+    case 2: return "start_time"
+    case 3: return "start_position_lat"
+    case 4: return "start_position_long"
+    case 5: return "end_position_lat"
+    case 6: return "end_position_long"
+    case 7: return "total_elapsed_time"
+    case 8: return "total_timer_time"
+    case 9: return "total_distance"
+    case 10:
+      if strings["sport"] == "running" {
+        return "total_strides"
+      }else if strings["sport"] == "walking" {
+        return "total_strides"
+      }else if strings["sport"] == "cycling" {
+        return "total_strokes"
+      }else if strings["sport"] == "swimming" {
+        return "total_strokes"
+      }else if strings["sport"] == "rowing" {
+        return "total_strokes"
+      }else if strings["sport"] == "stand_up_paddleboarding" {
+        return "total_strokes"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 11: return "total_calories"
+    case 12: return "total_fat_calories"
+    case 13: return "avg_speed"
+    case 14: return "max_speed"
+    case 15: return "avg_heart_rate"
+    case 16: return "max_heart_rate"
+    case 17:
+      if strings["sport"] == "running" {
+        return "avg_running_cadence"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 18:
+      if strings["sport"] == "running" {
+        return "max_running_cadence"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 19: return "avg_power"
+    case 20: return "max_power"
+    case 21: return "total_ascent"
+    case 22: return "total_descent"
+    case 23: return "intensity"
+    case 24: return "lap_trigger"
+    case 25: return "sport"
+    case 26: return "event_group"
+    case 32: return "num_lengths"
+    case 33: return "normalized_power"
+    case 34: return "left_right_balance"
+    case 35: return "first_length_index"
+    case 37: return "avg_stroke_distance"
+    case 38: return "swim_stroke"
+    case 39: return "sub_sport"
+    case 40: return "num_active_lengths"
+    case 41: return "total_work"
+    case 42: return "avg_altitude"
+    case 43: return "max_altitude"
+    case 44: return "gps_accuracy"
+    case 45: return "avg_grade"
+    case 46: return "avg_pos_grade"
+    case 47: return "avg_neg_grade"
+    case 48: return "max_pos_grade"
+    case 49: return "max_neg_grade"
+    case 50: return "avg_temperature"
+    case 51: return "max_temperature"
+    case 52: return "total_moving_time"
+    case 53: return "avg_pos_vertical_speed"
+    case 54: return "avg_neg_vertical_speed"
+    case 55: return "max_pos_vertical_speed"
+    case 56: return "max_neg_vertical_speed"
+    case 57: return "time_in_hr_zone"
+    case 58: return "time_in_speed_zone"
+    case 59: return "time_in_cadence_zone"
+    case 60: return "time_in_power_zone"
+    case 61: return "repetition_num"
+    case 62: return "min_altitude"
+    case 63: return "min_heart_rate"
+    case 71: return "wkt_step_index"
+    case 74: return "opponent_score"
+    case 75: return "stroke_count"
+    case 76: return "zone_count"
+    case 77: return "avg_vertical_oscillation"
+    case 78: return "avg_stance_time_percent"
+    case 79: return "avg_stance_time"
+    case 80: return "avg_fractional_cadence"
+    case 81: return "max_fractional_cadence"
+    case 82: return "total_fractional_cycles"
+    case 83: return "player_score"
+    case 84: return "avg_total_hemoglobin_conc"
+    case 85: return "min_total_hemoglobin_conc"
+    case 86: return "max_total_hemoglobin_conc"
+    case 87: return "avg_saturated_hemoglobin_percent"
+    case 88: return "min_saturated_hemoglobin_percent"
+    case 89: return "max_saturated_hemoglobin_percent"
+    case 91: return "avg_left_torque_effectiveness"
+    case 92: return "avg_right_torque_effectiveness"
+    case 93: return "avg_left_pedal_smoothness"
+    case 94: return "avg_right_pedal_smoothness"
+    case 95: return "avg_combined_pedal_smoothness"
+    case 98: return "time_standing"
+    case 99: return "stand_count"
+    case 100: return "avg_left_pco"
+    case 101: return "avg_right_pco"
+    case 102: return "avg_left_power_phase"
+    case 103: return "avg_left_power_phase_peak"
+    case 104: return "avg_right_power_phase"
+    case 105: return "avg_right_power_phase_peak"
+    case 106: return "avg_power_position"
+    case 107: return "max_power_position"
+    case 108: return "avg_cadence_position"
+    case 109: return "max_cadence_position"
+    case 110: return "enhanced_avg_speed"
+    case 111: return "enhanced_max_speed"
+    case 112: return "enhanced_avg_altitude"
+    case 113: return "enhanced_min_altitude"
+    case 114: return "enhanced_max_altitude"
+    case 115: return "avg_lev_motor_power"
+    case 116: return "max_lev_motor_power"
+    case 117: return "lev_battery_consumption"
+    case 118: return "avg_vertical_ratio"
+    case 119: return "avg_stance_time_balance"
+    case 120: return "avg_step_length"
+    case 121: return "avg_vam"
+    case 149: return "total_grit"
+    case 150: return "total_flow"
+    case 151: return "jump_count"
+    case 153: return "avg_grit"
+    case 154: return "avg_flow"
+    case 156: return "total_fractional_ascent"
+    case 157: return "total_fractional_descent"
+    default: return "lap_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_length_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 253: return "timestamp"
+    case 0: return "event"
+    case 1: return "event_type"
+    case 2: return "start_time"
+    case 3: return "total_elapsed_time"
+    case 4: return "total_timer_time"
+    case 5: return "total_strokes"
+    case 6: return "avg_speed"
+    case 7: return "swim_stroke"
+    case 9: return "avg_swimming_cadence"
+    case 10: return "event_group"
+    case 11: return "total_calories"
+    case 12: return "length_type"
+    case 18: return "player_score"
+    case 19: return "opponent_score"
+    case 20: return "stroke_count"
+    case 21: return "zone_count"
+    default: return "length_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_record_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "position_lat"
+    case 1: return "position_long"
+    case 2: return "altitude"
+    case 3: return "heart_rate"
+    case 4: return "cadence"
+    case 5: return "distance"
+    case 6: return "speed"
+    case 7: return "power"
+    case 8: return "compressed_speed_distance"
+    case 9: return "grade"
+    case 10: return "resistance"
+    case 11: return "time_from_course"
+    case 12: return "cycle_length"
+    case 13: return "temperature"
+    case 17: return "speed_1s"
+    case 18: return "cycles"
+    case 19: return "total_cycles"
+    case 28: return "compressed_accumulated_power"
+    case 29: return "accumulated_power"
+    case 30: return "left_right_balance"
+    case 31: return "gps_accuracy"
+    case 32: return "vertical_speed"
+    case 33: return "calories"
+    case 39: return "vertical_oscillation"
+    case 40: return "stance_time_percent"
+    case 41: return "stance_time"
+    case 42: return "activity_type"
+    case 43: return "left_torque_effectiveness"
+    case 44: return "right_torque_effectiveness"
+    case 45: return "left_pedal_smoothness"
+    case 46: return "right_pedal_smoothness"
+    case 47: return "combined_pedal_smoothness"
+    case 48: return "time128"
+    case 49: return "stroke_type"
+    case 50: return "zone"
+    case 51: return "ball_speed"
+    case 52: return "cadence256"
+    case 53: return "fractional_cadence"
+    case 54: return "total_hemoglobin_conc"
+    case 55: return "total_hemoglobin_conc_min"
+    case 56: return "total_hemoglobin_conc_max"
+    case 57: return "saturated_hemoglobin_percent"
+    case 58: return "saturated_hemoglobin_percent_min"
+    case 59: return "saturated_hemoglobin_percent_max"
+    case 62: return "device_index"
+    case 67: return "left_pco"
+    case 68: return "right_pco"
+    case 69: return "left_power_phase"
+    case 70: return "left_power_phase_peak"
+    case 71: return "right_power_phase"
+    case 72: return "right_power_phase_peak"
+    case 73: return "enhanced_speed"
+    case 78: return "enhanced_altitude"
+    case 81: return "battery_soc"
+    case 82: return "motor_power"
+    case 83: return "vertical_ratio"
+    case 84: return "stance_time_balance"
+    case 85: return "step_length"
+    case 91: return "absolute_pressure"
+    case 92: return "depth"
+    case 93: return "next_stop_depth"
+    case 94: return "next_stop_time"
+    case 95: return "time_to_surface"
+    case 96: return "ndl_time"
+    case 97: return "cns_load"
+    case 98: return "n2_load"
+    case 114: return "grit"
+    case 115: return "flow"
+    case 117: return "ebike_travel_range"
+    case 118: return "ebike_battery_level"
+    case 119: return "ebike_assist_mode"
+    case 120: return "ebike_assist_level_percent"
+    default: return "record_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_event_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "event"
+    case 1: return "event_type"
+    case 2: return "data16"
+    case 3:
+      if strings["event"] == "timer" {
+        return "timer_trigger"
+      }else if strings["event"] == "course_point" {
+        return "course_point_index"
+      }else if strings["event"] == "battery" {
+        return "battery_level"
+      }else if strings["event"] == "virtual_partner_pace" {
+        return "virtual_partner_speed"
+      }else if strings["event"] == "hr_high_alert" {
+        return "hr_high_alert"
+      }else if strings["event"] == "hr_low_alert" {
+        return "hr_low_alert"
+      }else if strings["event"] == "speed_high_alert" {
+        return "speed_high_alert"
+      }else if strings["event"] == "speed_low_alert" {
+        return "speed_low_alert"
+      }else if strings["event"] == "cad_high_alert" {
+        return "cad_high_alert"
+      }else if strings["event"] == "cad_low_alert" {
+        return "cad_low_alert"
+      }else if strings["event"] == "power_high_alert" {
+        return "power_high_alert"
+      }else if strings["event"] == "power_low_alert" {
+        return "power_low_alert"
+      }else if strings["event"] == "time_duration_alert" {
+        return "time_duration_alert"
+      }else if strings["event"] == "distance_duration_alert" {
+        return "distance_duration_alert"
+      }else if strings["event"] == "calorie_duration_alert" {
+        return "calorie_duration_alert"
+      }else if strings["event"] == "fitness_equipment" {
+        return "fitness_equipment_state"
+      }else if strings["event"] == "sport_point" {
+        return "sport_point"
+      }else if strings["event"] == "front_gear_change" {
+        return "gear_change_data"
+      }else if strings["event"] == "rear_gear_change" {
+        return "gear_change_data"
+      }else if strings["event"] == "rider_position_change" {
+        return "rider_position"
+      }else if strings["event"] == "comm_timeout" {
+        return "comm_timeout"
+      }else if strings["event"] == "radar_threat_alert" {
+        return "radar_threat_alert"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 4: return "event_group"
+    case 7: return "score"
+    case 8: return "opponent_score"
+    case 9: return "front_gear_num"
+    case 10: return "front_gear"
+    case 11: return "rear_gear_num"
+    case 12: return "rear_gear"
+    case 13: return "device_index"
+    case 21: return "radar_threat_level_max"
+    case 22: return "radar_threat_count"
+    default: return "event_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_device_info_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "device_index"
+    case 1:
+      if strings["source_type"] == "antplus" {
+        return "antplus_device_type"
+      }else if strings["source_type"] == "ant" {
+        return "ant_device_type"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 2: return "manufacturer"
+    case 3: return "serial_number"
+    case 4:
+      if strings["manufacturer"] == "favero_electronics" {
+        return "favero_product"
+      }else if strings["manufacturer"] == "garmin" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream_oem" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "tacx" {
+        return "garmin_product"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 5: return "software_version"
+    case 6: return "hardware_version"
+    case 7: return "cum_operating_time"
+    case 10: return "battery_voltage"
+    case 11: return "battery_status"
+    case 18: return "sensor_position"
+    case 19: return "descriptor"
+    case 20: return "ant_transmission_type"
+    case 21: return "ant_device_number"
+    case 22: return "ant_network"
+    case 25: return "source_type"
+    case 27: return "product_name"
+    default: return "device_info_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_training_file_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "type"
+    case 1: return "manufacturer"
+    case 2:
+      if strings["manufacturer"] == "favero_electronics" {
+        return "favero_product"
+      }else if strings["manufacturer"] == "garmin" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream_oem" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "tacx" {
+        return "garmin_product"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 3: return "serial_number"
+    case 4: return "time_created"
+    default: return "training_file_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_hrv_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "time"
+    default: return "hrv_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_weather_conditions_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "weather_report"
+    case 1: return "temperature"
+    case 2: return "condition"
+    case 3: return "wind_direction"
+    case 4: return "wind_speed"
+    case 5: return "precipitation_probability"
+    case 6: return "temperature_feels_like"
+    case 7: return "relative_humidity"
+    case 8: return "location"
+    case 9: return "observed_at_time"
+    case 10: return "observed_location_lat"
+    case 11: return "observed_location_long"
+    case 12: return "day_of_week"
+    case 13: return "high_temperature"
+    case 14: return "low_temperature"
+    default: return "weather_conditions_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_weather_alert_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "report_id"
+    case 1: return "issue_time"
+    case 2: return "expire_time"
+    case 3: return "severity"
+    case 4: return "type"
+    default: return "weather_alert_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_gps_metadata_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "position_lat"
+    case 2: return "position_long"
+    case 3: return "enhanced_altitude"
+    case 4: return "enhanced_speed"
+    case 5: return "heading"
+    case 6: return "utc_timestamp"
+    case 7: return "velocity"
+    default: return "gps_metadata_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_camera_event_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "camera_event_type"
+    case 2: return "camera_file_uuid"
+    case 3: return "camera_orientation"
+    default: return "camera_event_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_gyroscope_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "sample_time_offset"
+    case 2: return "gyro_x"
+    case 3: return "gyro_y"
+    case 4: return "gyro_z"
+    case 5: return "calibrated_gyro_x"
+    case 6: return "calibrated_gyro_y"
+    case 7: return "calibrated_gyro_z"
+    default: return "gyroscope_data_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_accelerometer_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "sample_time_offset"
+    case 2: return "accel_x"
+    case 3: return "accel_y"
+    case 4: return "accel_z"
+    case 5: return "calibrated_accel_x"
+    case 6: return "calibrated_accel_y"
+    case 7: return "calibrated_accel_z"
+    case 8: return "compressed_calibrated_accel_x"
+    case 9: return "compressed_calibrated_accel_y"
+    case 10: return "compressed_calibrated_accel_z"
+    default: return "accelerometer_data_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_magnetometer_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "sample_time_offset"
+    case 2: return "mag_x"
+    case 3: return "mag_y"
+    case 4: return "mag_z"
+    case 5: return "calibrated_mag_x"
+    case 6: return "calibrated_mag_y"
+    case 7: return "calibrated_mag_z"
+    default: return "magnetometer_data_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_barometer_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "sample_time_offset"
+    case 2: return "baro_pres"
+    default: return "barometer_data_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_three_d_sensor_calibration_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "sensor_type"
+    case 1:
+      if strings["sensor_type"] == "accelerometer" {
+        return "accel_cal_factor"
+      }else if strings["sensor_type"] == "gyroscope" {
+        return "gyro_cal_factor"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 2: return "calibration_divisor"
+    case 3: return "level_shift"
+    case 4: return "offset_cal"
+    case 5: return "orientation_matrix"
+    default: return "three_d_sensor_calibration_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_one_d_sensor_calibration_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "sensor_type"
+    case 1:
+      if strings["sensor_type"] == "barometer" {
+        return "baro_cal_factor"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 2: return "calibration_divisor"
+    case 3: return "level_shift"
+    case 4: return "offset_cal"
+    default: return "one_d_sensor_calibration_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_video_frame_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "frame_number"
+    default: return "video_frame_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_obdii_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "time_offset"
+    case 2: return "pid"
+    case 3: return "raw_data"
+    case 4: return "pid_data_size"
+    case 5: return "system_time"
+    case 6: return "start_timestamp"
+    case 7: return "start_timestamp_ms"
+    default: return "obdii_data_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_nmea_sentence_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "sentence"
+    default: return "nmea_sentence_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_aviation_attitude_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "timestamp_ms"
+    case 1: return "system_time"
+    case 2: return "pitch"
+    case 3: return "roll"
+    case 4: return "accel_lateral"
+    case 5: return "accel_normal"
+    case 6: return "turn_rate"
+    case 7: return "stage"
+    case 8: return "attitude_stage_complete"
+    case 9: return "track"
+    case 10: return "validity"
+    default: return "aviation_attitude_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_video_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "url"
+    case 1: return "hosting_provider"
+    case 2: return "duration"
+    default: return "video_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_video_title_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "message_count"
+    case 1: return "text"
+    default: return "video_title_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_video_description_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "message_count"
+    case 1: return "text"
+    default: return "video_description_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_video_clip_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "clip_number"
+    case 1: return "start_timestamp"
+    case 2: return "start_timestamp_ms"
+    case 3: return "end_timestamp"
+    case 4: return "end_timestamp_ms"
+    case 6: return "clip_start"
+    case 7: return "clip_end"
+    default: return "video_clip_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_set_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "timestamp"
+    case 0: return "duration"
+    case 3: return "repetitions"
+    case 4: return "weight"
+    case 5: return "set_type"
+    case 6: return "start_time"
+    case 7: return "category"
+    case 8: return "category_subtype"
+    case 9: return "weight_display_unit"
+    case 10: return "message_index"
+    case 11: return "wkt_step_index"
+    default: return "set_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_jump_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "distance"
+    case 1: return "height"
+    case 2: return "rotations"
+    case 3: return "hang_time"
+    case 4: return "score"
+    case 5: return "position_lat"
+    case 6: return "position_long"
+    case 7: return "speed"
+    case 8: return "enhanced_speed"
+    default: return "jump_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_course_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 4: return "sport"
+    case 5: return "name"
+    case 6: return "capabilities"
+    case 7: return "sub_sport"
+    default: return "course_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_course_point_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 1: return "timestamp"
+    case 2: return "position_lat"
+    case 3: return "position_long"
+    case 4: return "distance"
+    case 5: return "type"
+    case 6: return "name"
+    case 8: return "favorite"
+    default: return "course_point_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_segment_id_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "name"
+    case 1: return "uuid"
+    case 2: return "sport"
+    case 3: return "enabled"
+    case 4: return "user_profile_primary_key"
+    case 5: return "device_id"
+    case 6: return "default_race_leader"
+    case 7: return "delete_status"
+    case 8: return "selection_type"
+    default: return "segment_id_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_segment_leaderboard_entry_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "name"
+    case 1: return "type"
+    case 2: return "group_primary_key"
+    case 3: return "activity_id"
+    case 4: return "segment_time"
+    case 5: return "activity_id_string"
+    default: return "segment_leaderboard_entry_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_segment_point_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 1: return "position_lat"
+    case 2: return "position_long"
+    case 3: return "distance"
+    case 4: return "altitude"
+    case 5: return "leader_time"
+    default: return "segment_point_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_segment_lap_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 253: return "timestamp"
+    case 0: return "event"
+    case 1: return "event_type"
+    case 2: return "start_time"
+    case 3: return "start_position_lat"
+    case 4: return "start_position_long"
+    case 5: return "end_position_lat"
+    case 6: return "end_position_long"
+    case 7: return "total_elapsed_time"
+    case 8: return "total_timer_time"
+    case 9: return "total_distance"
+    case 10:
+      if strings["sport"] == "cycling" {
+        return "total_strokes"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 11: return "total_calories"
+    case 12: return "total_fat_calories"
+    case 13: return "avg_speed"
+    case 14: return "max_speed"
+    case 15: return "avg_heart_rate"
+    case 16: return "max_heart_rate"
+    case 17: return "avg_cadence"
+    case 18: return "max_cadence"
+    case 19: return "avg_power"
+    case 20: return "max_power"
+    case 21: return "total_ascent"
+    case 22: return "total_descent"
+    case 23: return "sport"
+    case 24: return "event_group"
+    case 25: return "nec_lat"
+    case 26: return "nec_long"
+    case 27: return "swc_lat"
+    case 28: return "swc_long"
+    case 29: return "name"
+    case 30: return "normalized_power"
+    case 31: return "left_right_balance"
+    case 32: return "sub_sport"
+    case 33: return "total_work"
+    case 34: return "avg_altitude"
+    case 35: return "max_altitude"
+    case 36: return "gps_accuracy"
+    case 37: return "avg_grade"
+    case 38: return "avg_pos_grade"
+    case 39: return "avg_neg_grade"
+    case 40: return "max_pos_grade"
+    case 41: return "max_neg_grade"
+    case 42: return "avg_temperature"
+    case 43: return "max_temperature"
+    case 44: return "total_moving_time"
+    case 45: return "avg_pos_vertical_speed"
+    case 46: return "avg_neg_vertical_speed"
+    case 47: return "max_pos_vertical_speed"
+    case 48: return "max_neg_vertical_speed"
+    case 49: return "time_in_hr_zone"
+    case 50: return "time_in_speed_zone"
+    case 51: return "time_in_cadence_zone"
+    case 52: return "time_in_power_zone"
+    case 53: return "repetition_num"
+    case 54: return "min_altitude"
+    case 55: return "min_heart_rate"
+    case 56: return "active_time"
+    case 57: return "wkt_step_index"
+    case 58: return "sport_event"
+    case 59: return "avg_left_torque_effectiveness"
+    case 60: return "avg_right_torque_effectiveness"
+    case 61: return "avg_left_pedal_smoothness"
+    case 62: return "avg_right_pedal_smoothness"
+    case 63: return "avg_combined_pedal_smoothness"
+    case 64: return "status"
+    case 65: return "uuid"
+    case 66: return "avg_fractional_cadence"
+    case 67: return "max_fractional_cadence"
+    case 68: return "total_fractional_cycles"
+    case 69: return "front_gear_shift_count"
+    case 70: return "rear_gear_shift_count"
+    case 71: return "time_standing"
+    case 72: return "stand_count"
+    case 73: return "avg_left_pco"
+    case 74: return "avg_right_pco"
+    case 75: return "avg_left_power_phase"
+    case 76: return "avg_left_power_phase_peak"
+    case 77: return "avg_right_power_phase"
+    case 78: return "avg_right_power_phase_peak"
+    case 79: return "avg_power_position"
+    case 80: return "max_power_position"
+    case 81: return "avg_cadence_position"
+    case 82: return "max_cadence_position"
+    case 83: return "manufacturer"
+    case 84: return "total_grit"
+    case 85: return "total_flow"
+    case 86: return "avg_grit"
+    case 87: return "avg_flow"
+    case 89: return "total_fractional_ascent"
+    case 90: return "total_fractional_descent"
+    default: return "segment_lap_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_segment_file_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 1: return "file_uuid"
+    case 3: return "enabled"
+    case 4: return "user_profile_primary_key"
+    case 7: return "leader_type"
+    case 8: return "leader_group_primary_key"
+    case 9: return "leader_activity_id"
+    case 10: return "leader_activity_id_string"
+    case 11: return "default_race_leader"
+    default: return "segment_file_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_workout_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 4: return "sport"
+    case 5: return "capabilities"
+    case 6: return "num_valid_steps"
+    case 8: return "wkt_name"
+    case 11: return "sub_sport"
+    case 14: return "pool_length"
+    case 15: return "pool_length_unit"
+    default: return "workout_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_workout_session_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "sport"
+    case 1: return "sub_sport"
+    case 2: return "num_valid_steps"
+    case 3: return "first_step_index"
+    case 4: return "pool_length"
+    case 5: return "pool_length_unit"
+    default: return "workout_session_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_workout_step_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "wkt_step_name"
+    case 1: return "duration_type"
+    case 2:
+      if strings["duration_type"] == "time" {
+        return "duration_time"
+      }else if strings["duration_type"] == "repetition_time" {
+        return "duration_time"
+      }else if strings["duration_type"] == "distance" {
+        return "duration_distance"
+      }else if strings["duration_type"] == "hr_less_than" {
+        return "duration_hr"
+      }else if strings["duration_type"] == "hr_greater_than" {
+        return "duration_hr"
+      }else if strings["duration_type"] == "calories" {
+        return "duration_calories"
+      }else if strings["duration_type"] == "repeat_until_steps_cmplt" {
+        return "duration_step"
+      }else if strings["duration_type"] == "repeat_until_time" {
+        return "duration_step"
+      }else if strings["duration_type"] == "repeat_until_distance" {
+        return "duration_step"
+      }else if strings["duration_type"] == "repeat_until_calories" {
+        return "duration_step"
+      }else if strings["duration_type"] == "repeat_until_hr_less_than" {
+        return "duration_step"
+      }else if strings["duration_type"] == "repeat_until_hr_greater_than" {
+        return "duration_step"
+      }else if strings["duration_type"] == "repeat_until_power_less_than" {
+        return "duration_step"
+      }else if strings["duration_type"] == "repeat_until_power_greater_than" {
+        return "duration_step"
+      }else if strings["duration_type"] == "power_less_than" {
+        return "duration_power"
+      }else if strings["duration_type"] == "power_greater_than" {
+        return "duration_power"
+      }else if strings["duration_type"] == "reps" {
+        return "duration_reps"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 3: return "target_type"
+    case 4:
+      if strings["target_type"] == "speed" {
+        return "target_speed_zone"
+      }else if strings["target_type"] == "heart_rate" {
+        return "target_hr_zone"
+      }else if strings["target_type"] == "cadence" {
+        return "target_cadence_zone"
+      }else if strings["target_type"] == "power" {
+        return "target_power_zone"
+      }else if strings["duration_type"] == "repeat_until_steps_cmplt" {
+        return "repeat_steps"
+      }else if strings["duration_type"] == "repeat_until_time" {
+        return "repeat_time"
+      }else if strings["duration_type"] == "repeat_until_distance" {
+        return "repeat_distance"
+      }else if strings["duration_type"] == "repeat_until_calories" {
+        return "repeat_calories"
+      }else if strings["duration_type"] == "repeat_until_hr_less_than" {
+        return "repeat_hr"
+      }else if strings["duration_type"] == "repeat_until_hr_greater_than" {
+        return "repeat_hr"
+      }else if strings["duration_type"] == "repeat_until_power_less_than" {
+        return "repeat_power"
+      }else if strings["duration_type"] == "repeat_until_power_greater_than" {
+        return "repeat_power"
+      }else if strings["target_type"] == "swim_stroke" {
+        return "target_stroke_type"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 5:
+      if strings["target_type"] == "speed" {
+        return "custom_target_speed_low"
+      }else if strings["target_type"] == "heart_rate" {
+        return "custom_target_heart_rate_low"
+      }else if strings["target_type"] == "cadence" {
+        return "custom_target_cadence_low"
+      }else if strings["target_type"] == "power" {
+        return "custom_target_power_low"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 6:
+      if strings["target_type"] == "speed" {
+        return "custom_target_speed_high"
+      }else if strings["target_type"] == "heart_rate" {
+        return "custom_target_heart_rate_high"
+      }else if strings["target_type"] == "cadence" {
+        return "custom_target_cadence_high"
+      }else if strings["target_type"] == "power" {
+        return "custom_target_power_high"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 7: return "intensity"
+    case 8: return "notes"
+    case 9: return "equipment"
+    case 10: return "exercise_category"
+    case 11: return "exercise_name"
+    case 12: return "exercise_weight"
+    case 13: return "weight_display_unit"
+    default: return "workout_step_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_exercise_title_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "exercise_category"
+    case 1: return "exercise_name"
+    case 2: return "wkt_step_name"
+    default: return "exercise_title_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_schedule_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 0: return "manufacturer"
+    case 1:
+      if strings["manufacturer"] == "favero_electronics" {
+        return "favero_product"
+      }else if strings["manufacturer"] == "garmin" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "dynastream_oem" {
+        return "garmin_product"
+      }else if strings["manufacturer"] == "tacx" {
+        return "garmin_product"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 2: return "serial_number"
+    case 3: return "time_created"
+    case 4: return "completed"
+    case 5: return "type"
+    case 6: return "scheduled_time"
+    default: return "schedule_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_totals_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 253: return "timestamp"
+    case 0: return "timer_time"
+    case 1: return "distance"
+    case 2: return "calories"
+    case 3: return "sport"
+    case 4: return "elapsed_time"
+    case 5: return "sessions"
+    case 6: return "active_time"
+    case 9: return "sport_index"
+    default: return "totals_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_weight_scale_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "weight"
+    case 1: return "percent_fat"
+    case 2: return "percent_hydration"
+    case 3: return "visceral_fat_mass"
+    case 4: return "bone_mass"
+    case 5: return "muscle_mass"
+    case 7: return "basal_met"
+    case 8: return "physique_rating"
+    case 9: return "active_met"
+    case 10: return "metabolic_age"
+    case 11: return "visceral_fat_rating"
+    case 12: return "user_profile_index"
+    default: return "weight_scale_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_blood_pressure_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "systolic_pressure"
+    case 1: return "diastolic_pressure"
+    case 2: return "mean_arterial_pressure"
+    case 3: return "map_3_sample_mean"
+    case 4: return "map_morning_values"
+    case 5: return "map_evening_values"
+    case 6: return "heart_rate"
+    case 7: return "heart_rate_type"
+    case 8: return "status"
+    case 9: return "user_profile_index"
+    default: return "blood_pressure_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_monitoring_info_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "local_timestamp"
+    case 1: return "activity_type"
+    case 3: return "cycles_to_distance"
+    case 4: return "cycles_to_calories"
+    case 5: return "resting_metabolic_rate"
+    default: return "monitoring_info_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_monitoring_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "device_index"
+    case 1: return "calories"
+    case 2: return "distance"
+    case 3:
+      if strings["activity_type"] == "walking" {
+        return "steps"
+      }else if strings["activity_type"] == "running" {
+        return "steps"
+      }else if strings["activity_type"] == "cycling" {
+        return "strokes"
+      }else if strings["activity_type"] == "swimming" {
+        return "strokes"
+      }else{
+        return "__INCOMPLETE__"
+      }
+    case 4: return "active_time"
+    case 5: return "activity_type"
+    case 6: return "activity_subtype"
+    case 7: return "activity_level"
+    case 8: return "distance_16"
+    case 9: return "cycles_16"
+    case 10: return "active_time_16"
+    case 11: return "local_timestamp"
+    case 12: return "temperature"
+    case 14: return "temperature_min"
+    case 15: return "temperature_max"
+    case 16: return "activity_time"
+    case 19: return "active_calories"
+    case 24: return "current_activity_type_intensity"
+    case 25: return "timestamp_min_8"
+    case 26: return "timestamp_16"
+    case 27: return "heart_rate"
+    case 28: return "intensity"
+    case 29: return "duration_min"
+    case 30: return "duration"
+    case 31: return "ascent"
+    case 32: return "descent"
+    case 33: return "moderate_activity_minutes"
+    case 34: return "vigorous_activity_minutes"
+    default: return "monitoring_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_hr_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "fractional_timestamp"
+    case 1: return "time256"
+    case 6: return "filtered_bpm"
+    case 9: return "event_timestamp"
+    case 10: return "event_timestamp_12"
+    default: return "hr_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_stress_level_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "stress_level_value"
+    case 1: return "stress_level_time"
+    default: return "stress_level_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_memo_glob_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 250: return "part_index"
+    case 0: return "memo"
+    case 1: return "message_number"
+    case 2: return "message_index"
+    default: return "memo_glob_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_ant_channel_id_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "channel_number"
+    case 1: return "device_type"
+    case 2: return "device_number"
+    case 3: return "transmission_type"
+    case 4: return "device_index"
+    default: return "ant_channel_id_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_ant_rx_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "fractional_timestamp"
+    case 1: return "mesg_id"
+    case 2: return "mesg_data"
+    case 3: return "channel_number"
+    case 4: return "data"
+    default: return "ant_rx_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_ant_tx_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "fractional_timestamp"
+    case 1: return "mesg_id"
+    case 2: return "mesg_data"
+    case 3: return "channel_number"
+    case 4: return "data"
+    default: return "ant_tx_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_exd_screen_configuration_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "screen_index"
+    case 1: return "field_count"
+    case 2: return "layout"
+    case 3: return "screen_enabled"
+    default: return "exd_screen_configuration_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_exd_data_field_configuration_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "screen_index"
+    case 1: return "concept_field"
+    case 2: return "field_id"
+    case 3: return "concept_count"
+    case 4: return "display_type"
+    case 5: return "title"
+    default: return "exd_data_field_configuration_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_exd_data_concept_configuration_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "screen_index"
+    case 1: return "concept_field"
+    case 2: return "field_id"
+    case 3: return "concept_index"
+    case 4: return "data_page"
+    case 5: return "concept_key"
+    case 6: return "scaling"
+    case 8: return "data_units"
+    case 9: return "qualifier"
+    case 10: return "descriptor"
+    case 11: return "is_signed"
+    default: return "exd_data_concept_configuration_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_field_description_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "developer_data_index"
+    case 1: return "field_definition_number"
+    case 2: return "fit_base_type_id"
+    case 3: return "field_name"
+    case 4: return "array"
+    case 5: return "components"
+    case 6: return "scale"
+    case 7: return "offset"
+    case 8: return "units"
+    case 9: return "bits"
+    case 10: return "accumulate"
+    case 13: return "fit_base_unit_id"
+    case 14: return "native_mesg_num"
+    case 15: return "native_field_num"
+    default: return "field_description_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_developer_data_id_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "developer_id"
+    case 1: return "application_id"
+    case 2: return "manufacturer_id"
+    case 3: return "developer_data_index"
+    case 4: return "application_version"
+    default: return "developer_data_id_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_dive_summary_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "reference_mesg"
+    case 1: return "reference_index"
+    case 2: return "avg_depth"
+    case 3: return "max_depth"
+    case 4: return "surface_interval"
+    case 5: return "start_cns"
+    case 6: return "end_cns"
+    case 7: return "start_n2"
+    case 8: return "end_n2"
+    case 9: return "o2_toxicity"
+    case 10: return "dive_number"
+    case 11: return "bottom_time"
+    default: return "dive_summary_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_climb_pro_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "position_lat"
+    case 1: return "position_long"
+    case 2: return "climb_pro_event"
+    case 3: return "climb_number"
+    case 4: return "climb_category"
+    case 5: return "current_dist"
+    default: return "climb_pro_field_num_\(field_num)"
+  }
+}
+func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UINT16, strings : [String:String]) -> String {
+  switch mesg_num {
+    case 0: return rzfit_swift_file_id_field_num_to_string(field_num: field_num, strings: strings)
+    case 1: return rzfit_swift_capabilities_field_num_to_string(field_num: field_num)
+    case 2: return rzfit_swift_device_settings_field_num_to_string(field_num: field_num)
+    case 3: return rzfit_swift_user_profile_field_num_to_string(field_num: field_num)
+    case 4: return rzfit_swift_hrm_profile_field_num_to_string(field_num: field_num)
+    case 5: return rzfit_swift_sdm_profile_field_num_to_string(field_num: field_num)
+    case 6: return rzfit_swift_bike_profile_field_num_to_string(field_num: field_num)
+    case 7: return rzfit_swift_zones_target_field_num_to_string(field_num: field_num)
+    case 8: return rzfit_swift_hr_zone_field_num_to_string(field_num: field_num)
+    case 9: return rzfit_swift_power_zone_field_num_to_string(field_num: field_num)
+    case 10: return rzfit_swift_met_zone_field_num_to_string(field_num: field_num)
+    case 12: return rzfit_swift_sport_field_num_to_string(field_num: field_num)
+    case 15: return rzfit_swift_goal_field_num_to_string(field_num: field_num)
+    case 18: return rzfit_swift_session_field_num_to_string(field_num: field_num, strings: strings)
+    case 19: return rzfit_swift_lap_field_num_to_string(field_num: field_num, strings: strings)
+    case 20: return rzfit_swift_record_field_num_to_string(field_num: field_num)
+    case 21: return rzfit_swift_event_field_num_to_string(field_num: field_num, strings: strings)
+    case 23: return rzfit_swift_device_info_field_num_to_string(field_num: field_num, strings: strings)
+    case 26: return rzfit_swift_workout_field_num_to_string(field_num: field_num)
+    case 27: return rzfit_swift_workout_step_field_num_to_string(field_num: field_num, strings: strings)
+    case 28: return rzfit_swift_schedule_field_num_to_string(field_num: field_num, strings: strings)
+    case 30: return rzfit_swift_weight_scale_field_num_to_string(field_num: field_num)
+    case 31: return rzfit_swift_course_field_num_to_string(field_num: field_num)
+    case 32: return rzfit_swift_course_point_field_num_to_string(field_num: field_num)
+    case 33: return rzfit_swift_totals_field_num_to_string(field_num: field_num)
+    case 34: return rzfit_swift_activity_field_num_to_string(field_num: field_num)
+    case 35: return rzfit_swift_software_field_num_to_string(field_num: field_num)
+    case 37: return rzfit_swift_file_capabilities_field_num_to_string(field_num: field_num)
+    case 38: return rzfit_swift_mesg_capabilities_field_num_to_string(field_num: field_num, strings: strings)
+    case 39: return rzfit_swift_field_capabilities_field_num_to_string(field_num: field_num)
+    case 49: return rzfit_swift_file_creator_field_num_to_string(field_num: field_num)
+    case 51: return rzfit_swift_blood_pressure_field_num_to_string(field_num: field_num)
+    case 53: return rzfit_swift_speed_zone_field_num_to_string(field_num: field_num)
+    case 55: return rzfit_swift_monitoring_field_num_to_string(field_num: field_num, strings: strings)
+    case 72: return rzfit_swift_training_file_field_num_to_string(field_num: field_num, strings: strings)
+    case 78: return rzfit_swift_hrv_field_num_to_string(field_num: field_num)
+    case 80: return rzfit_swift_ant_rx_field_num_to_string(field_num: field_num)
+    case 81: return rzfit_swift_ant_tx_field_num_to_string(field_num: field_num)
+    case 82: return rzfit_swift_ant_channel_id_field_num_to_string(field_num: field_num)
+    case 101: return rzfit_swift_length_field_num_to_string(field_num: field_num)
+    case 103: return rzfit_swift_monitoring_info_field_num_to_string(field_num: field_num)
+    case 106: return rzfit_swift_slave_device_field_num_to_string(field_num: field_num, strings: strings)
+    case 127: return rzfit_swift_connectivity_field_num_to_string(field_num: field_num)
+    case 128: return rzfit_swift_weather_conditions_field_num_to_string(field_num: field_num)
+    case 129: return rzfit_swift_weather_alert_field_num_to_string(field_num: field_num)
+    case 131: return rzfit_swift_cadence_zone_field_num_to_string(field_num: field_num)
+    case 132: return rzfit_swift_hr_field_num_to_string(field_num: field_num)
+    case 142: return rzfit_swift_segment_lap_field_num_to_string(field_num: field_num, strings: strings)
+    case 145: return rzfit_swift_memo_glob_field_num_to_string(field_num: field_num)
+    case 148: return rzfit_swift_segment_id_field_num_to_string(field_num: field_num)
+    case 149: return rzfit_swift_segment_leaderboard_entry_field_num_to_string(field_num: field_num)
+    case 150: return rzfit_swift_segment_point_field_num_to_string(field_num: field_num)
+    case 151: return rzfit_swift_segment_file_field_num_to_string(field_num: field_num)
+    case 158: return rzfit_swift_workout_session_field_num_to_string(field_num: field_num)
+    case 159: return rzfit_swift_watchface_settings_field_num_to_string(field_num: field_num, strings: strings)
+    case 160: return rzfit_swift_gps_metadata_field_num_to_string(field_num: field_num)
+    case 161: return rzfit_swift_camera_event_field_num_to_string(field_num: field_num)
+    case 162: return rzfit_swift_timestamp_correlation_field_num_to_string(field_num: field_num)
+    case 164: return rzfit_swift_gyroscope_data_field_num_to_string(field_num: field_num)
+    case 165: return rzfit_swift_accelerometer_data_field_num_to_string(field_num: field_num)
+    case 167: return rzfit_swift_three_d_sensor_calibration_field_num_to_string(field_num: field_num, strings: strings)
+    case 169: return rzfit_swift_video_frame_field_num_to_string(field_num: field_num)
+    case 174: return rzfit_swift_obdii_data_field_num_to_string(field_num: field_num)
+    case 177: return rzfit_swift_nmea_sentence_field_num_to_string(field_num: field_num)
+    case 178: return rzfit_swift_aviation_attitude_field_num_to_string(field_num: field_num)
+    case 184: return rzfit_swift_video_field_num_to_string(field_num: field_num)
+    case 185: return rzfit_swift_video_title_field_num_to_string(field_num: field_num)
+    case 186: return rzfit_swift_video_description_field_num_to_string(field_num: field_num)
+    case 187: return rzfit_swift_video_clip_field_num_to_string(field_num: field_num)
+    case 188: return rzfit_swift_ohr_settings_field_num_to_string(field_num: field_num)
+    case 200: return rzfit_swift_exd_screen_configuration_field_num_to_string(field_num: field_num)
+    case 201: return rzfit_swift_exd_data_field_configuration_field_num_to_string(field_num: field_num)
+    case 202: return rzfit_swift_exd_data_concept_configuration_field_num_to_string(field_num: field_num)
+    case 206: return rzfit_swift_field_description_field_num_to_string(field_num: field_num)
+    case 207: return rzfit_swift_developer_data_id_field_num_to_string(field_num: field_num)
+    case 208: return rzfit_swift_magnetometer_data_field_num_to_string(field_num: field_num)
+    case 209: return rzfit_swift_barometer_data_field_num_to_string(field_num: field_num)
+    case 210: return rzfit_swift_one_d_sensor_calibration_field_num_to_string(field_num: field_num, strings: strings)
+    case 225: return rzfit_swift_set_field_num_to_string(field_num: field_num)
+    case 227: return rzfit_swift_stress_level_field_num_to_string(field_num: field_num)
+    case 258: return rzfit_swift_dive_settings_field_num_to_string(field_num: field_num, strings: strings)
+    case 259: return rzfit_swift_dive_gas_field_num_to_string(field_num: field_num)
+    case 262: return rzfit_swift_dive_alarm_field_num_to_string(field_num: field_num)
+    case 264: return rzfit_swift_exercise_title_field_num_to_string(field_num: field_num)
+    case 268: return rzfit_swift_dive_summary_field_num_to_string(field_num: field_num)
+    case 285: return rzfit_swift_jump_field_num_to_string(field_num: field_num)
+    case 317: return rzfit_swift_climb_pro_field_num_to_string(field_num: field_num)
+    default: return "mesg_num_\(mesg_num)_field_num_\(field_num)"
+   }
+}
+
+//MARK: - fit build messages dict 
 
 func rzfit_swift_file_id_value_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
@@ -5227,9 +7151,12 @@ func rzfit_swift_file_id_value_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [
 func rzfit_swift_file_id_string_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_FILE_ID_MESG = ptr.pointee
-  rv[ "product_name" ] = withUnsafeBytes(of: &x.product_name) { (rawPtr) -> String in
+  let product_name = withUnsafeBytes(of: &x.product_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !product_name.isEmpty {
+    rv[ "product_name" ] = product_name
   }
   if( x.manufacturer != FIT_MANUFACTURER_INVALID ) {
     rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
@@ -5292,9 +7219,12 @@ func rzfit_swift_software_value_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) ->
 func rzfit_swift_software_string_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SOFTWARE_MESG = ptr.pointee
-  rv[ "part_number" ] = withUnsafeBytes(of: &x.part_number) { (rawPtr) -> String in
+  let part_number = withUnsafeBytes(of: &x.part_number) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !part_number.isEmpty {
+    rv[ "part_number" ] = part_number
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -5364,9 +7294,12 @@ func rzfit_swift_file_capabilities_value_dict( ptr : UnsafePointer<FIT_FILE_CAPA
 func rzfit_swift_file_capabilities_string_dict( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_FILE_CAPABILITIES_MESG = ptr.pointee
-  rv[ "directory" ] = withUnsafeBytes(of: &x.directory) { (rawPtr) -> String in
+  let directory = withUnsafeBytes(of: &x.directory) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !directory.isEmpty {
+    rv[ "directory" ] = directory
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -5539,9 +7472,12 @@ func rzfit_swift_user_profile_value_dict( ptr : UnsafePointer<FIT_USER_PROFILE_M
 func rzfit_swift_user_profile_string_dict( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_USER_PROFILE_MESG = ptr.pointee
-  rv[ "friendly_name" ] = withUnsafeBytes(of: &x.friendly_name) { (rawPtr) -> String in
+  let friendly_name = withUnsafeBytes(of: &x.friendly_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !friendly_name.isEmpty {
+    rv[ "friendly_name" ] = friendly_name
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -5778,9 +7714,12 @@ func rzfit_swift_bike_profile_value_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_M
 func rzfit_swift_bike_profile_string_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_BIKE_PROFILE_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -5852,9 +7791,12 @@ func rzfit_swift_connectivity_value_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_M
 func rzfit_swift_connectivity_string_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_CONNECTIVITY_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   return rv
 }
@@ -5898,9 +7840,12 @@ func rzfit_swift_sport_value_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [Stri
 func rzfit_swift_sport_string_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SPORT_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.sport != FIT_SPORT_INVALID ) {
     rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
@@ -5925,9 +7870,12 @@ func rzfit_swift_hr_zone_value_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [
 func rzfit_swift_hr_zone_string_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_HR_ZONE_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -5949,9 +7897,12 @@ func rzfit_swift_speed_zone_value_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>
 func rzfit_swift_speed_zone_string_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SPEED_ZONE_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -5973,9 +7924,12 @@ func rzfit_swift_cadence_zone_value_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_M
 func rzfit_swift_cadence_zone_string_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_CADENCE_ZONE_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -5997,9 +7951,12 @@ func rzfit_swift_power_zone_value_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>
 func rzfit_swift_power_zone_string_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_POWER_ZONE_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -6043,9 +8000,12 @@ func rzfit_swift_dive_settings_value_dict( ptr : UnsafePointer<FIT_DIVE_SETTINGS
 func rzfit_swift_dive_settings_string_dict( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_DIVE_SETTINGS_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.heart_rate_source != FIT_UINT8_INVALID ) {
   }
@@ -6480,9 +8440,12 @@ func rzfit_swift_session_string_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> 
   if( x.pool_length_unit != FIT_DISPLAY_MEASURE_INVALID ) {
     rv[ "pool_length_unit" ] = rzfit_swift_display_measure_to_string(x.pool_length_unit)
   }
-  rv[ "opponent_name" ] = withUnsafeBytes(of: &x.opponent_name) { (rawPtr) -> String in
+  let opponent_name = withUnsafeBytes(of: &x.opponent_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !opponent_name.isEmpty {
+    rv[ "opponent_name" ] = opponent_name
   }
   return rv
 }
@@ -7158,9 +9121,12 @@ func rzfit_swift_device_info_value_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MES
 func rzfit_swift_device_info_string_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_DEVICE_INFO_MESG = ptr.pointee
-  rv[ "product_name" ] = withUnsafeBytes(of: &x.product_name) { (rawPtr) -> String in
+  let product_name = withUnsafeBytes(of: &x.product_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !product_name.isEmpty {
+    rv[ "product_name" ] = product_name
   }
   if( x.manufacturer != FIT_MANUFACTURER_INVALID ) {
     rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
@@ -7192,9 +9158,12 @@ func rzfit_swift_device_info_string_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_ME
   if( x.sensor_position != FIT_BODY_LOCATION_INVALID ) {
     rv[ "sensor_position" ] = rzfit_swift_body_location_to_string(x.sensor_position)
   }
-  rv[ "descriptor" ] = withUnsafeBytes(of: &x.descriptor) { (rawPtr) -> String in
+  let descriptor = withUnsafeBytes(of: &x.descriptor) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !descriptor.isEmpty {
+    rv[ "descriptor" ] = descriptor
   }
   if( x.ant_network != FIT_ANT_NETWORK_INVALID ) {
     rv[ "ant_network" ] = rzfit_swift_ant_network_to_string(x.ant_network)
@@ -7316,9 +9285,12 @@ func rzfit_swift_weather_conditions_value_dict( ptr : UnsafePointer<FIT_WEATHER_
 func rzfit_swift_weather_conditions_string_dict( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_WEATHER_CONDITIONS_MESG = ptr.pointee
-  rv[ "location" ] = withUnsafeBytes(of: &x.location) { (rawPtr) -> String in
+  let location = withUnsafeBytes(of: &x.location) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !location.isEmpty {
+    rv[ "location" ] = location
   }
   if( x.weather_report != FIT_WEATHER_REPORT_INVALID ) {
     rv[ "weather_report" ] = rzfit_swift_weather_report_to_string(x.weather_report)
@@ -7350,9 +9322,12 @@ func rzfit_swift_weather_alert_value_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT
 func rzfit_swift_weather_alert_string_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_WEATHER_ALERT_MESG = ptr.pointee
-  rv[ "report_id" ] = withUnsafeBytes(of: &x.report_id) { (rawPtr) -> String in
+  let report_id = withUnsafeBytes(of: &x.report_id) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !report_id.isEmpty {
+    rv[ "report_id" ] = report_id
   }
   if( x.severity != FIT_WEATHER_SEVERITY_INVALID ) {
     rv[ "severity" ] = rzfit_swift_weather_severity_to_string(x.severity)
@@ -7391,9 +9366,12 @@ func rzfit_swift_nmea_sentence_value_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE
 func rzfit_swift_nmea_sentence_string_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_NMEA_SENTENCE_MESG = ptr.pointee
-  rv[ "sentence" ] = withUnsafeBytes(of: &x.sentence) { (rawPtr) -> String in
+  let sentence = withUnsafeBytes(of: &x.sentence) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !sentence.isEmpty {
+    rv[ "sentence" ] = sentence
   }
   return rv
 }
@@ -7439,9 +9417,12 @@ func rzfit_swift_video_title_value_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_MES
 func rzfit_swift_video_title_string_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_VIDEO_TITLE_MESG = ptr.pointee
-  rv[ "text" ] = withUnsafeBytes(of: &x.text) { (rawPtr) -> String in
+  let text = withUnsafeBytes(of: &x.text) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !text.isEmpty {
+    rv[ "text" ] = text
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -7466,9 +9447,12 @@ func rzfit_swift_video_description_string_dict( ptr : UnsafePointer<FIT_VIDEO_DE
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
   }
-  rv[ "text" ] = withUnsafeBytes(of: &x.text) { (rawPtr) -> String in
+  let text = withUnsafeBytes(of: &x.text) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !text.isEmpty {
+    rv[ "text" ] = text
   }
   return rv
 }
@@ -7476,16 +9460,15 @@ func rzfit_swift_video_description_date_dict( ptr : UnsafePointer<FIT_VIDEO_DESC
   return [:]
 }
 func rzfit_swift_set_value_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Double] {
-  var rv : [String:Double] = [:]
-  let x : FIT_SET_MESG = ptr.pointee
-  if x.weight_display_unit != FIT_FIT_BASE_UNIT_INVALID  {
-    let val : Double = Double(x.weight_display_unit)
-    rv[ "weight_display_unit" ] = val
-  }
-  return rv
+  return [:]
 }
 func rzfit_swift_set_string_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:String] {
-  return [:]
+  var rv : [String:String] = [:]
+  let x : FIT_SET_MESG = ptr.pointee
+  if( x.weight_display_unit != FIT_FIT_BASE_UNIT_INVALID ) {
+    rv[ "weight_display_unit" ] = rzfit_swift_fit_base_unit_to_string(x.weight_display_unit)
+  }
+  return rv
 }
 func rzfit_swift_set_date_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Date] {
   return [:]
@@ -7496,9 +9479,12 @@ func rzfit_swift_course_value_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [St
 func rzfit_swift_course_string_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_COURSE_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.capabilities != FIT_COURSE_CAPABILITIES_INVALID ) {
     rv[ "capabilities" ] = rzfit_swift_course_capabilities_to_string(x.capabilities)
@@ -7538,9 +9524,12 @@ func rzfit_swift_course_point_value_dict( ptr : UnsafePointer<FIT_COURSE_POINT_M
 func rzfit_swift_course_point_string_dict( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_COURSE_POINT_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -7583,13 +9572,19 @@ func rzfit_swift_segment_id_value_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>
 func rzfit_swift_segment_id_string_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SEGMENT_ID_MESG = ptr.pointee
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
   }
-  rv[ "uuid" ] = withUnsafeBytes(of: &x.uuid) { (rawPtr) -> String in
+  if !name.isEmpty {
+    rv[ "name" ] = name
+  }
+  let uuid = withUnsafeBytes(of: &x.uuid) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !uuid.isEmpty {
+    rv[ "uuid" ] = uuid
   }
   if( x.sport != FIT_SPORT_INVALID ) {
     rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
@@ -7628,9 +9623,12 @@ func rzfit_swift_segment_leaderboard_entry_string_dict( ptr : UnsafePointer<FIT_
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
   }
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.type != FIT_SEGMENT_LEADERBOARD_TYPE_INVALID ) {
     rv[ "type" ] = rzfit_swift_segment_leaderboard_type_to_string(x.type)
@@ -7902,9 +9900,12 @@ func rzfit_swift_segment_lap_string_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_ME
   var x : FIT_SEGMENT_LAP_MESG = ptr.pointee
   if( x.total_cycles != FIT_UINT32_INVALID ) {
   }
-  rv[ "name" ] = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
+  let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !name.isEmpty {
+    rv[ "name" ] = name
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -7933,9 +9934,12 @@ func rzfit_swift_segment_lap_string_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_ME
   if( x.status != FIT_SEGMENT_LAP_STATUS_INVALID ) {
     rv[ "status" ] = rzfit_swift_segment_lap_status_to_string(x.status)
   }
-  rv[ "uuid" ] = withUnsafeBytes(of: &x.uuid) { (rawPtr) -> String in
+  let uuid = withUnsafeBytes(of: &x.uuid) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !uuid.isEmpty {
+    rv[ "uuid" ] = uuid
   }
   return rv
 }
@@ -7971,9 +9975,12 @@ func rzfit_swift_segment_file_string_dict( ptr : UnsafePointer<FIT_SEGMENT_FILE_
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
   }
-  rv[ "file_uuid" ] = withUnsafeBytes(of: &x.file_uuid) { (rawPtr) -> String in
+  let file_uuid = withUnsafeBytes(of: &x.file_uuid) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !file_uuid.isEmpty {
+    rv[ "file_uuid" ] = file_uuid
   }
   return rv
 }
@@ -7999,9 +10006,12 @@ func rzfit_swift_workout_string_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> 
   if( x.capabilities != FIT_WORKOUT_CAPABILITIES_INVALID ) {
     rv[ "capabilities" ] = rzfit_swift_workout_capabilities_to_string(x.capabilities)
   }
-  rv[ "wkt_name" ] = withUnsafeBytes(of: &x.wkt_name) { (rawPtr) -> String in
+  let wkt_name = withUnsafeBytes(of: &x.wkt_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !wkt_name.isEmpty {
+    rv[ "wkt_name" ] = wkt_name
   }
   if( x.sport != FIT_SPORT_INVALID ) {
     rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
@@ -8060,9 +10070,12 @@ func rzfit_swift_workout_step_value_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_M
 func rzfit_swift_workout_step_string_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_WORKOUT_STEP_MESG = ptr.pointee
-  rv[ "wkt_step_name" ] = withUnsafeBytes(of: &x.wkt_step_name) { (rawPtr) -> String in
+  let wkt_step_name = withUnsafeBytes(of: &x.wkt_step_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !wkt_step_name.isEmpty {
+    rv[ "wkt_step_name" ] = wkt_step_name
   }
   if( x.duration_value != FIT_UINT32_INVALID ) {
   }
@@ -8087,9 +10100,12 @@ func rzfit_swift_workout_step_string_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_
   if( x.intensity != FIT_INTENSITY_INVALID ) {
     rv[ "intensity" ] = rzfit_swift_intensity_to_string(x.intensity)
   }
-  rv[ "notes" ] = withUnsafeBytes(of: &x.notes) { (rawPtr) -> String in
+  let notes = withUnsafeBytes(of: &x.notes) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !notes.isEmpty {
+    rv[ "notes" ] = notes
   }
   if( x.equipment != FIT_WORKOUT_EQUIPMENT_INVALID ) {
     rv[ "equipment" ] = rzfit_swift_workout_equipment_to_string(x.equipment)
@@ -8111,9 +10127,12 @@ func rzfit_swift_exercise_title_value_dict( ptr : UnsafePointer<FIT_EXERCISE_TIT
 func rzfit_swift_exercise_title_string_dict( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_EXERCISE_TITLE_MESG = ptr.pointee
-  rv[ "wkt_step_name" ] = withUnsafeBytes(of: &x.wkt_step_name) { (rawPtr) -> String in
+  let wkt_step_name = withUnsafeBytes(of: &x.wkt_step_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !wkt_step_name.isEmpty {
+    rv[ "wkt_step_name" ] = wkt_step_name
   }
   if( x.message_index != FIT_MESSAGE_INDEX_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
@@ -8561,9 +10580,12 @@ func rzfit_swift_exd_data_field_configuration_string_dict( ptr : UnsafePointer<F
   if( x.display_type != FIT_EXD_DISPLAY_TYPE_INVALID ) {
     rv[ "display_type" ] = rzfit_swift_exd_display_type_to_string(x.display_type)
   }
-  rv[ "title" ] = withUnsafeBytes(of: &x.title) { (rawPtr) -> String in
+  let title = withUnsafeBytes(of: &x.title) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !title.isEmpty {
+    rv[ "title" ] = title
   }
   return rv
 }
@@ -8627,10 +10649,6 @@ func rzfit_swift_exd_data_concept_configuration_date_dict( ptr : UnsafePointer<F
 func rzfit_swift_field_description_value_dict( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_FIELD_DESCRIPTION_MESG = ptr.pointee
-  if x.fit_base_unit_id != FIT_FIT_BASE_UNIT_INVALID  {
-    let val : Double = Double(x.fit_base_unit_id)
-    rv[ "fit_base_unit_id" ] = val
-  }
   if x.developer_data_index != FIT_UINT8_INVALID  {
     let val : Double = Double(x.developer_data_index)
     rv[ "developer_data_index" ] = val
@@ -8638,10 +10656,6 @@ func rzfit_swift_field_description_value_dict( ptr : UnsafePointer<FIT_FIELD_DES
   if x.field_definition_number != FIT_UINT8_INVALID  {
     let val : Double = Double(x.field_definition_number)
     rv[ "field_definition_number" ] = val
-  }
-  if x.fit_base_type_id != FIT_FIT_BASE_TYPE_INVALID  {
-    let val : Double = Double(x.fit_base_type_id)
-    rv[ "fit_base_type_id" ] = val
   }
   if x.scale != FIT_UINT8_INVALID  {
     let val : Double = Double(x.scale)
@@ -8660,16 +10674,28 @@ func rzfit_swift_field_description_value_dict( ptr : UnsafePointer<FIT_FIELD_DES
 func rzfit_swift_field_description_string_dict( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_FIELD_DESCRIPTION_MESG = ptr.pointee
-  rv[ "field_name" ] = withUnsafeBytes(of: &x.field_name) { (rawPtr) -> String in
+  let field_name = withUnsafeBytes(of: &x.field_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
   }
-  rv[ "units" ] = withUnsafeBytes(of: &x.units) { (rawPtr) -> String in
+  if !field_name.isEmpty {
+    rv[ "field_name" ] = field_name
+  }
+  let units = withUnsafeBytes(of: &x.units) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
     return String(cString: ptr)
+  }
+  if !units.isEmpty {
+    rv[ "units" ] = units
+  }
+  if( x.fit_base_unit_id != FIT_FIT_BASE_UNIT_INVALID ) {
+    rv[ "fit_base_unit_id" ] = rzfit_swift_fit_base_unit_to_string(x.fit_base_unit_id)
   }
   if( x.native_mesg_num != FIT_MESG_NUM_INVALID ) {
     rv[ "native_mesg_num" ] = rzfit_swift_mesg_num_to_string(x.native_mesg_num)
+  }
+  if( x.fit_base_type_id != FIT_FIT_BASE_TYPE_INVALID ) {
+    rv[ "fit_base_type_id" ] = rzfit_swift_fit_base_type_to_string(x.fit_base_type_id)
   }
   return rv
 }
@@ -8699,1927 +10725,6 @@ func rzfit_swift_developer_data_id_string_dict( ptr : UnsafePointer<FIT_DEVELOPE
 }
 func rzfit_swift_developer_data_id_date_dict( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Date] {
   return [:]
-}
-func rzfit_swift_file_id_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 0: return "type"
-    case 1: return "manufacturer"
-    case 2:
-      if strings["manufacturer"] == "favero_electronics" {
-        return "favero_product"
-      }else if strings["manufacturer"] == "garmin" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream_oem" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "tacx" {
-        return "garmin_product"
-      }else{
-        return "product"
-      }
-    case 3: return "serial_number"
-    case 4: return "time_created"
-    case 5: return "number"
-    case 8: return "product_name"
-    default: return "file_id_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_file_creator_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "software_version"
-    case 1: return "hardware_version"
-    default: return "file_creator_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_timestamp_correlation_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "fractional_timestamp"
-    case 1: return "system_timestamp"
-    case 2: return "fractional_system_timestamp"
-    case 3: return "local_timestamp"
-    case 4: return "timestamp_ms"
-    case 5: return "system_timestamp_ms"
-    default: return "timestamp_correlation_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_software_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 3: return "version"
-    case 5: return "part_number"
-    default: return "software_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_slave_device_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 0: return "manufacturer"
-    case 1:
-      if strings["manufacturer"] == "favero_electronics" {
-        return "favero_product"
-      }else if strings["manufacturer"] == "garmin" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream_oem" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "tacx" {
-        return "garmin_product"
-      }else{
-        return "product"
-      }
-    default: return "slave_device_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "languages"
-    case 1: return "sports"
-    case 21: return "workouts_supported"
-    case 23: return "connectivity_supported"
-    default: return "capabilities_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_file_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "type"
-    case 1: return "flags"
-    case 2: return "directory"
-    case 3: return "max_count"
-    case 4: return "max_size"
-    default: return "file_capabilities_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_mesg_capabilities_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "file"
-    case 1: return "mesg_num"
-    case 2: return "count_type"
-    case 3:
-      if strings["count_type"] == "num_per_file" {
-        return "num_per_file"
-      }else if strings["count_type"] == "max_per_file" {
-        return "max_per_file"
-      }else if strings["count_type"] == "max_per_file_type" {
-        return "max_per_file_type"
-      }else{
-        return "count"
-      }
-    default: return "mesg_capabilities_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_field_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "file"
-    case 1: return "mesg_num"
-    case 2: return "field_num"
-    case 3: return "count"
-    default: return "field_capabilities_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_device_settings_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "active_time_zone"
-    case 1: return "utc_offset"
-    case 2: return "time_offset"
-    case 4: return "time_mode"
-    case 5: return "time_zone_offset"
-    case 12: return "backlight_mode"
-    case 36: return "activity_tracker_enabled"
-    case 39: return "clock_time"
-    case 40: return "pages_enabled"
-    case 46: return "move_alert_enabled"
-    case 47: return "date_mode"
-    case 55: return "display_orientation"
-    case 56: return "mounting_side"
-    case 57: return "default_page"
-    case 58: return "autosync_min_steps"
-    case 59: return "autosync_min_time"
-    case 80: return "lactate_threshold_autodetect_enabled"
-    case 86: return "ble_auto_upload_enabled"
-    case 89: return "auto_sync_frequency"
-    case 90: return "auto_activity_detect"
-    case 94: return "number_of_screens"
-    case 95: return "smart_notification_display_orientation"
-    case 134: return "tap_interface"
-    case 174: return "tap_sensitivity"
-    default: return "device_settings_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_user_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "friendly_name"
-    case 1: return "gender"
-    case 2: return "age"
-    case 3: return "height"
-    case 4: return "weight"
-    case 5: return "language"
-    case 6: return "elev_setting"
-    case 7: return "weight_setting"
-    case 8: return "resting_heart_rate"
-    case 9: return "default_max_running_heart_rate"
-    case 10: return "default_max_biking_heart_rate"
-    case 11: return "default_max_heart_rate"
-    case 12: return "hr_setting"
-    case 13: return "speed_setting"
-    case 14: return "dist_setting"
-    case 16: return "power_setting"
-    case 17: return "activity_class"
-    case 18: return "position_setting"
-    case 21: return "temperature_setting"
-    case 22: return "local_id"
-    case 23: return "global_id"
-    case 28: return "wake_time"
-    case 29: return "sleep_time"
-    case 30: return "height_setting"
-    case 31: return "user_running_step_length"
-    case 32: return "user_walking_step_length"
-    case 47: return "depth_setting"
-    case 49: return "dive_count"
-    default: return "user_profile_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_hrm_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "enabled"
-    case 1: return "hrm_ant_id"
-    case 2: return "log_hrv"
-    case 3: return "hrm_ant_id_trans_type"
-    default: return "hrm_profile_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_sdm_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "enabled"
-    case 1: return "sdm_ant_id"
-    case 2: return "sdm_cal_factor"
-    case 3: return "odometer"
-    case 4: return "speed_source"
-    case 5: return "sdm_ant_id_trans_type"
-    case 7: return "odometer_rollover"
-    default: return "sdm_profile_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_bike_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "name"
-    case 1: return "sport"
-    case 2: return "sub_sport"
-    case 3: return "odometer"
-    case 4: return "bike_spd_ant_id"
-    case 5: return "bike_cad_ant_id"
-    case 6: return "bike_spdcad_ant_id"
-    case 7: return "bike_power_ant_id"
-    case 8: return "custom_wheelsize"
-    case 9: return "auto_wheelsize"
-    case 10: return "bike_weight"
-    case 11: return "power_cal_factor"
-    case 12: return "auto_wheel_cal"
-    case 13: return "auto_power_zero"
-    case 14: return "id"
-    case 15: return "spd_enabled"
-    case 16: return "cad_enabled"
-    case 17: return "spdcad_enabled"
-    case 18: return "power_enabled"
-    case 19: return "crank_length"
-    case 20: return "enabled"
-    case 21: return "bike_spd_ant_id_trans_type"
-    case 22: return "bike_cad_ant_id_trans_type"
-    case 23: return "bike_spdcad_ant_id_trans_type"
-    case 24: return "bike_power_ant_id_trans_type"
-    case 37: return "odometer_rollover"
-    case 38: return "front_gear_num"
-    case 39: return "front_gear"
-    case 40: return "rear_gear_num"
-    case 41: return "rear_gear"
-    case 44: return "shimano_di2_enabled"
-    default: return "bike_profile_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_connectivity_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "bluetooth_enabled"
-    case 1: return "bluetooth_le_enabled"
-    case 2: return "ant_enabled"
-    case 3: return "name"
-    case 4: return "live_tracking_enabled"
-    case 5: return "weather_conditions_enabled"
-    case 6: return "weather_alerts_enabled"
-    case 7: return "auto_activity_upload_enabled"
-    case 8: return "course_download_enabled"
-    case 9: return "workout_download_enabled"
-    case 10: return "gps_ephemeris_download_enabled"
-    case 11: return "incident_detection_enabled"
-    case 12: return "grouptrack_enabled"
-    default: return "connectivity_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_watchface_settings_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "mode"
-    case 1:
-      if strings["mode"] == "digital" {
-        return "digital_layout"
-      }else if strings["mode"] == "analog" {
-        return "analog_layout"
-      }else{
-        return "layout"
-      }
-    default: return "watchface_settings_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_ohr_settings_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "enabled"
-    default: return "ohr_settings_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_zones_target_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 1: return "max_heart_rate"
-    case 2: return "threshold_heart_rate"
-    case 3: return "functional_threshold_power"
-    case 5: return "hr_calc_type"
-    case 7: return "pwr_calc_type"
-    default: return "zones_target_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_sport_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "sport"
-    case 1: return "sub_sport"
-    case 3: return "name"
-    default: return "sport_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_hr_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 1: return "high_bpm"
-    case 2: return "name"
-    default: return "hr_zone_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_speed_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "high_value"
-    case 1: return "name"
-    default: return "speed_zone_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_cadence_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "high_value"
-    case 1: return "name"
-    default: return "cadence_zone_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_power_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 1: return "high_value"
-    case 2: return "name"
-    default: return "power_zone_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_met_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 1: return "high_bpm"
-    case 2: return "calories"
-    case 3: return "fat_calories"
-    default: return "met_zone_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_dive_settings_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "name"
-    case 1: return "model"
-    case 2: return "gf_low"
-    case 3: return "gf_high"
-    case 4: return "water_type"
-    case 5: return "water_density"
-    case 6: return "po2_warn"
-    case 7: return "po2_critical"
-    case 8: return "po2_deco"
-    case 9: return "safety_stop_enabled"
-    case 10: return "bottom_depth"
-    case 11: return "bottom_time"
-    case 12: return "apnea_countdown_enabled"
-    case 13: return "apnea_countdown_time"
-    case 14: return "backlight_mode"
-    case 15: return "backlight_brightness"
-    case 16: return "backlight_timeout"
-    case 17: return "repeat_dive_interval"
-    case 18: return "safety_stop_time"
-    case 19: return "heart_rate_source_type"
-    case 20:
-      if strings["heart_rate_source_type"] == "antplus" {
-        return "heart_rate_antplus_device_type"
-      }else if strings["heart_rate_source_type"] == "local" {
-        return "heart_rate_local_device_type"
-      }else{
-        return "heart_rate_source"
-      }
-    default: return "dive_settings_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_dive_alarm_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "depth"
-    case 1: return "time"
-    case 2: return "enabled"
-    case 3: return "alarm_type"
-    case 4: return "sound"
-    case 5: return "dive_types"
-    default: return "dive_alarm_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_dive_gas_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "helium_content"
-    case 1: return "oxygen_content"
-    case 2: return "status"
-    default: return "dive_gas_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_goal_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "sport"
-    case 1: return "sub_sport"
-    case 2: return "start_date"
-    case 3: return "end_date"
-    case 4: return "type"
-    case 5: return "value"
-    case 6: return "repeat"
-    case 7: return "target_value"
-    case 8: return "recurrence"
-    case 9: return "recurrence_value"
-    case 10: return "enabled"
-    case 11: return "source"
-    default: return "goal_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_activity_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "total_timer_time"
-    case 1: return "num_sessions"
-    case 2: return "type"
-    case 3: return "event"
-    case 4: return "event_type"
-    case 5: return "local_timestamp"
-    case 6: return "event_group"
-    default: return "activity_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_session_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 253: return "timestamp"
-    case 0: return "event"
-    case 1: return "event_type"
-    case 2: return "start_time"
-    case 3: return "start_position_lat"
-    case 4: return "start_position_long"
-    case 5: return "sport"
-    case 6: return "sub_sport"
-    case 7: return "total_elapsed_time"
-    case 8: return "total_timer_time"
-    case 9: return "total_distance"
-    case 10:
-      if strings["sport"] == "running" {
-        return "total_strides"
-      }else if strings["sport"] == "walking" {
-        return "total_strides"
-      }else if strings["sport"] == "cycling" {
-        return "total_strokes"
-      }else if strings["sport"] == "swimming" {
-        return "total_strokes"
-      }else if strings["sport"] == "rowing" {
-        return "total_strokes"
-      }else if strings["sport"] == "stand_up_paddleboarding" {
-        return "total_strokes"
-      }else{
-        return "total_cycles"
-      }
-    case 11: return "total_calories"
-    case 13: return "total_fat_calories"
-    case 14: return "avg_speed"
-    case 15: return "max_speed"
-    case 16: return "avg_heart_rate"
-    case 17: return "max_heart_rate"
-    case 18:
-      if strings["sport"] == "running" {
-        return "avg_running_cadence"
-      }else{
-        return "avg_cadence"
-      }
-    case 19:
-      if strings["sport"] == "running" {
-        return "max_running_cadence"
-      }else{
-        return "max_cadence"
-      }
-    case 20: return "avg_power"
-    case 21: return "max_power"
-    case 22: return "total_ascent"
-    case 23: return "total_descent"
-    case 24: return "total_training_effect"
-    case 25: return "first_lap_index"
-    case 26: return "num_laps"
-    case 27: return "event_group"
-    case 28: return "trigger"
-    case 29: return "nec_lat"
-    case 30: return "nec_long"
-    case 31: return "swc_lat"
-    case 32: return "swc_long"
-    case 33: return "num_lengths"
-    case 34: return "normalized_power"
-    case 35: return "training_stress_score"
-    case 36: return "intensity_factor"
-    case 37: return "left_right_balance"
-    case 41: return "avg_stroke_count"
-    case 42: return "avg_stroke_distance"
-    case 43: return "swim_stroke"
-    case 44: return "pool_length"
-    case 45: return "threshold_power"
-    case 46: return "pool_length_unit"
-    case 47: return "num_active_lengths"
-    case 48: return "total_work"
-    case 49: return "avg_altitude"
-    case 50: return "max_altitude"
-    case 51: return "gps_accuracy"
-    case 52: return "avg_grade"
-    case 53: return "avg_pos_grade"
-    case 54: return "avg_neg_grade"
-    case 55: return "max_pos_grade"
-    case 56: return "max_neg_grade"
-    case 57: return "avg_temperature"
-    case 58: return "max_temperature"
-    case 59: return "total_moving_time"
-    case 60: return "avg_pos_vertical_speed"
-    case 61: return "avg_neg_vertical_speed"
-    case 62: return "max_pos_vertical_speed"
-    case 63: return "max_neg_vertical_speed"
-    case 64: return "min_heart_rate"
-    case 65: return "time_in_hr_zone"
-    case 66: return "time_in_speed_zone"
-    case 67: return "time_in_cadence_zone"
-    case 68: return "time_in_power_zone"
-    case 69: return "avg_lap_time"
-    case 70: return "best_lap_index"
-    case 71: return "min_altitude"
-    case 82: return "player_score"
-    case 83: return "opponent_score"
-    case 84: return "opponent_name"
-    case 85: return "stroke_count"
-    case 86: return "zone_count"
-    case 87: return "max_ball_speed"
-    case 88: return "avg_ball_speed"
-    case 89: return "avg_vertical_oscillation"
-    case 90: return "avg_stance_time_percent"
-    case 91: return "avg_stance_time"
-    case 92: return "avg_fractional_cadence"
-    case 93: return "max_fractional_cadence"
-    case 94: return "total_fractional_cycles"
-    case 95: return "avg_total_hemoglobin_conc"
-    case 96: return "min_total_hemoglobin_conc"
-    case 97: return "max_total_hemoglobin_conc"
-    case 98: return "avg_saturated_hemoglobin_percent"
-    case 99: return "min_saturated_hemoglobin_percent"
-    case 100: return "max_saturated_hemoglobin_percent"
-    case 101: return "avg_left_torque_effectiveness"
-    case 102: return "avg_right_torque_effectiveness"
-    case 103: return "avg_left_pedal_smoothness"
-    case 104: return "avg_right_pedal_smoothness"
-    case 105: return "avg_combined_pedal_smoothness"
-    case 111: return "sport_index"
-    case 112: return "time_standing"
-    case 113: return "stand_count"
-    case 114: return "avg_left_pco"
-    case 115: return "avg_right_pco"
-    case 116: return "avg_left_power_phase"
-    case 117: return "avg_left_power_phase_peak"
-    case 118: return "avg_right_power_phase"
-    case 119: return "avg_right_power_phase_peak"
-    case 120: return "avg_power_position"
-    case 121: return "max_power_position"
-    case 122: return "avg_cadence_position"
-    case 123: return "max_cadence_position"
-    case 124: return "enhanced_avg_speed"
-    case 125: return "enhanced_max_speed"
-    case 126: return "enhanced_avg_altitude"
-    case 127: return "enhanced_min_altitude"
-    case 128: return "enhanced_max_altitude"
-    case 129: return "avg_lev_motor_power"
-    case 130: return "max_lev_motor_power"
-    case 131: return "lev_battery_consumption"
-    case 132: return "avg_vertical_ratio"
-    case 133: return "avg_stance_time_balance"
-    case 134: return "avg_step_length"
-    case 137: return "total_anaerobic_training_effect"
-    case 139: return "avg_vam"
-    case 181: return "total_grit"
-    case 182: return "total_flow"
-    case 183: return "jump_count"
-    case 186: return "avg_grit"
-    case 187: return "avg_flow"
-    case 199: return "total_fractional_ascent"
-    case 200: return "total_fractional_descent"
-    default: return "session_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_lap_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 253: return "timestamp"
-    case 0: return "event"
-    case 1: return "event_type"
-    case 2: return "start_time"
-    case 3: return "start_position_lat"
-    case 4: return "start_position_long"
-    case 5: return "end_position_lat"
-    case 6: return "end_position_long"
-    case 7: return "total_elapsed_time"
-    case 8: return "total_timer_time"
-    case 9: return "total_distance"
-    case 10:
-      if strings["sport"] == "running" {
-        return "total_strides"
-      }else if strings["sport"] == "walking" {
-        return "total_strides"
-      }else if strings["sport"] == "cycling" {
-        return "total_strokes"
-      }else if strings["sport"] == "swimming" {
-        return "total_strokes"
-      }else if strings["sport"] == "rowing" {
-        return "total_strokes"
-      }else if strings["sport"] == "stand_up_paddleboarding" {
-        return "total_strokes"
-      }else{
-        return "total_cycles"
-      }
-    case 11: return "total_calories"
-    case 12: return "total_fat_calories"
-    case 13: return "avg_speed"
-    case 14: return "max_speed"
-    case 15: return "avg_heart_rate"
-    case 16: return "max_heart_rate"
-    case 17:
-      if strings["sport"] == "running" {
-        return "avg_running_cadence"
-      }else{
-        return "avg_cadence"
-      }
-    case 18:
-      if strings["sport"] == "running" {
-        return "max_running_cadence"
-      }else{
-        return "max_cadence"
-      }
-    case 19: return "avg_power"
-    case 20: return "max_power"
-    case 21: return "total_ascent"
-    case 22: return "total_descent"
-    case 23: return "intensity"
-    case 24: return "lap_trigger"
-    case 25: return "sport"
-    case 26: return "event_group"
-    case 32: return "num_lengths"
-    case 33: return "normalized_power"
-    case 34: return "left_right_balance"
-    case 35: return "first_length_index"
-    case 37: return "avg_stroke_distance"
-    case 38: return "swim_stroke"
-    case 39: return "sub_sport"
-    case 40: return "num_active_lengths"
-    case 41: return "total_work"
-    case 42: return "avg_altitude"
-    case 43: return "max_altitude"
-    case 44: return "gps_accuracy"
-    case 45: return "avg_grade"
-    case 46: return "avg_pos_grade"
-    case 47: return "avg_neg_grade"
-    case 48: return "max_pos_grade"
-    case 49: return "max_neg_grade"
-    case 50: return "avg_temperature"
-    case 51: return "max_temperature"
-    case 52: return "total_moving_time"
-    case 53: return "avg_pos_vertical_speed"
-    case 54: return "avg_neg_vertical_speed"
-    case 55: return "max_pos_vertical_speed"
-    case 56: return "max_neg_vertical_speed"
-    case 57: return "time_in_hr_zone"
-    case 58: return "time_in_speed_zone"
-    case 59: return "time_in_cadence_zone"
-    case 60: return "time_in_power_zone"
-    case 61: return "repetition_num"
-    case 62: return "min_altitude"
-    case 63: return "min_heart_rate"
-    case 71: return "wkt_step_index"
-    case 74: return "opponent_score"
-    case 75: return "stroke_count"
-    case 76: return "zone_count"
-    case 77: return "avg_vertical_oscillation"
-    case 78: return "avg_stance_time_percent"
-    case 79: return "avg_stance_time"
-    case 80: return "avg_fractional_cadence"
-    case 81: return "max_fractional_cadence"
-    case 82: return "total_fractional_cycles"
-    case 83: return "player_score"
-    case 84: return "avg_total_hemoglobin_conc"
-    case 85: return "min_total_hemoglobin_conc"
-    case 86: return "max_total_hemoglobin_conc"
-    case 87: return "avg_saturated_hemoglobin_percent"
-    case 88: return "min_saturated_hemoglobin_percent"
-    case 89: return "max_saturated_hemoglobin_percent"
-    case 91: return "avg_left_torque_effectiveness"
-    case 92: return "avg_right_torque_effectiveness"
-    case 93: return "avg_left_pedal_smoothness"
-    case 94: return "avg_right_pedal_smoothness"
-    case 95: return "avg_combined_pedal_smoothness"
-    case 98: return "time_standing"
-    case 99: return "stand_count"
-    case 100: return "avg_left_pco"
-    case 101: return "avg_right_pco"
-    case 102: return "avg_left_power_phase"
-    case 103: return "avg_left_power_phase_peak"
-    case 104: return "avg_right_power_phase"
-    case 105: return "avg_right_power_phase_peak"
-    case 106: return "avg_power_position"
-    case 107: return "max_power_position"
-    case 108: return "avg_cadence_position"
-    case 109: return "max_cadence_position"
-    case 110: return "enhanced_avg_speed"
-    case 111: return "enhanced_max_speed"
-    case 112: return "enhanced_avg_altitude"
-    case 113: return "enhanced_min_altitude"
-    case 114: return "enhanced_max_altitude"
-    case 115: return "avg_lev_motor_power"
-    case 116: return "max_lev_motor_power"
-    case 117: return "lev_battery_consumption"
-    case 118: return "avg_vertical_ratio"
-    case 119: return "avg_stance_time_balance"
-    case 120: return "avg_step_length"
-    case 121: return "avg_vam"
-    case 149: return "total_grit"
-    case 150: return "total_flow"
-    case 151: return "jump_count"
-    case 153: return "avg_grit"
-    case 154: return "avg_flow"
-    case 156: return "total_fractional_ascent"
-    case 157: return "total_fractional_descent"
-    default: return "lap_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_length_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 253: return "timestamp"
-    case 0: return "event"
-    case 1: return "event_type"
-    case 2: return "start_time"
-    case 3: return "total_elapsed_time"
-    case 4: return "total_timer_time"
-    case 5: return "total_strokes"
-    case 6: return "avg_speed"
-    case 7: return "swim_stroke"
-    case 9: return "avg_swimming_cadence"
-    case 10: return "event_group"
-    case 11: return "total_calories"
-    case 12: return "length_type"
-    case 18: return "player_score"
-    case 19: return "opponent_score"
-    case 20: return "stroke_count"
-    case 21: return "zone_count"
-    default: return "length_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_record_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "position_lat"
-    case 1: return "position_long"
-    case 2: return "altitude"
-    case 3: return "heart_rate"
-    case 4: return "cadence"
-    case 5: return "distance"
-    case 6: return "speed"
-    case 7: return "power"
-    case 8: return "compressed_speed_distance"
-    case 9: return "grade"
-    case 10: return "resistance"
-    case 11: return "time_from_course"
-    case 12: return "cycle_length"
-    case 13: return "temperature"
-    case 17: return "speed_1s"
-    case 18: return "cycles"
-    case 19: return "total_cycles"
-    case 28: return "compressed_accumulated_power"
-    case 29: return "accumulated_power"
-    case 30: return "left_right_balance"
-    case 31: return "gps_accuracy"
-    case 32: return "vertical_speed"
-    case 33: return "calories"
-    case 39: return "vertical_oscillation"
-    case 40: return "stance_time_percent"
-    case 41: return "stance_time"
-    case 42: return "activity_type"
-    case 43: return "left_torque_effectiveness"
-    case 44: return "right_torque_effectiveness"
-    case 45: return "left_pedal_smoothness"
-    case 46: return "right_pedal_smoothness"
-    case 47: return "combined_pedal_smoothness"
-    case 48: return "time128"
-    case 49: return "stroke_type"
-    case 50: return "zone"
-    case 51: return "ball_speed"
-    case 52: return "cadence256"
-    case 53: return "fractional_cadence"
-    case 54: return "total_hemoglobin_conc"
-    case 55: return "total_hemoglobin_conc_min"
-    case 56: return "total_hemoglobin_conc_max"
-    case 57: return "saturated_hemoglobin_percent"
-    case 58: return "saturated_hemoglobin_percent_min"
-    case 59: return "saturated_hemoglobin_percent_max"
-    case 62: return "device_index"
-    case 67: return "left_pco"
-    case 68: return "right_pco"
-    case 69: return "left_power_phase"
-    case 70: return "left_power_phase_peak"
-    case 71: return "right_power_phase"
-    case 72: return "right_power_phase_peak"
-    case 73: return "enhanced_speed"
-    case 78: return "enhanced_altitude"
-    case 81: return "battery_soc"
-    case 82: return "motor_power"
-    case 83: return "vertical_ratio"
-    case 84: return "stance_time_balance"
-    case 85: return "step_length"
-    case 91: return "absolute_pressure"
-    case 92: return "depth"
-    case 93: return "next_stop_depth"
-    case 94: return "next_stop_time"
-    case 95: return "time_to_surface"
-    case 96: return "ndl_time"
-    case 97: return "cns_load"
-    case 98: return "n2_load"
-    case 114: return "grit"
-    case 115: return "flow"
-    case 117: return "ebike_travel_range"
-    case 118: return "ebike_battery_level"
-    case 119: return "ebike_assist_mode"
-    case 120: return "ebike_assist_level_percent"
-    default: return "record_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_event_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "event"
-    case 1: return "event_type"
-    case 2: return "data16"
-    case 3:
-      if strings["event"] == "timer" {
-        return "timer_trigger"
-      }else if strings["event"] == "course_point" {
-        return "course_point_index"
-      }else if strings["event"] == "battery" {
-        return "battery_level"
-      }else if strings["event"] == "virtual_partner_pace" {
-        return "virtual_partner_speed"
-      }else if strings["event"] == "hr_high_alert" {
-        return "hr_high_alert"
-      }else if strings["event"] == "hr_low_alert" {
-        return "hr_low_alert"
-      }else if strings["event"] == "speed_high_alert" {
-        return "speed_high_alert"
-      }else if strings["event"] == "speed_low_alert" {
-        return "speed_low_alert"
-      }else if strings["event"] == "cad_high_alert" {
-        return "cad_high_alert"
-      }else if strings["event"] == "cad_low_alert" {
-        return "cad_low_alert"
-      }else if strings["event"] == "power_high_alert" {
-        return "power_high_alert"
-      }else if strings["event"] == "power_low_alert" {
-        return "power_low_alert"
-      }else if strings["event"] == "time_duration_alert" {
-        return "time_duration_alert"
-      }else if strings["event"] == "distance_duration_alert" {
-        return "distance_duration_alert"
-      }else if strings["event"] == "calorie_duration_alert" {
-        return "calorie_duration_alert"
-      }else if strings["event"] == "fitness_equipment" {
-        return "fitness_equipment_state"
-      }else if strings["event"] == "sport_point" {
-        return "sport_point"
-      }else if strings["event"] == "front_gear_change" {
-        return "gear_change_data"
-      }else if strings["event"] == "rear_gear_change" {
-        return "gear_change_data"
-      }else if strings["event"] == "rider_position_change" {
-        return "rider_position"
-      }else if strings["event"] == "comm_timeout" {
-        return "comm_timeout"
-      }else if strings["event"] == "radar_threat_alert" {
-        return "radar_threat_alert"
-      }else{
-        return "data"
-      }
-    case 4: return "event_group"
-    case 7: return "score"
-    case 8: return "opponent_score"
-    case 9: return "front_gear_num"
-    case 10: return "front_gear"
-    case 11: return "rear_gear_num"
-    case 12: return "rear_gear"
-    case 13: return "device_index"
-    case 21: return "radar_threat_level_max"
-    case 22: return "radar_threat_count"
-    default: return "event_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_device_info_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "device_index"
-    case 1:
-      if strings["source_type"] == "antplus" {
-        return "antplus_device_type"
-      }else if strings["source_type"] == "ant" {
-        return "ant_device_type"
-      }else{
-        return "device_type"
-      }
-    case 2: return "manufacturer"
-    case 3: return "serial_number"
-    case 4:
-      if strings["manufacturer"] == "favero_electronics" {
-        return "favero_product"
-      }else if strings["manufacturer"] == "garmin" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream_oem" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "tacx" {
-        return "garmin_product"
-      }else{
-        return "product"
-      }
-    case 5: return "software_version"
-    case 6: return "hardware_version"
-    case 7: return "cum_operating_time"
-    case 10: return "battery_voltage"
-    case 11: return "battery_status"
-    case 18: return "sensor_position"
-    case 19: return "descriptor"
-    case 20: return "ant_transmission_type"
-    case 21: return "ant_device_number"
-    case 22: return "ant_network"
-    case 25: return "source_type"
-    case 27: return "product_name"
-    default: return "device_info_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_training_file_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "type"
-    case 1: return "manufacturer"
-    case 2:
-      if strings["manufacturer"] == "favero_electronics" {
-        return "favero_product"
-      }else if strings["manufacturer"] == "garmin" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream_oem" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "tacx" {
-        return "garmin_product"
-      }else{
-        return "product"
-      }
-    case 3: return "serial_number"
-    case 4: return "time_created"
-    default: return "training_file_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_hrv_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "time"
-    default: return "hrv_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_weather_conditions_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "weather_report"
-    case 1: return "temperature"
-    case 2: return "condition"
-    case 3: return "wind_direction"
-    case 4: return "wind_speed"
-    case 5: return "precipitation_probability"
-    case 6: return "temperature_feels_like"
-    case 7: return "relative_humidity"
-    case 8: return "location"
-    case 9: return "observed_at_time"
-    case 10: return "observed_location_lat"
-    case 11: return "observed_location_long"
-    case 12: return "day_of_week"
-    case 13: return "high_temperature"
-    case 14: return "low_temperature"
-    default: return "weather_conditions_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_weather_alert_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "report_id"
-    case 1: return "issue_time"
-    case 2: return "expire_time"
-    case 3: return "severity"
-    case 4: return "type"
-    default: return "weather_alert_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_gps_metadata_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "position_lat"
-    case 2: return "position_long"
-    case 3: return "enhanced_altitude"
-    case 4: return "enhanced_speed"
-    case 5: return "heading"
-    case 6: return "utc_timestamp"
-    case 7: return "velocity"
-    default: return "gps_metadata_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_camera_event_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "camera_event_type"
-    case 2: return "camera_file_uuid"
-    case 3: return "camera_orientation"
-    default: return "camera_event_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_gyroscope_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "sample_time_offset"
-    case 2: return "gyro_x"
-    case 3: return "gyro_y"
-    case 4: return "gyro_z"
-    case 5: return "calibrated_gyro_x"
-    case 6: return "calibrated_gyro_y"
-    case 7: return "calibrated_gyro_z"
-    default: return "gyroscope_data_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_accelerometer_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "sample_time_offset"
-    case 2: return "accel_x"
-    case 3: return "accel_y"
-    case 4: return "accel_z"
-    case 5: return "calibrated_accel_x"
-    case 6: return "calibrated_accel_y"
-    case 7: return "calibrated_accel_z"
-    case 8: return "compressed_calibrated_accel_x"
-    case 9: return "compressed_calibrated_accel_y"
-    case 10: return "compressed_calibrated_accel_z"
-    default: return "accelerometer_data_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_magnetometer_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "sample_time_offset"
-    case 2: return "mag_x"
-    case 3: return "mag_y"
-    case 4: return "mag_z"
-    case 5: return "calibrated_mag_x"
-    case 6: return "calibrated_mag_y"
-    case 7: return "calibrated_mag_z"
-    default: return "magnetometer_data_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_barometer_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "sample_time_offset"
-    case 2: return "baro_pres"
-    default: return "barometer_data_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_three_d_sensor_calibration_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "sensor_type"
-    case 1:
-      if strings["sensor_type"] == "accelerometer" {
-        return "accel_cal_factor"
-      }else if strings["sensor_type"] == "gyroscope" {
-        return "gyro_cal_factor"
-      }else{
-        return "calibration_factor"
-      }
-    case 2: return "calibration_divisor"
-    case 3: return "level_shift"
-    case 4: return "offset_cal"
-    case 5: return "orientation_matrix"
-    default: return "three_d_sensor_calibration_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_one_d_sensor_calibration_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "sensor_type"
-    case 1:
-      if strings["sensor_type"] == "barometer" {
-        return "baro_cal_factor"
-      }else{
-        return "calibration_factor"
-      }
-    case 2: return "calibration_divisor"
-    case 3: return "level_shift"
-    case 4: return "offset_cal"
-    default: return "one_d_sensor_calibration_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_video_frame_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "frame_number"
-    default: return "video_frame_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_obdii_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "time_offset"
-    case 2: return "pid"
-    case 3: return "raw_data"
-    case 4: return "pid_data_size"
-    case 5: return "system_time"
-    case 6: return "start_timestamp"
-    case 7: return "start_timestamp_ms"
-    default: return "obdii_data_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_nmea_sentence_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "sentence"
-    default: return "nmea_sentence_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_aviation_attitude_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "timestamp_ms"
-    case 1: return "system_time"
-    case 2: return "pitch"
-    case 3: return "roll"
-    case 4: return "accel_lateral"
-    case 5: return "accel_normal"
-    case 6: return "turn_rate"
-    case 7: return "stage"
-    case 8: return "attitude_stage_complete"
-    case 9: return "track"
-    case 10: return "validity"
-    default: return "aviation_attitude_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_video_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "url"
-    case 1: return "hosting_provider"
-    case 2: return "duration"
-    default: return "video_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_video_title_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "message_count"
-    case 1: return "text"
-    default: return "video_title_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_video_description_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "message_count"
-    case 1: return "text"
-    default: return "video_description_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_video_clip_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "clip_number"
-    case 1: return "start_timestamp"
-    case 2: return "start_timestamp_ms"
-    case 3: return "end_timestamp"
-    case 4: return "end_timestamp_ms"
-    case 6: return "clip_start"
-    case 7: return "clip_end"
-    default: return "video_clip_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_set_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "timestamp"
-    case 0: return "duration"
-    case 3: return "repetitions"
-    case 4: return "weight"
-    case 5: return "set_type"
-    case 6: return "start_time"
-    case 7: return "category"
-    case 8: return "category_subtype"
-    case 9: return "weight_display_unit"
-    case 10: return "message_index"
-    case 11: return "wkt_step_index"
-    default: return "set_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_jump_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "distance"
-    case 1: return "height"
-    case 2: return "rotations"
-    case 3: return "hang_time"
-    case 4: return "score"
-    case 5: return "position_lat"
-    case 6: return "position_long"
-    case 7: return "speed"
-    case 8: return "enhanced_speed"
-    default: return "jump_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_course_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 4: return "sport"
-    case 5: return "name"
-    case 6: return "capabilities"
-    case 7: return "sub_sport"
-    default: return "course_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_course_point_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 1: return "timestamp"
-    case 2: return "position_lat"
-    case 3: return "position_long"
-    case 4: return "distance"
-    case 5: return "type"
-    case 6: return "name"
-    case 8: return "favorite"
-    default: return "course_point_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_segment_id_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "name"
-    case 1: return "uuid"
-    case 2: return "sport"
-    case 3: return "enabled"
-    case 4: return "user_profile_primary_key"
-    case 5: return "device_id"
-    case 6: return "default_race_leader"
-    case 7: return "delete_status"
-    case 8: return "selection_type"
-    default: return "segment_id_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_segment_leaderboard_entry_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "name"
-    case 1: return "type"
-    case 2: return "group_primary_key"
-    case 3: return "activity_id"
-    case 4: return "segment_time"
-    case 5: return "activity_id_string"
-    default: return "segment_leaderboard_entry_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_segment_point_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 1: return "position_lat"
-    case 2: return "position_long"
-    case 3: return "distance"
-    case 4: return "altitude"
-    case 5: return "leader_time"
-    default: return "segment_point_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_segment_lap_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 253: return "timestamp"
-    case 0: return "event"
-    case 1: return "event_type"
-    case 2: return "start_time"
-    case 3: return "start_position_lat"
-    case 4: return "start_position_long"
-    case 5: return "end_position_lat"
-    case 6: return "end_position_long"
-    case 7: return "total_elapsed_time"
-    case 8: return "total_timer_time"
-    case 9: return "total_distance"
-    case 10:
-      if strings["sport"] == "cycling" {
-        return "total_strokes"
-      }else{
-        return "total_cycles"
-      }
-    case 11: return "total_calories"
-    case 12: return "total_fat_calories"
-    case 13: return "avg_speed"
-    case 14: return "max_speed"
-    case 15: return "avg_heart_rate"
-    case 16: return "max_heart_rate"
-    case 17: return "avg_cadence"
-    case 18: return "max_cadence"
-    case 19: return "avg_power"
-    case 20: return "max_power"
-    case 21: return "total_ascent"
-    case 22: return "total_descent"
-    case 23: return "sport"
-    case 24: return "event_group"
-    case 25: return "nec_lat"
-    case 26: return "nec_long"
-    case 27: return "swc_lat"
-    case 28: return "swc_long"
-    case 29: return "name"
-    case 30: return "normalized_power"
-    case 31: return "left_right_balance"
-    case 32: return "sub_sport"
-    case 33: return "total_work"
-    case 34: return "avg_altitude"
-    case 35: return "max_altitude"
-    case 36: return "gps_accuracy"
-    case 37: return "avg_grade"
-    case 38: return "avg_pos_grade"
-    case 39: return "avg_neg_grade"
-    case 40: return "max_pos_grade"
-    case 41: return "max_neg_grade"
-    case 42: return "avg_temperature"
-    case 43: return "max_temperature"
-    case 44: return "total_moving_time"
-    case 45: return "avg_pos_vertical_speed"
-    case 46: return "avg_neg_vertical_speed"
-    case 47: return "max_pos_vertical_speed"
-    case 48: return "max_neg_vertical_speed"
-    case 49: return "time_in_hr_zone"
-    case 50: return "time_in_speed_zone"
-    case 51: return "time_in_cadence_zone"
-    case 52: return "time_in_power_zone"
-    case 53: return "repetition_num"
-    case 54: return "min_altitude"
-    case 55: return "min_heart_rate"
-    case 56: return "active_time"
-    case 57: return "wkt_step_index"
-    case 58: return "sport_event"
-    case 59: return "avg_left_torque_effectiveness"
-    case 60: return "avg_right_torque_effectiveness"
-    case 61: return "avg_left_pedal_smoothness"
-    case 62: return "avg_right_pedal_smoothness"
-    case 63: return "avg_combined_pedal_smoothness"
-    case 64: return "status"
-    case 65: return "uuid"
-    case 66: return "avg_fractional_cadence"
-    case 67: return "max_fractional_cadence"
-    case 68: return "total_fractional_cycles"
-    case 69: return "front_gear_shift_count"
-    case 70: return "rear_gear_shift_count"
-    case 71: return "time_standing"
-    case 72: return "stand_count"
-    case 73: return "avg_left_pco"
-    case 74: return "avg_right_pco"
-    case 75: return "avg_left_power_phase"
-    case 76: return "avg_left_power_phase_peak"
-    case 77: return "avg_right_power_phase"
-    case 78: return "avg_right_power_phase_peak"
-    case 79: return "avg_power_position"
-    case 80: return "max_power_position"
-    case 81: return "avg_cadence_position"
-    case 82: return "max_cadence_position"
-    case 83: return "manufacturer"
-    case 84: return "total_grit"
-    case 85: return "total_flow"
-    case 86: return "avg_grit"
-    case 87: return "avg_flow"
-    case 89: return "total_fractional_ascent"
-    case 90: return "total_fractional_descent"
-    default: return "segment_lap_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_segment_file_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 1: return "file_uuid"
-    case 3: return "enabled"
-    case 4: return "user_profile_primary_key"
-    case 7: return "leader_type"
-    case 8: return "leader_group_primary_key"
-    case 9: return "leader_activity_id"
-    case 10: return "leader_activity_id_string"
-    case 11: return "default_race_leader"
-    default: return "segment_file_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_workout_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 4: return "sport"
-    case 5: return "capabilities"
-    case 6: return "num_valid_steps"
-    case 8: return "wkt_name"
-    case 11: return "sub_sport"
-    case 14: return "pool_length"
-    case 15: return "pool_length_unit"
-    default: return "workout_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_workout_session_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "sport"
-    case 1: return "sub_sport"
-    case 2: return "num_valid_steps"
-    case 3: return "first_step_index"
-    case 4: return "pool_length"
-    case 5: return "pool_length_unit"
-    default: return "workout_session_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_workout_step_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "wkt_step_name"
-    case 1: return "duration_type"
-    case 2:
-      if strings["duration_type"] == "time" {
-        return "duration_time"
-      }else if strings["duration_type"] == "repetition_time" {
-        return "duration_time"
-      }else if strings["duration_type"] == "distance" {
-        return "duration_distance"
-      }else if strings["duration_type"] == "hr_less_than" {
-        return "duration_hr"
-      }else if strings["duration_type"] == "hr_greater_than" {
-        return "duration_hr"
-      }else if strings["duration_type"] == "calories" {
-        return "duration_calories"
-      }else if strings["duration_type"] == "repeat_until_steps_cmplt" {
-        return "duration_step"
-      }else if strings["duration_type"] == "repeat_until_time" {
-        return "duration_step"
-      }else if strings["duration_type"] == "repeat_until_distance" {
-        return "duration_step"
-      }else if strings["duration_type"] == "repeat_until_calories" {
-        return "duration_step"
-      }else if strings["duration_type"] == "repeat_until_hr_less_than" {
-        return "duration_step"
-      }else if strings["duration_type"] == "repeat_until_hr_greater_than" {
-        return "duration_step"
-      }else if strings["duration_type"] == "repeat_until_power_less_than" {
-        return "duration_step"
-      }else if strings["duration_type"] == "repeat_until_power_greater_than" {
-        return "duration_step"
-      }else if strings["duration_type"] == "power_less_than" {
-        return "duration_power"
-      }else if strings["duration_type"] == "power_greater_than" {
-        return "duration_power"
-      }else if strings["duration_type"] == "reps" {
-        return "duration_reps"
-      }else{
-        return "duration_value"
-      }
-    case 3: return "target_type"
-    case 4:
-      if strings["target_type"] == "speed" {
-        return "target_speed_zone"
-      }else if strings["target_type"] == "heart_rate" {
-        return "target_hr_zone"
-      }else if strings["target_type"] == "cadence" {
-        return "target_cadence_zone"
-      }else if strings["target_type"] == "power" {
-        return "target_power_zone"
-      }else if strings["duration_type"] == "repeat_until_steps_cmplt" {
-        return "repeat_steps"
-      }else if strings["duration_type"] == "repeat_until_time" {
-        return "repeat_time"
-      }else if strings["duration_type"] == "repeat_until_distance" {
-        return "repeat_distance"
-      }else if strings["duration_type"] == "repeat_until_calories" {
-        return "repeat_calories"
-      }else if strings["duration_type"] == "repeat_until_hr_less_than" {
-        return "repeat_hr"
-      }else if strings["duration_type"] == "repeat_until_hr_greater_than" {
-        return "repeat_hr"
-      }else if strings["duration_type"] == "repeat_until_power_less_than" {
-        return "repeat_power"
-      }else if strings["duration_type"] == "repeat_until_power_greater_than" {
-        return "repeat_power"
-      }else if strings["target_type"] == "swim_stroke" {
-        return "target_stroke_type"
-      }else{
-        return "target_value"
-      }
-    case 5:
-      if strings["target_type"] == "speed" {
-        return "custom_target_speed_low"
-      }else if strings["target_type"] == "heart_rate" {
-        return "custom_target_heart_rate_low"
-      }else if strings["target_type"] == "cadence" {
-        return "custom_target_cadence_low"
-      }else if strings["target_type"] == "power" {
-        return "custom_target_power_low"
-      }else{
-        return "custom_target_value_low"
-      }
-    case 6:
-      if strings["target_type"] == "speed" {
-        return "custom_target_speed_high"
-      }else if strings["target_type"] == "heart_rate" {
-        return "custom_target_heart_rate_high"
-      }else if strings["target_type"] == "cadence" {
-        return "custom_target_cadence_high"
-      }else if strings["target_type"] == "power" {
-        return "custom_target_power_high"
-      }else{
-        return "custom_target_value_high"
-      }
-    case 7: return "intensity"
-    case 8: return "notes"
-    case 9: return "equipment"
-    case 10: return "exercise_category"
-    case 11: return "exercise_name"
-    case 12: return "exercise_weight"
-    case 13: return "weight_display_unit"
-    default: return "workout_step_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_exercise_title_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 0: return "exercise_category"
-    case 1: return "exercise_name"
-    case 2: return "wkt_step_name"
-    default: return "exercise_title_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_schedule_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 0: return "manufacturer"
-    case 1:
-      if strings["manufacturer"] == "favero_electronics" {
-        return "favero_product"
-      }else if strings["manufacturer"] == "garmin" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "dynastream_oem" {
-        return "garmin_product"
-      }else if strings["manufacturer"] == "tacx" {
-        return "garmin_product"
-      }else{
-        return "product"
-      }
-    case 2: return "serial_number"
-    case 3: return "time_created"
-    case 4: return "completed"
-    case 5: return "type"
-    case 6: return "scheduled_time"
-    default: return "schedule_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_totals_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 254: return "message_index"
-    case 253: return "timestamp"
-    case 0: return "timer_time"
-    case 1: return "distance"
-    case 2: return "calories"
-    case 3: return "sport"
-    case 4: return "elapsed_time"
-    case 5: return "sessions"
-    case 6: return "active_time"
-    case 9: return "sport_index"
-    default: return "totals_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_weight_scale_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "weight"
-    case 1: return "percent_fat"
-    case 2: return "percent_hydration"
-    case 3: return "visceral_fat_mass"
-    case 4: return "bone_mass"
-    case 5: return "muscle_mass"
-    case 7: return "basal_met"
-    case 8: return "physique_rating"
-    case 9: return "active_met"
-    case 10: return "metabolic_age"
-    case 11: return "visceral_fat_rating"
-    case 12: return "user_profile_index"
-    default: return "weight_scale_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_blood_pressure_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "systolic_pressure"
-    case 1: return "diastolic_pressure"
-    case 2: return "mean_arterial_pressure"
-    case 3: return "map_3_sample_mean"
-    case 4: return "map_morning_values"
-    case 5: return "map_evening_values"
-    case 6: return "heart_rate"
-    case 7: return "heart_rate_type"
-    case 8: return "status"
-    case 9: return "user_profile_index"
-    default: return "blood_pressure_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_monitoring_info_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "local_timestamp"
-    case 1: return "activity_type"
-    case 3: return "cycles_to_distance"
-    case 4: return "cycles_to_calories"
-    case 5: return "resting_metabolic_rate"
-    default: return "monitoring_info_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_monitoring_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "device_index"
-    case 1: return "calories"
-    case 2: return "distance"
-    case 3:
-      if strings["activity_type"] == "walking" {
-        return "steps"
-      }else if strings["activity_type"] == "running" {
-        return "steps"
-      }else if strings["activity_type"] == "cycling" {
-        return "strokes"
-      }else if strings["activity_type"] == "swimming" {
-        return "strokes"
-      }else{
-        return "cycles"
-      }
-    case 4: return "active_time"
-    case 5: return "activity_type"
-    case 6: return "activity_subtype"
-    case 7: return "activity_level"
-    case 8: return "distance_16"
-    case 9: return "cycles_16"
-    case 10: return "active_time_16"
-    case 11: return "local_timestamp"
-    case 12: return "temperature"
-    case 14: return "temperature_min"
-    case 15: return "temperature_max"
-    case 16: return "activity_time"
-    case 19: return "active_calories"
-    case 24: return "current_activity_type_intensity"
-    case 25: return "timestamp_min_8"
-    case 26: return "timestamp_16"
-    case 27: return "heart_rate"
-    case 28: return "intensity"
-    case 29: return "duration_min"
-    case 30: return "duration"
-    case 31: return "ascent"
-    case 32: return "descent"
-    case 33: return "moderate_activity_minutes"
-    case 34: return "vigorous_activity_minutes"
-    default: return "monitoring_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_hr_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "fractional_timestamp"
-    case 1: return "time256"
-    case 6: return "filtered_bpm"
-    case 9: return "event_timestamp"
-    case 10: return "event_timestamp_12"
-    default: return "hr_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_stress_level_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "stress_level_value"
-    case 1: return "stress_level_time"
-    default: return "stress_level_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_memo_glob_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 250: return "part_index"
-    case 0: return "memo"
-    case 1: return "message_number"
-    case 2: return "message_index"
-    default: return "memo_glob_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_ant_channel_id_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "channel_number"
-    case 1: return "device_type"
-    case 2: return "device_number"
-    case 3: return "transmission_type"
-    case 4: return "device_index"
-    default: return "ant_channel_id_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_ant_rx_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "fractional_timestamp"
-    case 1: return "mesg_id"
-    case 2: return "mesg_data"
-    case 3: return "channel_number"
-    case 4: return "data"
-    default: return "ant_rx_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_ant_tx_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "fractional_timestamp"
-    case 1: return "mesg_id"
-    case 2: return "mesg_data"
-    case 3: return "channel_number"
-    case 4: return "data"
-    default: return "ant_tx_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_exd_screen_configuration_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "screen_index"
-    case 1: return "field_count"
-    case 2: return "layout"
-    case 3: return "screen_enabled"
-    default: return "exd_screen_configuration_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_exd_data_field_configuration_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "screen_index"
-    case 1: return "concept_field"
-    case 2: return "field_id"
-    case 3: return "concept_count"
-    case 4: return "display_type"
-    case 5: return "title"
-    default: return "exd_data_field_configuration_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_exd_data_concept_configuration_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "screen_index"
-    case 1: return "concept_field"
-    case 2: return "field_id"
-    case 3: return "concept_index"
-    case 4: return "data_page"
-    case 5: return "concept_key"
-    case 6: return "scaling"
-    case 8: return "data_units"
-    case 9: return "qualifier"
-    case 10: return "descriptor"
-    case 11: return "is_signed"
-    default: return "exd_data_concept_configuration_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_field_description_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "developer_data_index"
-    case 1: return "field_definition_number"
-    case 2: return "fit_base_type_id"
-    case 3: return "field_name"
-    case 4: return "array"
-    case 5: return "components"
-    case 6: return "scale"
-    case 7: return "offset"
-    case 8: return "units"
-    case 9: return "bits"
-    case 10: return "accumulate"
-    case 13: return "fit_base_unit_id"
-    case 14: return "native_mesg_num"
-    case 15: return "native_field_num"
-    default: return "field_description_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_developer_data_id_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "developer_id"
-    case 1: return "application_id"
-    case 2: return "manufacturer_id"
-    case 3: return "developer_data_index"
-    case 4: return "application_version"
-    default: return "developer_data_id_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_dive_summary_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "reference_mesg"
-    case 1: return "reference_index"
-    case 2: return "avg_depth"
-    case 3: return "max_depth"
-    case 4: return "surface_interval"
-    case 5: return "start_cns"
-    case 6: return "end_cns"
-    case 7: return "start_n2"
-    case 8: return "end_n2"
-    case 9: return "o2_toxicity"
-    case 10: return "dive_number"
-    case 11: return "bottom_time"
-    default: return "dive_summary_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_climb_pro_field_num_to_string( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 253: return "timestamp"
-    case 0: return "position_lat"
-    case 1: return "position_long"
-    case 2: return "climb_pro_event"
-    case 3: return "climb_number"
-    case 4: return "climb_category"
-    case 5: return "current_dist"
-    default: return "climb_pro_field_num_\(field_num)"
-  }
-}
-func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UINT16, strings : [String:String]) -> String {
-  switch mesg_num {
-    case 0: return rzfit_swift_file_id_field_num_to_string(field_num: field_num, strings: strings)
-    case 1: return rzfit_swift_capabilities_field_num_to_string(field_num: field_num)
-    case 2: return rzfit_swift_device_settings_field_num_to_string(field_num: field_num)
-    case 3: return rzfit_swift_user_profile_field_num_to_string(field_num: field_num)
-    case 4: return rzfit_swift_hrm_profile_field_num_to_string(field_num: field_num)
-    case 5: return rzfit_swift_sdm_profile_field_num_to_string(field_num: field_num)
-    case 6: return rzfit_swift_bike_profile_field_num_to_string(field_num: field_num)
-    case 7: return rzfit_swift_zones_target_field_num_to_string(field_num: field_num)
-    case 8: return rzfit_swift_hr_zone_field_num_to_string(field_num: field_num)
-    case 9: return rzfit_swift_power_zone_field_num_to_string(field_num: field_num)
-    case 10: return rzfit_swift_met_zone_field_num_to_string(field_num: field_num)
-    case 12: return rzfit_swift_sport_field_num_to_string(field_num: field_num)
-    case 15: return rzfit_swift_goal_field_num_to_string(field_num: field_num)
-    case 18: return rzfit_swift_session_field_num_to_string(field_num: field_num, strings: strings)
-    case 19: return rzfit_swift_lap_field_num_to_string(field_num: field_num, strings: strings)
-    case 20: return rzfit_swift_record_field_num_to_string(field_num: field_num)
-    case 21: return rzfit_swift_event_field_num_to_string(field_num: field_num, strings: strings)
-    case 23: return rzfit_swift_device_info_field_num_to_string(field_num: field_num, strings: strings)
-    case 26: return rzfit_swift_workout_field_num_to_string(field_num: field_num)
-    case 27: return rzfit_swift_workout_step_field_num_to_string(field_num: field_num, strings: strings)
-    case 28: return rzfit_swift_schedule_field_num_to_string(field_num: field_num, strings: strings)
-    case 30: return rzfit_swift_weight_scale_field_num_to_string(field_num: field_num)
-    case 31: return rzfit_swift_course_field_num_to_string(field_num: field_num)
-    case 32: return rzfit_swift_course_point_field_num_to_string(field_num: field_num)
-    case 33: return rzfit_swift_totals_field_num_to_string(field_num: field_num)
-    case 34: return rzfit_swift_activity_field_num_to_string(field_num: field_num)
-    case 35: return rzfit_swift_software_field_num_to_string(field_num: field_num)
-    case 37: return rzfit_swift_file_capabilities_field_num_to_string(field_num: field_num)
-    case 38: return rzfit_swift_mesg_capabilities_field_num_to_string(field_num: field_num, strings: strings)
-    case 39: return rzfit_swift_field_capabilities_field_num_to_string(field_num: field_num)
-    case 49: return rzfit_swift_file_creator_field_num_to_string(field_num: field_num)
-    case 51: return rzfit_swift_blood_pressure_field_num_to_string(field_num: field_num)
-    case 53: return rzfit_swift_speed_zone_field_num_to_string(field_num: field_num)
-    case 55: return rzfit_swift_monitoring_field_num_to_string(field_num: field_num, strings: strings)
-    case 72: return rzfit_swift_training_file_field_num_to_string(field_num: field_num, strings: strings)
-    case 78: return rzfit_swift_hrv_field_num_to_string(field_num: field_num)
-    case 80: return rzfit_swift_ant_rx_field_num_to_string(field_num: field_num)
-    case 81: return rzfit_swift_ant_tx_field_num_to_string(field_num: field_num)
-    case 82: return rzfit_swift_ant_channel_id_field_num_to_string(field_num: field_num)
-    case 101: return rzfit_swift_length_field_num_to_string(field_num: field_num)
-    case 103: return rzfit_swift_monitoring_info_field_num_to_string(field_num: field_num)
-    case 106: return rzfit_swift_slave_device_field_num_to_string(field_num: field_num, strings: strings)
-    case 127: return rzfit_swift_connectivity_field_num_to_string(field_num: field_num)
-    case 128: return rzfit_swift_weather_conditions_field_num_to_string(field_num: field_num)
-    case 129: return rzfit_swift_weather_alert_field_num_to_string(field_num: field_num)
-    case 131: return rzfit_swift_cadence_zone_field_num_to_string(field_num: field_num)
-    case 132: return rzfit_swift_hr_field_num_to_string(field_num: field_num)
-    case 142: return rzfit_swift_segment_lap_field_num_to_string(field_num: field_num, strings: strings)
-    case 145: return rzfit_swift_memo_glob_field_num_to_string(field_num: field_num)
-    case 148: return rzfit_swift_segment_id_field_num_to_string(field_num: field_num)
-    case 149: return rzfit_swift_segment_leaderboard_entry_field_num_to_string(field_num: field_num)
-    case 150: return rzfit_swift_segment_point_field_num_to_string(field_num: field_num)
-    case 151: return rzfit_swift_segment_file_field_num_to_string(field_num: field_num)
-    case 158: return rzfit_swift_workout_session_field_num_to_string(field_num: field_num)
-    case 159: return rzfit_swift_watchface_settings_field_num_to_string(field_num: field_num, strings: strings)
-    case 160: return rzfit_swift_gps_metadata_field_num_to_string(field_num: field_num)
-    case 161: return rzfit_swift_camera_event_field_num_to_string(field_num: field_num)
-    case 162: return rzfit_swift_timestamp_correlation_field_num_to_string(field_num: field_num)
-    case 164: return rzfit_swift_gyroscope_data_field_num_to_string(field_num: field_num)
-    case 165: return rzfit_swift_accelerometer_data_field_num_to_string(field_num: field_num)
-    case 167: return rzfit_swift_three_d_sensor_calibration_field_num_to_string(field_num: field_num, strings: strings)
-    case 169: return rzfit_swift_video_frame_field_num_to_string(field_num: field_num)
-    case 174: return rzfit_swift_obdii_data_field_num_to_string(field_num: field_num)
-    case 177: return rzfit_swift_nmea_sentence_field_num_to_string(field_num: field_num)
-    case 178: return rzfit_swift_aviation_attitude_field_num_to_string(field_num: field_num)
-    case 184: return rzfit_swift_video_field_num_to_string(field_num: field_num)
-    case 185: return rzfit_swift_video_title_field_num_to_string(field_num: field_num)
-    case 186: return rzfit_swift_video_description_field_num_to_string(field_num: field_num)
-    case 187: return rzfit_swift_video_clip_field_num_to_string(field_num: field_num)
-    case 188: return rzfit_swift_ohr_settings_field_num_to_string(field_num: field_num)
-    case 200: return rzfit_swift_exd_screen_configuration_field_num_to_string(field_num: field_num)
-    case 201: return rzfit_swift_exd_data_field_configuration_field_num_to_string(field_num: field_num)
-    case 202: return rzfit_swift_exd_data_concept_configuration_field_num_to_string(field_num: field_num)
-    case 206: return rzfit_swift_field_description_field_num_to_string(field_num: field_num)
-    case 207: return rzfit_swift_developer_data_id_field_num_to_string(field_num: field_num)
-    case 208: return rzfit_swift_magnetometer_data_field_num_to_string(field_num: field_num)
-    case 209: return rzfit_swift_barometer_data_field_num_to_string(field_num: field_num)
-    case 210: return rzfit_swift_one_d_sensor_calibration_field_num_to_string(field_num: field_num, strings: strings)
-    case 225: return rzfit_swift_set_field_num_to_string(field_num: field_num)
-    case 227: return rzfit_swift_stress_level_field_num_to_string(field_num: field_num)
-    case 258: return rzfit_swift_dive_settings_field_num_to_string(field_num: field_num, strings: strings)
-    case 259: return rzfit_swift_dive_gas_field_num_to_string(field_num: field_num)
-    case 262: return rzfit_swift_dive_alarm_field_num_to_string(field_num: field_num)
-    case 264: return rzfit_swift_exercise_title_field_num_to_string(field_num: field_num)
-    case 268: return rzfit_swift_dive_summary_field_num_to_string(field_num: field_num)
-    case 285: return rzfit_swift_jump_field_num_to_string(field_num: field_num)
-    case 317: return rzfit_swift_climb_pro_field_num_to_string(field_num: field_num)
-    default: return "mesg_num_\(mesg_num)_field_num_\(field_num)"
-   }
 }
 func rzfit_swift_build_mesg(mesg_num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>) -> FitMessage? {
     var rv : FitMessage? = nil

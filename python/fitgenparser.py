@@ -161,6 +161,7 @@ class Field:
         self.offset = row[7]
         self.unit = row[8]
         self.unit_num = ctx.unit_num( self.unit )
+
             
         self.reference_field = row[11]
         if row[11]:
@@ -194,10 +195,10 @@ class Field:
             if not r.reference_field:
                 print( 'bug', self.name, r.name )
             for one in r.reference_field:
-                all_var[ one ] = ctx.types[message.fields_map[one].field_type]
+                all_var[ one ] = message.fields_map[one].field_num
         rv = []
-        for one,type_num in all_var.items():
-            rv.append( '      FIT_UINT32 {} = fit_interp_string_value(interp, {});'.format( one, type_num.type_num ) )
+        for one,field_num in all_var.items():
+            rv.append( '      FIT_UINT32 {} = fit_interp_string_value(interp, {});'.format( one, field_num ) )
 
         return rv;
 
@@ -266,7 +267,7 @@ class Field:
                 rv.append( '    }' )
             else:
                 rv.extend( ['      }else{',
-                            '        return "{}"'.format( self.name ),
+                            '        return "__INCOMPLETE__"'.format( self.name ),
                             '      }'
                             ])
 
@@ -343,7 +344,7 @@ class Field:
             if if_statement != 'if':
                 rv.append(  '      }'  )
 
-            rv.append(  '      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };' )
+            rv.append(  '      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };' )
 
             rv.append( '    }' )
                     
@@ -484,7 +485,7 @@ class StructElem :
     def __init__(self,ctx,groups):
         self.fit_type = groups[0]
         self.member = groups[1]
-        self.type_name = self.fit_type.replace( 'FIT_', '' ).lower()
+        self.type_name = self.fit_type.replace( 'FIT_', '', 1 ).lower()
         self.array = groups[2][1:-1]
 
     def close(self,ctx,message):
@@ -524,14 +525,12 @@ class StructElem :
             return '({}x+{}) in [{}]'.format( self.multiplier, self.offset, self.unit )
         else:
             return ''
-                
 
     def swift_unit_case_statement(self,prefix=''):
         if self.unit:
             return [ prefix + 'case "{}": return "{}"'.format( self.member,self.unit ) ]
         else:
             return None
-
     
     def swift_stmt_convert_value(self,ctx,message,prefix=''):
         lines = []
@@ -583,10 +582,14 @@ class StructElem :
                 lines.append( prefix + '}' )
 
             elif self.type_name == 'string':
-                lines = [ prefix + 'rv[ "{}" ] = withUnsafeBytes(of: &x.{}) {{ (rawPtr) -> String in'.format(self.member,self.member),
+                lines = [ prefix + 'let {} = withUnsafeBytes(of: &x.{}) {{ (rawPtr) -> String in'.format(self.member,self.member),
                           prefix + '  let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)',
                           prefix + '  return String(cString: ptr)',
-                          prefix + '}'
+                          prefix + '}',
+                          prefix + 'if !{}.isEmpty {{'.format( self.member, self.member ),
+                          prefix + '  rv[ "{}" ] = {}'.format( self.member, self.member ),
+                          prefix + '}',
+                          
                          ]
             
         return lines
@@ -726,6 +729,12 @@ class Context:
         self.parse_profile_excel()
         self.parse_example_header()
 
+    def do_mesg_num(self,mesg_num):
+        if not self.args.mesg_num:
+            return True
+        else:
+            return int(self.args.mesg_num) == mesg_num
+        
     def parse_profile_excel(self):
         print( 'Parsing {}'.format( self.args.profile ) )
         wb = openpyxl.load_workbook(filename=self.args.profile)
@@ -980,15 +989,16 @@ class Context:
     def swift_func_messages_dict(self):
         rv = []
         for (k,s) in self.structs.items():
-            rv.extend( s.swift_func_value_dict(self) )
-            rv.extend( s.swift_func_string_dict(self) )
-            rv.extend( s.swift_func_date_dict(self) )
+            if self.do_mesg_num(s.message.mesg_num):
+                rv.extend( s.swift_func_value_dict(self) )
+                rv.extend( s.swift_func_string_dict(self) )
+                rv.extend( s.swift_func_date_dict(self) )
 
         return rv
 
     def swift_fname_build_mesg(self):
         return 'rzfit_swift_build_mesg'
-    
+
     def swift_func_build_mesg(self):
         rv = [
             'func {}(mesg_num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>) -> FitMessage? {{'.format(self.swift_fname_build_mesg()),
@@ -998,7 +1008,8 @@ class Context:
 
         ordered = sorted(self.structs.values(), key=lambda x: x.message.mesg_num)
         for struct in ordered:
-            rv.extend( struct.swift_stmt_case_fit_mesg(self) )
+            if self.do_mesg_num( struct.message.mesg_num ):
+                rv.extend( struct.swift_stmt_case_fit_mesg(self) )
 
         rv.extend( [
             '    default:',
@@ -1042,18 +1053,26 @@ class Convert :
             rv.extend(  one.swift_func_to_string() )
         rv.extend( self.context.swift_func_type_to_string() )
         rv.extend( self.context.types['mesg_num'].swift_func_from_string() )
+        
         rv.extend( self.context.swift_unit_functions() )
 
         rv.extend( [
             '',
-            '//MARK: - fit message convert functions',
+            '//MARK: - fit convert fields',
             ''
             ] )
-        rv.extend( self.context.swift_func_messages_dict() )
+        
         for (n,m) in self.context.messages.items():
             rv.extend( m.swift_func_field_num_to_string(self.context) )
 
         rv.extend( self.context.swift_func_field_num_to_string() )
+        
+        rv.extend( [
+            '',
+            '//MARK: - fit build messages dict ',
+            ''
+            ] )
+        rv.extend( self.context.swift_func_messages_dict() )
 
         rv.extend( self.context.swift_func_build_mesg() )
         
@@ -1121,6 +1140,7 @@ if __name__ == "__main__":
     parser.add_argument( 'profile', default = 'Profile.xlsx' )
     parser.add_argument( '-o', '--outputfile', default = '../Sources/FitFileParser/rzfit_convert_auto.swift' )
     parser.add_argument( '-i', '--inputfile',  default = '../Sources/FitFileParserObjc/include/fit_example.h' )
+    parser.add_argument( '-m', '--mesg_num',  default = None )
     args = parser.parse_args()
     conv = Convert( args )
     
