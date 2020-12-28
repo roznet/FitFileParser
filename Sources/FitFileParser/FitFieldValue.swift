@@ -40,106 +40,91 @@ func optionalsAreEqual<T: Comparable>(_ firstVal: T?, _ secondVal: T?) -> Bool{
    }
 }
 
+public enum FitValue : Equatable{
+    case coordinate(CLLocationCoordinate2D)
+    case time(Date)
+    case value(Double)
+    case valueUnit(Double,String)
+    case name(String)
+    case invalid
+    
+    public static func == (lhs: FitValue, rhs: FitValue) -> Bool {
+        
+        switch (lhs, rhs) {
+        case (.coordinate(let lc), .coordinate(let rc)):
+            return lc.latitude == rc.latitude && lc.longitude == rc.longitude
+        case (.time(let lt), .time(let rt)):
+            return lt == rt
+        case (.value(let lv), .value(let rv)):
+            return lv == rv
+        case (.valueUnit(let lv,let lu), .valueUnit(let rv,let ru)):
+            return lv == rv && lu == ru
+        case (.name(let ln), .name(let rn)):
+            return ln == rn
+        case (.invalid, .invalid):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 /// An object to contain fit value with a single swift type no matter what the underlying type is
 public class FitFieldValue : Equatable{
-    
+    /*
+    */
     public static func == (lhs: FitFieldValue, rhs: FitFieldValue) -> Bool {
-        if  lhs.type == rhs.type && lhs.developer == rhs.developer{
-            switch lhs.type {
-            case .coordinate:
-                return optionalsAreEqual(lhs.coordinate?.latitude, rhs.coordinate?.latitude) && optionalsAreEqual(lhs.coordinate?.longitude, rhs.coordinate?.longitude)
-            case .time:
-                return optionalsAreEqual(lhs.time, rhs.time)
-            case .value:
-                return optionalsAreEqual(lhs.value, rhs.value)
-            case .valueUnit:
-                return optionalsAreEqual(lhs.valueUnit?.value, rhs.valueUnit?.value) && optionalsAreEqual(lhs.valueUnit?.unit, rhs.valueUnit?.unit)
-            case .name:
-                return optionalsAreEqual(lhs.name, rhs.name)
-            case .invalid:
-                return true
-            }
-        }
-        return false
+        return lhs.fitValue == rhs.fitValue && lhs.developer == rhs.developer
     }
-    
-    public enum ValueType {
-        case coordinate, time, value, valueUnit, name, invalid
-    }
-
-    public let type : ValueType
-    public let coordinate : CLLocationCoordinate2D?
-    public let valueUnit : FitDoubleUnit?
-    public let time : Date?
-    public let name : String?
-    public let value : Double?
+    public let fitValue : FitValue
     public let developer : Bool
     
+    public var coordinate : CLLocationCoordinate2D? { if case let FitValue.coordinate(c) = fitValue { return c } else { return nil } }
+    public var valueUnit : FitDoubleUnit? { if case let FitValue.valueUnit(value, unit) = fitValue { return FitDoubleUnit(value:value, unit:unit) } else { return nil } }
+    public var time : Date? { if case let FitValue.time(t) = fitValue { return t } else { return nil } }
+    public var name : String? { if case let FitValue.name(n) = fitValue { return n } else { return nil } }
+    public var value : Double? { if case let FitValue.value(v) = fitValue { return v } else { return nil } }
+    
     public init(latitude: Double, longitude: Double) {
-        coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        value = nil
-        valueUnit = nil
-        time = nil
-        name = nil
+        self.fitValue = FitValue.coordinate(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
         developer = false
-        type = ValueType.coordinate
     }
     
     public init(withValue : Double, andUnit : String, developer dev: Bool = false) {
-        coordinate = nil
-        valueUnit = (value: withValue, unit:andUnit)
-        value = nil
-        time = nil
-        name = nil
+        self.fitValue = FitValue.valueUnit(withValue, andUnit)
         developer = dev
-        type = ValueType.valueUnit
     }
     
     public init(withValue : Double, developer dev: Bool = false ){
-        coordinate = nil
-        valueUnit = nil
-        value = withValue
-        time = nil
-        name = nil
+        self.fitValue = FitValue.value(withValue)
         developer = dev
-        type = ValueType.value
     }
     
     public init(withName : String){
-        coordinate = nil
-        valueUnit = nil
-        value = nil
-        time = nil
-        name = withName
+        self.fitValue = FitValue.name(withName)
         developer = false
-        type = ValueType.name
     }
     
     public init(withTime: Date ){
-        coordinate = nil
-        value = nil
-        valueUnit = nil
-        time = withTime
-        name = nil
+        self.fitValue = FitValue.time(withTime)
         developer = false
-        type = ValueType.time
     }
-    
 }
 
 extension FitFieldValue : CustomStringConvertible {
     public var description: String {
-        if let coordinate = coordinate {
+        switch self.fitValue{
+        case .coordinate(let coordinate):
             return "FitField(withLatitude: \(coordinate.latitude), andLongitude: \(coordinate.longitude))"
-        }else if let valueUnit = valueUnit {
-            return "FitField(withValue: \(valueUnit.value), andUnit: \(valueUnit.unit))"
-        }else if let name = name {
+        case .valueUnit(let value, let unit):
+            return "FitField(withValue: \(value), andUnit: \(unit))"
+        case .name(let name):
             return "FitField(withName: \(name))"
-        }else if let time = time {
+        case .time(let time):
             return "FitField(withTime: \(time))"
-        }else if let value = value {
+        case .value(let value):
             return "FitField(withValue: \(value))"
-        }else{
+        default:
             return "FitField(Error)"
         }
     }

@@ -28,23 +28,46 @@ The type `FitMessageType` represent the messages type (mesg_num in the sdk). You
 
 The function `message.interpretedFields()` provide access to the fields for the message as a dictionary of keys to `FitFieldValue` which can be either a date, a string, a double value, a double value with unit or a gps coordinate.
 
-Here is a full example:
+Here is a full example
 
 ```swift
-let fit = FitFile(file: url )
-var gps : [CLLocationCoordinate2D] = []
-var hr  : [Double] = []
-var ts  : [Date]   = []
-for message in fit.messages(forMessageType: FitMessageType.record) {
-     if let one_gps = message.interpretedField(key: "position")?.coordinate,
-        let one_hr  = message.interpretedField(key: "heart_rate")?.valueUnit?.value,
-        let one_ts  = message.interpretedField(key: "timestamp")?.time {
-         gps.append( one_gps )
-         ts.append( one_ts)
-         hr.append( one_hr )
-     }
+if let fit = FitFile(file: path ) {
+    var gps : [CLLocationCoordinate2D] = []
+    var hr  : [Double] = []
+    var ts  : [Date]   = []
+    for message in fit.messages(forMessageType: .record) {
+        if let one_gps = message.interpretedField(key: "position")?.fitValue,
+           let one_hr  = message.interpretedField(key: "heart_rate")?.fitValue,
+           let one_ts  = message.interpretedField(key: "timestamp")?.fitValue {
+            if case let FitValue.coordinate(coord) = one_gps {
+                gps.append( coord )
+            }
+            if case let FitValue.time(date) = one_ts {
+                ts.append( date )
+            }
+            if case let FitValue.valueUnit(d , _) = one_hr {
+                hr.append( d )
+            }
+        }
+    }
 }
 ```
+Alternatively you can use the convenience optional computed property to get the value if more convenient
+
+```swift
+//...
+ if let one_gps = message.interpretedField(key: "position")?.coordinate,
+    let one_hr  = message.interpretedField(key: "heart_rate")?.valueUnit?.value,
+    let one_ts  = message.interpretedField(key: "timestamp")?.time {
+     gps.append( one_gps )
+     ts.append( one_ts)
+     hr.append( one_hr )
+}
+//...
+```
+
+
+
 
 ## Approach
 

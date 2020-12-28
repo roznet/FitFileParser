@@ -12,6 +12,33 @@ final class FitFileParserSwiftTests: XCTestCase {
         
     }
     
+    func testReadmeExampleSyntax(){
+        let path = self.findResource(name: "running.fit")
+        
+        if let fit = FitFile(file: path ) {
+            var gps : [CLLocationCoordinate2D] = []
+            var hr  : [Double] = []
+            var ts  : [Date]   = []
+            for message in fit.messages(forMessageType: .record) {
+                if let one_gps = message.interpretedField(key: "position")?.fitValue,
+                   let one_hr  = message.interpretedField(key: "heart_rate")?.fitValue,
+                   let one_ts  = message.interpretedField(key: "timestamp")?.fitValue {
+                    if case let FitValue.coordinate(coord) = one_gps {
+                        gps.append( coord )
+                    }
+                    if case let FitValue.time(date) = one_ts {
+                        ts.append( date )
+                    }
+                    if case let FitValue.valueUnit(d , _) = one_hr {
+                        hr.append( d )
+                    }
+                }
+            }
+            XCTAssertEqual(ts.count, hr.count)
+            XCTAssertEqual(ts.count, gps.count)
+        }
+    }
+    
     func testParsingTypes(){
         // Note this is very basic testing, because a lot of testing of the library is done in https://github.com/roznet/connectstats
         // Will move move testing to this library at some point
@@ -36,7 +63,7 @@ final class FitFileParserSwiftTests: XCTestCase {
                 if generic_idx < generic_messages.count {
                     let generic_message = generic_messages[generic_idx]
                     for (fast_key,fast_value) in message.interpretedFields() {
-                        if fast_value.type == .name && fast_value.name == ""{
+                        if case let FitValue.name(n) = fast_value.fitValue, n == ""{
                             // skip empty string, not interpreted the same
                             continue
                         }
