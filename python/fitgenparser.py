@@ -1030,7 +1030,7 @@ class Convert :
         self.context = Context(args)
         
     def outfile_to_objc_pair(self):
-        return ( '../Sources/FitFileParserObjc/fit_map.m','fit_map.h' ) 
+        return ( '../Sources/FitFileParserObjc/rzfit_objc_map.m','rzfit_objc_map.h' ) 
 
 
     def generate_swift_file(self):
