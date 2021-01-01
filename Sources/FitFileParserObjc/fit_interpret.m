@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "fit_convert.h"
-#import "fit_map.h"
+#import "rzfit_objc_map.h"
 #import "fit_interpret.h"
 
 FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field){

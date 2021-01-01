@@ -1,7 +1,7 @@
 // This file is auto generated, Do not edit
 
 @import Foundation;
-#include "fit_map.h"
+#include "rzfit_objc_map.h"
 #pragma mark - types conversion section
 
 

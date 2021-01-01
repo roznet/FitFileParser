@@ -28,7 +28,7 @@
 
 #include "fit_convert.h"
 #include "fit_example.h"
-#include "fit_map.h"
+#include "rzfit_objc_map.h"
 
 const FIT_UINT16 kMaxDevFields = 64;
 
