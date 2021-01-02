@@ -52,12 +52,13 @@ class Type :
             return False
 
     def __repr__(self):
-        return 'Type({},{},{},[{}])'.format( self.name, self.base_type, self.type_num, len(self.values) )
+        return 'Type({}={},{},[{}])'.format( self.name, self.type_num, self.base_type, len(self.values) )
     
     def description(self):
-        print( '{} {}:'.format( self.name, self.base_type ) )
+        rv = [ '{}'.format( self ) ]
         for d in self.values:
-            print( '   {}: {}'.format( d['value'],d['name'] ) )
+            rv.append( '   {}: {}'.format( d['value'],d['name'] ) )
+        return '\n'.join(rv)
 
     def value_for_string(self,val):
         return self.values_map[val]
@@ -149,7 +150,7 @@ class Field:
     unit: None or str (ex: 'bpm')
 
     references: None or array of sub fields with reference_field/reference_field_value (ex [ Field(garmin_product) ]
-    
+
     reference_field: None or array of field to check if should be used (ex: ['manufacturer','sport'] )
     reference_field_value: None or array of value to check if should be used (ex: ['garmin','running'] )
     '''
@@ -162,6 +163,36 @@ class Field:
         self.unit = row[8]
         self.unit_num = ctx.unit_num( self.unit )
 
+        self.is_value = False
+        self.is_date = False
+        self.is_string = False
+        self.is_fit_type = False
+        self.is_array = False
+
+        self.fit_type = None
+
+        self.array_size = None
+        self.include = False
+
+        self.is_switched = False
+        
+        if self.field_type.endswith( 'date_time' ):
+            self.is_date = True
+        elif self.field_type in ctx.types:
+            self.is_fit_type = True
+            self.fit_type = ctx.types[self.field_type]
+        elif self.field_type == 'string':
+            self.is_string = True
+        else:
+            self.is_value = True
+
+        if row[4]:
+            self.is_array = True
+            
+        if row[14]:
+            self.include = True
+            if self.is_array:
+                self.array_size = int( row[14] )
             
         self.reference_field = row[11]
         if row[11]:
@@ -172,19 +203,63 @@ class Field:
             self.reference_field_value = row[12].replace( '\n','').split( ',' )
         else:
             self.reference_field_value = []
+            
         if len(self.reference_field_value) != len(self.reference_field):
             print( 'bug inconsistent reference_field {} {} {}'.format( self.name, row[11], row[12] ) )
         self.references = []
 
+    def type_category(self):
+        base = self.field_type
+        if self.is_date:
+            base = 'date'
+        elif self.is_string:
+            return 'string'
+        elif self.is_value:
+            base =  'value({})'.format( self.field_type)
+        elif self.is_fit_type:
+            base =  '{}'.format( self.fit_type)
+        elif self.is_string:
+            if self.array_size:
+                base = 'string'
+            
+        if self.is_array:
+            if self.array_size:
+                base = base + '[{}]'.format( self.array_size )
+            else:
+                base = base + '[N]'
+
+        return base
+    
+    def __repr__(self):
+        if self.is_switched:
+            return  'Field({}={}, {}, switched[{}])'.format(self.name,self.field_num, self.type_category(), len(self.references) )
+        else:
+            if self.field_num:
+                return  'Field({}={}, {})'.format(self.name,self.field_num, self.type_category() )
+            else:
+                return  'Field({}, {})'.format(self.name, self.type_category() )
+
+    def description(self):
+        rv = [ repr(self) ]
+        print( self.references)
+        if self.references:
+            for field in self.references:
+                refs = ','.join(list(set(field.reference_field)))
+                rv.append( 'switch({}): {}'.format( refs, field ) )
+        return '\n'.join( rv )
+        
     def add_reference(self,ctx,row):
         field = Field(ctx,row)
-        self.references.append( field )
+        if field.is_fit_type:
+            if self.references and not self.is_fit_type:
+                if ctx.args.verbose:
+                    print( 'Warning: swifted field {} has value and enum, assuming value'.format( self ) )
 
-    def __repr__(self):
-        if self.references:
-            return  'Field({},{},{} ref)'.format(self.name,self.field_num, len(self.references) )
-        else:
-            return  'Field({},{})'.format(self.name,self.field_num )
+            if not self.references:
+                self.is_fit_type = True
+                
+        self.is_switched = True
+        self.references.append( field )
 
     def objc_type(self,ctx):
         return 'FIT_{}'.format(self.field_type.upper() )
@@ -267,7 +342,7 @@ class Field:
                 rv.append( '    }' )
             else:
                 rv.extend( ['      }else{',
-                            '        return "__INCOMPLETE__"'.format( self.name ),
+                            '        return "{}"'.format( self.name ),
                             '      }'
                             ])
 
@@ -292,9 +367,6 @@ class Field:
         return rv
         
         
-    def is_complex(self):
-        return self.references
-
     def objc_expr_fit_field_info(self,ctx):
         rv = None
         scale = 0
@@ -376,6 +448,9 @@ class Message:
         self.fields = []
         self.fields_map = {}
 
+    def __repr__(self):
+        return( 'Message({}={})[{}]'.format( self.name, self.mesg_num, len( self.fields ) ) )
+        
     def add(self,ctx,row):
         if row[1] is not None:
             field = Field( ctx,row )
@@ -393,11 +468,6 @@ class Message:
         field = self.fields_map[field_name]
         return ctx.types[ field.field_type ]
             
-    def description(self):
-        print( self.name )
-        for field in self.fields:
-            field.description()
-
     def swift_fname_field_num_to_string(self):
         return 'rzfit_swift_{}_field_num_to_string'.format( self.name )
 
@@ -502,7 +572,7 @@ class StructElem :
 
 
     def is_type(self,ctx):
-        return (self.type_name in ctx.types or self.field.is_complex() ) and not self.is_date(ctx)
+        return (self.type_name in ctx.types or self.field.is_enum() ) and not self.is_date(ctx)
     def is_string(self,ctx):
         if self.is_type(ctx) or self.type_name =='string':
             return True
@@ -907,12 +977,18 @@ class Context:
 
     def objc_fname_type_to_string(self):
         return 'rzfit_objc_type_to_string'
+
+
+    def ordered_types(self):
+        ordered = sorted( self.types.keys(), key=lambda x: self.types[x].type_num )
+        return ordered
+        
     
     def objc_func_type_to_string(self):
         rv = [ 'NSString * {}( FIT_TYPE fit_type, FIT_UINT32 val ){{'.format( self.objc_fname_type_to_string() ),
                '  switch( fit_type ){'
                ]
-        ordered = sorted( self.types.keys(), key=lambda x: self.types[x].type_num )
+        ordered = self.ordered_types()
         for k in ordered:
             rv.extend( self.types[k].objc_stmt_case_type_function_call() )
         rv.extend( [ '    default: return [NSString stringWithFormat:@"FIT_TYPE_%u_VALUE_%u", (unsigned int)fit_type, (unsigned int)val];' ,
@@ -954,7 +1030,7 @@ class Context:
         rv = [ 'func {}(fit_type : FIT_UINT8, val : FIT_UINT32 ) -> String {{'.format( self.swift_fname_type_to_string() ),
                '  switch fit_type {'
                ]
-        ordered = sorted( self.types.keys(), key=lambda x: self.types[x].type_num )
+        ordered = self.ordered_types()
         for k in ordered:
             rv.extend( self.types[k].swift_stmt_case_type_function_call() )
         rv.extend( [ '    default: return "fit_type_\(fit_type)_\(val)"',
@@ -1024,14 +1100,13 @@ class Context:
         
 
             
-class Convert :
+class Command :
     def __init__(self,args):
         self.args = args
         self.context = Context(args)
         
     def outfile_to_objc_pair(self):
         return ( '../Sources/FitFileParserObjc/rzfit_objc_map.m','rzfit_objc_map.h' ) 
-
 
     def generate_swift_file(self):
         oof = open( '../Sources/FitFileParser/rzfit_swift_map.swift', 'w' )
@@ -1129,19 +1204,99 @@ class Convert :
         ] ) )
 
         oof.write( '\n'.join( self.context.objc_func_field_info() ) )
+
+        
+    def types(self):
+        rv = []
+        if self.args.type:
+            for i in self.args.type.split( ','):
+                if i in self.context.types:
+                    rv.append( self.context.types[i] )
+                elif int(i) > 0:
+                    for t in self.context.types.values():
+                        if int(i) == int(t.type_num):
+                            rv.append( t )
+        else:
+            rv = [self.context.types[x] for x in self.context.ordered_types()]
+                            
+        return rv
     
-    def run(self):
+    def messages(self):
+        rv = []
+        if self.args.message:
+            for i in self.args.message.split( ','):
+                if i in self.context.messages:
+                    rv.append( self.context.messages[i] )
+                elif int(i) > 0:
+                    for m in self.context.messages.values():
+                        if int(m.mesg_num) == int(i):
+                            rv.append( m )
+        else:
+            rv = self.context.messages.values()
+        return rv
+
+    def fields(self,message):
+        rv = []
+        if self.args.field:
+            for i in self.args.field.split( ','):
+                if i in message.fields_map:
+                    rv.append( message.fields_map[i] )
+                elif int(i) > 0:
+                    for f in message.fields:
+                        if int(f.field_num) == int(i):
+                            rv.append( f )
+        else:
+            rv = message.fields
+        return rv
+
+    def cmd_generate(self):
         self.generate_objc_file()
         self.generate_swift_file()
-        
+
+    def cmd_message(self):
+        messages = self.messages()
+        for m in messages:
+            print( m )
+            if self.args.message:
+                fields = self.fields(m)
+                for f in fields:
+                    if self.args.field:
+                        print( f.description() )
+                    else:
+                        print( f )
+    def cmd_type(self):
+        types = self.types()
+        for t in types:
+            if self.args.type:
+                print( t.description() )
+            else:
+                print( t )
         
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser( description='Auto Generate Parser files' )
+    commands = {
+        'message':{'attr':'cmd_message','help':'Show message information'},
+        'type':{'attr':'cmd_type','help':'Show type information'},
+        'generate':{'attr':'cmd_generate','help':'Generate swift and objective c files'},
+    }
+    
+    description = "\n".join( [ '  {}: {}'.format( k,v['help'] ) for (k,v) in commands.items() ] )
+    
+    parser = argparse.ArgumentParser( description='Auto Generate Parser files', formatter_class=argparse.RawTextHelpFormatter )
+    
+    parser.add_argument( 'command', metavar='Command', help = 'command to execute:\n' + description )
     parser.add_argument( 'profile', default = 'Profile.xlsx' )
     parser.add_argument( '-o', '--outputfile', default = '../Sources/FitFileParser/rzfit_convert_auto.swift' )
-    parser.add_argument( '-i', '--inputfile',  default = '../Sources/FitFileParserObjc/include/fit_example.h' )
-    parser.add_argument( '-m', '--mesg_num',  default = None )
+    parser.add_argument( '-i', '--inputfile',  default = '../Sources/FitFileParserObjc/fit_example.h' )
+    parser.add_argument( '-m', '--message',  default = None )
+    parser.add_argument( '-t', '--type',  default = None )
+    parser.add_argument( '-f', '--field',  default = None )
+    parser.add_argument( '-v', '--verbose',  action='store_true' )
     args = parser.parse_args()
-    conv = Convert( args )
+
+    command = Command( args )
     
-    conv.run()
+    if args.command in commands:
+        getattr(command,commands[args.command]['attr'])()
+    else:
+        print( 'Invalid command "{}"'.format( args.command) )
+        parser.print_help()
