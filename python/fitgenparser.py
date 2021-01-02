@@ -167,6 +167,11 @@ class Field:
         self.unit = row[8]
         self.unit_num = ctx.unit_num( self.unit )
 
+        if self.type_name in ctx.types:
+            self.base_type = ctx.types[self.type_name].base_type
+        else:
+            self.base_type = self.type_name
+
         self.member = self.name 
         
         self.is_value = False
@@ -181,6 +186,11 @@ class Field:
         self.include = False
 
         self.is_switched = False
+        self.switch_require_complete = False
+        # some fields seem to be default, some other will require rest to be there
+        # need to keep track so we default in switch to main field or wait for more information
+        if not self.unit:
+            self.switch_require_complete = True
         
         if self.type_name.endswith( 'date_time' ):
             self.is_date = True
@@ -194,11 +204,15 @@ class Field:
 
         if row[4]:
             self.is_array = True
-            
-        if row[14]:
+            if row[4] != '[N]':
+                # sometime the size is there
+                digits = re.findall(r'\d+', row[4])
+                self.array_size = int( digits[0] )
+
+        if row[15]:
             self.include = True
-            if self.is_array:
-                self.array_size = int( row[14] )
+            if self.is_array and not self.array_size:
+                self.array_size = int( row[15] )
             
         self.reference_field = row[11]
         if row[11]:
@@ -213,6 +227,20 @@ class Field:
         if len(self.reference_field_value) != len(self.reference_field):
             print( 'bug inconsistent reference_field {} {} {}'.format( self.name, row[11], row[12] ) )
         self.references = []
+        
+    def add_reference(self,ctx,row):
+        field = Field(ctx,row)
+        if field.is_fit_type:
+            if self.references and not self.is_fit_type:
+                if ctx.args.verbose:
+                    print( 'Warning: swifted field {} has value and enum, assuming value'.format( self ) )
+
+            if not self.references:
+                self.is_fit_type = True
+                self.is_value = False
+                
+        self.is_switched = True
+        self.references.append( field )
 
     def type_category(self):
         base = self.type_name
@@ -223,7 +251,10 @@ class Field:
         elif self.is_value:
             base =  'value({})'.format( self.type_name)
         elif self.is_fit_type:
-            base =  '{}'.format( self.fit_type)
+            if self.is_switched:
+                base =  'switched[{}]'.format( self.base_type)
+            else:
+                base =  '{}'.format( self.fit_type)
         elif self.is_string:
             if self.array_size:
                 base = 'string'
@@ -238,7 +269,7 @@ class Field:
     
     def __repr__(self):
         if self.is_switched:
-            return  'Field({}={}, {}, switched[{}])'.format(self.name,self.field_num, self.type_category(), len(self.references) )
+            return  'Field({}={}, {}, switch_conditions[{}])'.format(self.name,self.field_num, self.type_category(), len(self.references) )
         else:
             if self.field_num:
                 return  'Field({}={}, {})'.format(self.name,self.field_num, self.type_category() )
@@ -254,37 +285,12 @@ class Field:
                 rv.append( 'switch({}): {}'.format( refs, field ) )
         return '\n'.join( rv )
         
-    def add_reference(self,ctx,row):
-        field = Field(ctx,row)
-        if field.is_fit_type:
-            if self.references and not self.is_fit_type:
-                if ctx.args.verbose:
-                    print( 'Warning: swifted field {} has value and enum, assuming value'.format( self ) )
-
-            if not self.references:
-                self.is_fit_type = True
-                
-        self.is_switched = True
-        self.references.append( field )
-
-
-    def is_c_string(self,ctx):
-        return self.type_name == 'string'
-    
-    def is_date(self,ctx):
-        return self.type_name.endswith( 'date_time')
-                   
-    def is_value(self,ctx):
-        return not self.is_string(ctx) and not self.is_date(ctx) and not self.is_array()
-
-    def is_array(self):
-        return len(self.array) > 0
-
     def formula(self):
         if self.unit:
             return '({}x+{}) in [{}]'.format( self.multiplier, self.offset, self.unit )
         else:
             return ''
+        
     def name_to_units(self):
         rv = {}
         if self.unit:
@@ -312,17 +318,55 @@ class Field:
         lines = []
 
         member = self.member
-
+        array_access = ''
+        if self.is_array and self.array_size > 1:
+            array_access = '.0'
         if self.is_value:
-            formula = self.swift_expr_formula(ctx)
-            lines = [ prefix + 'if x.{} != {}_INVALID  {{'.format( member, self.objc_type ),
-                      prefix + '  let val : Double = {}'.format( formula ),
-                      prefix + '  rv[ "{}" ] = val'.format(self.name),
-                      prefix + '}'
-                      ]
+            lines = [ prefix + 'if x.{}{} != {}_INVALID  {{'.format( member, array_access, self.objc_type ) ]
+
+            if self.is_switched:
+                lines.extend( self.swift_stmt_case_convert_to_value(ctx, message) )
+            else:
+                if self.is_array:
+                    lines.append( prefix + '// Array[{}]'.format( self.array_size ) )
+                formula = self.swift_expr_formula(ctx)
+                lines.extend( [ prefix + '  let val : Double = {}'.format( formula ),
+                                 prefix + '  rv[ "{}" ] = val'.format(self.name),
+                                 ] )
+                 
+            lines.append( prefix + '}' )
             
         return lines
 
+    def swift_stmt_convert_string(self,ctx,message,prefix='  '):
+        lines = []
+
+        if self.is_string or self.is_fit_type:
+            if self.is_fit_type and not self.is_array:
+                lines = [ prefix + 'if( x.{} != {}_INVALID ) {{'.format( self.member, self.objc_type  ) ]
+                if self.is_switched:
+                    lines.extend( self.swift_stmt_case_convert_to_string(ctx,message) )
+                else:
+                    type_obj = ctx.types[self.type_name]
+                    lines.extend( [
+                          prefix + '  rv[ "{}" ] = {}(x.{})'.format( self.member,type_obj.swift_fname_to_string(), self.member ),
+                         ])
+
+                lines.append( prefix + '}' )
+
+            elif self.is_string:
+                lines = [ prefix + 'let {} = withUnsafeBytes(of: &x.{}) {{ (rawPtr) -> String in'.format(self.member,self.member),
+                          prefix + '  let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)',
+                          prefix + '  return String(cString: ptr)',
+                          prefix + '}',
+                          prefix + 'if !{}.isEmpty {{'.format( self.member, self.member ),
+                          prefix + '  rv[ "{}" ] = {}'.format( self.member, self.member ),
+                          prefix + '}',
+                          
+                         ]
+            
+        return lines
+    
     def swift_stmt_convert_date(self,ctx,message,prefix=''):
         lines = []
 
@@ -336,34 +380,32 @@ class Field:
                       ]
             
         return lines
-        
-    def swift_stmt_convert_string(self,ctx,message,prefix='  '):
-        lines = []
 
-        if self.is_string:
-            if self.is_type(ctx) and not self.is_array():
-                lines = [ prefix + 'if( x.{} != {}_INVALID ) {{'.format( self.member, self.objc_type  ) ]
-                if self.is_switched:
-                    lines.extend( self.swift_stmt_case_convert_to_string(ctx,message) )
-                else:
-                    type_obj = ctx.types[self.type_name]
-                    lines.extend( [
-                          prefix + '  rv[ "{}" ] = {}(x.{})'.format( self.member,type_obj.swift_fname_to_string(), self.member ),
-                         ])
-                lines.append( prefix + '}' )
-
-            elif self.is_c_string(ctx):
-                lines = [ prefix + 'let {} = withUnsafeBytes(of: &x.{}) {{ (rawPtr) -> String in'.format(self.member,self.member),
-                          prefix + '  let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)',
-                          prefix + '  return String(cString: ptr)',
-                          prefix + '}',
-                          prefix + 'if !{}.isEmpty {{'.format( self.member, self.member ),
-                          prefix + '  rv[ "{}" ] = {}'.format( self.member, self.member ),
-                          prefix + '}',
-                          
-                         ]
+    def swift_stmt_case_convert_to_value(self,ctx,message):
+        rv = []
+        if self.references:
+            if_statement = 'if'
+            for r in self.references:
+                if not r.reference_field:
+                    print( 'bug', self.name, r.name )
+                for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
+                    ref_type_obj = message.type_for_field(ctx,onefield)
+                    formula = self.swift_expr_formula(ctx)
+                    rv.extend( [ '      {} x.{} == {} {{ // {}'.format( if_statement, onefield, ref_type_obj.value_for_string(oneval), oneval ),
+                                 '        let val : Double = {}'.format( formula ),
+                                 '        rv[ "{}" ] = val'.format( r.name ),
+                                 ] )
+                    if_statement = '}else if'
+            if if_statement != 'if':
+                rv.append( '      }else{' )
+                formula = self.swift_expr_formula(ctx)
+                rv.extend( [ '        let val : Double = {}'.format( formula ),
+                             '        rv[ "{}" ] = val'.format( self.name ),
+                             '      }',
+                             ] )
             
-        return lines
+
+        return rv
 
     def swift_stmt_case_convert_to_string(self,ctx,message):
         rv = []
@@ -377,7 +419,7 @@ class Field:
                     r_type_obj = ctx.types[r.name]
                     for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
                         ref_type_obj = message.type_for_field(ctx,onefield)
-                        rv.extend( [ '      {} x.{} == {} {{'.format( if_statement, onefield, ref_type_obj.value_for_string(oneval) ),
+                        rv.extend( [ '      {} x.{} == {} {{ // {}'.format( if_statement, onefield, ref_type_obj.value_for_string(oneval), oneval ),
                                      '        rv[ "{}" ] = {}({}(x.{}))'.format( r.name,r_type_obj.swift_fname_to_string(), r_type_obj.objc_type(), self.name ),
                                      ] )
                         if_statement = '}else if'
@@ -401,20 +443,20 @@ class Field:
             if if_statement == 'if':
                 rv.append( '    }' )
             else:
-                rv.extend( ['      }else{',
-                            '        return "{}"'.format( self.name ),
-                            '      }'
-                            ])
+                if self.switch_require_complete:
+                    rv.extend( ['      }else{',
+                                '        return "__INCOMPLETE__"'.format( self.name ),
+                                '      }'
+                                ])
+                else:
+                    rv.extend( ['      }else{',
+                                '        return "{}"'.format( self.name ),
+                                '      }'
+                                ])
 
             return rv
         else:
             return ['    case {}: return "{}"'.format(self.field_num, self.name ) ]
-    def is_type(self,ctx):
-        return (self.type_name in ctx.types or self.is_fit_type ) and not self.is_date(ctx)
-    def is_string(self,ctx):
-        if self.is_type(ctx) or self.type_name =='string':
-            return True
-        return False
       
     #---- objc field
     def objc_stmt_build_references_variables(self,ctx,message):
@@ -479,7 +521,7 @@ class Field:
             report = True
         if self.unit and self.unit in ctx.units:
             unit = ctx.units[ self.unit ]
-            report = True
+        report = True
         if report:
             rv = '(FIT_FIELD_INFO){{.scale = {}, .offset = {}, .fit_type = {}, .fit_unit = {}, .fit_flag = {} }}'.format( scale,offset,fit_type,unit,flags )
 
@@ -488,7 +530,7 @@ class Field:
     def objc_stmt_case_to_field_info(self,ctx,message):
         rv = []
         if self.references:
-            rv.extend( [ '    case {}:'.format( self.field_num ),
+            rv.extend( [ '    case {}: // {}'.format( self.field_num, self.name ),
                          '    {',
                          ] )
             if_statement = 'if'
@@ -507,7 +549,10 @@ class Field:
             if if_statement != 'if':
                 rv.append(  '      }'  )
 
-            rv.append(  '      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };' )
+            if self.is_value:
+                rv.append(  '      return {};'.format( self.objc_expr_fit_field_info(ctx) ) )
+            else:
+                rv.append(  '      return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };' )
 
             rv.append( '    }' )
                     
@@ -519,7 +564,10 @@ class Field:
         return rv
 
     def swift_expr_formula(self,ctx):
-        formula = 'Double(x.{})'.format(self.name)
+        if self.is_array and self.array_size > 1:
+            formula = 'Double(x.{}.0)'.format(self.name)
+        else:
+            formula = 'Double(x.{})'.format(self.name)
         # ignore scale that are multi field ex: compressed_speed_distance = 100,16
         if self.scale and ',' not in str(self.scale) and float(self.scale) != 1.0:
             formula = '({}/Double({}))'.format( formula, self.scale )
@@ -572,6 +620,13 @@ class Message:
                 rv = True
         return rv
 
+    def has_included(self):
+        rv = False
+        for f in self.fields:
+            if f.include:
+                rv = True
+        return rv
+    
     def field_to_unit(self,all_fields):
         for f in self.fields:
             for (k,v) in f.name_to_units().items():
@@ -603,12 +658,12 @@ class Message:
         return 'rzfit_swift_{}_value_dict'.format( self.name )
     
     def swift_func_value_dict(self,ctx):
-        rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Double] {{'.format( self.swift_fname_value_dict(), self.struct_name ),
-               ]
+        rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Double] {{'.format( self.swift_fname_value_dict(), self.struct_name ) ]
         elems = []
         
         for field in self.fields:
-            elems += field.swift_stmt_convert_value(ctx, self, '  ')
+            if field.include:
+                elems += field.swift_stmt_convert_value(ctx, self, '  ')
 
         if elems:
             rv += [ '  var rv : [String:Double] = [:]',
@@ -630,9 +685,10 @@ class Message:
         elems = []
         hasString = False
         for field in self.fields:
-            if field.is_c_string(ctx):
-                hasString = True
-            elems += field.swift_stmt_convert_string(ctx,self)
+            if field.include:
+                if field.is_string:
+                    hasString = True
+                elems += field.swift_stmt_convert_string(ctx,self)
         if elems:
             rv += [ '  var rv : [String:String] = [:]',
                     '  {} x : {} = ptr.pointee'.format('var' if hasString else 'let', self.struct_name)
@@ -656,7 +712,8 @@ class Message:
         elems = []
         
         for field in self.fields:
-            elems += field.swift_stmt_convert_date(ctx, self, '  ')
+            if field.include:
+                elems += field.swift_stmt_convert_date(ctx, self, '  ')
 
         if elems:
             rv += [ '  var rv : [String:Date] = [:]',
@@ -679,7 +736,6 @@ class Message:
                '                       mesg_enums:  {}(ptr: $0),'.format(  self.swift_fname_string_dict()),
                '                       mesg_dates:  {}(ptr: $0))'.format(  self.swift_fname_date_dict()),
                '      }'
-
               ]
         return rv
 
@@ -739,12 +795,6 @@ class Context:
         self.args = args
         self.parse_profile_excel()
 
-    def do_mesg_num(self,mesg_num):
-        if not self.args.message:
-            return True
-        else:
-            return int(self.args.mesg_num) == mesg_num
-        
     def parse_profile_excel(self):
         print( 'Parsing {}'.format( self.args.profile ) )
         wb = openpyxl.load_workbook(filename=self.args.profile)
@@ -783,14 +833,14 @@ class Context:
         rv = []
         if self.args.type:
             for i in self.args.type.split( ','):
-                if i in self.context.types:
-                    rv.append( self.context.types[i] )
+                if i in self.types:
+                    rv.append( self.types[i] )
                 elif int(i) > 0:
-                    for t in self.context.types.values():
+                    for t in self.types.values():
                         if int(i) == int(t.type_num):
                             rv.append( t )
         else:
-            rv = [self.context.types[x] for x in self.context.ordered_types()]
+            rv = [self.types[x] for x in self.ordered_types()]
                             
         return rv
     
@@ -798,14 +848,14 @@ class Context:
         rv = []
         if self.args.message:
             for i in self.args.message.split( ','):
-                if i in self.context.messages:
-                    rv.append( self.context.messages[i] )
+                if i in self.messages:
+                    rv.append( self.messages[i] )
                 elif int(i) > 0:
-                    for m in self.context.messages.values():
+                    for m in self.messages.values():
                         if int(m.mesg_num) == int(i):
                             rv.append( m )
         else:
-            rv = self.context.messages.values()
+            rv = self.messages.values()
         return rv
 
     def arg_fields(self,message):
@@ -917,7 +967,8 @@ class Context:
         for t in mesg_num.values:
             mesg_name = t['name']
             if mesg_name not in self.messages:
-                print( 'missing {}'.format( mesg_name ) )
+                if self.args.verbose:
+                    print( 'Warning: Message {} in mesg_num type has no definition, skipping for objc'.format( mesg_name ) )
             else:
                 mesg = self.messages[ mesg_name ]
                 if mesg.has_switched_field():
@@ -1000,7 +1051,8 @@ class Context:
         for t in mesg_num.values:
             mesg_name = t['name']
             if mesg_name not in self.messages:
-                print( 'missing {}'.format( mesg_name ) )
+                if self.args.verbose:
+                    print( 'Warning: Message {} in mesg_num type not defined, skipping for swift'.format( mesg_name ) )
             else:
                 mesg = self.messages[mesg_name]
                 if mesg.has_switched_field():
@@ -1014,8 +1066,9 @@ class Context:
     
     def swift_func_messages_dict(self):
         rv = []
-        for (k,s) in self.messages.items():
-            if self.do_mesg_num(s.mesg_num):
+        messages = self.arg_messages()
+        for s in messages:
+            if s.has_included():
                 rv.extend( s.swift_func_value_dict(self) )
                 rv.extend( s.swift_func_string_dict(self) )
                 rv.extend( s.swift_func_date_dict(self) )
@@ -1032,9 +1085,9 @@ class Context:
             '    switch mesg_num {',
             ]
 
-        ordered = sorted(self.messages.values(), key=lambda x: x.mesg_num)
+        ordered = sorted(self.arg_messages(), key=lambda x: x.mesg_num)
         for message in ordered:
-            if self.do_mesg_num( message.mesg_num ):
+            if message.has_included():
                 rv.extend( message.swift_stmt_case_fit_mesg(self) )
 
         rv.extend( [
@@ -1052,12 +1105,10 @@ class Command :
         self.args = args
         self.context = Context(args)
         
-    def outfile_to_objc_pair(self):
-        return ( '../Sources/FitFileParserObjc/rzfit_objc_map.m','rzfit_objc_map.h' ) 
-
     def generate_swift_file(self):
-
-        swift_file_name = '../Sources/FitFileParser/rzfit_swift_map.swift'
+        swift_dir = self.args.swiftdir
+        swift_file_name = os.path.join( swift_dir, 'rzfit_swift_map.swift' )
+        
         print( 'Writing {}'.format( swift_file_name ) )
         oof = open( swift_file_name, 'w' )
 
@@ -1104,15 +1155,18 @@ class Command :
         oof.write( '\n'.join( rv ) )
 
     def generate_objc_file(self):
-        (objcf, objch) = self.outfile_to_objc_pair()
-        print( 'Writing {}'.format( objcf ) )
-        hf = os.path.basename( objch )
-        oof = open( objcf, 'w')
+        objc_dir = self.args.objcdir
+        objc_file_name = os.path.join( objc_dir, 'rzfit_objc_map.m' )
+        objc_header = 'rzfit_objc_map.h'
+        
+        print( 'Writing {}'.format( objc_file_name ) )
+        
+        oof = open( objc_file_name, 'w')
         oof.write( '\n'.join( [
             '// This file is auto generated, Do not edit',
             '',
             '@import Foundation;',
-            '#include "{}"'.format( hf ),
+            '#include "{}"'.format( objc_header ),
             ''
         ] ) )
         oof.write( '\n'.join( [
@@ -1164,7 +1218,7 @@ class Command :
         for m in messages:
             print( m )
             if self.args.message:
-                fields = self.context.args_fields(m)
+                fields = self.context.arg_fields(m)
                 for f in fields:
                     if self.args.field:
                         print( f.description() )
@@ -1191,8 +1245,8 @@ if __name__ == "__main__":
     
     parser.add_argument( 'command', metavar='Command', help = 'command to execute:\n' + description )
     parser.add_argument( 'profile', default = 'Profile.xlsx' )
-    parser.add_argument( '-o', '--outputfile', default = '../Sources/FitFileParser/rzfit_convert_auto.swift' )
-    parser.add_argument( '-i', '--inputfile',  default = '../Sources/FitFileParserObjc/fit_example.h' )
+    parser.add_argument( '-o', '--objcdir',   default = '../Sources/FitFileParserObjc' )
+    parser.add_argument( '-s', '--swiftdir',  default = '../Sources/FitFileParser' )
     parser.add_argument( '-m', '--message',  default = None )
     parser.add_argument( '-t', '--type',  default = None )
     parser.add_argument( '-f', '--field',  default = None )

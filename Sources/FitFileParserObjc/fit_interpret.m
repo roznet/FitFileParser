@@ -82,7 +82,7 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
                 }
                 mesg_buf += base_type_size;
             }
-            _fields.string_values[ _fields.string_count ] = self.dynamicStrings.count;
+            _fields.string_values[ _fields.string_count ] = (FIT_UINT32)self.dynamicStrings.count;
             _fields.string_types[ _fields.string_count ] = FIT_TYPE_DYNAMIC_STRING;
             if( has_zero ){
                 [self.dynamicStringsStore addObject:[NSString stringWithCString:start encoding:NSUTF8StringEncoding] ];
@@ -98,6 +98,7 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
             {
                 switch( base_type_num ){
                     case 1:
+                    case 13://Byte
                     {
                         FIT_SINT8 val = *(FIT_SINT8*)mesg_buf;
                         if( val != FIT_SINT8_INVALID){
@@ -223,7 +224,7 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
                         [arrayString appendFormat:@"|%@",@(_fields.double_values[_fields.double_count]) ];
                     }else{
                         arrayString = [NSMutableString stringWithFormat:@"%@",@(_fields.double_values[_fields.double_count]) ];
-                        _fields.string_values[ _fields.string_count ] = self.dynamicStrings.count;
+                        _fields.string_values[ _fields.string_count ] = (FIT_UINT32)self.dynamicStrings.count;
                         _fields.string_types[ _fields.string_count ] = FIT_TYPE_DYNAMIC_STRING;
                         [self.dynamicStringsStore addObject:arrayString ];
                         _fields.string_types[ _fields.string_count ] = FIT_TYPE_DYNAMIC_STRING;

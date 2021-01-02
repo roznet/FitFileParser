@@ -67,7 +67,11 @@ final class FitFileParserSwiftTests: XCTestCase {
                             // skip empty string, not interpreted the same
                             continue
                         }
-                        XCTAssertNotNil(generic_message.interpretedField(key: fast_key))
+                        XCTAssertNotNil(generic_message.interpretedField(key: fast_key), fast_key)
+                        // Know fields where array skipped in fast mode
+                        if generic_message.messageType == .developer_data_id && fast_key == "application_id" {
+                            continue
+                        }
                         if let generic_value = generic_message.interpretedField(key: fast_key){
                             XCTAssertEqual(generic_value, fast_value)
                         }
