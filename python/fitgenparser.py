@@ -62,7 +62,8 @@ class Type :
 
     def value_for_string(self,val):
         return self.values_map[val]
-    
+
+    #--- swift type
     def swift_stmt_extension(self,use_type):
         rv = [ 'public extension {} {{'.format( use_type ),
                '  func name() -> String {',
@@ -113,6 +114,7 @@ class Type :
             ]
         return rv
 
+    #--- objc type
     def objc_type(self):
         return 'FIT_{}'.format( self.base_type.upper() )
             
@@ -145,9 +147,10 @@ class Field:
     '''
     field_num: field number (ex: 1)
     name: field name (ex: 'manufacturer' or 'product')
-    field_type: type (ex: 'manufacturer' or 'uint16'
+    type_name: type (ex: 'manufacturer' or 'uint16'
     scale,offset: None or value
     unit: None or str (ex: 'bpm')
+    member: member in a struct
 
     references: None or array of sub fields with reference_field/reference_field_value (ex [ Field(garmin_product) ]
 
@@ -157,12 +160,15 @@ class Field:
     def __init__(self,ctx,row):
         self.field_num = row[1]
         self.name = row[2]
-        self.field_type = row[3]
+        self.type_name = row[3]
+        self.objc_type = 'FIT_{}'.format(self.type_name.upper() )
         self.scale = row[6]
         self.offset = row[7]
         self.unit = row[8]
         self.unit_num = ctx.unit_num( self.unit )
 
+        self.member = self.name 
+        
         self.is_value = False
         self.is_date = False
         self.is_string = False
@@ -176,12 +182,12 @@ class Field:
 
         self.is_switched = False
         
-        if self.field_type.endswith( 'date_time' ):
+        if self.type_name.endswith( 'date_time' ):
             self.is_date = True
-        elif self.field_type in ctx.types:
+        elif self.type_name in ctx.types:
             self.is_fit_type = True
-            self.fit_type = ctx.types[self.field_type]
-        elif self.field_type == 'string':
+            self.fit_type = ctx.types[self.type_name]
+        elif self.type_name == 'string':
             self.is_string = True
         else:
             self.is_value = True
@@ -209,13 +215,13 @@ class Field:
         self.references = []
 
     def type_category(self):
-        base = self.field_type
+        base = self.type_name
         if self.is_date:
             base = 'date'
         elif self.is_string:
             return 'string'
         elif self.is_value:
-            base =  'value({})'.format( self.field_type)
+            base =  'value({})'.format( self.type_name)
         elif self.is_fit_type:
             base =  '{}'.format( self.fit_type)
         elif self.is_string:
@@ -261,49 +267,103 @@ class Field:
         self.is_switched = True
         self.references.append( field )
 
-    def objc_type(self,ctx):
-        return 'FIT_{}'.format(self.field_type.upper() )
-                               
-    def objc_stmt_build_references_variables(self,ctx,message):
-        all_var = dict()
-        for r in self.references:
-            if not r.reference_field:
-                print( 'bug', self.name, r.name )
-            for one in r.reference_field:
-                all_var[ one ] = message.fields_map[one].field_num
-        rv = []
-        for one,field_num in all_var.items():
-            rv.append( '      FIT_UINT32 {} = fit_interp_string_value(interp, {});'.format( one, field_num ) )
 
-        return rv;
+    def is_c_string(self,ctx):
+        return self.type_name == 'string'
+    
+    def is_date(self,ctx):
+        return self.type_name.endswith( 'date_time')
+                   
+    def is_value(self,ctx):
+        return not self.is_string(ctx) and not self.is_date(ctx) and not self.is_array()
 
-    def objc_stmt_case_to_string(self,ctx,message):
-        if self.references:
-            rv = [ '    case {}:'.format( self.field_num ),
-                   '    {' ]
-            if_statement = 'if'
+    def is_array(self):
+        return len(self.array) > 0
 
-            rv.extend( self.objc_stmt_build_references_variables(ctx,message) );
-                       
-            for r in self.references:
-                if not r.reference_field:
-                    print( 'bug', self.name, r.name )
-                for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
-                    rv.extend( [ '      {}( {} == {} ){{ // {} '.format( if_statement, onefield, message.type_for_field(ctx,onefield).value_for_string(oneval),oneval ),
-                                 '         return @"{}";'.format( r.name ),
-                                ] )
-                    if_statement = '}else if'
-            if if_statement == 'if':
-                rv.append( '    }' )
-            else:
-                rv.extend( [ '      }else{',
-                             '        return @"{}";'.format( self.name ),
-                             '      }'
-                            ])
-            rv.append( '    }' )
-            return rv
+    def formula(self):
+        if self.unit:
+            return '({}x+{}) in [{}]'.format( self.multiplier, self.offset, self.unit )
         else:
-            return [ '    case {}: return @"{}";'.format( self.field_num, self.name ) ]
+            return ''
+    def name_to_units(self):
+        rv = {}
+        if self.unit:
+            rv = { self.name: self.unit}
+
+        for references in self.references:
+            sub = references.name_to_units()
+            for (k,v) in sub.items():
+                if k not in rv:
+                    rv[k] = v
+                else:
+                    if rv[k] != v:
+                        print( 'inconsistent for {}: {} {}'.format( self.name, v, rv[k] ) )
+                        
+        return rv
+
+    #--- swift field
+    def swift_unit_case_statement(self,prefix=''):
+        if self.unit:
+            return [ prefix + 'case "{}": return "{}"'.format( self.member,self.unit ) ]
+        else:
+            return None
+    
+    def swift_stmt_convert_value(self,ctx,message,prefix=''):
+        lines = []
+
+        member = self.member
+
+        if self.is_value:
+            formula = self.swift_expr_formula(ctx)
+            lines = [ prefix + 'if x.{} != {}_INVALID  {{'.format( member, self.objc_type ),
+                      prefix + '  let val : Double = {}'.format( formula ),
+                      prefix + '  rv[ "{}" ] = val'.format(self.name),
+                      prefix + '}'
+                      ]
+            
+        return lines
+
+    def swift_stmt_convert_date(self,ctx,message,prefix=''):
+        lines = []
+
+        member = self.member
+
+        if self.is_date:
+            lines = [ prefix + 'if x.{} != {}_INVALID  {{'.format( member, self.objc_type ),
+                      prefix + '  let val : Date =  Date(timeIntervalSinceReferenceDate: Double(x.{})-347241600.0 )'.format( member ),
+                      prefix + '  rv[ "{}" ] = val'.format(self.name),
+                      prefix + '}'
+                      ]
+            
+        return lines
+        
+    def swift_stmt_convert_string(self,ctx,message,prefix='  '):
+        lines = []
+
+        if self.is_string:
+            if self.is_type(ctx) and not self.is_array():
+                lines = [ prefix + 'if( x.{} != {}_INVALID ) {{'.format( self.member, self.objc_type  ) ]
+                if self.is_switched:
+                    lines.extend( self.swift_stmt_case_convert_to_string(ctx,message) )
+                else:
+                    type_obj = ctx.types[self.type_name]
+                    lines.extend( [
+                          prefix + '  rv[ "{}" ] = {}(x.{})'.format( self.member,type_obj.swift_fname_to_string(), self.member ),
+                         ])
+                lines.append( prefix + '}' )
+
+            elif self.is_c_string(ctx):
+                lines = [ prefix + 'let {} = withUnsafeBytes(of: &x.{}) {{ (rawPtr) -> String in'.format(self.member,self.member),
+                          prefix + '  let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)',
+                          prefix + '  return String(cString: ptr)',
+                          prefix + '}',
+                          prefix + 'if !{}.isEmpty {{'.format( self.member, self.member ),
+                          prefix + '  rv[ "{}" ] = {}'.format( self.member, self.member ),
+                          prefix + '}',
+                          
+                         ]
+            
+        return lines
 
     def swift_stmt_case_convert_to_string(self,ctx,message):
         rv = []
@@ -349,24 +409,55 @@ class Field:
             return rv
         else:
             return ['    case {}: return "{}"'.format(self.field_num, self.name ) ]
-        
-    def name_to_units(self):
-        rv = {}
-        if self.unit:
-            rv = { self.name: self.unit}
+    def is_type(self,ctx):
+        return (self.type_name in ctx.types or self.is_fit_type ) and not self.is_date(ctx)
+    def is_string(self,ctx):
+        if self.is_type(ctx) or self.type_name =='string':
+            return True
+        return False
+      
+    #---- objc field
+    def objc_stmt_build_references_variables(self,ctx,message):
+        all_var = dict()
+        for r in self.references:
+            if not r.reference_field:
+                print( 'bug', self.name, r.name )
+            for one in r.reference_field:
+                all_var[ one ] = message.fields_map[one].field_num
+        rv = []
+        for one,field_num in all_var.items():
+            rv.append( '      FIT_UINT32 {} = fit_interp_string_value(interp, {});'.format( one, field_num ) )
 
-        for references in self.references:
-            sub = references.name_to_units()
-            for (k,v) in sub.items():
-                if k not in rv:
-                    rv[k] = v
-                else:
-                    if rv[k] != v:
-                        print( 'inconsistent for {}: {} {}'.format( self.name, v, rv[k] ) )
-                        
-        return rv
-        
-        
+        return rv;
+
+    def objc_stmt_case_to_string(self,ctx,message):
+        if self.references:
+            rv = [ '    case {}:'.format( self.field_num ),
+                   '    {' ]
+            if_statement = 'if'
+
+            rv.extend( self.objc_stmt_build_references_variables(ctx,message) );
+                       
+            for r in self.references:
+                if not r.reference_field:
+                    print( 'bug', self.name, r.name )
+                for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
+                    rv.extend( [ '      {}( {} == {} ){{ // {} '.format( if_statement, onefield, message.type_for_field(ctx,onefield).value_for_string(oneval),oneval ),
+                                 '         return @"{}";'.format( r.name ),
+                                ] )
+                    if_statement = '}else if'
+            if if_statement == 'if':
+                rv.append( '    }' )
+            else:
+                rv.extend( [ '      }else{',
+                             '        return @"{}";'.format( self.name ),
+                             '      }'
+                            ])
+            rv.append( '    }' )
+            return rv
+        else:
+            return [ '    case {}: return @"{}";'.format( self.field_num, self.name ) ]
+       
     def objc_expr_fit_field_info(self,ctx):
         rv = None
         scale = 0
@@ -381,9 +472,9 @@ class Field:
         if self.offset:
             offset = self.offset
             report = True
-        if self.field_type and self.field_type in ctx.types:
-            fit_type = ctx.types[ self.field_type ].type_num
-            if self.field_type == 'date_time' or self.field_type == 'local_date_time':
+        if self.type_name and self.type_name in ctx.types:
+            fit_type = ctx.types[ self.type_name ].type_num
+            if self.type_name == 'date_time' or self.type_name == 'local_date_time':
                 flags = 1
             report = True
         if self.unit and self.unit in ctx.units:
@@ -441,12 +532,20 @@ class Message:
     A message name comes from the Messages tab of profile.xlsx
     It contains a name, which should be match in the type mesg_num
     and a list of fields definition for the message
+
+    name: name of the message (ex: file_id, record, ..)
+    mesg_num: the mesg num number from the type definition (ex: 18 (session), 20 (record)...
+    struct_name: objc type for structure (ex: FIT_FILE_ID_MESG, FIT_RECORD_MESG)
+    fields: array of fields in order of the Profile read [Field(file_id),...Field(record)...]
+    fields_map: name to field {'file_id': Field(file_id), ...}
     '''
     def __init__(self,ctx,name):
         self.name = name
         self.mesg_num = ctx.types['mesg_num'].value_for_string( name )
         self.fields = []
         self.fields_map = {}
+        
+        self.struct_name = 'FIT_{}_MESG'.format( self.name.upper() )
 
     def __repr__(self):
         return( 'Message({}={})[{}]'.format( self.name, self.mesg_num, len( self.fields ) ) )
@@ -454,8 +553,6 @@ class Message:
     def add(self,ctx,row):
         if row[1] is not None:
             field = Field( ctx,row )
-            if field.unit:
-                field.unit_num = ctx.unit_num( field.unit )
                 
             self.fields.append( field )
             self.fields_map[ field.name ] = field
@@ -466,15 +563,30 @@ class Message:
         # field ex: manufacturer
         #    return type for that field
         field = self.fields_map[field_name]
-        return ctx.types[ field.field_type ]
-            
+        return ctx.types[ field.type_name ]
+    
+    def has_switched_field(self):
+        rv = False
+        for f in self.fields:
+            if f.is_switched:
+                rv = True
+        return rv
+
+    def field_to_unit(self,all_fields):
+        for f in self.fields:
+            for (k,v) in f.name_to_units().items():
+                if k not in all_fields:
+                    all_fields[k] = {}
+                all_fields[k][self.name] = v
+
+    #--- Swift message
     def swift_fname_field_num_to_string(self):
         return 'rzfit_swift_{}_field_num_to_string'.format( self.name )
 
     def swift_func_field_num_to_string(self,ctx):
         rv = []
 
-        if self.is_complex():
+        if self.has_switched_field():
             rv.append( 'func {}( field_num : FIT_UINT16 , strings : [String:String] ) -> String {{'.format( self.swift_fname_field_num_to_string() ) )
         else:
             rv.append( 'func {}( field_num : FIT_UINT16 ) -> String {{'.format( self.swift_fname_field_num_to_string() ) )
@@ -486,233 +598,17 @@ class Message:
                      '}'
                      ])
         return rv
-            
-    def objc_fname_field_num_to_string(self):
-        return 'rzfit_objc_{}_field_num_to_string'.format( self.name )
-            
-    def objc_func_field_num_to_string(self,ctx):
-        rv = []
 
-        if self.is_complex():
-            rv.append( 'NSString * {}( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){{'.format( self.objc_fname_field_num_to_string() ) ),
-        else:
-            rv.append( 'NSString * {}( FIT_UINT8 field_num ){{'.format( self.objc_fname_field_num_to_string() ) )
-        rv.append( '  switch( field_num ){'  )
-        for field in self.fields:
-            rv.extend( field.objc_stmt_case_to_string(ctx,self) )
-        rv.extend( [ '    default: return [NSString stringWithFormat:@"{}_field_num_%u", (unsigned int)field_num];'.format( self.name) ,
-                     '  }',
-                     '}',
-                     '',
-                     ] )
-        return rv
-
-    def is_complex(self):
-        rv = False
-        for f in self.fields:
-            if f.is_complex():
-                rv = True
-        return rv
-    
-    def objc_fname_field_info(self):
-        return 'rzfit_objc_{}_field_info'.format( self.name )
-
-    def objc_func_field_info(self, ctx ):
-        needed = []
-        for f in self.fields:
-            one = f.objc_stmt_case_to_field_info(ctx,self)
-            if one:
-                needed.extend( one )
-        rv = []
-        if needed:
-            if self.is_complex():
-                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field, FIT_INTERP_FIELD * interp){{'.format( self.objc_fname_field_info() ) )
-            else:
-                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field){{'.format( self.objc_fname_field_info() ) )
-                
-            rv.append( '  switch( field ){' ),
-            rv.extend( needed )
-            rv.extend( [  '    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };',
-                          '  }',
-                          '}',
-                          ] )
-        return rv
-
-    def field_to_unit(self,all_fields):
-        for f in self.fields:
-            for (k,v) in f.name_to_units().items():
-                if k not in all_fields:
-                    all_fields[k] = {}
-                all_fields[k][self.name] = v
-
-class StructElem :
-    '''
-    Represent a field in the struct mesg type def
-    fit_type: fit type in c (ex: FIT_DATE_TIME, FIT_UINT16)
-    type_name: fit type name, should look up in ctx.types (ex date_time, uint16)
-    field: Field corresponding to the member (ex: timestamp, speed )
-    '''
-    def __init__(self,ctx,groups):
-        self.fit_type = groups[0]
-        self.member = groups[1]
-        self.type_name = self.fit_type.replace( 'FIT_', '', 1 ).lower()
-        self.array = groups[2][1:-1]
-
-    def close(self,ctx,message):
-        if self.member in message.fields_map:
-            self.field = message.fields_map[self.member]
-        else:
-            print( 'unknown field {} in {}'.format( self.member, message.name ) )
-        
-    def __repr__(self):
-        if self.array:
-            return '{} {}[{}]'.format( self.fit_type, self.member, self.array )
-        else:
-            return '{} {}'.format( self.fit_type, self.member )
-
-
-    def is_type(self,ctx):
-        return (self.type_name in ctx.types or self.field.is_enum() ) and not self.is_date(ctx)
-    def is_string(self,ctx):
-        if self.is_type(ctx) or self.type_name =='string':
-            return True
-        return False
-
-    def is_c_string(self,ctx):
-        return self.type_name == 'string'
-    
-    def is_date(self,ctx):
-        return self.type_name.endswith( 'date_time')
-                   
-    def is_value(self,ctx):
-        return not self.is_string(ctx) and not self.is_date(ctx) and not self.is_array()
-
-    def is_array(self):
-        return len(self.array) > 0
-
-    def formula(self):
-        if self.unit:
-            return '({}x+{}) in [{}]'.format( self.multiplier, self.offset, self.unit )
-        else:
-            return ''
-
-    def swift_unit_case_statement(self,prefix=''):
-        if self.unit:
-            return [ prefix + 'case "{}": return "{}"'.format( self.member,self.unit ) ]
-        else:
-            return None
-    
-    def swift_stmt_convert_value(self,ctx,message,prefix=''):
-        lines = []
-
-        member = self.member
-
-        field = message.fields_map[member]
-
-        if self.is_value(ctx):
-            formula = field.swift_expr_formula(ctx)
-            lines = [ prefix + 'if x.{} != {}_INVALID  {{'.format( member, field.objc_type(ctx) ),
-                      prefix + '  let val : Double = {}'.format( formula ),
-                      prefix + '  rv[ "{}" ] = val'.format(field.name),
-                      prefix + '}'
-                      ]
-            
-        return lines
-
-    def swift_stmt_convert_date(self,ctx,message,prefix=''):
-        lines = []
-
-        member = self.member
-
-        field = message.fields_map[member]
-
-        if self.is_date(ctx):
-            lines = [ prefix + 'if x.{} != {}_INVALID  {{'.format( member, field.objc_type(ctx) ),
-                      prefix + '  let val : Date =  Date(timeIntervalSinceReferenceDate: Double(x.{})-347241600.0 )'.format( member ),
-                      prefix + '  rv[ "{}" ] = val'.format(field.name),
-                      prefix + '}'
-                      ]
-            
-        return lines
-        
-    def swift_stmt_convert_string(self,ctx,message,prefix='  '):
-        lines = []
-
-        field = message.fields_map[self.member]
-        if self.is_string(ctx):
-            if self.is_type(ctx) and not self.is_array():
-                lines = [ prefix + 'if( x.{} != {}_INVALID ) {{'.format( self.member, field.objc_type(ctx)  ) ]
-                if self.field.is_complex():
-                    lines.extend( field.swift_stmt_case_convert_to_string(ctx,message) )
-                else:
-                    type_obj = ctx.types[self.field.field_type]
-                    lines.extend( [
-                          prefix + '  rv[ "{}" ] = {}(x.{})'.format( self.member,type_obj.swift_fname_to_string(), self.member ),
-                         ])
-                lines.append( prefix + '}' )
-
-            elif self.type_name == 'string':
-                lines = [ prefix + 'let {} = withUnsafeBytes(of: &x.{}) {{ (rawPtr) -> String in'.format(self.member,self.member),
-                          prefix + '  let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)',
-                          prefix + '  return String(cString: ptr)',
-                          prefix + '}',
-                          prefix + 'if !{}.isEmpty {{'.format( self.member, self.member ),
-                          prefix + '  rv[ "{}" ] = {}'.format( self.member, self.member ),
-                          prefix + '}',
-                          
-                         ]
-            
-        return lines
-                
-class Struct :
-    '''
-    elements: array of StructElem (ex: [ FIT_DATE_TIME timestamp, FIT_UINT32 distance ] )
-    message: message (ex: Message<record> )
-    struct_name: struct type (ex: FIT_RECORD_MESG )
-    '''
-    def __init__(self, groups):
-        self.elements = []
-
-    def __repr__(self):
-        return '{}: {}'.format( self.struct_name, self.elements )
-    
-    def add_element(self,ctx,groups):
-        elem = StructElem(ctx,groups)
-        self.elements += [ elem ]
-
-    def close(self,ctx,groups):
-        self.struct_name = groups[0]
-        if self.struct_name.endswith( '_MESG' ):
-            message_name = self.struct_name.replace( 'FIT_', '' ).replace( '_MESG', '').lower()
-            if message_name in ctx.messages:
-                self.message = ctx.messages[message_name]
-                for elem in self.elements:
-                    elem.close(ctx,self.message)
-            else:
-                print( 'missing {} / {}'.format( self.struct_name, message_name ) )
-                self.message = None
-
-    def is_message(self):
-        return self.struct_name.endswith( '_MESG' )
-
-    
-    def name(self):
-        return self.struct_name
-
-    def swift_unit_function_name(self):
-        return 'rzfit_unit_for_field'
-
-    
     def swift_fname_value_dict(self):
-        return 'rzfit_swift_{}_value_dict'.format( self.message.name )
+        return 'rzfit_swift_{}_value_dict'.format( self.name )
     
     def swift_func_value_dict(self,ctx):
         rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Double] {{'.format( self.swift_fname_value_dict(), self.struct_name ),
                ]
         elems = []
         
-        for elem in self.elements:
-            elems += elem.swift_stmt_convert_value(ctx, self.message, '  ')
+        for field in self.fields:
+            elems += field.swift_stmt_convert_value(ctx, self, '  ')
 
         if elems:
             rv += [ '  var rv : [String:Double] = [:]',
@@ -727,16 +623,16 @@ class Struct :
         return rv
     
     def swift_fname_string_dict(self):
-        return 'rzfit_swift_{}_string_dict'.format( self.message.name )
+        return 'rzfit_swift_{}_string_dict'.format( self.name )
     
     def swift_func_string_dict(self,ctx):
         rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:String] {{'.format(self.swift_fname_string_dict(), self.struct_name ) ]
         elems = []
         hasString = False
-        for elem in self.elements:
-            if elem.is_c_string(ctx):
+        for field in self.fields:
+            if field.is_c_string(ctx):
                 hasString = True
-            elems += elem.swift_stmt_convert_string(ctx,self.message)
+            elems += field.swift_stmt_convert_string(ctx,self)
         if elems:
             rv += [ '  var rv : [String:String] = [:]',
                     '  {} x : {} = ptr.pointee'.format('var' if hasString else 'let', self.struct_name)
@@ -752,15 +648,15 @@ class Struct :
         return( rv )
     
     def swift_fname_date_dict(self):
-        return 'rzfit_swift_{}_date_dict'.format( self.message.name )
+        return 'rzfit_swift_{}_date_dict'.format( self.name )
     
     def swift_func_date_dict(self,ctx):
         rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Date] {{'.format( self.swift_fname_date_dict(), self.struct_name ),
                ]
         elems = []
         
-        for elem in self.elements:
-            elems += elem.swift_stmt_convert_date(ctx, self.message, '  ')
+        for field in self.fields:
+            elems += field.swift_stmt_convert_date(ctx, self, '  ')
 
         if elems:
             rv += [ '  var rv : [String:Date] = [:]',
@@ -776,15 +672,60 @@ class Struct :
     
 
     def swift_stmt_case_fit_mesg(self,ctx):
-        rv = [ '    case {}: // {}'.format( self.message.mesg_num, self.message.name ),
+        rv = [ '    case {}: // {}'.format( self.mesg_num, self.name ),
                '      uptr.withMemoryRebound(to: {}.self, capacity: 1) {{'.format( self.struct_name ),
-               '      rv = FitMessage( mesg_num:    {},'.format( self.message.mesg_num ),
+               '      rv = FitMessage( mesg_num:    {},'.format( self.mesg_num ),
                '                       mesg_values: {}(ptr: $0),'.format(  self.swift_fname_value_dict()),
                '                       mesg_enums:  {}(ptr: $0),'.format(  self.swift_fname_string_dict()),
                '                       mesg_dates:  {}(ptr: $0))'.format(  self.swift_fname_date_dict()),
                '      }'
 
               ]
+        return rv
+
+    #--- objc message
+    def objc_fname_field_num_to_string(self):
+        return 'rzfit_objc_{}_field_num_to_string'.format( self.name )
+            
+    def objc_func_field_num_to_string(self,ctx):
+        rv = []
+
+        if self.has_switched_field():
+            rv.append( 'NSString * {}( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){{'.format( self.objc_fname_field_num_to_string() ) ),
+        else:
+            rv.append( 'NSString * {}( FIT_UINT8 field_num ){{'.format( self.objc_fname_field_num_to_string() ) )
+        rv.append( '  switch( field_num ){'  )
+        for field in self.fields:
+            rv.extend( field.objc_stmt_case_to_string(ctx,self) )
+        rv.extend( [ '    default: return [NSString stringWithFormat:@"{}_field_num_%u", (unsigned int)field_num];'.format( self.name) ,
+                     '  }',
+                     '}',
+                     '',
+                     ] )
+        return rv
+
+    def objc_fname_field_info(self):
+        return 'rzfit_objc_{}_field_info'.format( self.name )
+
+    def objc_func_field_info(self, ctx ):
+        needed = []
+        for f in self.fields:
+            one = f.objc_stmt_case_to_field_info(ctx,self)
+            if one:
+                needed.extend( one )
+        rv = []
+        if needed:
+            if self.has_switched_field():
+                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field, FIT_INTERP_FIELD * interp){{'.format( self.objc_fname_field_info() ) )
+            else:
+                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field){{'.format( self.objc_fname_field_info() ) )
+                
+            rv.append( '  switch( field ){' ),
+            rv.extend( needed )
+            rv.extend( [  '    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };',
+                          '  }',
+                          '}',
+                          ] )
         return rv
         
 class Context:
@@ -797,10 +738,9 @@ class Context:
     def __init__(self,args):
         self.args = args
         self.parse_profile_excel()
-        self.parse_example_header()
 
     def do_mesg_num(self,mesg_num):
-        if not self.args.mesg_num:
+        if not self.args.message:
             return True
         else:
             return int(self.args.mesg_num) == mesg_num
@@ -838,43 +778,50 @@ class Context:
                 current.add( self,row )
         print( 'Read {} messages'.format( len(self.messages ) ) )
         print( 'Read {} units'.format( len(self.units ) ) )
+        
+    def arg_types(self):
+        rv = []
+        if self.args.type:
+            for i in self.args.type.split( ','):
+                if i in self.context.types:
+                    rv.append( self.context.types[i] )
+                elif int(i) > 0:
+                    for t in self.context.types.values():
+                        if int(i) == int(t.type_num):
+                            rv.append( t )
+        else:
+            rv = [self.context.types[x] for x in self.context.ordered_types()]
+                            
+        return rv
+    
+    def arg_messages(self):
+        rv = []
+        if self.args.message:
+            for i in self.args.message.split( ','):
+                if i in self.context.messages:
+                    rv.append( self.context.messages[i] )
+                elif int(i) > 0:
+                    for m in self.context.messages.values():
+                        if int(m.mesg_num) == int(i):
+                            rv.append( m )
+        else:
+            rv = self.context.messages.values()
+        return rv
+
+    def arg_fields(self,message):
+        rv = []
+        if self.args.field:
+            for i in self.args.field.split( ','):
+                if i in message.fields_map:
+                    rv.append( message.fields_map[i] )
+                elif int(i) > 0:
+                    for f in message.fields:
+                        if int(f.field_num) == int(i):
+                            rv.append( f )
+        else:
+            rv = message.fields
+        return rv
                 
-    def parse_example_header(self):
-        fp = open( self.args.inputfile, 'r')
-        print( 'Parsing {}'.format( self.args.inputfile ) )
-        
-        p_typedef_struct = re.compile( 'typedef struct' )
-        p_typedef_end = re.compile( '^} ([A-Z0-9_]+);' )
-        p_typedef_def = re.compile( ' +([A-Z0-9_]+)[, ]' )
-        p_elem = re.compile( ' +(FIT_[A-Z0-9_]+) ([a-z_0-9]+)(|\\[[A-Z0-9_]+\\]);( // [0-9]+ * [^+]+ \\+ [0-9]+)?' )
-        
-        in_typedef_struct = None
-        conv_init = None
-
-        typedef_defs = None
-
-        self.structs = {}
-        
-        for line in fp:
-            if line.startswith( 'typedef' ):
-                m = p_typedef_struct.match(line)
-                if m:
-                    in_typedef_struct = Struct(m.groups())
-                    
-            if in_typedef_struct:
-                m = p_elem.match(line )
-                if m:
-                    in_typedef_struct.add_element(self,m.groups())
-
-                m = p_typedef_end.match(line)
-                if m:
-                    in_typedef_struct.close(self,m.groups())
-                    if in_typedef_struct.is_message():
-                        self.structs[in_typedef_struct.name()] = in_typedef_struct
-                    in_typedef_struct = None
-
-        print( 'Read {} structs'.format( len( self.structs ) ) )
- 
     def unit_num( self, unit_name ):
         if not unit_name:
             return 0
@@ -883,46 +830,7 @@ class Context:
             self.units[ unit_name ] = len( self.units ) + 1
         return self.units[ unit_name ]
 
-    def swift_unit_functions(self):
-        rv = []
-        rv = [ 'func rzfit_swift_known_units( ) -> [String] {' ,
-               '  return  ['
-               ]
-        for k in self.units.keys():
-            rv.append( '  "{}",'.format( k.replace( '\n', '' ) ) )
-        rv.extend( [ '  ]' ,
-                     '}',
-                     ''
-                     ] )
-
-        rv.extend( [ 'func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> String? {',
-                     '  switch field {'
-                     ] )
-
-        field_to_unit = {}
-        mesg_num = self.types['mesg_num']
-        for (name,message) in self.messages.items():
-            message.field_to_unit(field_to_unit)
-
-        for (f,defs) in field_to_unit.items():
-            units = set(defs.values())
-            if len( units ) == 1:
-                rv.append( '   case "{}": return "{}"'.format( f, next(iter(units))).replace( '\n','' ) )
-            else:
-                rv.extend( [ '    case "{}": '.format( f ),
-                             '        switch mesg_num {',
-                            ] )
-                for (m,u) in defs.items():
-                    rv.append( '      case {}: return "{}" // {}'.format( mesg_num.values_map[m], u, m ) )
-                rv.extend( [ '      default: return nil',
-                             '     }'
-                             ] )
-            
-        rv.extend( [ '    default: return nil',
-                     '   }',
-                     '}' ] )
-        return rv
-
+    #---- objc context
     def objc_fname_field_info(self):
         return 'rzfit_objc_field_info'
     
@@ -947,7 +855,7 @@ class Context:
             mesg_name = m['name']
             if mesg_name in done:
                 message = self.messages[mesg_name]
-                if message.is_complex():
+                if message.has_switched_field():
                     rv.append( '    case {}: return {}(field,interp);'.format( mesg_num, message.objc_fname_field_info() ) )
                 else:
                     rv.append( '    case {}: return {}(field);'.format( mesg_num, message.objc_fname_field_info() ) )
@@ -1012,7 +920,7 @@ class Context:
                 print( 'missing {}'.format( mesg_name ) )
             else:
                 mesg = self.messages[ mesg_name ]
-                if mesg.is_complex():
+                if mesg.has_switched_field():
                     rv.append( '   case {}: return {}(field,interp);'.format( t['value'], mesg.objc_fname_field_num_to_string() ) )
                 else:
                     rv.append( '   case {}: return {}(field);'.format( t['value'], mesg.objc_fname_field_num_to_string() ) )
@@ -1022,6 +930,48 @@ class Context:
                      ''
                      ] )
         return rv
+
+    #--- swift Context
+    def swift_unit_functions(self):
+        rv = []
+        rv = [ 'func rzfit_swift_known_units( ) -> [String] {' ,
+               '  return  ['
+               ]
+        for k in self.units.keys():
+            rv.append( '  "{}",'.format( k.replace( '\n', '' ) ) )
+        rv.extend( [ '  ]' ,
+                     '}',
+                     ''
+                     ] )
+
+        rv.extend( [ 'func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> String? {',
+                     '  switch field {'
+                     ] )
+
+        field_to_unit = {}
+        mesg_num = self.types['mesg_num']
+        for (name,message) in self.messages.items():
+            message.field_to_unit(field_to_unit)
+
+        for (f,defs) in field_to_unit.items():
+            units = set(defs.values())
+            if len( units ) == 1:
+                rv.append( '   case "{}": return "{}"'.format( f, next(iter(units))).replace( '\n','' ) )
+            else:
+                rv.extend( [ '    case "{}": '.format( f ),
+                             '        switch mesg_num {',
+                            ] )
+                for (m,u) in defs.items():
+                    rv.append( '      case {}: return "{}" // {}'.format( mesg_num.values_map[m], u, m ) )
+                rv.extend( [ '      default: return nil',
+                             '     }'
+                             ] )
+            
+        rv.extend( [ '    default: return nil',
+                     '   }',
+                     '}' ] )
+        return rv
+
 
     def swift_fname_type_to_string(self):
         return 'rzfit_swift_type_to_string'
@@ -1053,7 +1003,7 @@ class Context:
                 print( 'missing {}'.format( mesg_name ) )
             else:
                 mesg = self.messages[mesg_name]
-                if mesg.is_complex():
+                if mesg.has_switched_field():
                     rv.append( '    case {}: return {}(field_num: field_num, strings: strings)'.format( t['value'], mesg.swift_fname_field_num_to_string() ) )
                 else:
                     rv.append( '    case {}: return {}(field_num: field_num)'.format( t['value'], mesg.swift_fname_field_num_to_string() ) )
@@ -1064,8 +1014,8 @@ class Context:
     
     def swift_func_messages_dict(self):
         rv = []
-        for (k,s) in self.structs.items():
-            if self.do_mesg_num(s.message.mesg_num):
+        for (k,s) in self.messages.items():
+            if self.do_mesg_num(s.mesg_num):
                 rv.extend( s.swift_func_value_dict(self) )
                 rv.extend( s.swift_func_string_dict(self) )
                 rv.extend( s.swift_func_date_dict(self) )
@@ -1082,10 +1032,10 @@ class Context:
             '    switch mesg_num {',
             ]
 
-        ordered = sorted(self.structs.values(), key=lambda x: x.message.mesg_num)
-        for struct in ordered:
-            if self.do_mesg_num( struct.message.mesg_num ):
-                rv.extend( struct.swift_stmt_case_fit_mesg(self) )
+        ordered = sorted(self.messages.values(), key=lambda x: x.mesg_num)
+        for message in ordered:
+            if self.do_mesg_num( message.mesg_num ):
+                rv.extend( message.swift_stmt_case_fit_mesg(self) )
 
         rv.extend( [
             '    default:',
@@ -1096,9 +1046,6 @@ class Context:
             ] )
 
         return rv
-
-        
-
             
 class Command :
     def __init__(self,args):
@@ -1109,7 +1056,10 @@ class Command :
         return ( '../Sources/FitFileParserObjc/rzfit_objc_map.m','rzfit_objc_map.h' ) 
 
     def generate_swift_file(self):
-        oof = open( '../Sources/FitFileParser/rzfit_swift_map.swift', 'w' )
+
+        swift_file_name = '../Sources/FitFileParser/rzfit_swift_map.swift'
+        print( 'Writing {}'.format( swift_file_name ) )
+        oof = open( swift_file_name, 'w' )
 
         rv =  [
             '// This file is auto generated, Do not edit',
@@ -1152,11 +1102,10 @@ class Command :
         rv.extend( self.context.swift_func_build_mesg() )
         
         oof.write( '\n'.join( rv ) )
-        
 
     def generate_objc_file(self):
         (objcf, objch) = self.outfile_to_objc_pair()
-
+        print( 'Writing {}'.format( objcf ) )
         hf = os.path.basename( objch )
         oof = open( objcf, 'w')
         oof.write( '\n'.join( [
@@ -1204,68 +1153,25 @@ class Command :
         ] ) )
 
         oof.write( '\n'.join( self.context.objc_func_field_info() ) )
-
         
-    def types(self):
-        rv = []
-        if self.args.type:
-            for i in self.args.type.split( ','):
-                if i in self.context.types:
-                    rv.append( self.context.types[i] )
-                elif int(i) > 0:
-                    for t in self.context.types.values():
-                        if int(i) == int(t.type_num):
-                            rv.append( t )
-        else:
-            rv = [self.context.types[x] for x in self.context.ordered_types()]
-                            
-        return rv
-    
-    def messages(self):
-        rv = []
-        if self.args.message:
-            for i in self.args.message.split( ','):
-                if i in self.context.messages:
-                    rv.append( self.context.messages[i] )
-                elif int(i) > 0:
-                    for m in self.context.messages.values():
-                        if int(m.mesg_num) == int(i):
-                            rv.append( m )
-        else:
-            rv = self.context.messages.values()
-        return rv
-
-    def fields(self,message):
-        rv = []
-        if self.args.field:
-            for i in self.args.field.split( ','):
-                if i in message.fields_map:
-                    rv.append( message.fields_map[i] )
-                elif int(i) > 0:
-                    for f in message.fields:
-                        if int(f.field_num) == int(i):
-                            rv.append( f )
-        else:
-            rv = message.fields
-        return rv
 
     def cmd_generate(self):
         self.generate_objc_file()
         self.generate_swift_file()
 
     def cmd_message(self):
-        messages = self.messages()
+        messages = self.context.arg_messages()
         for m in messages:
             print( m )
             if self.args.message:
-                fields = self.fields(m)
+                fields = self.context.args_fields(m)
                 for f in fields:
                     if self.args.field:
                         print( f.description() )
                     else:
                         print( f )
     def cmd_type(self):
-        types = self.types()
+        types = self.context.arg_types()
         for t in types:
             if self.args.type:
                 print( t.description() )
