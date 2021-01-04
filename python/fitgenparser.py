@@ -3,7 +3,7 @@
 # This utility will generate the swift code from the c Fit SDK
 #   You can download the Fit SDK from https://developer.garmin.com/fit and update your local copy using the diffsdk.py script
 #
-#   in the root of the swift package run ./python/fitconv.py
+#   in the python directory run ./fitgenparser.py generate Profile.xlsx
 #      
 #
 
@@ -634,6 +634,9 @@ class Message:
                     all_fields[k] = {}
                 all_fields[k][self.name] = v
 
+    def mesg_def_struct_name(self):
+        return 'FIT_{}_MESG_DEF'.format( self.name.upper() )
+                
     #--- Swift message
     def swift_fname_field_num_to_string(self):
         return 'rzfit_swift_{}_field_num_to_string'.format( self.name )
@@ -782,6 +785,21 @@ class Message:
                           '  }',
                           '}',
                           ] )
+        return rv
+
+    def objc_mesg_def(self,ctx):
+        rv = [ 'static const {} {}_def = {{'.format(self.mesg_def_struct_name(), self.name),
+               '  0,// reserved_1',
+               '  FIT_ARG_ENDIAN, // arch,',
+               '{},'.format( len(self.fields) ),
+               '{'
+            ]
+        for f in self.fields:
+            rv.append( '    {},(sizeof(FIT_{})*{}),FIT_BASE_TYPE_{}, // {}'.format( f.field_num, f.base_type.upper(), f.array_size if f.array_size else 1, f.base_type.upper(), f.name ) )
+
+        rv.extend( [ '  }',
+                     '}'
+                     ] )
         return rv
         
 class Context:
@@ -1154,6 +1172,27 @@ class Command :
         
         oof.write( '\n'.join( rv ) )
 
+    def generate_objc_mesg_def(self):
+        objc_dir = self.args.objcdir
+        objc_dir = '.'
+        objc_file_name = os.path.join( objc_dir, 'rzfit_objc_reference_mesg.m' )
+        objc_header = 'rzfit_objc_reference_mesg.h'
+        print( 'Writing {}'.format( objc_file_name ) )
+        oof = open( objc_file_name, 'w')
+        
+        oof.write( '\n'.join( [
+            '// This file is auto generated, Do not edit',
+            '',
+            ''
+        ] ) )
+        rv = []
+        messages = self.context.arg_messages()
+        for m in messages:
+            rv.extend( m.objc_mesg_def(self.context) )
+
+        oof.write( '\n'.join( rv ) )
+
+
     def generate_objc_file(self):
         objc_dir = self.args.objcdir
         objc_file_name = os.path.join( objc_dir, 'rzfit_objc_map.m' )
@@ -1207,9 +1246,9 @@ class Command :
         ] ) )
 
         oof.write( '\n'.join( self.context.objc_func_field_info() ) )
-        
 
     def cmd_generate(self):
+        #self.generate_objc_mesg_def()
         self.generate_objc_file()
         self.generate_swift_file()
 
