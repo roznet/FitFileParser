@@ -262,6 +262,8 @@ typedef struct
    FIT_UINT8 fields[1];
 } FIT_MESG_DEF;
 
+typedef const FIT_MESG_DEF * FIT_CONST_MESG_DEF_PTR;
+
 #define FIT_MAX_MESG_SIZE         ((FIT_UINT16)65535)
 
 #define FIT_ARCH_ENDIAN_MASK      ((FIT_UINT8)0x01)
@@ -318,7 +320,9 @@ extern const FIT_CONST_UINT8_PTR fit_base_type_invalids[FIT_BASE_TYPES];
 // See FIT_MESG_DEF->arch and FIT_ARCH_*.
 ///////////////////////////////////////////////////////////////////////
 FIT_UINT8 Fit_GetArch(void);
-
+   
+void Fit_SetMesgDefs(FIT_CONST_MESG_DEF_PTR mesg_defs[], FIT_UINT8 mesg_count);
+   
 ///////////////////////////////////////////////////////////////////////
 // Returns message definition corresponding to global message number.
 ///////////////////////////////////////////////////////////////////////

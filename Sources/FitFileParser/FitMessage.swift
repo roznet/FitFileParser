@@ -24,7 +24,7 @@ public class FitMessage {
     private let dates : [FitFieldKey:Date]
     private var devfields : [FitFieldKey:Double]?
     private var devunits : [FitFieldKey:String]?
-    
+        
     public var messageTypeDescription : String?{
         return rzfit_swift_mesg_num_to_string(messageType)
     }
@@ -112,7 +112,7 @@ public class FitMessage {
                 continue
             }else if let unit = rzfit_swift_unit_for_field(mesg_num: self.messageType, field: key) {                
                 rv[key] =  FitFieldValue(withValue: val, andUnit: unit)
-            }else if( self.messageType == FIT_MESG_NUM_FIELD_DESCRIPTION && key == "native_field_num" ){
+            }else if( self.messageType == FitMessageType.field_description && key == "native_field_num" ){
                 if let mesgnumstr = enums["native_mesg_num"] {
                     let mesgnum = rzfit_swift_mesg_num_from_string(mesgnumstr)
                     let native = rzfit_swift_field_num_to_string(mesg_num: mesgnum, field_num:FIT_UINT16(val), strings: self.enums)
@@ -147,19 +147,6 @@ public class FitMessage {
         return self.cacheInterpretation
     }
     
-    public func description() -> String {
-        var rv = [ "FitMessage(" ]
-        if let name = self.messageTypeDescription {
-            rv.append(name)
-        }else{
-            rv.append("Unknown")
-        }
-        rv.append(",")
-        rv.append(",\(values.count),\(enums.count))")
-        
-        return rv.joined(separator: "")
-    }
-    
     public func units() -> [FitFieldKey:String] {
         var rv : [String:String] = [:]
         
@@ -172,3 +159,38 @@ public class FitMessage {
     }
 }
 
+extension FitMessage : CustomStringConvertible {
+    public var description : String{
+        var rv = [ "FitMessage<" ]
+        if let name = self.messageTypeDescription {
+            rv.append(name)
+        }else{
+            rv.append("mesg_num:\(self.messageType)")
+        }
+        var empty : Bool = true
+        if self.dates.count > 0 {
+            rv.append( " dates[\(self.dates.count)]" )
+            empty = false
+        }
+        if self.enums.count > 0 {
+            rv.append( " enums[\(self.enums.count)]" )
+            empty = false
+        }
+        if self.values.count > 0 {
+            rv.append( " values[\(self.values.count)]" )
+            empty = false
+        }
+        if let devfields = self.devfields {
+            if devfields.count > 0 {
+                rv.append( " devfields[\(devfields.count)]")
+            }
+            empty = false
+        }
+        if empty {
+            rv.append("empty")
+        }
+        rv.append(">")
+        return rv.joined(separator: "")
+    }
+
+}

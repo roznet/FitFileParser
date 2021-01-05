@@ -23,6 +23,29 @@ def fix_variable_name( var_name ):
         return 'switch_'
     return var_name
 
+base_type_alignments = {
+    'uint16': 2,
+    'enum': 1,
+    'bool': 1,
+    'sint8': 1,
+    'uint8':1,
+    'sint16':2,
+    'uint16':2,
+    'sint32':4,
+    'uint32':4,
+    'string':1,
+    'uint8z':1,
+    'uint16z':2,
+    'uint32z':4,
+    'byte':1,
+    'sint64':8,
+    'uint64':8,
+    'uint64z':8,
+    'float32':4
+    
+}
+
+
 class Type :
     '''
     Represent a type and its values
@@ -52,7 +75,7 @@ class Type :
             return False
 
     def __repr__(self):
-        return 'Type({}={},{},[{}])'.format( self.name, self.type_num, self.base_type, len(self.values) )
+        return 'Type({}<{}>={}{{{}}})'.format( self.name, self.base_type, self.type_num, len(self.values) )
     
     def description(self):
         rv = [ '{}'.format( self ) ]
@@ -117,7 +140,24 @@ class Type :
     #--- objc type
     def objc_type(self):
         return 'FIT_{}'.format( self.base_type.upper() )
-            
+
+    def objc_typedef(self):
+        rv = [ 'typedef {} {};'.format( self.objc_type(), self.fit_type() ) ]
+        elems = []
+        sizes = (0,0)
+        for d in self.values:
+            one = ( '{}_{}'.format(self.fit_type(), d['name'].upper() ),
+                         '(({}){})'.format(self.fit_type(), d['value'] ) )
+            elems.append( one )
+            sizes = ( max(sizes[0],len(one[0])), max( sizes[1],len(one[1]) ) )
+        rv.append( '#define {0: <{width0}} {1: <{width1}}'.format( f'{self.fit_type()}_INVALID', f'{self.objc_type()}_INVALID', width0=sizes[0], width1=sizes[1] ) )
+    
+        for e in elems:
+            rv.append( '#define {0: <{width0}} {1: <{width1}}'.format( e[0], e[1], width0=sizes[0], width1=sizes[1] ) )
+        rv.append( '' )
+        
+        return rv
+    
     def objc_fname_to_string(self):
         return 'rzfit_objc_{}_to_string'.format( self.name )
 
@@ -172,6 +212,8 @@ class Field:
         else:
             self.base_type = self.type_name
 
+        self.objc_base_type = 'FIT_{}'.format(self.base_type.upper() )
+        
         self.member = self.name 
         
         self.is_value = False
@@ -208,10 +250,10 @@ class Field:
                 # sometime the size is there
                 digits = re.findall(r'\d+', row[4])
                 self.array_size = int( digits[0] )
-
+                
         if row[15]:
             self.include = True
-            if self.is_array and not self.array_size:
+            if (self.is_array or self.is_string) and not self.array_size:
                 self.array_size = int( row[15] )
             
         self.reference_field = row[11]
@@ -247,35 +289,48 @@ class Field:
         if self.is_date:
             base = 'date'
         elif self.is_string:
-            return 'string'
+            base = 'string'
         elif self.is_value:
-            base =  'value({})'.format( self.type_name)
+            base =  'value'
         elif self.is_fit_type:
             if self.is_switched:
-                base =  'switched[{}]'.format( self.base_type)
+                base =  'multi'
             else:
                 base =  '{}'.format( self.fit_type)
-        elif self.is_string:
-            if self.array_size:
-                base = 'string'
             
-        if self.is_array:
-            if self.array_size:
-                base = base + '[{}]'.format( self.array_size )
-            else:
-                base = base + '[N]'
+        if self.array_size:
+            base = base + '[{}]'.format( self.array_size )
 
         return base
     
     def __repr__(self):
         if self.is_switched:
-            return  'Field({}={}, {}, switch_conditions[{}])'.format(self.name,self.field_num, self.type_category(), len(self.references) )
+            return  'Field({}={}<{}>, {}, switch{{{}}})'.format(self.name, self.field_num, self.base_type, self.type_category(), len(self.references) )
         else:
             if self.field_num:
-                return  'Field({}={}, {})'.format(self.name,self.field_num, self.type_category() )
+                return  'Field({}={}<{}>, {})'.format(self.name, self.field_num, self.base_type, self.type_category() )
             else:
-                return  'Field({}, {})'.format(self.name, self.type_category() )
+                return  'Field({}<{}>, {})'.format(self.name, self.base_type, self.type_category() )
 
+
+    def base_type_alignment(self):
+        if self.base_type in base_type_alignments:
+            alignment = base_type_alignments[self.base_type]
+        else:
+            print( "MISSING ALIGNMENT {}".format( self.base_type ) )
+            exit(0)
+
+        if self.array_size and (self.is_array or self.is_string):
+            total_size = self.array_size * alignment
+            if total_size % 4 == 0:
+                alignment = 4
+            elif total_size % 2 == 0:
+                alignment = 2
+            else:
+                total_size = 1
+
+        return alignment
+            
     def description(self):
         rv = [ repr(self) ]
         print( self.references)
@@ -322,7 +377,7 @@ class Field:
         if self.is_array and self.array_size > 1:
             array_access = '.0'
         if self.is_value:
-            lines = [ prefix + 'if x.{}{} != {}_INVALID  {{'.format( member, array_access, self.objc_type ) ]
+            lines = [ prefix + 'if x.{}{} != {}_INVALID  {{'.format( member, array_access, self.objc_base_type ) ]
 
             if self.is_switched:
                 lines.extend( self.swift_stmt_case_convert_to_value(ctx, message) )
@@ -343,7 +398,7 @@ class Field:
 
         if self.is_string or self.is_fit_type:
             if self.is_fit_type and not self.is_array:
-                lines = [ prefix + 'if( x.{} != {}_INVALID ) {{'.format( self.member, self.objc_type  ) ]
+                lines = [ prefix + 'if( x.{} != {}_INVALID ) {{'.format( self.member, self.objc_base_type  ) ]
                 if self.is_switched:
                     lines.extend( self.swift_stmt_case_convert_to_string(ctx,message) )
                 else:
@@ -373,7 +428,7 @@ class Field:
         member = self.member
 
         if self.is_date:
-            lines = [ prefix + 'if x.{} != {}_INVALID  {{'.format( member, self.objc_type ),
+            lines = [ prefix + 'if x.{} != {}_INVALID  {{'.format( member, self.objc_base_type ),
                       prefix + '  let val : Date =  Date(timeIntervalSinceReferenceDate: Double(x.{})-347241600.0 )'.format( member ),
                       prefix + '  rv[ "{}" ] = val'.format(self.name),
                       prefix + '}'
@@ -634,7 +689,17 @@ class Message:
                     all_fields[k] = {}
                 all_fields[k][self.name] = v
 
-    def mesg_def_struct_name(self):
+    def fields_sorted_by_alignments(self):
+        rv = sorted( self.fields, key=lambda x: x.base_type_alignment(), reverse=True )
+        return rv
+                
+    def objc_type_mesg_def_struct(self):
+        return 'FIT_{}_MESG_DEF'.format( self.name.upper() )
+
+    def objc_var_mesg_def(self):
+        return '{}_mesg_def'.format( self.name )
+        
+    def mesg_def_struct_type_name(self):
         return 'FIT_{}_MESG_DEF'.format( self.name.upper() )
                 
     #--- Swift message
@@ -664,7 +729,7 @@ class Message:
         rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Double] {{'.format( self.swift_fname_value_dict(), self.struct_name ) ]
         elems = []
         
-        for field in self.fields:
+        for field in self.fields_sorted_by_alignments():
             if field.include:
                 elems += field.swift_stmt_convert_value(ctx, self, '  ')
 
@@ -687,7 +752,7 @@ class Message:
         rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:String] {{'.format(self.swift_fname_string_dict(), self.struct_name ) ]
         elems = []
         hasString = False
-        for field in self.fields:
+        for field in self.fields_sorted_by_alignments():
             if field.include:
                 if field.is_string:
                     hasString = True
@@ -787,18 +852,76 @@ class Message:
                           ] )
         return rv
 
+    def objc_mesg_struct(self,ctx):
+        rv = []
+
+        fields = []
+        for f in self.fields_sorted_by_alignments():
+            if f.include:
+                fields.append( f )
+
+        if not fields:
+            return rv
+
+        rv.extend( [ 'typedef struct {' ] )
+
+        for f in fields:
+            if f.array_size:
+                rv.append(  '  {} {}[{}]; // {}'.format( f.objc_base_type, f.name, f.array_size, f.fit_type.name if f.fit_type else '' )  )
+            else:
+                rv.append(  '  {} {}; // {}'.format( f.objc_base_type, f.name, f.fit_type.name if f.fit_type else '' )  )
+
+        rv.extend( ['}} {};'.format( self.struct_name ), '' ] )
+
+        return rv
+    
     def objc_mesg_def(self,ctx):
-        rv = [ 'static const {} {}_def = {{'.format(self.mesg_def_struct_name(), self.name),
-               '  0,// reserved_1',
-               '  FIT_ARG_ENDIAN, // arch,',
-               '{},'.format( len(self.fields) ),
-               '{'
+        rv = []
+
+        fields = []
+        for f in self.fields_sorted_by_alignments():
+            if f.include:
+                fields.append( f )
+
+        if not fields:
+            return rv
+
+        rv.extend( [ 'typedef struct {',
+                     '  FIT_UINT8 reserved_1;',
+                     '  FIT_UINT8 arch;',
+                     '  FIT_UINT16 global_mesg_num;',
+                     '  FIT_UINT8 num_fields;',
+                     '  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * {:2}];'.format( len( fields ) ),
+                     '}} {};'.format( self.objc_type_mesg_def_struct() ),
+                     ''
+                     ] )
+
+        rv.extend( [ 'static const {} {} = {{'.format(self.objc_type_mesg_def_struct(), self.objc_var_mesg_def()),
+               '  0, // reserved_1',
+               '  FIT_ARCH_ENDIAN, // arch,',
+               '  /* {} */{}, // mesg_num,'.format( self.name, self.mesg_num ),
+               '  {},'.format( len(fields) ),
+               '  {'
+            ] )
+
+        sizes = (0, 0, 0)
+        entries = []
+        for f in fields:
+            base_type = 'FIT_BASE_TYPE_{}'.format( f.base_type.upper() )
+            if base_type == 'FIT_BASE_TYPE_BOOL':
+                base_type = 'FIT_BASE_TYPE_ENUM'
+            one = [ '/* {} */{},'.format( f.name, f.field_num ),
+                    '(sizeof({})*{}),'.format( f.objc_base_type, f.array_size if f.array_size else 1 ),
+                    '{},'.format( base_type )
             ]
-        for f in self.fields:
-            rv.append( '    {},(sizeof(FIT_{})*{}),FIT_BASE_TYPE_{}, // {}'.format( f.field_num, f.base_type.upper(), f.array_size if f.array_size else 1, f.base_type.upper(), f.name ) )
+            entries.append( one )
+            sizes = ( max(len(one[0]), sizes[0]), max(len(one[1]), sizes[1]), max(len(one[2]), sizes[1]) )
+            
+        for one in entries:
+            rv.append( '    ' + '{0: <{width0}} {1: <{width1}} {2: <{width2}}'.format( one[0], one[1], one[2], width0 = sizes[0], width1 = sizes[1], width2 = sizes[2] ) )
 
         rv.extend( [ '  }',
-                     '}'
+                     '};'
                      ] )
         return rv
         
@@ -831,6 +954,8 @@ class Context:
                     continue
                 current.add_row( row )
 
+        
+                
         print( 'Read {} types'.format( len(self.types ) ) )
 
         ws_messages = list(wb['Messages'].values)
@@ -1000,6 +1125,49 @@ class Context:
                      ] )
         return rv
 
+    def objc_var_fit_mesg_defs(self):
+        return 'reference_mesg_defs'
+
+    def objc_fit_mesg_defs_forward_declare(self):
+        rv = []
+        messages = []
+        for m in self.arg_messages():
+            if m.has_included():
+                messages.append( m )
+                
+        rv.extend( [ 'typedef const FIT_MESG_DEF * FIT_CONST_MESG_DEF_PTR;',
+                     'extern FIT_UINT8 {}_size;'.format( self.objc_var_fit_mesg_defs() ),
+                     'extern FIT_CONST_MESG_DEF_PTR {}[];'.format( self.objc_var_fit_mesg_defs() ),
+                     'extern void fit_set_{}();'.format( self.objc_var_fit_mesg_defs(), len(messages) ),
+                     #'extern void fit_set_example_mesg_defs();',
+                     '#define FIT_MESG_SIZE       254',
+                     '#define FIT_MESG_DEF_SIZE   278',
+                     ''
+                    ] )
+                       
+        return rv
+    
+    def objc_fit_mesg_defs(self):
+        rv = []
+        messages = []
+        for m in self.arg_messages():
+            if m.has_included():
+                messages.append( m )
+
+        if messages:
+            rv.extend( [ 'FIT_UINT8 {}_size = {};'.format( self.objc_var_fit_mesg_defs(), len( messages ) ),
+                         'FIT_CONST_MESG_DEF_PTR {}[] = {{'.format( self.objc_var_fit_mesg_defs() )
+                        ] )
+            for m in messages:
+                rv.append( '  (FIT_CONST_MESG_DEF_PTR) &{},'.format( m.objc_var_mesg_def() ) )
+            rv.extend( [ '};', '' ] )
+
+        rv.extend( ['void fit_set_{}() {{'.format( self.objc_var_fit_mesg_defs(), len(messages) ),
+                    '  Fit_SetMesgDefs({}, {}_size);'.format( self.objc_var_fit_mesg_defs(), self.objc_var_fit_mesg_defs() ),
+                    '}',
+                    ] )
+        return rv
+        
     #--- swift Context
     def swift_unit_functions(self):
         rv = []
@@ -1174,24 +1342,46 @@ class Command :
 
     def generate_objc_mesg_def(self):
         objc_dir = self.args.objcdir
-        objc_dir = '.'
         objc_file_name = os.path.join( objc_dir, 'rzfit_objc_reference_mesg.m' )
         objc_header = 'rzfit_objc_reference_mesg.h'
+        objc_header_name = os.path.join( objc_dir, objc_header )
         print( 'Writing {}'.format( objc_file_name ) )
         oof = open( objc_file_name, 'w')
         
-        oof.write( '\n'.join( [
+        rv = [
             '// This file is auto generated, Do not edit',
             '',
-            ''
-        ] ) )
-        rv = []
+            '#include "{}"'.format( objc_header ),
+            '',
+        ]
         messages = self.context.arg_messages()
         for m in messages:
             rv.extend( m.objc_mesg_def(self.context) )
+            
+        rv.extend( self.context.objc_fit_mesg_defs() )
 
         oof.write( '\n'.join( rv ) )
 
+        print( 'Writing {}'.format( objc_header_name ) )
+        ooh = open( objc_header_name, 'w')
+        
+        rv = [
+            '// This file is auto generated, Do not edit',
+            '#pragma once',
+            '#include "fit.h"',
+            '',
+            '',
+        ]
+        rv.extend( self.context.objc_fit_mesg_defs_forward_declare() )
+
+        # types that are useful to define
+        rv.extend( self.context.types['mesg_num'].objc_typedef() )
+        rv.extend( self.context.types['fit_base_type'].objc_typedef() )
+        messages = self.context.arg_messages()
+        for m in messages:
+            rv.extend( m.objc_mesg_struct(self.context) )
+
+        ooh.write( '\n'.join( rv ) )
 
     def generate_objc_file(self):
         objc_dir = self.args.objcdir
@@ -1248,7 +1438,7 @@ class Command :
         oof.write( '\n'.join( self.context.objc_func_field_info() ) )
 
     def cmd_generate(self):
-        #self.generate_objc_mesg_def()
+        self.generate_objc_mesg_def()
         self.generate_objc_file()
         self.generate_swift_file()
 
@@ -1299,3 +1489,6 @@ if __name__ == "__main__":
     else:
         print( 'Invalid command "{}"'.format( args.command) )
         parser.print_help()
+
+
+    

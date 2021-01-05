@@ -142,6 +142,8 @@ public class FitFile {
         
         let dev_parser = FitDevDataParser(&state, knownUnits: rzfit_swift_known_units())
         
+        fit_set_reference_mesg_defs()
+        
         FitConvert_Init(&state, FIT_TRUE)
         dev_parser.initState(&state)
         switch parsingType {
@@ -172,7 +174,7 @@ public class FitFile {
                                 bldmsgnumorder.append(mesg)
                             }
                             if let uptr : UnsafePointer<UInt8> = FitConvert_GetMessageData(&state) {
-                                if( mesg == FIT_MESG_NUM_FIELD_DESCRIPTION){
+                                if( mesg == FitMessageType.field_description){
                                     dev_parser.recordDeveloperField(uptr)
                                     if let _devunits = dev_parser.units(),
                                        let _devnative = dev_parser.nativeFields() as? [FitFieldKey:Int]{

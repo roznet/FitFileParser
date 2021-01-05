@@ -18,7 +18,7 @@
 
 
 #include "string.h"
-#include "fit_product.h"
+#include "fit.h"
 
 ///////////////////////////////////////////////////////////////////////
 // Public Constants
@@ -115,13 +115,27 @@ FIT_UINT8 Fit_GetArch(void)
    return (*(FIT_UINT8 *)&arch);
 }
 
+#define FIT_MAX_MESG_DEF 128
+static FIT_CONST_MESG_DEF_PTR fit_mesg_defs[FIT_MAX_MESG_DEF];
+static FIT_UINT8 fit_mesg_defs_field_count = 0;
+
+void Fit_SetMesgDefs(FIT_CONST_MESG_DEF_PTR mesg_defs[], FIT_UINT8 mesg_count){
+    FIT_UINT8 size = mesg_count;
+    if( size >= FIT_MAX_MESG_DEF){
+        size = FIT_MAX_MESG_DEF;
+    }
+    
+    memcpy(fit_mesg_defs, mesg_defs, sizeof(FIT_CONST_MESG_DEF_PTR)*size);
+    fit_mesg_defs_field_count = size;
+}
+
 const FIT_MESG_DEF *Fit_GetMesgDef(FIT_UINT16 global_mesg_num)
 {
    FIT_UINT8 index;
 
-   for (index = 0; index < FIT_MESGS; index++)
+   for (index = 0; index < fit_mesg_defs_field_count; index++)
    {
-      if (fit_mesg_defs[index]->global_mesg_num == global_mesg_num)
+      if ( fit_mesg_defs[index]->global_mesg_num == global_mesg_num)
          return (FIT_MESG_DEF *) fit_mesg_defs[index];
    }
 
@@ -131,7 +145,7 @@ const FIT_MESG_DEF *Fit_GetMesgDef(FIT_UINT16 global_mesg_num)
 const FIT_MESG_DEF *Fit_GetMesgDefFromEnum(FIT_UINT32 fit_mesg_num)
 {
     //Verify enum in range
-    if (FIT_MESGS > fit_mesg_num)
+    if (fit_mesg_defs_field_count > fit_mesg_num)
     {
         return fit_mesg_defs[fit_mesg_num];
     }
