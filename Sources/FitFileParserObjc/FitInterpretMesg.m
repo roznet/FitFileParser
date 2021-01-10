@@ -74,21 +74,13 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
         BOOL added_date   = false;
 
         if( base_type_num==7){ // String
-            FIT_BOOL has_zero = 0;
             const char * start = (const char*)mesg_buf;
-            for (field_size = 0; field_size < state->convert_table[state->mesg_index].fields[field].size; field_size += base_type_size){
-                if( *mesg_buf == 0 ){
-                    has_zero = 1;
-                }
-                mesg_buf += base_type_size;
-            }
             _fields.string_values[ _fields.string_count ] = (FIT_UINT32)self.dynamicStrings.count;
             _fields.string_types[ _fields.string_count ] = FIT_TYPE_DYNAMIC_STRING;
-            if( has_zero ){
-                [self.dynamicStringsStore addObject:[NSString stringWithCString:start encoding:NSUTF8StringEncoding] ];
-            }else{
-                [self.dynamicStringsStore addObject:@"" ];
-            }
+            NSString * fullString = [[NSString alloc] initWithBytes:start
+                                                             length:state->convert_table[state->mesg_index].fields[field].size
+                                                           encoding:NSUTF8StringEncoding];
+            [self.dynamicStringsStore addObject:fullString];
             added_string = true;
         }else{
             BOOL in_array = false;
