@@ -20,13 +20,13 @@ public class FitMessage : Codable {
     /// The message type, which is the fit message number
     public let messageType : FitMessageType
     private let values : [FitFieldKey:Double]
-    private let enums : [FitFieldKey:String]
+    private let strings : [FitFieldKey:String]
     private let dates : [FitFieldKey:Date]
     private var devfields : [FitFieldKey:Double]?
     private var devunits : [FitFieldKey:String]?
        
     private enum CodingKeys: String, CodingKey {
-            case messageType,values,enums,dates,devfields,devunits
+            case messageType,values,strings,dates,devfields,devunits
     }
     
     public var messageTypeDescription : String?{
@@ -39,7 +39,7 @@ public class FitMessage : Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.messageType = try FitMessageType(container.decode(Int.self, forKey: .messageType))
         self.values = try container.decode([String:Double].self, forKey: .values)
-        self.enums = try container.decode([String:String].self, forKey: .enums)
+        self.strings = try container.decode([String:String].self, forKey: .strings)
         self.dates = try container.decode([String:Date].self, forKey: .dates)
         self.devfields = try container.decodeIfPresent([String:Double].self, forKey: .devfields)
         self.devunits = try container.decodeIfPresent([String:String].self, forKey: .devunits)
@@ -50,7 +50,7 @@ public class FitMessage : Codable {
     public init(mesg_num  : FIT_MESG_NUM, mesg_values : [FitFieldKey:Double], mesg_enums : [FitFieldKey:String], mesg_dates : [FitFieldKey:Date]) {
         messageType = mesg_num
         values = mesg_values
-        enums = mesg_enums
+        strings = mesg_enums
         dates = mesg_dates
         cacheInterpretation = [:]
         devfields = nil
@@ -130,9 +130,9 @@ public class FitMessage : Codable {
             }else if let unit = rzfit_swift_unit_for_field(mesg_num: self.messageType, field: key) {                
                 rv[key] =  FitFieldValue(withValue: val, andUnit: unit)
             }else if( self.messageType == FitMessageType.field_description && key == "native_field_num" ){
-                if let mesgnumstr = enums["native_mesg_num"] {
+                if let mesgnumstr = strings["native_mesg_num"] {
                     let mesgnum = rzfit_swift_string_to_mesg_num(mesgnumstr)
-                    let native = rzfit_swift_field_num_to_string(mesg_num: mesgnum, field_num:FIT_UINT16(val), strings: self.enums)
+                    let native = rzfit_swift_field_num_to_string(mesg_num: mesgnum, field_num:FIT_UINT16(val), strings: self.strings)
                     
                     rv[key] = FitFieldValue(withName: native)
                 }else{
@@ -143,7 +143,7 @@ public class FitMessage : Codable {
             }
         }
         
-        for (key,val) in enums {
+        for (key,val) in strings {
             rv[ key ] = FitFieldValue(withName: val )
         }
         if let dev = self.devfields,
@@ -189,8 +189,8 @@ extension FitMessage : CustomStringConvertible {
             rv.append( " dates[\(self.dates.count)]" )
             empty = false
         }
-        if self.enums.count > 0 {
-            rv.append( " enums[\(self.enums.count)]" )
+        if self.strings.count > 0 {
+            rv.append( " enums[\(self.strings.count)]" )
             empty = false
         }
         if self.values.count > 0 {
@@ -217,7 +217,7 @@ extension FitMessage : Equatable {
         return
             lhs.messageType == rhs.messageType &&
             lhs.values == rhs.values &&
-            lhs.enums == rhs.enums &&
+            lhs.strings == rhs.strings &&
             lhs.dates == rhs.dates &&
             lhs.devfields == rhs.devfields &&
             lhs.devunits == rhs.devunits
