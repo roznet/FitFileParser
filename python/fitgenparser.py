@@ -102,8 +102,8 @@ class Type :
     def swift_fname_to_string(self):
         return f'rzfit_swift_string_from_{self.name}'
     
-    def swift_func_to_string(self):
-        rv = [ 'func {}(_ input : {}) -> String'.format( self.swift_fname_to_string(), self.objc_type() ),
+    def swift_func_to_string(self,fileprivate=True):
+        rv = [ '{}func {}(_ input : {}) -> String'.format( 'fileprivate ' if fileprivate else '', self.swift_fname_to_string(), self.objc_type() ),
                '{',
                '   switch input {{'.format( self.name ),
               ]
@@ -118,8 +118,8 @@ class Type :
     def swift_fname_from_string(self):
         return f'rzfit_swift_string_to_{self.name}'
     
-    def swift_func_from_string(self):
-        rv = [ 'func {}(_ input : String) -> {}'.format( self.swift_fname_from_string(), self.objc_type() ),
+    def swift_func_from_string(self,fileprivate=True):
+        rv = [ '{}func {}(_ input : String) -> {}'.format( 'fileprivate ' if fileprivate else '', self.swift_fname_from_string(), self.objc_type() ),
                '{',
                '   switch input {'
               ]
@@ -710,9 +710,9 @@ class Message:
         rv = []
 
         if self.has_switched_field():
-            rv.append( 'func {}( field_num : FIT_UINT16 , strings : [String:String] ) -> String {{'.format( self.swift_fname_field_num_to_string() ) )
+            rv.append( 'fileprivate func {}( field_num : FIT_UINT16 , strings : [String:String] ) -> String {{'.format( self.swift_fname_field_num_to_string() ) )
         else:
-            rv.append( 'func {}( field_num : FIT_UINT16 ) -> String {{'.format( self.swift_fname_field_num_to_string() ) )
+            rv.append( 'fileprivate func {}( field_num : FIT_UINT16 ) -> String {{'.format( self.swift_fname_field_num_to_string() ) )
         rv.append( '  switch field_num {' )
         for field in self.fields:
             rv.extend( field.swift_stmt_case_to_string(ctx,self ) )
@@ -726,7 +726,7 @@ class Message:
         return 'rzfit_swift_value_dict_for_{}'.format( self.name )
     
     def swift_func_value_dict(self,ctx):
-        rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Double] {{'.format( self.swift_fname_value_dict(), self.struct_name ) ]
+        rv = [ 'fileprivate func {}( ptr : UnsafePointer<{}>) -> [String:Double] {{'.format( self.swift_fname_value_dict(), self.struct_name ) ]
         elems = []
         
         for field in self.fields_sorted_by_alignments():
@@ -749,7 +749,7 @@ class Message:
         return 'rzfit_swift_string_dict_for_{}'.format( self.name )
     
     def swift_func_string_dict(self,ctx):
-        rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:String] {{'.format(self.swift_fname_string_dict(), self.struct_name ) ]
+        rv = [ 'fileprivate func {}( ptr : UnsafePointer<{}>) -> [String:String] {{'.format(self.swift_fname_string_dict(), self.struct_name ) ]
         elems = []
         hasString = False
         for field in self.fields_sorted_by_alignments():
@@ -775,7 +775,7 @@ class Message:
         return 'rzfit_swift_date_dict_for_{}'.format( self.name )
     
     def swift_func_date_dict(self,ctx):
-        rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Date] {{'.format( self.swift_fname_date_dict(), self.struct_name ),
+        rv = [ 'fileprivate func {}( ptr : UnsafePointer<{}>) -> [String:Date] {{'.format( self.swift_fname_date_dict(), self.struct_name ),
                ]
         elems = []
         
@@ -1303,24 +1303,37 @@ class Command :
             '',
             'import FitFileParserObjc'
         ]
-        
+        rv.extend( [
+            '',
+            '//MARK: - Module Entry Point Functions',
+            ''
+            ] )
+                         
         mesg_num = self.context.types['mesg_num']
+        
+        rv.extend( self.context.swift_func_build_mesg() )
+        rv.extend( self.context.swift_unit_functions() )
+        rv.extend( self.context.swift_func_type_to_string() )
+        rv.extend( mesg_num.swift_func_from_string(fileprivate=False) )
+        rv.extend( mesg_num.swift_func_to_string(fileprivate=False) )
+        
+        rv.append( '// MARK: - Extension' )
+        
         rv.extend( mesg_num.swift_stmt_extension('FitMessageType' ) )
         rv.extend( [
             '',
-            '//MARK: - convertion to string functions',
+            '//MARK: - convertion fittype to string functions',
             ''
             ] )
+
         for one in self.context.types.values():
-            rv.extend(  one.swift_func_to_string() )
-        rv.extend( self.context.swift_func_type_to_string() )
-        rv.extend( self.context.types['mesg_num'].swift_func_from_string() )
+            if one.name != 'mesg_num':
+                rv.extend(  one.swift_func_to_string() )
         
-        rv.extend( self.context.swift_unit_functions() )
 
         rv.extend( [
             '',
-            '//MARK: - fit convert fields',
+            '//MARK: - fit convert structure to dict',
             ''
             ] )
         
@@ -1336,7 +1349,6 @@ class Command :
             ] )
         rv.extend( self.context.swift_func_messages_dict() )
 
-        rv.extend( self.context.swift_func_build_mesg() )
         
         oof.write( '\n'.join( rv ) )
 
