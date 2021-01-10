@@ -3,12 +3,7 @@
 #include "fit.h"
 
 
-typedef const FIT_MESG_DEF * FIT_CONST_MESG_DEF_PTR;
-extern FIT_UINT8 reference_mesg_defs_size;
-extern FIT_CONST_MESG_DEF_PTR reference_mesg_defs[];
 extern void fit_set_reference_mesg_defs();
-#define FIT_MESG_SIZE       254
-#define FIT_MESG_DEF_SIZE   278
 
 typedef FIT_UINT16 FIT_MESG_NUM;
 #define FIT_MESG_NUM_INVALID                        FIT_UINT16_INVALID    

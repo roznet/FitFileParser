@@ -1120,13 +1120,7 @@ class Context:
             if m.has_included():
                 messages.append( m )
                 
-        rv.extend( [ 'typedef const FIT_MESG_DEF * FIT_CONST_MESG_DEF_PTR;',
-                     'extern FIT_UINT8 {}_size;'.format( self.objc_var_fit_mesg_defs() ),
-                     'extern FIT_CONST_MESG_DEF_PTR {}[];'.format( self.objc_var_fit_mesg_defs() ),
-                     'extern void fit_set_{}();'.format( self.objc_var_fit_mesg_defs(), len(messages) ),
-                     #'extern void fit_set_example_mesg_defs();',
-                     '#define FIT_MESG_SIZE       254',
-                     '#define FIT_MESG_DEF_SIZE   278',
+        rv.extend( [ 'extern void fit_set_{}();'.format( self.objc_var_fit_mesg_defs(), len(messages) ),
                      ''
                     ] )
                        
