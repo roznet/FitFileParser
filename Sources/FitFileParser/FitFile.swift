@@ -48,7 +48,7 @@ extension FitInterpretMesg {
                     let str : String = self.dynamicStrings[Int(val)]
                     strings[field] = str
                 }else{
-                    strings[field] = rzfit_swift_type_to_string(fit_type: fit_type, val: val)
+                    strings[field] = rzfit_swift_string_for_type(fit_type: fit_type, val: val)
                 }
             }
             else{
@@ -63,7 +63,7 @@ extension FitInterpretMesg {
                 let fit_type : FIT_UINT8 = string_types_lookup[i]
                 let val : FIT_UINT32 = string_values_lookup[i]
                 // we know it can't be dynamic string if in incomplete
-                strings[field] = rzfit_swift_type_to_string(fit_type: fit_type, val: val)
+                strings[field] = rzfit_swift_string_for_type(fit_type: fit_type, val: val)
             }
         }
         
@@ -274,7 +274,7 @@ public class FitFile {
     /// - Parameter messageType: FitMessageType, the int of the message type i the file
     /// - Returns: description string extracted from the sdk name.
     public func messageTypeDescription( messageType:FitMessageType) -> String? {
-        return rzfit_swift_mesg_num_to_string(messageType)
+        return rzfit_swift_string_from_mesg_num(messageType)
     }
     
     /// List of Message Type converted to its description String in the order received in the file
@@ -282,7 +282,7 @@ public class FitFile {
     public func messageTypesDescriptions() -> [String] {
         var rv : [String] = []
         for one in messageTypes {
-            let oneStr = rzfit_swift_mesg_num_to_string(one)
+            let oneStr = rzfit_swift_string_from_mesg_num(one)
             rv.append(oneStr)
         }
         return rv
@@ -292,7 +292,7 @@ public class FitFile {
     /// - Parameter forDescription: a string
     /// - Returns: FitMessageType or nil if string does not correspond to any type
     public static func messageType( forDescription : String) -> FitMessageType? {
-        return rzfit_swift_mesg_num_from_string(forDescription)
+        return rzfit_swift_string_to_mesg_num(forDescription)
     }
     
     /// Check if message type is available in the file

@@ -3,7 +3,7 @@
 import FitFileParserObjc
 public extension FitMessageType {
   func name() -> String {
-    return rzfit_swift_mesg_num_to_string(self)
+    return rzfit_swift_string_from_mesg_num(self)
   }
   static let invalid : FitMessageType = 0xFFFF
   static let file_id : FitMessageType = 0
@@ -100,7 +100,7 @@ public extension FitMessageType {
 
 //MARK: - convertion to string functions
 
-func rzfit_swift_file_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_file(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 1: return "device";
@@ -127,7 +127,7 @@ func rzfit_swift_file_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_mesg_num_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_mesg_num(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "file_id";
@@ -224,7 +224,7 @@ func rzfit_swift_mesg_num_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_checksum_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_checksum(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "clear";
@@ -233,7 +233,7 @@ func rzfit_swift_checksum_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-func rzfit_swift_file_flags_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_file_flags(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x02: return "read";
@@ -243,7 +243,7 @@ func rzfit_swift_file_flags_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_mesg_count_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_mesg_count(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "num_per_file";
@@ -253,7 +253,7 @@ func rzfit_swift_mesg_count_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_date_time_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_string_from_date_time(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 0x10000000: return "min";
@@ -261,7 +261,7 @@ func rzfit_swift_date_time_to_string(_ input : FIT_UINT32) -> String
   }
 }
 
-func rzfit_swift_local_date_time_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_string_from_local_date_time(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 0x10000000: return "min";
@@ -269,7 +269,7 @@ func rzfit_swift_local_date_time_to_string(_ input : FIT_UINT32) -> String
   }
 }
 
-func rzfit_swift_message_index_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_message_index(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0x8000: return "selected";
@@ -279,7 +279,7 @@ func rzfit_swift_message_index_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_device_index_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_device_index(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "creator";
@@ -287,7 +287,7 @@ func rzfit_swift_device_index_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-func rzfit_swift_gender_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_gender(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "female";
@@ -296,7 +296,7 @@ func rzfit_swift_gender_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_language_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_language(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "english";
@@ -342,7 +342,7 @@ func rzfit_swift_language_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_language_bits_0_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_language_bits_0(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "english";
@@ -357,7 +357,7 @@ func rzfit_swift_language_bits_0_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_language_bits_1_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_language_bits_1(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "dutch";
@@ -372,7 +372,7 @@ func rzfit_swift_language_bits_1_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_language_bits_2_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_language_bits_2(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "slovenian";
@@ -387,7 +387,7 @@ func rzfit_swift_language_bits_2_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_language_bits_3_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_language_bits_3(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "bulgarian";
@@ -402,7 +402,7 @@ func rzfit_swift_language_bits_3_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_language_bits_4_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_language_bits_4(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "brazilian_portuguese";
@@ -415,7 +415,7 @@ func rzfit_swift_language_bits_4_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_time_zone_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_time_zone(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "almaty";
@@ -528,7 +528,7 @@ func rzfit_swift_time_zone_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_display_measure_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_display_measure(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "metric";
@@ -538,7 +538,7 @@ func rzfit_swift_display_measure_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_display_heart_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_display_heart(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "bpm";
@@ -548,7 +548,7 @@ func rzfit_swift_display_heart_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_display_power_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_display_power(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "watts";
@@ -557,7 +557,7 @@ func rzfit_swift_display_power_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_display_position_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_display_position(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "degree";
@@ -606,7 +606,7 @@ func rzfit_swift_display_position_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_switch_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_switch(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "off";
@@ -616,7 +616,7 @@ func rzfit_swift_switch_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_sport_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_sport(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -674,7 +674,7 @@ func rzfit_swift_sport_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_sport_bits_0_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_sport_bits_0(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "generic";
@@ -689,7 +689,7 @@ func rzfit_swift_sport_bits_0_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_sport_bits_1_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_sport_bits_1(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "tennis";
@@ -704,7 +704,7 @@ func rzfit_swift_sport_bits_1_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_sport_bits_2_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_sport_bits_2(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "mountaineering";
@@ -719,7 +719,7 @@ func rzfit_swift_sport_bits_2_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_sport_bits_3_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_sport_bits_3(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "driving";
@@ -734,7 +734,7 @@ func rzfit_swift_sport_bits_3_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_sport_bits_4_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_sport_bits_4(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "sailing";
@@ -749,7 +749,7 @@ func rzfit_swift_sport_bits_4_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_sport_bits_5_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_sport_bits_5(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "water_skiing";
@@ -764,7 +764,7 @@ func rzfit_swift_sport_bits_5_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_sport_bits_6_to_string(_ input : FIT_UINT8Z) -> String
+func rzfit_swift_string_from_sport_bits_6(_ input : FIT_UINT8Z) -> String
 {
    switch input {
     case 0x01: return "floor_climbing";
@@ -772,7 +772,7 @@ func rzfit_swift_sport_bits_6_to_string(_ input : FIT_UINT8Z) -> String
   }
 }
 
-func rzfit_swift_sub_sport_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_sub_sport(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -840,7 +840,7 @@ func rzfit_swift_sub_sport_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_sport_event_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_sport_event(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "uncategorized";
@@ -856,7 +856,7 @@ func rzfit_swift_sport_event_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_activity_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_activity(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "manual";
@@ -865,7 +865,7 @@ func rzfit_swift_activity_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_intensity_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_intensity(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "active";
@@ -876,7 +876,7 @@ func rzfit_swift_intensity_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_session_trigger_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_session_trigger(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "activity_end";
@@ -887,7 +887,7 @@ func rzfit_swift_session_trigger_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_autolap_trigger_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_autolap_trigger(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "time";
@@ -901,7 +901,7 @@ func rzfit_swift_autolap_trigger_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_lap_trigger_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_lap_trigger(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "manual";
@@ -917,7 +917,7 @@ func rzfit_swift_lap_trigger_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_time_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_time_mode(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "hour12";
@@ -930,7 +930,7 @@ func rzfit_swift_time_mode_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_backlight_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_backlight_mode(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "off";
@@ -944,7 +944,7 @@ func rzfit_swift_backlight_mode_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_date_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_date_mode(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "day_month";
@@ -953,7 +953,7 @@ func rzfit_swift_date_mode_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_backlight_timeout_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_backlight_timeout(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "infinite";
@@ -961,7 +961,7 @@ func rzfit_swift_backlight_timeout_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-func rzfit_swift_event_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_event(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "timer";
@@ -1005,7 +1005,7 @@ func rzfit_swift_event_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_event_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_event_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "start";
@@ -1022,7 +1022,7 @@ func rzfit_swift_event_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_timer_trigger_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_timer_trigger(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "manual";
@@ -1032,7 +1032,7 @@ func rzfit_swift_timer_trigger_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_fitness_equipment_state_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_fitness_equipment_state(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "ready";
@@ -1043,7 +1043,7 @@ func rzfit_swift_fitness_equipment_state_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_tone_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_tone(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "off";
@@ -1054,7 +1054,7 @@ func rzfit_swift_tone_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_autoscroll_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_autoscroll(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "none";
@@ -1065,7 +1065,7 @@ func rzfit_swift_autoscroll_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_activity_class_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_activity_class(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0x7F: return "level";
@@ -1075,7 +1075,7 @@ func rzfit_swift_activity_class_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_hr_zone_calc_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_hr_zone_calc(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "custom";
@@ -1085,7 +1085,7 @@ func rzfit_swift_hr_zone_calc_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_pwr_zone_calc_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_pwr_zone_calc(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "custom";
@@ -1094,7 +1094,7 @@ func rzfit_swift_pwr_zone_calc_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_wkt_step_duration_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_wkt_step_duration(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "time";
@@ -1132,7 +1132,7 @@ func rzfit_swift_wkt_step_duration_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_wkt_step_target_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_wkt_step_target(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "speed";
@@ -1153,7 +1153,7 @@ func rzfit_swift_wkt_step_target_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_goal_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_goal(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "time";
@@ -1167,7 +1167,7 @@ func rzfit_swift_goal_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_goal_recurrence_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_goal_recurrence(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "off";
@@ -1180,7 +1180,7 @@ func rzfit_swift_goal_recurrence_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_goal_source_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_goal_source(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "auto";
@@ -1190,7 +1190,7 @@ func rzfit_swift_goal_source_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_schedule_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_schedule(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "workout";
@@ -1199,7 +1199,7 @@ func rzfit_swift_schedule_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_course_point_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_course_point(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -1232,7 +1232,7 @@ func rzfit_swift_course_point_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_manufacturer_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_manufacturer(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 1: return "garmin";
@@ -1424,7 +1424,7 @@ func rzfit_swift_manufacturer_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_garmin_product_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 1: return "hrm1";
@@ -1749,7 +1749,7 @@ func rzfit_swift_garmin_product_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_antplus_device_type_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_antplus_device_type(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 1: return "antfs";
@@ -1780,7 +1780,7 @@ func rzfit_swift_antplus_device_type_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-func rzfit_swift_ant_network_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_ant_network(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "public";
@@ -1791,7 +1791,7 @@ func rzfit_swift_ant_network_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_workout_capabilities_to_string(_ input : FIT_UINT32Z) -> String
+func rzfit_swift_string_from_workout_capabilities(_ input : FIT_UINT32Z) -> String
 {
    switch input {
     case 0x00000001: return "interval";
@@ -1812,7 +1812,7 @@ func rzfit_swift_workout_capabilities_to_string(_ input : FIT_UINT32Z) -> String
   }
 }
 
-func rzfit_swift_battery_status_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_battery_status(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 1: return "new";
@@ -1826,7 +1826,7 @@ func rzfit_swift_battery_status_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-func rzfit_swift_hr_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_hr_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "normal";
@@ -1835,7 +1835,7 @@ func rzfit_swift_hr_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_course_capabilities_to_string(_ input : FIT_UINT32Z) -> String
+func rzfit_swift_string_from_course_capabilities(_ input : FIT_UINT32Z) -> String
 {
    switch input {
     case 0x00000001: return "processed";
@@ -1853,7 +1853,7 @@ func rzfit_swift_course_capabilities_to_string(_ input : FIT_UINT32Z) -> String
   }
 }
 
-func rzfit_swift_weight_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_weight(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0xFFFE: return "calculating";
@@ -1861,7 +1861,7 @@ func rzfit_swift_weight_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_workout_hr_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_string_from_workout_hr(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 100: return "bpm_offset";
@@ -1869,7 +1869,7 @@ func rzfit_swift_workout_hr_to_string(_ input : FIT_UINT32) -> String
   }
 }
 
-func rzfit_swift_workout_power_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_string_from_workout_power(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 1000: return "watts_offset";
@@ -1877,7 +1877,7 @@ func rzfit_swift_workout_power_to_string(_ input : FIT_UINT32) -> String
   }
 }
 
-func rzfit_swift_bp_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_bp_status(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "no_error";
@@ -1889,7 +1889,7 @@ func rzfit_swift_bp_status_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_user_local_id_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_user_local_id(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0x0000: return "local_min";
@@ -1902,7 +1902,7 @@ func rzfit_swift_user_local_id_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_swim_stroke_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_swim_stroke(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "freestyle";
@@ -1916,7 +1916,7 @@ func rzfit_swift_swim_stroke_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_activity_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_activity_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -1932,7 +1932,7 @@ func rzfit_swift_activity_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_activity_subtype_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_activity_subtype(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "generic";
@@ -1959,7 +1959,7 @@ func rzfit_swift_activity_subtype_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_activity_level_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_activity_level(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "low";
@@ -1969,7 +1969,7 @@ func rzfit_swift_activity_level_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_side_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_side(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "right";
@@ -1978,7 +1978,7 @@ func rzfit_swift_side_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_left_right_balance_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_left_right_balance(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0x7F: return "mask";
@@ -1987,7 +1987,7 @@ func rzfit_swift_left_right_balance_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-func rzfit_swift_left_right_balance_100_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_left_right_balance_100(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0x3FFF: return "mask";
@@ -1996,7 +1996,7 @@ func rzfit_swift_left_right_balance_100_to_string(_ input : FIT_UINT16) -> Strin
   }
 }
 
-func rzfit_swift_length_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_length_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "idle";
@@ -2005,7 +2005,7 @@ func rzfit_swift_length_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_day_of_week_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_day_of_week(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "sunday";
@@ -2019,7 +2019,7 @@ func rzfit_swift_day_of_week_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_connectivity_capabilities_to_string(_ input : FIT_UINT32Z) -> String
+func rzfit_swift_string_from_connectivity_capabilities(_ input : FIT_UINT32Z) -> String
 {
    switch input {
     case 0x00000001: return "bluetooth";
@@ -2058,7 +2058,7 @@ func rzfit_swift_connectivity_capabilities_to_string(_ input : FIT_UINT32Z) -> S
   }
 }
 
-func rzfit_swift_weather_report_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_weather_report(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "current";
@@ -2068,7 +2068,7 @@ func rzfit_swift_weather_report_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_weather_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_weather_status(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "clear";
@@ -2096,7 +2096,7 @@ func rzfit_swift_weather_status_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_weather_severity_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_weather_severity(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "unknown";
@@ -2108,7 +2108,7 @@ func rzfit_swift_weather_severity_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_weather_severe_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_weather_severe_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "unspecified";
@@ -2200,21 +2200,21 @@ func rzfit_swift_weather_severe_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_time_into_day_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_string_from_time_into_day(_ input : FIT_UINT32) -> String
 {
    switch input {
    default: return "time_into_day_\(input)"
   }
 }
 
-func rzfit_swift_localtime_into_day_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_string_from_localtime_into_day(_ input : FIT_UINT32) -> String
 {
    switch input {
    default: return "localtime_into_day_\(input)"
   }
 }
 
-func rzfit_swift_stroke_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_stroke_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "no_event";
@@ -2227,7 +2227,7 @@ func rzfit_swift_stroke_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_body_location_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_body_location(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "left_leg";
@@ -2274,7 +2274,7 @@ func rzfit_swift_body_location_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_segment_lap_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_segment_lap_status(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "end";
@@ -2283,7 +2283,7 @@ func rzfit_swift_segment_lap_status_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_segment_leaderboard_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_segment_leaderboard_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "overall";
@@ -2301,7 +2301,7 @@ func rzfit_swift_segment_leaderboard_type_to_string(_ input : FIT_ENUM) -> Strin
   }
 }
 
-func rzfit_swift_segment_delete_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_segment_delete_status(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "do_not_delete";
@@ -2311,7 +2311,7 @@ func rzfit_swift_segment_delete_status_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_segment_selection_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_segment_selection_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "starred";
@@ -2320,7 +2320,7 @@ func rzfit_swift_segment_selection_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_source_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_source_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "ant";
@@ -2333,14 +2333,14 @@ func rzfit_swift_source_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_local_device_type_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_local_device_type(_ input : FIT_UINT8) -> String
 {
    switch input {
    default: return "local_device_type_\(input)"
   }
 }
 
-func rzfit_swift_display_orientation_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_display_orientation(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "auto";
@@ -2352,7 +2352,7 @@ func rzfit_swift_display_orientation_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_workout_equipment_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_workout_equipment(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "none";
@@ -2365,7 +2365,7 @@ func rzfit_swift_workout_equipment_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_watchface_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_watchface_mode(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "digital";
@@ -2376,7 +2376,7 @@ func rzfit_swift_watchface_mode_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_digital_watchface_layout_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_digital_watchface_layout(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "traditional";
@@ -2386,7 +2386,7 @@ func rzfit_swift_digital_watchface_layout_to_string(_ input : FIT_ENUM) -> Strin
   }
 }
 
-func rzfit_swift_analog_watchface_layout_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_analog_watchface_layout(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "minimal";
@@ -2396,7 +2396,7 @@ func rzfit_swift_analog_watchface_layout_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_rider_position_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_rider_position_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "seated";
@@ -2407,7 +2407,7 @@ func rzfit_swift_rider_position_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_power_phase_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_power_phase_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "power_phase_start_angle";
@@ -2418,7 +2418,7 @@ func rzfit_swift_power_phase_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_camera_event_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_camera_event_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "video_start";
@@ -2438,7 +2438,7 @@ func rzfit_swift_camera_event_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_sensor_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_sensor_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "accelerometer";
@@ -2449,7 +2449,7 @@ func rzfit_swift_sensor_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_bike_light_network_config_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_bike_light_network_config_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "auto";
@@ -2460,7 +2460,7 @@ func rzfit_swift_bike_light_network_config_type_to_string(_ input : FIT_ENUM) ->
   }
 }
 
-func rzfit_swift_comm_timeout_type_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_comm_timeout_type(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "wildcard_pairing_timeout";
@@ -2471,7 +2471,7 @@ func rzfit_swift_comm_timeout_type_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_camera_orientation_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_camera_orientation_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "camera_orientation_0";
@@ -2482,7 +2482,7 @@ func rzfit_swift_camera_orientation_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_attitude_stage_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_attitude_stage(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "failed";
@@ -2493,7 +2493,7 @@ func rzfit_swift_attitude_stage_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_attitude_validity_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_attitude_validity(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0x0001: return "track_angle_heading_valid";
@@ -2513,7 +2513,7 @@ func rzfit_swift_attitude_validity_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_auto_sync_frequency_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_auto_sync_frequency(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "never";
@@ -2525,7 +2525,7 @@ func rzfit_swift_auto_sync_frequency_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_exd_layout_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_exd_layout(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "full_screen";
@@ -2540,7 +2540,7 @@ func rzfit_swift_exd_layout_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_exd_display_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_exd_display_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "numerical";
@@ -2558,7 +2558,7 @@ func rzfit_swift_exd_display_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_exd_data_units_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_exd_data_units(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "no_units";
@@ -2615,7 +2615,7 @@ func rzfit_swift_exd_data_units_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_exd_qualifiers_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_exd_qualifiers(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "no_qualifier";
@@ -2666,7 +2666,7 @@ func rzfit_swift_exd_qualifiers_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_exd_descriptors_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_exd_descriptors(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "bike_light_battery_status";
@@ -2770,7 +2770,7 @@ func rzfit_swift_exd_descriptors_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_auto_activity_detect_to_string(_ input : FIT_UINT32) -> String
+func rzfit_swift_string_from_auto_activity_detect(_ input : FIT_UINT32) -> String
 {
    switch input {
     case 0x00000000: return "none";
@@ -2784,7 +2784,7 @@ func rzfit_swift_auto_activity_detect_to_string(_ input : FIT_UINT32) -> String
   }
 }
 
-func rzfit_swift_supported_exd_screen_layouts_to_string(_ input : FIT_UINT32Z) -> String
+func rzfit_swift_string_from_supported_exd_screen_layouts(_ input : FIT_UINT32Z) -> String
 {
    switch input {
     case 0x00000001: return "full_screen";
@@ -2799,7 +2799,7 @@ func rzfit_swift_supported_exd_screen_layouts_to_string(_ input : FIT_UINT32Z) -
   }
 }
 
-func rzfit_swift_fit_base_type_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_fit_base_type(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "enum";
@@ -2823,7 +2823,7 @@ func rzfit_swift_fit_base_type_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-func rzfit_swift_turn_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_turn_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "arriving_idx";
@@ -2868,7 +2868,7 @@ func rzfit_swift_turn_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_bike_light_beam_angle_mode_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_bike_light_beam_angle_mode(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "manual";
@@ -2877,7 +2877,7 @@ func rzfit_swift_bike_light_beam_angle_mode_to_string(_ input : FIT_UINT8) -> St
   }
 }
 
-func rzfit_swift_fit_base_unit_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_fit_base_unit(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "other";
@@ -2887,7 +2887,7 @@ func rzfit_swift_fit_base_unit_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_set_type_to_string(_ input : FIT_UINT8) -> String
+func rzfit_swift_string_from_set_type(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "rest";
@@ -2896,7 +2896,7 @@ func rzfit_swift_set_type_to_string(_ input : FIT_UINT8) -> String
   }
 }
 
-func rzfit_swift_exercise_category_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_exercise_category(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bench_press";
@@ -2937,7 +2937,7 @@ func rzfit_swift_exercise_category_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_bench_press_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_bench_press_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_dumbbell_chest_press_on_swiss_ball";
@@ -2971,7 +2971,7 @@ func rzfit_swift_bench_press_exercise_name_to_string(_ input : FIT_UINT16) -> St
   }
 }
 
-func rzfit_swift_calf_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_calf_raise_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "3_way_calf_raise";
@@ -2999,7 +2999,7 @@ func rzfit_swift_calf_raise_exercise_name_to_string(_ input : FIT_UINT16) -> Str
   }
 }
 
-func rzfit_swift_cardio_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_cardio_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bob_and_weave_circle";
@@ -3028,7 +3028,7 @@ func rzfit_swift_cardio_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_carry_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_carry_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bar_holds";
@@ -3040,7 +3040,7 @@ func rzfit_swift_carry_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_chop_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_chop_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "cable_pull_through";
@@ -3070,7 +3070,7 @@ func rzfit_swift_chop_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_core_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_core_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "abs_jabs";
@@ -3150,7 +3150,7 @@ func rzfit_swift_core_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_crunch_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_crunch_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bicycle_crunch";
@@ -3242,7 +3242,7 @@ func rzfit_swift_crunch_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_curl_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_curl_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_dumbbell_biceps_curl";
@@ -3293,7 +3293,7 @@ func rzfit_swift_curl_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_deadlift_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_deadlift_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_deadlift";
@@ -3319,7 +3319,7 @@ func rzfit_swift_deadlift_exercise_name_to_string(_ input : FIT_UINT16) -> Strin
   }
 }
 
-func rzfit_swift_flye_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_flye_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "cable_crossover";
@@ -3336,7 +3336,7 @@ func rzfit_swift_flye_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_hip_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_hip_raise_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_hip_thrust_on_floor";
@@ -3393,7 +3393,7 @@ func rzfit_swift_hip_raise_exercise_name_to_string(_ input : FIT_UINT16) -> Stri
   }
 }
 
-func rzfit_swift_hip_stability_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_hip_stability_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "band_side_lying_leg_raise";
@@ -3434,7 +3434,7 @@ func rzfit_swift_hip_stability_exercise_name_to_string(_ input : FIT_UINT16) -> 
   }
 }
 
-func rzfit_swift_hip_swing_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_hip_swing_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "single_arm_kettlebell_swing";
@@ -3444,7 +3444,7 @@ func rzfit_swift_hip_swing_exercise_name_to_string(_ input : FIT_UINT16) -> Stri
   }
 }
 
-func rzfit_swift_hyperextension_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_hyperextension_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "back_extension_with_opposite_arm_and_leg_reach";
@@ -3491,7 +3491,7 @@ func rzfit_swift_hyperextension_exercise_name_to_string(_ input : FIT_UINT16) ->
   }
 }
 
-func rzfit_swift_lateral_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_lateral_raise_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "45_degree_cable_external_rotation";
@@ -3532,7 +3532,7 @@ func rzfit_swift_lateral_raise_exercise_name_to_string(_ input : FIT_UINT16) -> 
   }
 }
 
-func rzfit_swift_leg_curl_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_leg_curl_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "leg_curl";
@@ -3551,7 +3551,7 @@ func rzfit_swift_leg_curl_exercise_name_to_string(_ input : FIT_UINT16) -> Strin
   }
 }
 
-func rzfit_swift_leg_raise_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_leg_raise_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "hanging_knee_raise";
@@ -3580,7 +3580,7 @@ func rzfit_swift_leg_raise_exercise_name_to_string(_ input : FIT_UINT16) -> Stri
   }
 }
 
-func rzfit_swift_lunge_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_lunge_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "overhead_lunge";
@@ -3668,7 +3668,7 @@ func rzfit_swift_lunge_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_olympic_lift_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_olympic_lift_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_hang_power_clean";
@@ -3696,7 +3696,7 @@ func rzfit_swift_olympic_lift_exercise_name_to_string(_ input : FIT_UINT16) -> S
   }
 }
 
-func rzfit_swift_plank_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_plank_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "45_degree_plank";
@@ -3838,7 +3838,7 @@ func rzfit_swift_plank_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_plyo_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_plyo_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_jump_lunge";
@@ -3878,7 +3878,7 @@ func rzfit_swift_plyo_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_pull_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_pull_up_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "banded_pull_ups";
@@ -3924,7 +3924,7 @@ func rzfit_swift_pull_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_push_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_push_up_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "chest_press_with_band";
@@ -4010,7 +4010,7 @@ func rzfit_swift_push_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_row_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_row_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_straight_leg_deadlift_to_row";
@@ -4051,7 +4051,7 @@ func rzfit_swift_row_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_shoulder_press_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_shoulder_press_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_dumbbell_shoulder_press";
@@ -4082,7 +4082,7 @@ func rzfit_swift_shoulder_press_exercise_name_to_string(_ input : FIT_UINT16) ->
   }
 }
 
-func rzfit_swift_shoulder_stability_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_shoulder_stability_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "90_degree_cable_external_rotation";
@@ -4122,7 +4122,7 @@ func rzfit_swift_shoulder_stability_exercise_name_to_string(_ input : FIT_UINT16
   }
 }
 
-func rzfit_swift_shrug_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_shrug_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "barbell_jump_shrug";
@@ -4146,7 +4146,7 @@ func rzfit_swift_shrug_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_sit_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_sit_up_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "alternating_sit_up";
@@ -4191,7 +4191,7 @@ func rzfit_swift_sit_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_squat_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_squat_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "leg_press";
@@ -4290,7 +4290,7 @@ func rzfit_swift_squat_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_total_body_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_total_body_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "burpee";
@@ -4310,7 +4310,7 @@ func rzfit_swift_total_body_exercise_name_to_string(_ input : FIT_UINT16) -> Str
   }
 }
 
-func rzfit_swift_triceps_extension_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_triceps_extension_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "bench_dip";
@@ -4358,7 +4358,7 @@ func rzfit_swift_triceps_extension_exercise_name_to_string(_ input : FIT_UINT16)
   }
 }
 
-func rzfit_swift_warm_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_warm_up_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "quadruped_rocking";
@@ -4396,7 +4396,7 @@ func rzfit_swift_warm_up_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_run_exercise_name_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_run_exercise_name(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "run";
@@ -4407,7 +4407,7 @@ func rzfit_swift_run_exercise_name_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_water_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_water_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "fresh";
@@ -4418,7 +4418,7 @@ func rzfit_swift_water_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_tissue_model_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_tissue_model_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "zhl_16c";
@@ -4426,7 +4426,7 @@ func rzfit_swift_tissue_model_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_dive_gas_status_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_dive_gas_status(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "disabled";
@@ -4436,7 +4436,7 @@ func rzfit_swift_dive_gas_status_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_dive_alarm_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_dive_alarm_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "depth";
@@ -4445,7 +4445,7 @@ func rzfit_swift_dive_alarm_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_dive_backlight_mode_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_dive_backlight_mode(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "at_depth";
@@ -4454,7 +4454,7 @@ func rzfit_swift_dive_backlight_mode_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_favero_product_to_string(_ input : FIT_UINT16) -> String
+func rzfit_swift_string_from_favero_product(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 10: return "assioma_uno";
@@ -4463,7 +4463,7 @@ func rzfit_swift_favero_product_to_string(_ input : FIT_UINT16) -> String
   }
 }
 
-func rzfit_swift_climb_pro_event_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_climb_pro_event(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "approach";
@@ -4473,7 +4473,7 @@ func rzfit_swift_climb_pro_event_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_tap_sensitivity_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_tap_sensitivity(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "high";
@@ -4483,7 +4483,7 @@ func rzfit_swift_tap_sensitivity_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_radar_threat_level_type_to_string(_ input : FIT_ENUM) -> String
+func rzfit_swift_string_from_radar_threat_level_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "threat_unknown";
@@ -4494,176 +4494,176 @@ func rzfit_swift_radar_threat_level_type_to_string(_ input : FIT_ENUM) -> String
   }
 }
 
-func rzfit_swift_type_to_string(fit_type : FIT_UINT8, val : FIT_UINT32 ) -> String {
+func rzfit_swift_string_for_type(fit_type : FIT_UINT8, val : FIT_UINT32 ) -> String {
   switch fit_type {
-     case 1: return rzfit_swift_file_to_string( FIT_ENUM(val) )
-     case 2: return rzfit_swift_mesg_num_to_string( FIT_UINT16(val) )
-     case 3: return rzfit_swift_checksum_to_string( FIT_UINT8(val) )
-     case 4: return rzfit_swift_file_flags_to_string( FIT_UINT8Z(val) )
-     case 5: return rzfit_swift_mesg_count_to_string( FIT_ENUM(val) )
-     case 6: return rzfit_swift_date_time_to_string( FIT_UINT32(val) )
-     case 7: return rzfit_swift_local_date_time_to_string( FIT_UINT32(val) )
-     case 8: return rzfit_swift_message_index_to_string( FIT_UINT16(val) )
-     case 9: return rzfit_swift_device_index_to_string( FIT_UINT8(val) )
-     case 10: return rzfit_swift_gender_to_string( FIT_ENUM(val) )
-     case 11: return rzfit_swift_language_to_string( FIT_ENUM(val) )
-     case 12: return rzfit_swift_language_bits_0_to_string( FIT_UINT8Z(val) )
-     case 13: return rzfit_swift_language_bits_1_to_string( FIT_UINT8Z(val) )
-     case 14: return rzfit_swift_language_bits_2_to_string( FIT_UINT8Z(val) )
-     case 15: return rzfit_swift_language_bits_3_to_string( FIT_UINT8Z(val) )
-     case 16: return rzfit_swift_language_bits_4_to_string( FIT_UINT8Z(val) )
-     case 17: return rzfit_swift_time_zone_to_string( FIT_ENUM(val) )
-     case 18: return rzfit_swift_display_measure_to_string( FIT_ENUM(val) )
-     case 19: return rzfit_swift_display_heart_to_string( FIT_ENUM(val) )
-     case 20: return rzfit_swift_display_power_to_string( FIT_ENUM(val) )
-     case 21: return rzfit_swift_display_position_to_string( FIT_ENUM(val) )
-     case 22: return rzfit_swift_switch_to_string( FIT_ENUM(val) )
-     case 23: return rzfit_swift_sport_to_string( FIT_ENUM(val) )
-     case 24: return rzfit_swift_sport_bits_0_to_string( FIT_UINT8Z(val) )
-     case 25: return rzfit_swift_sport_bits_1_to_string( FIT_UINT8Z(val) )
-     case 26: return rzfit_swift_sport_bits_2_to_string( FIT_UINT8Z(val) )
-     case 27: return rzfit_swift_sport_bits_3_to_string( FIT_UINT8Z(val) )
-     case 28: return rzfit_swift_sport_bits_4_to_string( FIT_UINT8Z(val) )
-     case 29: return rzfit_swift_sport_bits_5_to_string( FIT_UINT8Z(val) )
-     case 30: return rzfit_swift_sport_bits_6_to_string( FIT_UINT8Z(val) )
-     case 31: return rzfit_swift_sub_sport_to_string( FIT_ENUM(val) )
-     case 32: return rzfit_swift_sport_event_to_string( FIT_ENUM(val) )
-     case 33: return rzfit_swift_activity_to_string( FIT_ENUM(val) )
-     case 34: return rzfit_swift_intensity_to_string( FIT_ENUM(val) )
-     case 35: return rzfit_swift_session_trigger_to_string( FIT_ENUM(val) )
-     case 36: return rzfit_swift_autolap_trigger_to_string( FIT_ENUM(val) )
-     case 37: return rzfit_swift_lap_trigger_to_string( FIT_ENUM(val) )
-     case 38: return rzfit_swift_time_mode_to_string( FIT_ENUM(val) )
-     case 39: return rzfit_swift_backlight_mode_to_string( FIT_ENUM(val) )
-     case 40: return rzfit_swift_date_mode_to_string( FIT_ENUM(val) )
-     case 41: return rzfit_swift_backlight_timeout_to_string( FIT_UINT8(val) )
-     case 42: return rzfit_swift_event_to_string( FIT_ENUM(val) )
-     case 43: return rzfit_swift_event_type_to_string( FIT_ENUM(val) )
-     case 44: return rzfit_swift_timer_trigger_to_string( FIT_ENUM(val) )
-     case 45: return rzfit_swift_fitness_equipment_state_to_string( FIT_ENUM(val) )
-     case 46: return rzfit_swift_tone_to_string( FIT_ENUM(val) )
-     case 47: return rzfit_swift_autoscroll_to_string( FIT_ENUM(val) )
-     case 48: return rzfit_swift_activity_class_to_string( FIT_ENUM(val) )
-     case 49: return rzfit_swift_hr_zone_calc_to_string( FIT_ENUM(val) )
-     case 50: return rzfit_swift_pwr_zone_calc_to_string( FIT_ENUM(val) )
-     case 51: return rzfit_swift_wkt_step_duration_to_string( FIT_ENUM(val) )
-     case 52: return rzfit_swift_wkt_step_target_to_string( FIT_ENUM(val) )
-     case 53: return rzfit_swift_goal_to_string( FIT_ENUM(val) )
-     case 54: return rzfit_swift_goal_recurrence_to_string( FIT_ENUM(val) )
-     case 55: return rzfit_swift_goal_source_to_string( FIT_ENUM(val) )
-     case 56: return rzfit_swift_schedule_to_string( FIT_ENUM(val) )
-     case 57: return rzfit_swift_course_point_to_string( FIT_ENUM(val) )
-     case 58: return rzfit_swift_manufacturer_to_string( FIT_UINT16(val) )
-     case 59: return rzfit_swift_garmin_product_to_string( FIT_UINT16(val) )
-     case 60: return rzfit_swift_antplus_device_type_to_string( FIT_UINT8(val) )
-     case 61: return rzfit_swift_ant_network_to_string( FIT_ENUM(val) )
-     case 62: return rzfit_swift_workout_capabilities_to_string( FIT_UINT32Z(val) )
-     case 63: return rzfit_swift_battery_status_to_string( FIT_UINT8(val) )
-     case 64: return rzfit_swift_hr_type_to_string( FIT_ENUM(val) )
-     case 65: return rzfit_swift_course_capabilities_to_string( FIT_UINT32Z(val) )
-     case 66: return rzfit_swift_weight_to_string( FIT_UINT16(val) )
-     case 67: return rzfit_swift_workout_hr_to_string( FIT_UINT32(val) )
-     case 68: return rzfit_swift_workout_power_to_string( FIT_UINT32(val) )
-     case 69: return rzfit_swift_bp_status_to_string( FIT_ENUM(val) )
-     case 70: return rzfit_swift_user_local_id_to_string( FIT_UINT16(val) )
-     case 71: return rzfit_swift_swim_stroke_to_string( FIT_ENUM(val) )
-     case 72: return rzfit_swift_activity_type_to_string( FIT_ENUM(val) )
-     case 73: return rzfit_swift_activity_subtype_to_string( FIT_ENUM(val) )
-     case 74: return rzfit_swift_activity_level_to_string( FIT_ENUM(val) )
-     case 75: return rzfit_swift_side_to_string( FIT_ENUM(val) )
-     case 76: return rzfit_swift_left_right_balance_to_string( FIT_UINT8(val) )
-     case 77: return rzfit_swift_left_right_balance_100_to_string( FIT_UINT16(val) )
-     case 78: return rzfit_swift_length_type_to_string( FIT_ENUM(val) )
-     case 79: return rzfit_swift_day_of_week_to_string( FIT_ENUM(val) )
-     case 80: return rzfit_swift_connectivity_capabilities_to_string( FIT_UINT32Z(val) )
-     case 81: return rzfit_swift_weather_report_to_string( FIT_ENUM(val) )
-     case 82: return rzfit_swift_weather_status_to_string( FIT_ENUM(val) )
-     case 83: return rzfit_swift_weather_severity_to_string( FIT_ENUM(val) )
-     case 84: return rzfit_swift_weather_severe_type_to_string( FIT_ENUM(val) )
-     case 85: return rzfit_swift_time_into_day_to_string( FIT_UINT32(val) )
-     case 86: return rzfit_swift_localtime_into_day_to_string( FIT_UINT32(val) )
-     case 87: return rzfit_swift_stroke_type_to_string( FIT_ENUM(val) )
-     case 88: return rzfit_swift_body_location_to_string( FIT_ENUM(val) )
-     case 89: return rzfit_swift_segment_lap_status_to_string( FIT_ENUM(val) )
-     case 90: return rzfit_swift_segment_leaderboard_type_to_string( FIT_ENUM(val) )
-     case 91: return rzfit_swift_segment_delete_status_to_string( FIT_ENUM(val) )
-     case 92: return rzfit_swift_segment_selection_type_to_string( FIT_ENUM(val) )
-     case 93: return rzfit_swift_source_type_to_string( FIT_ENUM(val) )
-     case 94: return rzfit_swift_local_device_type_to_string( FIT_UINT8(val) )
-     case 95: return rzfit_swift_display_orientation_to_string( FIT_ENUM(val) )
-     case 96: return rzfit_swift_workout_equipment_to_string( FIT_ENUM(val) )
-     case 97: return rzfit_swift_watchface_mode_to_string( FIT_ENUM(val) )
-     case 98: return rzfit_swift_digital_watchface_layout_to_string( FIT_ENUM(val) )
-     case 99: return rzfit_swift_analog_watchface_layout_to_string( FIT_ENUM(val) )
-     case 100: return rzfit_swift_rider_position_type_to_string( FIT_ENUM(val) )
-     case 101: return rzfit_swift_power_phase_type_to_string( FIT_ENUM(val) )
-     case 102: return rzfit_swift_camera_event_type_to_string( FIT_ENUM(val) )
-     case 103: return rzfit_swift_sensor_type_to_string( FIT_ENUM(val) )
-     case 104: return rzfit_swift_bike_light_network_config_type_to_string( FIT_ENUM(val) )
-     case 105: return rzfit_swift_comm_timeout_type_to_string( FIT_UINT16(val) )
-     case 106: return rzfit_swift_camera_orientation_type_to_string( FIT_ENUM(val) )
-     case 107: return rzfit_swift_attitude_stage_to_string( FIT_ENUM(val) )
-     case 108: return rzfit_swift_attitude_validity_to_string( FIT_UINT16(val) )
-     case 109: return rzfit_swift_auto_sync_frequency_to_string( FIT_ENUM(val) )
-     case 110: return rzfit_swift_exd_layout_to_string( FIT_ENUM(val) )
-     case 111: return rzfit_swift_exd_display_type_to_string( FIT_ENUM(val) )
-     case 112: return rzfit_swift_exd_data_units_to_string( FIT_ENUM(val) )
-     case 113: return rzfit_swift_exd_qualifiers_to_string( FIT_ENUM(val) )
-     case 114: return rzfit_swift_exd_descriptors_to_string( FIT_ENUM(val) )
-     case 115: return rzfit_swift_auto_activity_detect_to_string( FIT_UINT32(val) )
-     case 116: return rzfit_swift_supported_exd_screen_layouts_to_string( FIT_UINT32Z(val) )
-     case 117: return rzfit_swift_fit_base_type_to_string( FIT_UINT8(val) )
-     case 118: return rzfit_swift_turn_type_to_string( FIT_ENUM(val) )
-     case 119: return rzfit_swift_bike_light_beam_angle_mode_to_string( FIT_UINT8(val) )
-     case 120: return rzfit_swift_fit_base_unit_to_string( FIT_UINT16(val) )
-     case 121: return rzfit_swift_set_type_to_string( FIT_UINT8(val) )
-     case 122: return rzfit_swift_exercise_category_to_string( FIT_UINT16(val) )
-     case 123: return rzfit_swift_bench_press_exercise_name_to_string( FIT_UINT16(val) )
-     case 124: return rzfit_swift_calf_raise_exercise_name_to_string( FIT_UINT16(val) )
-     case 125: return rzfit_swift_cardio_exercise_name_to_string( FIT_UINT16(val) )
-     case 126: return rzfit_swift_carry_exercise_name_to_string( FIT_UINT16(val) )
-     case 127: return rzfit_swift_chop_exercise_name_to_string( FIT_UINT16(val) )
-     case 128: return rzfit_swift_core_exercise_name_to_string( FIT_UINT16(val) )
-     case 129: return rzfit_swift_crunch_exercise_name_to_string( FIT_UINT16(val) )
-     case 130: return rzfit_swift_curl_exercise_name_to_string( FIT_UINT16(val) )
-     case 131: return rzfit_swift_deadlift_exercise_name_to_string( FIT_UINT16(val) )
-     case 132: return rzfit_swift_flye_exercise_name_to_string( FIT_UINT16(val) )
-     case 133: return rzfit_swift_hip_raise_exercise_name_to_string( FIT_UINT16(val) )
-     case 134: return rzfit_swift_hip_stability_exercise_name_to_string( FIT_UINT16(val) )
-     case 135: return rzfit_swift_hip_swing_exercise_name_to_string( FIT_UINT16(val) )
-     case 136: return rzfit_swift_hyperextension_exercise_name_to_string( FIT_UINT16(val) )
-     case 137: return rzfit_swift_lateral_raise_exercise_name_to_string( FIT_UINT16(val) )
-     case 138: return rzfit_swift_leg_curl_exercise_name_to_string( FIT_UINT16(val) )
-     case 139: return rzfit_swift_leg_raise_exercise_name_to_string( FIT_UINT16(val) )
-     case 140: return rzfit_swift_lunge_exercise_name_to_string( FIT_UINT16(val) )
-     case 141: return rzfit_swift_olympic_lift_exercise_name_to_string( FIT_UINT16(val) )
-     case 142: return rzfit_swift_plank_exercise_name_to_string( FIT_UINT16(val) )
-     case 143: return rzfit_swift_plyo_exercise_name_to_string( FIT_UINT16(val) )
-     case 144: return rzfit_swift_pull_up_exercise_name_to_string( FIT_UINT16(val) )
-     case 145: return rzfit_swift_push_up_exercise_name_to_string( FIT_UINT16(val) )
-     case 146: return rzfit_swift_row_exercise_name_to_string( FIT_UINT16(val) )
-     case 147: return rzfit_swift_shoulder_press_exercise_name_to_string( FIT_UINT16(val) )
-     case 148: return rzfit_swift_shoulder_stability_exercise_name_to_string( FIT_UINT16(val) )
-     case 149: return rzfit_swift_shrug_exercise_name_to_string( FIT_UINT16(val) )
-     case 150: return rzfit_swift_sit_up_exercise_name_to_string( FIT_UINT16(val) )
-     case 151: return rzfit_swift_squat_exercise_name_to_string( FIT_UINT16(val) )
-     case 152: return rzfit_swift_total_body_exercise_name_to_string( FIT_UINT16(val) )
-     case 153: return rzfit_swift_triceps_extension_exercise_name_to_string( FIT_UINT16(val) )
-     case 154: return rzfit_swift_warm_up_exercise_name_to_string( FIT_UINT16(val) )
-     case 155: return rzfit_swift_run_exercise_name_to_string( FIT_UINT16(val) )
-     case 156: return rzfit_swift_water_type_to_string( FIT_ENUM(val) )
-     case 157: return rzfit_swift_tissue_model_type_to_string( FIT_ENUM(val) )
-     case 158: return rzfit_swift_dive_gas_status_to_string( FIT_ENUM(val) )
-     case 159: return rzfit_swift_dive_alarm_type_to_string( FIT_ENUM(val) )
-     case 160: return rzfit_swift_dive_backlight_mode_to_string( FIT_ENUM(val) )
-     case 161: return rzfit_swift_favero_product_to_string( FIT_UINT16(val) )
-     case 162: return rzfit_swift_climb_pro_event_to_string( FIT_ENUM(val) )
-     case 163: return rzfit_swift_tap_sensitivity_to_string( FIT_ENUM(val) )
-     case 164: return rzfit_swift_radar_threat_level_type_to_string( FIT_ENUM(val) )
+     case 1: return rzfit_swift_string_from_file( FIT_ENUM(val) )
+     case 2: return rzfit_swift_string_from_mesg_num( FIT_UINT16(val) )
+     case 3: return rzfit_swift_string_from_checksum( FIT_UINT8(val) )
+     case 4: return rzfit_swift_string_from_file_flags( FIT_UINT8Z(val) )
+     case 5: return rzfit_swift_string_from_mesg_count( FIT_ENUM(val) )
+     case 6: return rzfit_swift_string_from_date_time( FIT_UINT32(val) )
+     case 7: return rzfit_swift_string_from_local_date_time( FIT_UINT32(val) )
+     case 8: return rzfit_swift_string_from_message_index( FIT_UINT16(val) )
+     case 9: return rzfit_swift_string_from_device_index( FIT_UINT8(val) )
+     case 10: return rzfit_swift_string_from_gender( FIT_ENUM(val) )
+     case 11: return rzfit_swift_string_from_language( FIT_ENUM(val) )
+     case 12: return rzfit_swift_string_from_language_bits_0( FIT_UINT8Z(val) )
+     case 13: return rzfit_swift_string_from_language_bits_1( FIT_UINT8Z(val) )
+     case 14: return rzfit_swift_string_from_language_bits_2( FIT_UINT8Z(val) )
+     case 15: return rzfit_swift_string_from_language_bits_3( FIT_UINT8Z(val) )
+     case 16: return rzfit_swift_string_from_language_bits_4( FIT_UINT8Z(val) )
+     case 17: return rzfit_swift_string_from_time_zone( FIT_ENUM(val) )
+     case 18: return rzfit_swift_string_from_display_measure( FIT_ENUM(val) )
+     case 19: return rzfit_swift_string_from_display_heart( FIT_ENUM(val) )
+     case 20: return rzfit_swift_string_from_display_power( FIT_ENUM(val) )
+     case 21: return rzfit_swift_string_from_display_position( FIT_ENUM(val) )
+     case 22: return rzfit_swift_string_from_switch( FIT_ENUM(val) )
+     case 23: return rzfit_swift_string_from_sport( FIT_ENUM(val) )
+     case 24: return rzfit_swift_string_from_sport_bits_0( FIT_UINT8Z(val) )
+     case 25: return rzfit_swift_string_from_sport_bits_1( FIT_UINT8Z(val) )
+     case 26: return rzfit_swift_string_from_sport_bits_2( FIT_UINT8Z(val) )
+     case 27: return rzfit_swift_string_from_sport_bits_3( FIT_UINT8Z(val) )
+     case 28: return rzfit_swift_string_from_sport_bits_4( FIT_UINT8Z(val) )
+     case 29: return rzfit_swift_string_from_sport_bits_5( FIT_UINT8Z(val) )
+     case 30: return rzfit_swift_string_from_sport_bits_6( FIT_UINT8Z(val) )
+     case 31: return rzfit_swift_string_from_sub_sport( FIT_ENUM(val) )
+     case 32: return rzfit_swift_string_from_sport_event( FIT_ENUM(val) )
+     case 33: return rzfit_swift_string_from_activity( FIT_ENUM(val) )
+     case 34: return rzfit_swift_string_from_intensity( FIT_ENUM(val) )
+     case 35: return rzfit_swift_string_from_session_trigger( FIT_ENUM(val) )
+     case 36: return rzfit_swift_string_from_autolap_trigger( FIT_ENUM(val) )
+     case 37: return rzfit_swift_string_from_lap_trigger( FIT_ENUM(val) )
+     case 38: return rzfit_swift_string_from_time_mode( FIT_ENUM(val) )
+     case 39: return rzfit_swift_string_from_backlight_mode( FIT_ENUM(val) )
+     case 40: return rzfit_swift_string_from_date_mode( FIT_ENUM(val) )
+     case 41: return rzfit_swift_string_from_backlight_timeout( FIT_UINT8(val) )
+     case 42: return rzfit_swift_string_from_event( FIT_ENUM(val) )
+     case 43: return rzfit_swift_string_from_event_type( FIT_ENUM(val) )
+     case 44: return rzfit_swift_string_from_timer_trigger( FIT_ENUM(val) )
+     case 45: return rzfit_swift_string_from_fitness_equipment_state( FIT_ENUM(val) )
+     case 46: return rzfit_swift_string_from_tone( FIT_ENUM(val) )
+     case 47: return rzfit_swift_string_from_autoscroll( FIT_ENUM(val) )
+     case 48: return rzfit_swift_string_from_activity_class( FIT_ENUM(val) )
+     case 49: return rzfit_swift_string_from_hr_zone_calc( FIT_ENUM(val) )
+     case 50: return rzfit_swift_string_from_pwr_zone_calc( FIT_ENUM(val) )
+     case 51: return rzfit_swift_string_from_wkt_step_duration( FIT_ENUM(val) )
+     case 52: return rzfit_swift_string_from_wkt_step_target( FIT_ENUM(val) )
+     case 53: return rzfit_swift_string_from_goal( FIT_ENUM(val) )
+     case 54: return rzfit_swift_string_from_goal_recurrence( FIT_ENUM(val) )
+     case 55: return rzfit_swift_string_from_goal_source( FIT_ENUM(val) )
+     case 56: return rzfit_swift_string_from_schedule( FIT_ENUM(val) )
+     case 57: return rzfit_swift_string_from_course_point( FIT_ENUM(val) )
+     case 58: return rzfit_swift_string_from_manufacturer( FIT_UINT16(val) )
+     case 59: return rzfit_swift_string_from_garmin_product( FIT_UINT16(val) )
+     case 60: return rzfit_swift_string_from_antplus_device_type( FIT_UINT8(val) )
+     case 61: return rzfit_swift_string_from_ant_network( FIT_ENUM(val) )
+     case 62: return rzfit_swift_string_from_workout_capabilities( FIT_UINT32Z(val) )
+     case 63: return rzfit_swift_string_from_battery_status( FIT_UINT8(val) )
+     case 64: return rzfit_swift_string_from_hr_type( FIT_ENUM(val) )
+     case 65: return rzfit_swift_string_from_course_capabilities( FIT_UINT32Z(val) )
+     case 66: return rzfit_swift_string_from_weight( FIT_UINT16(val) )
+     case 67: return rzfit_swift_string_from_workout_hr( FIT_UINT32(val) )
+     case 68: return rzfit_swift_string_from_workout_power( FIT_UINT32(val) )
+     case 69: return rzfit_swift_string_from_bp_status( FIT_ENUM(val) )
+     case 70: return rzfit_swift_string_from_user_local_id( FIT_UINT16(val) )
+     case 71: return rzfit_swift_string_from_swim_stroke( FIT_ENUM(val) )
+     case 72: return rzfit_swift_string_from_activity_type( FIT_ENUM(val) )
+     case 73: return rzfit_swift_string_from_activity_subtype( FIT_ENUM(val) )
+     case 74: return rzfit_swift_string_from_activity_level( FIT_ENUM(val) )
+     case 75: return rzfit_swift_string_from_side( FIT_ENUM(val) )
+     case 76: return rzfit_swift_string_from_left_right_balance( FIT_UINT8(val) )
+     case 77: return rzfit_swift_string_from_left_right_balance_100( FIT_UINT16(val) )
+     case 78: return rzfit_swift_string_from_length_type( FIT_ENUM(val) )
+     case 79: return rzfit_swift_string_from_day_of_week( FIT_ENUM(val) )
+     case 80: return rzfit_swift_string_from_connectivity_capabilities( FIT_UINT32Z(val) )
+     case 81: return rzfit_swift_string_from_weather_report( FIT_ENUM(val) )
+     case 82: return rzfit_swift_string_from_weather_status( FIT_ENUM(val) )
+     case 83: return rzfit_swift_string_from_weather_severity( FIT_ENUM(val) )
+     case 84: return rzfit_swift_string_from_weather_severe_type( FIT_ENUM(val) )
+     case 85: return rzfit_swift_string_from_time_into_day( FIT_UINT32(val) )
+     case 86: return rzfit_swift_string_from_localtime_into_day( FIT_UINT32(val) )
+     case 87: return rzfit_swift_string_from_stroke_type( FIT_ENUM(val) )
+     case 88: return rzfit_swift_string_from_body_location( FIT_ENUM(val) )
+     case 89: return rzfit_swift_string_from_segment_lap_status( FIT_ENUM(val) )
+     case 90: return rzfit_swift_string_from_segment_leaderboard_type( FIT_ENUM(val) )
+     case 91: return rzfit_swift_string_from_segment_delete_status( FIT_ENUM(val) )
+     case 92: return rzfit_swift_string_from_segment_selection_type( FIT_ENUM(val) )
+     case 93: return rzfit_swift_string_from_source_type( FIT_ENUM(val) )
+     case 94: return rzfit_swift_string_from_local_device_type( FIT_UINT8(val) )
+     case 95: return rzfit_swift_string_from_display_orientation( FIT_ENUM(val) )
+     case 96: return rzfit_swift_string_from_workout_equipment( FIT_ENUM(val) )
+     case 97: return rzfit_swift_string_from_watchface_mode( FIT_ENUM(val) )
+     case 98: return rzfit_swift_string_from_digital_watchface_layout( FIT_ENUM(val) )
+     case 99: return rzfit_swift_string_from_analog_watchface_layout( FIT_ENUM(val) )
+     case 100: return rzfit_swift_string_from_rider_position_type( FIT_ENUM(val) )
+     case 101: return rzfit_swift_string_from_power_phase_type( FIT_ENUM(val) )
+     case 102: return rzfit_swift_string_from_camera_event_type( FIT_ENUM(val) )
+     case 103: return rzfit_swift_string_from_sensor_type( FIT_ENUM(val) )
+     case 104: return rzfit_swift_string_from_bike_light_network_config_type( FIT_ENUM(val) )
+     case 105: return rzfit_swift_string_from_comm_timeout_type( FIT_UINT16(val) )
+     case 106: return rzfit_swift_string_from_camera_orientation_type( FIT_ENUM(val) )
+     case 107: return rzfit_swift_string_from_attitude_stage( FIT_ENUM(val) )
+     case 108: return rzfit_swift_string_from_attitude_validity( FIT_UINT16(val) )
+     case 109: return rzfit_swift_string_from_auto_sync_frequency( FIT_ENUM(val) )
+     case 110: return rzfit_swift_string_from_exd_layout( FIT_ENUM(val) )
+     case 111: return rzfit_swift_string_from_exd_display_type( FIT_ENUM(val) )
+     case 112: return rzfit_swift_string_from_exd_data_units( FIT_ENUM(val) )
+     case 113: return rzfit_swift_string_from_exd_qualifiers( FIT_ENUM(val) )
+     case 114: return rzfit_swift_string_from_exd_descriptors( FIT_ENUM(val) )
+     case 115: return rzfit_swift_string_from_auto_activity_detect( FIT_UINT32(val) )
+     case 116: return rzfit_swift_string_from_supported_exd_screen_layouts( FIT_UINT32Z(val) )
+     case 117: return rzfit_swift_string_from_fit_base_type( FIT_UINT8(val) )
+     case 118: return rzfit_swift_string_from_turn_type( FIT_ENUM(val) )
+     case 119: return rzfit_swift_string_from_bike_light_beam_angle_mode( FIT_UINT8(val) )
+     case 120: return rzfit_swift_string_from_fit_base_unit( FIT_UINT16(val) )
+     case 121: return rzfit_swift_string_from_set_type( FIT_UINT8(val) )
+     case 122: return rzfit_swift_string_from_exercise_category( FIT_UINT16(val) )
+     case 123: return rzfit_swift_string_from_bench_press_exercise_name( FIT_UINT16(val) )
+     case 124: return rzfit_swift_string_from_calf_raise_exercise_name( FIT_UINT16(val) )
+     case 125: return rzfit_swift_string_from_cardio_exercise_name( FIT_UINT16(val) )
+     case 126: return rzfit_swift_string_from_carry_exercise_name( FIT_UINT16(val) )
+     case 127: return rzfit_swift_string_from_chop_exercise_name( FIT_UINT16(val) )
+     case 128: return rzfit_swift_string_from_core_exercise_name( FIT_UINT16(val) )
+     case 129: return rzfit_swift_string_from_crunch_exercise_name( FIT_UINT16(val) )
+     case 130: return rzfit_swift_string_from_curl_exercise_name( FIT_UINT16(val) )
+     case 131: return rzfit_swift_string_from_deadlift_exercise_name( FIT_UINT16(val) )
+     case 132: return rzfit_swift_string_from_flye_exercise_name( FIT_UINT16(val) )
+     case 133: return rzfit_swift_string_from_hip_raise_exercise_name( FIT_UINT16(val) )
+     case 134: return rzfit_swift_string_from_hip_stability_exercise_name( FIT_UINT16(val) )
+     case 135: return rzfit_swift_string_from_hip_swing_exercise_name( FIT_UINT16(val) )
+     case 136: return rzfit_swift_string_from_hyperextension_exercise_name( FIT_UINT16(val) )
+     case 137: return rzfit_swift_string_from_lateral_raise_exercise_name( FIT_UINT16(val) )
+     case 138: return rzfit_swift_string_from_leg_curl_exercise_name( FIT_UINT16(val) )
+     case 139: return rzfit_swift_string_from_leg_raise_exercise_name( FIT_UINT16(val) )
+     case 140: return rzfit_swift_string_from_lunge_exercise_name( FIT_UINT16(val) )
+     case 141: return rzfit_swift_string_from_olympic_lift_exercise_name( FIT_UINT16(val) )
+     case 142: return rzfit_swift_string_from_plank_exercise_name( FIT_UINT16(val) )
+     case 143: return rzfit_swift_string_from_plyo_exercise_name( FIT_UINT16(val) )
+     case 144: return rzfit_swift_string_from_pull_up_exercise_name( FIT_UINT16(val) )
+     case 145: return rzfit_swift_string_from_push_up_exercise_name( FIT_UINT16(val) )
+     case 146: return rzfit_swift_string_from_row_exercise_name( FIT_UINT16(val) )
+     case 147: return rzfit_swift_string_from_shoulder_press_exercise_name( FIT_UINT16(val) )
+     case 148: return rzfit_swift_string_from_shoulder_stability_exercise_name( FIT_UINT16(val) )
+     case 149: return rzfit_swift_string_from_shrug_exercise_name( FIT_UINT16(val) )
+     case 150: return rzfit_swift_string_from_sit_up_exercise_name( FIT_UINT16(val) )
+     case 151: return rzfit_swift_string_from_squat_exercise_name( FIT_UINT16(val) )
+     case 152: return rzfit_swift_string_from_total_body_exercise_name( FIT_UINT16(val) )
+     case 153: return rzfit_swift_string_from_triceps_extension_exercise_name( FIT_UINT16(val) )
+     case 154: return rzfit_swift_string_from_warm_up_exercise_name( FIT_UINT16(val) )
+     case 155: return rzfit_swift_string_from_run_exercise_name( FIT_UINT16(val) )
+     case 156: return rzfit_swift_string_from_water_type( FIT_ENUM(val) )
+     case 157: return rzfit_swift_string_from_tissue_model_type( FIT_ENUM(val) )
+     case 158: return rzfit_swift_string_from_dive_gas_status( FIT_ENUM(val) )
+     case 159: return rzfit_swift_string_from_dive_alarm_type( FIT_ENUM(val) )
+     case 160: return rzfit_swift_string_from_dive_backlight_mode( FIT_ENUM(val) )
+     case 161: return rzfit_swift_string_from_favero_product( FIT_UINT16(val) )
+     case 162: return rzfit_swift_string_from_climb_pro_event( FIT_ENUM(val) )
+     case 163: return rzfit_swift_string_from_tap_sensitivity( FIT_ENUM(val) )
+     case 164: return rzfit_swift_string_from_radar_threat_level_type( FIT_ENUM(val) )
     default: return "fit_type_\(fit_type)_\(val)"
   }
 }
-func rzfit_swift_mesg_num_from_string(_ input : String) -> FIT_UINT16
+func rzfit_swift_string_to_mesg_num(_ input : String) -> FIT_UINT16
 {
    switch input {
     case "file_id": return 0;
@@ -5211,7 +5211,7 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
 
 //MARK: - fit convert fields
 
-func rzfit_swift_file_id_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_file_id( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 0: return "type"
     case 1: return "manufacturer"
@@ -5236,14 +5236,14 @@ func rzfit_swift_file_id_field_num_to_string( field_num : FIT_UINT16 , strings :
     default: return "file_id_field_num_\(field_num)"
   }
 }
-func rzfit_swift_file_creator_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_file_creator( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "software_version"
     case 1: return "hardware_version"
     default: return "file_creator_field_num_\(field_num)"
   }
 }
-func rzfit_swift_timestamp_correlation_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_timestamp_correlation( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "fractional_timestamp"
@@ -5255,7 +5255,7 @@ func rzfit_swift_timestamp_correlation_field_num_to_string( field_num : FIT_UINT
     default: return "timestamp_correlation_field_num_\(field_num)"
   }
 }
-func rzfit_swift_software_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_software( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 3: return "version"
@@ -5263,7 +5263,7 @@ func rzfit_swift_software_field_num_to_string( field_num : FIT_UINT16 ) -> Strin
     default: return "software_field_num_\(field_num)"
   }
 }
-func rzfit_swift_slave_device_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_slave_device( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 0: return "manufacturer"
     case 1:
@@ -5283,7 +5283,7 @@ func rzfit_swift_slave_device_field_num_to_string( field_num : FIT_UINT16 , stri
     default: return "slave_device_field_num_\(field_num)"
   }
 }
-func rzfit_swift_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_capabilities( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "languages"
     case 1: return "sports"
@@ -5292,7 +5292,7 @@ func rzfit_swift_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "capabilities_field_num_\(field_num)"
   }
 }
-func rzfit_swift_file_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_file_capabilities( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "type"
@@ -5303,7 +5303,7 @@ func rzfit_swift_file_capabilities_field_num_to_string( field_num : FIT_UINT16 )
     default: return "file_capabilities_field_num_\(field_num)"
   }
 }
-func rzfit_swift_mesg_capabilities_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_mesg_capabilities( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "file"
@@ -5322,7 +5322,7 @@ func rzfit_swift_mesg_capabilities_field_num_to_string( field_num : FIT_UINT16 ,
     default: return "mesg_capabilities_field_num_\(field_num)"
   }
 }
-func rzfit_swift_field_capabilities_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_field_capabilities( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "file"
@@ -5332,7 +5332,7 @@ func rzfit_swift_field_capabilities_field_num_to_string( field_num : FIT_UINT16 
     default: return "field_capabilities_field_num_\(field_num)"
   }
 }
-func rzfit_swift_device_settings_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_device_settings( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "active_time_zone"
     case 1: return "utc_offset"
@@ -5361,7 +5361,7 @@ func rzfit_swift_device_settings_field_num_to_string( field_num : FIT_UINT16 ) -
     default: return "device_settings_field_num_\(field_num)"
   }
 }
-func rzfit_swift_user_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_user_profile( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "friendly_name"
@@ -5395,7 +5395,7 @@ func rzfit_swift_user_profile_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "user_profile_field_num_\(field_num)"
   }
 }
-func rzfit_swift_hrm_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_hrm_profile( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "enabled"
@@ -5405,7 +5405,7 @@ func rzfit_swift_hrm_profile_field_num_to_string( field_num : FIT_UINT16 ) -> St
     default: return "hrm_profile_field_num_\(field_num)"
   }
 }
-func rzfit_swift_sdm_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_sdm_profile( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "enabled"
@@ -5418,7 +5418,7 @@ func rzfit_swift_sdm_profile_field_num_to_string( field_num : FIT_UINT16 ) -> St
     default: return "sdm_profile_field_num_\(field_num)"
   }
 }
-func rzfit_swift_bike_profile_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_bike_profile( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "name"
@@ -5455,7 +5455,7 @@ func rzfit_swift_bike_profile_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "bike_profile_field_num_\(field_num)"
   }
 }
-func rzfit_swift_connectivity_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_connectivity( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "bluetooth_enabled"
     case 1: return "bluetooth_le_enabled"
@@ -5473,7 +5473,7 @@ func rzfit_swift_connectivity_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "connectivity_field_num_\(field_num)"
   }
 }
-func rzfit_swift_watchface_settings_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_watchface_settings( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "mode"
@@ -5488,14 +5488,14 @@ func rzfit_swift_watchface_settings_field_num_to_string( field_num : FIT_UINT16 
     default: return "watchface_settings_field_num_\(field_num)"
   }
 }
-func rzfit_swift_ohr_settings_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_ohr_settings( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "enabled"
     default: return "ohr_settings_field_num_\(field_num)"
   }
 }
-func rzfit_swift_zones_target_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_zones_target( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 1: return "max_heart_rate"
     case 2: return "threshold_heart_rate"
@@ -5505,7 +5505,7 @@ func rzfit_swift_zones_target_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "zones_target_field_num_\(field_num)"
   }
 }
-func rzfit_swift_sport_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_sport( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "sport"
     case 1: return "sub_sport"
@@ -5513,7 +5513,7 @@ func rzfit_swift_sport_field_num_to_string( field_num : FIT_UINT16 ) -> String {
     default: return "sport_field_num_\(field_num)"
   }
 }
-func rzfit_swift_hr_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_hr_zone( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 1: return "high_bpm"
@@ -5521,7 +5521,7 @@ func rzfit_swift_hr_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String
     default: return "hr_zone_field_num_\(field_num)"
   }
 }
-func rzfit_swift_speed_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_speed_zone( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "high_value"
@@ -5529,7 +5529,7 @@ func rzfit_swift_speed_zone_field_num_to_string( field_num : FIT_UINT16 ) -> Str
     default: return "speed_zone_field_num_\(field_num)"
   }
 }
-func rzfit_swift_cadence_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_cadence_zone( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "high_value"
@@ -5537,7 +5537,7 @@ func rzfit_swift_cadence_zone_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "cadence_zone_field_num_\(field_num)"
   }
 }
-func rzfit_swift_power_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_power_zone( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 1: return "high_value"
@@ -5545,7 +5545,7 @@ func rzfit_swift_power_zone_field_num_to_string( field_num : FIT_UINT16 ) -> Str
     default: return "power_zone_field_num_\(field_num)"
   }
 }
-func rzfit_swift_met_zone_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_met_zone( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 1: return "high_bpm"
@@ -5554,7 +5554,7 @@ func rzfit_swift_met_zone_field_num_to_string( field_num : FIT_UINT16 ) -> Strin
     default: return "met_zone_field_num_\(field_num)"
   }
 }
-func rzfit_swift_dive_settings_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_dive_settings( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "name"
@@ -5588,7 +5588,7 @@ func rzfit_swift_dive_settings_field_num_to_string( field_num : FIT_UINT16 , str
     default: return "dive_settings_field_num_\(field_num)"
   }
 }
-func rzfit_swift_dive_alarm_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_dive_alarm( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "depth"
@@ -5600,7 +5600,7 @@ func rzfit_swift_dive_alarm_field_num_to_string( field_num : FIT_UINT16 ) -> Str
     default: return "dive_alarm_field_num_\(field_num)"
   }
 }
-func rzfit_swift_dive_gas_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_dive_gas( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "helium_content"
@@ -5609,7 +5609,7 @@ func rzfit_swift_dive_gas_field_num_to_string( field_num : FIT_UINT16 ) -> Strin
     default: return "dive_gas_field_num_\(field_num)"
   }
 }
-func rzfit_swift_goal_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_goal( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "sport"
@@ -5627,7 +5627,7 @@ func rzfit_swift_goal_field_num_to_string( field_num : FIT_UINT16 ) -> String {
     default: return "goal_field_num_\(field_num)"
   }
 }
-func rzfit_swift_activity_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_activity( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "total_timer_time"
@@ -5640,7 +5640,7 @@ func rzfit_swift_activity_field_num_to_string( field_num : FIT_UINT16 ) -> Strin
     default: return "activity_field_num_\(field_num)"
   }
 }
-func rzfit_swift_session_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_session( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 253: return "timestamp"
@@ -5797,7 +5797,7 @@ func rzfit_swift_session_field_num_to_string( field_num : FIT_UINT16 , strings :
     default: return "session_field_num_\(field_num)"
   }
 }
-func rzfit_swift_lap_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_lap( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 253: return "timestamp"
@@ -5940,7 +5940,7 @@ func rzfit_swift_lap_field_num_to_string( field_num : FIT_UINT16 , strings : [St
     default: return "lap_field_num_\(field_num)"
   }
 }
-func rzfit_swift_length_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_length( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 253: return "timestamp"
@@ -5963,7 +5963,7 @@ func rzfit_swift_length_field_num_to_string( field_num : FIT_UINT16 ) -> String 
     default: return "length_field_num_\(field_num)"
   }
 }
-func rzfit_swift_record_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_record( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "position_lat"
@@ -6041,7 +6041,7 @@ func rzfit_swift_record_field_num_to_string( field_num : FIT_UINT16 ) -> String 
     default: return "record_field_num_\(field_num)"
   }
 }
-func rzfit_swift_event_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_event( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "event"
@@ -6108,7 +6108,7 @@ func rzfit_swift_event_field_num_to_string( field_num : FIT_UINT16 , strings : [
     default: return "event_field_num_\(field_num)"
   }
 }
-func rzfit_swift_device_info_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_device_info( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "device_index"
@@ -6151,7 +6151,7 @@ func rzfit_swift_device_info_field_num_to_string( field_num : FIT_UINT16 , strin
     default: return "device_info_field_num_\(field_num)"
   }
 }
-func rzfit_swift_training_file_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_training_file( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "type"
@@ -6175,13 +6175,13 @@ func rzfit_swift_training_file_field_num_to_string( field_num : FIT_UINT16 , str
     default: return "training_file_field_num_\(field_num)"
   }
 }
-func rzfit_swift_hrv_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_hrv( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "time"
     default: return "hrv_field_num_\(field_num)"
   }
 }
-func rzfit_swift_weather_conditions_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_weather_conditions( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "weather_report"
@@ -6202,7 +6202,7 @@ func rzfit_swift_weather_conditions_field_num_to_string( field_num : FIT_UINT16 
     default: return "weather_conditions_field_num_\(field_num)"
   }
 }
-func rzfit_swift_weather_alert_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_weather_alert( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "report_id"
@@ -6213,7 +6213,7 @@ func rzfit_swift_weather_alert_field_num_to_string( field_num : FIT_UINT16 ) -> 
     default: return "weather_alert_field_num_\(field_num)"
   }
 }
-func rzfit_swift_gps_metadata_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_gps_metadata( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6227,7 +6227,7 @@ func rzfit_swift_gps_metadata_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "gps_metadata_field_num_\(field_num)"
   }
 }
-func rzfit_swift_camera_event_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_camera_event( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6237,7 +6237,7 @@ func rzfit_swift_camera_event_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "camera_event_field_num_\(field_num)"
   }
 }
-func rzfit_swift_gyroscope_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_gyroscope_data( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6251,7 +6251,7 @@ func rzfit_swift_gyroscope_data_field_num_to_string( field_num : FIT_UINT16 ) ->
     default: return "gyroscope_data_field_num_\(field_num)"
   }
 }
-func rzfit_swift_accelerometer_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_accelerometer_data( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6268,7 +6268,7 @@ func rzfit_swift_accelerometer_data_field_num_to_string( field_num : FIT_UINT16 
     default: return "accelerometer_data_field_num_\(field_num)"
   }
 }
-func rzfit_swift_magnetometer_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_magnetometer_data( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6282,7 +6282,7 @@ func rzfit_swift_magnetometer_data_field_num_to_string( field_num : FIT_UINT16 )
     default: return "magnetometer_data_field_num_\(field_num)"
   }
 }
-func rzfit_swift_barometer_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_barometer_data( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6291,7 +6291,7 @@ func rzfit_swift_barometer_data_field_num_to_string( field_num : FIT_UINT16 ) ->
     default: return "barometer_data_field_num_\(field_num)"
   }
 }
-func rzfit_swift_three_d_sensor_calibration_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_three_d_sensor_calibration( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "sensor_type"
@@ -6310,7 +6310,7 @@ func rzfit_swift_three_d_sensor_calibration_field_num_to_string( field_num : FIT
     default: return "three_d_sensor_calibration_field_num_\(field_num)"
   }
 }
-func rzfit_swift_one_d_sensor_calibration_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_one_d_sensor_calibration( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "sensor_type"
@@ -6326,7 +6326,7 @@ func rzfit_swift_one_d_sensor_calibration_field_num_to_string( field_num : FIT_U
     default: return "one_d_sensor_calibration_field_num_\(field_num)"
   }
 }
-func rzfit_swift_video_frame_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_video_frame( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6334,7 +6334,7 @@ func rzfit_swift_video_frame_field_num_to_string( field_num : FIT_UINT16 ) -> St
     default: return "video_frame_field_num_\(field_num)"
   }
 }
-func rzfit_swift_obdii_data_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_obdii_data( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6348,7 +6348,7 @@ func rzfit_swift_obdii_data_field_num_to_string( field_num : FIT_UINT16 ) -> Str
     default: return "obdii_data_field_num_\(field_num)"
   }
 }
-func rzfit_swift_nmea_sentence_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_nmea_sentence( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6356,7 +6356,7 @@ func rzfit_swift_nmea_sentence_field_num_to_string( field_num : FIT_UINT16 ) -> 
     default: return "nmea_sentence_field_num_\(field_num)"
   }
 }
-func rzfit_swift_aviation_attitude_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_aviation_attitude( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "timestamp_ms"
@@ -6373,7 +6373,7 @@ func rzfit_swift_aviation_attitude_field_num_to_string( field_num : FIT_UINT16 )
     default: return "aviation_attitude_field_num_\(field_num)"
   }
 }
-func rzfit_swift_video_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_video( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "url"
     case 1: return "hosting_provider"
@@ -6381,7 +6381,7 @@ func rzfit_swift_video_field_num_to_string( field_num : FIT_UINT16 ) -> String {
     default: return "video_field_num_\(field_num)"
   }
 }
-func rzfit_swift_video_title_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_video_title( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "message_count"
@@ -6389,7 +6389,7 @@ func rzfit_swift_video_title_field_num_to_string( field_num : FIT_UINT16 ) -> St
     default: return "video_title_field_num_\(field_num)"
   }
 }
-func rzfit_swift_video_description_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_video_description( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "message_count"
@@ -6397,7 +6397,7 @@ func rzfit_swift_video_description_field_num_to_string( field_num : FIT_UINT16 )
     default: return "video_description_field_num_\(field_num)"
   }
 }
-func rzfit_swift_video_clip_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_video_clip( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "clip_number"
     case 1: return "start_timestamp"
@@ -6409,7 +6409,7 @@ func rzfit_swift_video_clip_field_num_to_string( field_num : FIT_UINT16 ) -> Str
     default: return "video_clip_field_num_\(field_num)"
   }
 }
-func rzfit_swift_set_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_set( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "timestamp"
     case 0: return "duration"
@@ -6425,7 +6425,7 @@ func rzfit_swift_set_field_num_to_string( field_num : FIT_UINT16 ) -> String {
     default: return "set_field_num_\(field_num)"
   }
 }
-func rzfit_swift_jump_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_jump( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "distance"
@@ -6440,7 +6440,7 @@ func rzfit_swift_jump_field_num_to_string( field_num : FIT_UINT16 ) -> String {
     default: return "jump_field_num_\(field_num)"
   }
 }
-func rzfit_swift_course_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_course( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 4: return "sport"
     case 5: return "name"
@@ -6449,7 +6449,7 @@ func rzfit_swift_course_field_num_to_string( field_num : FIT_UINT16 ) -> String 
     default: return "course_field_num_\(field_num)"
   }
 }
-func rzfit_swift_course_point_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_course_point( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 1: return "timestamp"
@@ -6462,7 +6462,7 @@ func rzfit_swift_course_point_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "course_point_field_num_\(field_num)"
   }
 }
-func rzfit_swift_segment_id_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_segment_id( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "name"
     case 1: return "uuid"
@@ -6476,7 +6476,7 @@ func rzfit_swift_segment_id_field_num_to_string( field_num : FIT_UINT16 ) -> Str
     default: return "segment_id_field_num_\(field_num)"
   }
 }
-func rzfit_swift_segment_leaderboard_entry_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_segment_leaderboard_entry( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "name"
@@ -6488,7 +6488,7 @@ func rzfit_swift_segment_leaderboard_entry_field_num_to_string( field_num : FIT_
     default: return "segment_leaderboard_entry_field_num_\(field_num)"
   }
 }
-func rzfit_swift_segment_point_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_segment_point( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 1: return "position_lat"
@@ -6499,7 +6499,7 @@ func rzfit_swift_segment_point_field_num_to_string( field_num : FIT_UINT16 ) -> 
     default: return "segment_point_field_num_\(field_num)"
   }
 }
-func rzfit_swift_segment_lap_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_segment_lap( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 253: return "timestamp"
@@ -6601,7 +6601,7 @@ func rzfit_swift_segment_lap_field_num_to_string( field_num : FIT_UINT16 , strin
     default: return "segment_lap_field_num_\(field_num)"
   }
 }
-func rzfit_swift_segment_file_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_segment_file( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 1: return "file_uuid"
@@ -6615,7 +6615,7 @@ func rzfit_swift_segment_file_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "segment_file_field_num_\(field_num)"
   }
 }
-func rzfit_swift_workout_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_workout( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 4: return "sport"
     case 5: return "capabilities"
@@ -6627,7 +6627,7 @@ func rzfit_swift_workout_field_num_to_string( field_num : FIT_UINT16 ) -> String
     default: return "workout_field_num_\(field_num)"
   }
 }
-func rzfit_swift_workout_session_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_workout_session( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "sport"
@@ -6639,7 +6639,7 @@ func rzfit_swift_workout_session_field_num_to_string( field_num : FIT_UINT16 ) -
     default: return "workout_session_field_num_\(field_num)"
   }
 }
-func rzfit_swift_workout_step_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_workout_step( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "wkt_step_name"
@@ -6747,7 +6747,7 @@ func rzfit_swift_workout_step_field_num_to_string( field_num : FIT_UINT16 , stri
     default: return "workout_step_field_num_\(field_num)"
   }
 }
-func rzfit_swift_exercise_title_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_exercise_title( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 0: return "exercise_category"
@@ -6756,7 +6756,7 @@ func rzfit_swift_exercise_title_field_num_to_string( field_num : FIT_UINT16 ) ->
     default: return "exercise_title_field_num_\(field_num)"
   }
 }
-func rzfit_swift_schedule_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_schedule( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 0: return "manufacturer"
     case 1:
@@ -6781,7 +6781,7 @@ func rzfit_swift_schedule_field_num_to_string( field_num : FIT_UINT16 , strings 
     default: return "schedule_field_num_\(field_num)"
   }
 }
-func rzfit_swift_totals_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_totals( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 254: return "message_index"
     case 253: return "timestamp"
@@ -6796,7 +6796,7 @@ func rzfit_swift_totals_field_num_to_string( field_num : FIT_UINT16 ) -> String 
     default: return "totals_field_num_\(field_num)"
   }
 }
-func rzfit_swift_weight_scale_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_weight_scale( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "weight"
@@ -6814,7 +6814,7 @@ func rzfit_swift_weight_scale_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "weight_scale_field_num_\(field_num)"
   }
 }
-func rzfit_swift_blood_pressure_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_blood_pressure( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "systolic_pressure"
@@ -6830,7 +6830,7 @@ func rzfit_swift_blood_pressure_field_num_to_string( field_num : FIT_UINT16 ) ->
     default: return "blood_pressure_field_num_\(field_num)"
   }
 }
-func rzfit_swift_monitoring_info_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_monitoring_info( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "local_timestamp"
@@ -6841,7 +6841,7 @@ func rzfit_swift_monitoring_info_field_num_to_string( field_num : FIT_UINT16 ) -
     default: return "monitoring_info_field_num_\(field_num)"
   }
 }
-func rzfit_swift_monitoring_field_num_to_string( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
+func rzfit_swift_field_num_to_string_for_monitoring( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "device_index"
@@ -6886,7 +6886,7 @@ func rzfit_swift_monitoring_field_num_to_string( field_num : FIT_UINT16 , string
     default: return "monitoring_field_num_\(field_num)"
   }
 }
-func rzfit_swift_hr_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_hr( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "fractional_timestamp"
@@ -6897,14 +6897,14 @@ func rzfit_swift_hr_field_num_to_string( field_num : FIT_UINT16 ) -> String {
     default: return "hr_field_num_\(field_num)"
   }
 }
-func rzfit_swift_stress_level_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_stress_level( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "stress_level_value"
     case 1: return "stress_level_time"
     default: return "stress_level_field_num_\(field_num)"
   }
 }
-func rzfit_swift_memo_glob_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_memo_glob( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 250: return "part_index"
     case 0: return "memo"
@@ -6913,7 +6913,7 @@ func rzfit_swift_memo_glob_field_num_to_string( field_num : FIT_UINT16 ) -> Stri
     default: return "memo_glob_field_num_\(field_num)"
   }
 }
-func rzfit_swift_ant_channel_id_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_ant_channel_id( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "channel_number"
     case 1: return "device_type"
@@ -6923,7 +6923,7 @@ func rzfit_swift_ant_channel_id_field_num_to_string( field_num : FIT_UINT16 ) ->
     default: return "ant_channel_id_field_num_\(field_num)"
   }
 }
-func rzfit_swift_ant_rx_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_ant_rx( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "fractional_timestamp"
@@ -6934,7 +6934,7 @@ func rzfit_swift_ant_rx_field_num_to_string( field_num : FIT_UINT16 ) -> String 
     default: return "ant_rx_field_num_\(field_num)"
   }
 }
-func rzfit_swift_ant_tx_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_ant_tx( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "fractional_timestamp"
@@ -6945,7 +6945,7 @@ func rzfit_swift_ant_tx_field_num_to_string( field_num : FIT_UINT16 ) -> String 
     default: return "ant_tx_field_num_\(field_num)"
   }
 }
-func rzfit_swift_exd_screen_configuration_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_exd_screen_configuration( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "screen_index"
     case 1: return "field_count"
@@ -6954,7 +6954,7 @@ func rzfit_swift_exd_screen_configuration_field_num_to_string( field_num : FIT_U
     default: return "exd_screen_configuration_field_num_\(field_num)"
   }
 }
-func rzfit_swift_exd_data_field_configuration_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_exd_data_field_configuration( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "screen_index"
     case 1: return "concept_field"
@@ -6965,7 +6965,7 @@ func rzfit_swift_exd_data_field_configuration_field_num_to_string( field_num : F
     default: return "exd_data_field_configuration_field_num_\(field_num)"
   }
 }
-func rzfit_swift_exd_data_concept_configuration_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_exd_data_concept_configuration( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "screen_index"
     case 1: return "concept_field"
@@ -6981,7 +6981,7 @@ func rzfit_swift_exd_data_concept_configuration_field_num_to_string( field_num :
     default: return "exd_data_concept_configuration_field_num_\(field_num)"
   }
 }
-func rzfit_swift_field_description_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_field_description( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "developer_data_index"
     case 1: return "field_definition_number"
@@ -7000,7 +7000,7 @@ func rzfit_swift_field_description_field_num_to_string( field_num : FIT_UINT16 )
     default: return "field_description_field_num_\(field_num)"
   }
 }
-func rzfit_swift_developer_data_id_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_developer_data_id( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 0: return "developer_id"
     case 1: return "application_id"
@@ -7010,7 +7010,7 @@ func rzfit_swift_developer_data_id_field_num_to_string( field_num : FIT_UINT16 )
     default: return "developer_data_id_field_num_\(field_num)"
   }
 }
-func rzfit_swift_dive_summary_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_dive_summary( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "reference_mesg"
@@ -7028,7 +7028,7 @@ func rzfit_swift_dive_summary_field_num_to_string( field_num : FIT_UINT16 ) -> S
     default: return "dive_summary_field_num_\(field_num)"
   }
 }
-func rzfit_swift_climb_pro_field_num_to_string( field_num : FIT_UINT16 ) -> String {
+func rzfit_swift_field_num_to_string_for_climb_pro( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
     case 0: return "position_lat"
@@ -7042,100 +7042,100 @@ func rzfit_swift_climb_pro_field_num_to_string( field_num : FIT_UINT16 ) -> Stri
 }
 func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UINT16, strings : [String:String]) -> String {
   switch mesg_num {
-    case 0: return rzfit_swift_file_id_field_num_to_string(field_num: field_num, strings: strings)
-    case 1: return rzfit_swift_capabilities_field_num_to_string(field_num: field_num)
-    case 2: return rzfit_swift_device_settings_field_num_to_string(field_num: field_num)
-    case 3: return rzfit_swift_user_profile_field_num_to_string(field_num: field_num)
-    case 4: return rzfit_swift_hrm_profile_field_num_to_string(field_num: field_num)
-    case 5: return rzfit_swift_sdm_profile_field_num_to_string(field_num: field_num)
-    case 6: return rzfit_swift_bike_profile_field_num_to_string(field_num: field_num)
-    case 7: return rzfit_swift_zones_target_field_num_to_string(field_num: field_num)
-    case 8: return rzfit_swift_hr_zone_field_num_to_string(field_num: field_num)
-    case 9: return rzfit_swift_power_zone_field_num_to_string(field_num: field_num)
-    case 10: return rzfit_swift_met_zone_field_num_to_string(field_num: field_num)
-    case 12: return rzfit_swift_sport_field_num_to_string(field_num: field_num)
-    case 15: return rzfit_swift_goal_field_num_to_string(field_num: field_num)
-    case 18: return rzfit_swift_session_field_num_to_string(field_num: field_num, strings: strings)
-    case 19: return rzfit_swift_lap_field_num_to_string(field_num: field_num, strings: strings)
-    case 20: return rzfit_swift_record_field_num_to_string(field_num: field_num)
-    case 21: return rzfit_swift_event_field_num_to_string(field_num: field_num, strings: strings)
-    case 23: return rzfit_swift_device_info_field_num_to_string(field_num: field_num, strings: strings)
-    case 26: return rzfit_swift_workout_field_num_to_string(field_num: field_num)
-    case 27: return rzfit_swift_workout_step_field_num_to_string(field_num: field_num, strings: strings)
-    case 28: return rzfit_swift_schedule_field_num_to_string(field_num: field_num, strings: strings)
-    case 30: return rzfit_swift_weight_scale_field_num_to_string(field_num: field_num)
-    case 31: return rzfit_swift_course_field_num_to_string(field_num: field_num)
-    case 32: return rzfit_swift_course_point_field_num_to_string(field_num: field_num)
-    case 33: return rzfit_swift_totals_field_num_to_string(field_num: field_num)
-    case 34: return rzfit_swift_activity_field_num_to_string(field_num: field_num)
-    case 35: return rzfit_swift_software_field_num_to_string(field_num: field_num)
-    case 37: return rzfit_swift_file_capabilities_field_num_to_string(field_num: field_num)
-    case 38: return rzfit_swift_mesg_capabilities_field_num_to_string(field_num: field_num, strings: strings)
-    case 39: return rzfit_swift_field_capabilities_field_num_to_string(field_num: field_num)
-    case 49: return rzfit_swift_file_creator_field_num_to_string(field_num: field_num)
-    case 51: return rzfit_swift_blood_pressure_field_num_to_string(field_num: field_num)
-    case 53: return rzfit_swift_speed_zone_field_num_to_string(field_num: field_num)
-    case 55: return rzfit_swift_monitoring_field_num_to_string(field_num: field_num, strings: strings)
-    case 72: return rzfit_swift_training_file_field_num_to_string(field_num: field_num, strings: strings)
-    case 78: return rzfit_swift_hrv_field_num_to_string(field_num: field_num)
-    case 80: return rzfit_swift_ant_rx_field_num_to_string(field_num: field_num)
-    case 81: return rzfit_swift_ant_tx_field_num_to_string(field_num: field_num)
-    case 82: return rzfit_swift_ant_channel_id_field_num_to_string(field_num: field_num)
-    case 101: return rzfit_swift_length_field_num_to_string(field_num: field_num)
-    case 103: return rzfit_swift_monitoring_info_field_num_to_string(field_num: field_num)
-    case 106: return rzfit_swift_slave_device_field_num_to_string(field_num: field_num, strings: strings)
-    case 127: return rzfit_swift_connectivity_field_num_to_string(field_num: field_num)
-    case 128: return rzfit_swift_weather_conditions_field_num_to_string(field_num: field_num)
-    case 129: return rzfit_swift_weather_alert_field_num_to_string(field_num: field_num)
-    case 131: return rzfit_swift_cadence_zone_field_num_to_string(field_num: field_num)
-    case 132: return rzfit_swift_hr_field_num_to_string(field_num: field_num)
-    case 142: return rzfit_swift_segment_lap_field_num_to_string(field_num: field_num, strings: strings)
-    case 145: return rzfit_swift_memo_glob_field_num_to_string(field_num: field_num)
-    case 148: return rzfit_swift_segment_id_field_num_to_string(field_num: field_num)
-    case 149: return rzfit_swift_segment_leaderboard_entry_field_num_to_string(field_num: field_num)
-    case 150: return rzfit_swift_segment_point_field_num_to_string(field_num: field_num)
-    case 151: return rzfit_swift_segment_file_field_num_to_string(field_num: field_num)
-    case 158: return rzfit_swift_workout_session_field_num_to_string(field_num: field_num)
-    case 159: return rzfit_swift_watchface_settings_field_num_to_string(field_num: field_num, strings: strings)
-    case 160: return rzfit_swift_gps_metadata_field_num_to_string(field_num: field_num)
-    case 161: return rzfit_swift_camera_event_field_num_to_string(field_num: field_num)
-    case 162: return rzfit_swift_timestamp_correlation_field_num_to_string(field_num: field_num)
-    case 164: return rzfit_swift_gyroscope_data_field_num_to_string(field_num: field_num)
-    case 165: return rzfit_swift_accelerometer_data_field_num_to_string(field_num: field_num)
-    case 167: return rzfit_swift_three_d_sensor_calibration_field_num_to_string(field_num: field_num, strings: strings)
-    case 169: return rzfit_swift_video_frame_field_num_to_string(field_num: field_num)
-    case 174: return rzfit_swift_obdii_data_field_num_to_string(field_num: field_num)
-    case 177: return rzfit_swift_nmea_sentence_field_num_to_string(field_num: field_num)
-    case 178: return rzfit_swift_aviation_attitude_field_num_to_string(field_num: field_num)
-    case 184: return rzfit_swift_video_field_num_to_string(field_num: field_num)
-    case 185: return rzfit_swift_video_title_field_num_to_string(field_num: field_num)
-    case 186: return rzfit_swift_video_description_field_num_to_string(field_num: field_num)
-    case 187: return rzfit_swift_video_clip_field_num_to_string(field_num: field_num)
-    case 188: return rzfit_swift_ohr_settings_field_num_to_string(field_num: field_num)
-    case 200: return rzfit_swift_exd_screen_configuration_field_num_to_string(field_num: field_num)
-    case 201: return rzfit_swift_exd_data_field_configuration_field_num_to_string(field_num: field_num)
-    case 202: return rzfit_swift_exd_data_concept_configuration_field_num_to_string(field_num: field_num)
-    case 206: return rzfit_swift_field_description_field_num_to_string(field_num: field_num)
-    case 207: return rzfit_swift_developer_data_id_field_num_to_string(field_num: field_num)
-    case 208: return rzfit_swift_magnetometer_data_field_num_to_string(field_num: field_num)
-    case 209: return rzfit_swift_barometer_data_field_num_to_string(field_num: field_num)
-    case 210: return rzfit_swift_one_d_sensor_calibration_field_num_to_string(field_num: field_num, strings: strings)
-    case 225: return rzfit_swift_set_field_num_to_string(field_num: field_num)
-    case 227: return rzfit_swift_stress_level_field_num_to_string(field_num: field_num)
-    case 258: return rzfit_swift_dive_settings_field_num_to_string(field_num: field_num, strings: strings)
-    case 259: return rzfit_swift_dive_gas_field_num_to_string(field_num: field_num)
-    case 262: return rzfit_swift_dive_alarm_field_num_to_string(field_num: field_num)
-    case 264: return rzfit_swift_exercise_title_field_num_to_string(field_num: field_num)
-    case 268: return rzfit_swift_dive_summary_field_num_to_string(field_num: field_num)
-    case 285: return rzfit_swift_jump_field_num_to_string(field_num: field_num)
-    case 317: return rzfit_swift_climb_pro_field_num_to_string(field_num: field_num)
+    case 0: return rzfit_swift_field_num_to_string_for_file_id(field_num: field_num, strings: strings)
+    case 1: return rzfit_swift_field_num_to_string_for_capabilities(field_num: field_num)
+    case 2: return rzfit_swift_field_num_to_string_for_device_settings(field_num: field_num)
+    case 3: return rzfit_swift_field_num_to_string_for_user_profile(field_num: field_num)
+    case 4: return rzfit_swift_field_num_to_string_for_hrm_profile(field_num: field_num)
+    case 5: return rzfit_swift_field_num_to_string_for_sdm_profile(field_num: field_num)
+    case 6: return rzfit_swift_field_num_to_string_for_bike_profile(field_num: field_num)
+    case 7: return rzfit_swift_field_num_to_string_for_zones_target(field_num: field_num)
+    case 8: return rzfit_swift_field_num_to_string_for_hr_zone(field_num: field_num)
+    case 9: return rzfit_swift_field_num_to_string_for_power_zone(field_num: field_num)
+    case 10: return rzfit_swift_field_num_to_string_for_met_zone(field_num: field_num)
+    case 12: return rzfit_swift_field_num_to_string_for_sport(field_num: field_num)
+    case 15: return rzfit_swift_field_num_to_string_for_goal(field_num: field_num)
+    case 18: return rzfit_swift_field_num_to_string_for_session(field_num: field_num, strings: strings)
+    case 19: return rzfit_swift_field_num_to_string_for_lap(field_num: field_num, strings: strings)
+    case 20: return rzfit_swift_field_num_to_string_for_record(field_num: field_num)
+    case 21: return rzfit_swift_field_num_to_string_for_event(field_num: field_num, strings: strings)
+    case 23: return rzfit_swift_field_num_to_string_for_device_info(field_num: field_num, strings: strings)
+    case 26: return rzfit_swift_field_num_to_string_for_workout(field_num: field_num)
+    case 27: return rzfit_swift_field_num_to_string_for_workout_step(field_num: field_num, strings: strings)
+    case 28: return rzfit_swift_field_num_to_string_for_schedule(field_num: field_num, strings: strings)
+    case 30: return rzfit_swift_field_num_to_string_for_weight_scale(field_num: field_num)
+    case 31: return rzfit_swift_field_num_to_string_for_course(field_num: field_num)
+    case 32: return rzfit_swift_field_num_to_string_for_course_point(field_num: field_num)
+    case 33: return rzfit_swift_field_num_to_string_for_totals(field_num: field_num)
+    case 34: return rzfit_swift_field_num_to_string_for_activity(field_num: field_num)
+    case 35: return rzfit_swift_field_num_to_string_for_software(field_num: field_num)
+    case 37: return rzfit_swift_field_num_to_string_for_file_capabilities(field_num: field_num)
+    case 38: return rzfit_swift_field_num_to_string_for_mesg_capabilities(field_num: field_num, strings: strings)
+    case 39: return rzfit_swift_field_num_to_string_for_field_capabilities(field_num: field_num)
+    case 49: return rzfit_swift_field_num_to_string_for_file_creator(field_num: field_num)
+    case 51: return rzfit_swift_field_num_to_string_for_blood_pressure(field_num: field_num)
+    case 53: return rzfit_swift_field_num_to_string_for_speed_zone(field_num: field_num)
+    case 55: return rzfit_swift_field_num_to_string_for_monitoring(field_num: field_num, strings: strings)
+    case 72: return rzfit_swift_field_num_to_string_for_training_file(field_num: field_num, strings: strings)
+    case 78: return rzfit_swift_field_num_to_string_for_hrv(field_num: field_num)
+    case 80: return rzfit_swift_field_num_to_string_for_ant_rx(field_num: field_num)
+    case 81: return rzfit_swift_field_num_to_string_for_ant_tx(field_num: field_num)
+    case 82: return rzfit_swift_field_num_to_string_for_ant_channel_id(field_num: field_num)
+    case 101: return rzfit_swift_field_num_to_string_for_length(field_num: field_num)
+    case 103: return rzfit_swift_field_num_to_string_for_monitoring_info(field_num: field_num)
+    case 106: return rzfit_swift_field_num_to_string_for_slave_device(field_num: field_num, strings: strings)
+    case 127: return rzfit_swift_field_num_to_string_for_connectivity(field_num: field_num)
+    case 128: return rzfit_swift_field_num_to_string_for_weather_conditions(field_num: field_num)
+    case 129: return rzfit_swift_field_num_to_string_for_weather_alert(field_num: field_num)
+    case 131: return rzfit_swift_field_num_to_string_for_cadence_zone(field_num: field_num)
+    case 132: return rzfit_swift_field_num_to_string_for_hr(field_num: field_num)
+    case 142: return rzfit_swift_field_num_to_string_for_segment_lap(field_num: field_num, strings: strings)
+    case 145: return rzfit_swift_field_num_to_string_for_memo_glob(field_num: field_num)
+    case 148: return rzfit_swift_field_num_to_string_for_segment_id(field_num: field_num)
+    case 149: return rzfit_swift_field_num_to_string_for_segment_leaderboard_entry(field_num: field_num)
+    case 150: return rzfit_swift_field_num_to_string_for_segment_point(field_num: field_num)
+    case 151: return rzfit_swift_field_num_to_string_for_segment_file(field_num: field_num)
+    case 158: return rzfit_swift_field_num_to_string_for_workout_session(field_num: field_num)
+    case 159: return rzfit_swift_field_num_to_string_for_watchface_settings(field_num: field_num, strings: strings)
+    case 160: return rzfit_swift_field_num_to_string_for_gps_metadata(field_num: field_num)
+    case 161: return rzfit_swift_field_num_to_string_for_camera_event(field_num: field_num)
+    case 162: return rzfit_swift_field_num_to_string_for_timestamp_correlation(field_num: field_num)
+    case 164: return rzfit_swift_field_num_to_string_for_gyroscope_data(field_num: field_num)
+    case 165: return rzfit_swift_field_num_to_string_for_accelerometer_data(field_num: field_num)
+    case 167: return rzfit_swift_field_num_to_string_for_three_d_sensor_calibration(field_num: field_num, strings: strings)
+    case 169: return rzfit_swift_field_num_to_string_for_video_frame(field_num: field_num)
+    case 174: return rzfit_swift_field_num_to_string_for_obdii_data(field_num: field_num)
+    case 177: return rzfit_swift_field_num_to_string_for_nmea_sentence(field_num: field_num)
+    case 178: return rzfit_swift_field_num_to_string_for_aviation_attitude(field_num: field_num)
+    case 184: return rzfit_swift_field_num_to_string_for_video(field_num: field_num)
+    case 185: return rzfit_swift_field_num_to_string_for_video_title(field_num: field_num)
+    case 186: return rzfit_swift_field_num_to_string_for_video_description(field_num: field_num)
+    case 187: return rzfit_swift_field_num_to_string_for_video_clip(field_num: field_num)
+    case 188: return rzfit_swift_field_num_to_string_for_ohr_settings(field_num: field_num)
+    case 200: return rzfit_swift_field_num_to_string_for_exd_screen_configuration(field_num: field_num)
+    case 201: return rzfit_swift_field_num_to_string_for_exd_data_field_configuration(field_num: field_num)
+    case 202: return rzfit_swift_field_num_to_string_for_exd_data_concept_configuration(field_num: field_num)
+    case 206: return rzfit_swift_field_num_to_string_for_field_description(field_num: field_num)
+    case 207: return rzfit_swift_field_num_to_string_for_developer_data_id(field_num: field_num)
+    case 208: return rzfit_swift_field_num_to_string_for_magnetometer_data(field_num: field_num)
+    case 209: return rzfit_swift_field_num_to_string_for_barometer_data(field_num: field_num)
+    case 210: return rzfit_swift_field_num_to_string_for_one_d_sensor_calibration(field_num: field_num, strings: strings)
+    case 225: return rzfit_swift_field_num_to_string_for_set(field_num: field_num)
+    case 227: return rzfit_swift_field_num_to_string_for_stress_level(field_num: field_num)
+    case 258: return rzfit_swift_field_num_to_string_for_dive_settings(field_num: field_num, strings: strings)
+    case 259: return rzfit_swift_field_num_to_string_for_dive_gas(field_num: field_num)
+    case 262: return rzfit_swift_field_num_to_string_for_dive_alarm(field_num: field_num)
+    case 264: return rzfit_swift_field_num_to_string_for_exercise_title(field_num: field_num)
+    case 268: return rzfit_swift_field_num_to_string_for_dive_summary(field_num: field_num)
+    case 285: return rzfit_swift_field_num_to_string_for_jump(field_num: field_num)
+    case 317: return rzfit_swift_field_num_to_string_for_climb_pro(field_num: field_num)
     default: return "mesg_num_\(mesg_num)_field_num_\(field_num)"
    }
 }
 
 //MARK: - fit build messages dict 
 
-func rzfit_swift_file_id_value_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_file_id( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_FILE_ID_MESG = ptr.pointee
   if x.serial_number != FIT_UINT32Z_INVALID  {
@@ -7148,7 +7148,7 @@ func rzfit_swift_file_id_value_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [
   }
   return rv
 }
-func rzfit_swift_file_id_string_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_file_id( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_FILE_ID_MESG = ptr.pointee
   let product_name = withUnsafeBytes(of: &x.product_name) { (rawPtr) -> String in
@@ -7159,27 +7159,27 @@ func rzfit_swift_file_id_string_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> 
     rv[ "product_name" ] = product_name
   }
   if( x.manufacturer != FIT_UINT16_INVALID ) {
-    rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
+    rv[ "manufacturer" ] = rzfit_swift_string_from_manufacturer(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
     }
   }
   if( x.type != FIT_ENUM_INVALID ) {
-    rv[ "type" ] = rzfit_swift_file_to_string(x.type)
+    rv[ "type" ] = rzfit_swift_string_from_file(x.type)
   }
   return rv
 }
-func rzfit_swift_file_id_date_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_file_id( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_FILE_ID_MESG = ptr.pointee
   if x.time_created != FIT_UINT32_INVALID  {
@@ -7188,7 +7188,7 @@ func rzfit_swift_file_id_date_dict( ptr : UnsafePointer<FIT_FILE_ID_MESG>) -> [S
   }
   return rv
 }
-func rzfit_swift_file_creator_value_dict( ptr : UnsafePointer<FIT_FILE_CREATOR_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_file_creator( ptr : UnsafePointer<FIT_FILE_CREATOR_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_FILE_CREATOR_MESG = ptr.pointee
   if x.software_version != FIT_UINT16_INVALID  {
@@ -7201,13 +7201,13 @@ func rzfit_swift_file_creator_value_dict( ptr : UnsafePointer<FIT_FILE_CREATOR_M
   }
   return rv
 }
-func rzfit_swift_file_creator_string_dict( ptr : UnsafePointer<FIT_FILE_CREATOR_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_file_creator( ptr : UnsafePointer<FIT_FILE_CREATOR_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_file_creator_date_dict( ptr : UnsafePointer<FIT_FILE_CREATOR_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_file_creator( ptr : UnsafePointer<FIT_FILE_CREATOR_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_software_value_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_software( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SOFTWARE_MESG = ptr.pointee
   if x.version != FIT_UINT16_INVALID  {
@@ -7216,7 +7216,7 @@ func rzfit_swift_software_value_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) ->
   }
   return rv
 }
-func rzfit_swift_software_string_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_software( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SOFTWARE_MESG = ptr.pointee
   let part_number = withUnsafeBytes(of: &x.part_number) { (rawPtr) -> String in
@@ -7227,41 +7227,41 @@ func rzfit_swift_software_string_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -
     rv[ "part_number" ] = part_number
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_software_date_dict( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_software( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_slave_device_value_dict( ptr : UnsafePointer<FIT_SLAVE_DEVICE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_slave_device( ptr : UnsafePointer<FIT_SLAVE_DEVICE_MESG>) -> [String:Double] {
   return [:]
 }
-func rzfit_swift_slave_device_string_dict( ptr : UnsafePointer<FIT_SLAVE_DEVICE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_slave_device( ptr : UnsafePointer<FIT_SLAVE_DEVICE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_SLAVE_DEVICE_MESG = ptr.pointee
   if( x.manufacturer != FIT_UINT16_INVALID ) {
-    rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
+    rv[ "manufacturer" ] = rzfit_swift_string_from_manufacturer(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
     }
   }
   return rv
 }
-func rzfit_swift_slave_device_date_dict( ptr : UnsafePointer<FIT_SLAVE_DEVICE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_slave_device( ptr : UnsafePointer<FIT_SLAVE_DEVICE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_capabilities_value_dict( ptr : UnsafePointer<FIT_CAPABILITIES_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_capabilities( ptr : UnsafePointer<FIT_CAPABILITIES_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_CAPABILITIES_MESG = ptr.pointee
   if x.languages.0 != FIT_UINT8Z_INVALID  {
@@ -7271,21 +7271,21 @@ func rzfit_swift_capabilities_value_dict( ptr : UnsafePointer<FIT_CAPABILITIES_M
   }
   return rv
 }
-func rzfit_swift_capabilities_string_dict( ptr : UnsafePointer<FIT_CAPABILITIES_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_capabilities( ptr : UnsafePointer<FIT_CAPABILITIES_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_CAPABILITIES_MESG = ptr.pointee
   if( x.workouts_supported != FIT_UINT32Z_INVALID ) {
-    rv[ "workouts_supported" ] = rzfit_swift_workout_capabilities_to_string(x.workouts_supported)
+    rv[ "workouts_supported" ] = rzfit_swift_string_from_workout_capabilities(x.workouts_supported)
   }
   if( x.connectivity_supported != FIT_UINT32Z_INVALID ) {
-    rv[ "connectivity_supported" ] = rzfit_swift_connectivity_capabilities_to_string(x.connectivity_supported)
+    rv[ "connectivity_supported" ] = rzfit_swift_string_from_connectivity_capabilities(x.connectivity_supported)
   }
   return rv
 }
-func rzfit_swift_capabilities_date_dict( ptr : UnsafePointer<FIT_CAPABILITIES_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_capabilities( ptr : UnsafePointer<FIT_CAPABILITIES_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_file_capabilities_value_dict( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_file_capabilities( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_FILE_CAPABILITIES_MESG = ptr.pointee
   if x.max_size != FIT_UINT32_INVALID  {
@@ -7298,7 +7298,7 @@ func rzfit_swift_file_capabilities_value_dict( ptr : UnsafePointer<FIT_FILE_CAPA
   }
   return rv
 }
-func rzfit_swift_file_capabilities_string_dict( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_file_capabilities( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_FILE_CAPABILITIES_MESG = ptr.pointee
   let directory = withUnsafeBytes(of: &x.directory) { (rawPtr) -> String in
@@ -7309,20 +7309,20 @@ func rzfit_swift_file_capabilities_string_dict( ptr : UnsafePointer<FIT_FILE_CAP
     rv[ "directory" ] = directory
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.type != FIT_ENUM_INVALID ) {
-    rv[ "type" ] = rzfit_swift_file_to_string(x.type)
+    rv[ "type" ] = rzfit_swift_string_from_file(x.type)
   }
   if( x.flags != FIT_UINT8Z_INVALID ) {
-    rv[ "flags" ] = rzfit_swift_file_flags_to_string(x.flags)
+    rv[ "flags" ] = rzfit_swift_string_from_file_flags(x.flags)
   }
   return rv
 }
-func rzfit_swift_file_capabilities_date_dict( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_file_capabilities( ptr : UnsafePointer<FIT_FILE_CAPABILITIES_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_mesg_capabilities_value_dict( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_mesg_capabilities( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_MESG_CAPABILITIES_MESG = ptr.pointee
   if x.count != FIT_UINT16_INVALID  {
@@ -7342,27 +7342,27 @@ func rzfit_swift_mesg_capabilities_value_dict( ptr : UnsafePointer<FIT_MESG_CAPA
   }
   return rv
 }
-func rzfit_swift_mesg_capabilities_string_dict( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_mesg_capabilities( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_MESG_CAPABILITIES_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.mesg_num != FIT_UINT16_INVALID ) {
-    rv[ "mesg_num" ] = rzfit_swift_mesg_num_to_string(x.mesg_num)
+    rv[ "mesg_num" ] = rzfit_swift_string_from_mesg_num(x.mesg_num)
   }
   if( x.file != FIT_ENUM_INVALID ) {
-    rv[ "file" ] = rzfit_swift_file_to_string(x.file)
+    rv[ "file" ] = rzfit_swift_string_from_file(x.file)
   }
   if( x.count_type != FIT_ENUM_INVALID ) {
-    rv[ "count_type" ] = rzfit_swift_mesg_count_to_string(x.count_type)
+    rv[ "count_type" ] = rzfit_swift_string_from_mesg_count(x.count_type)
   }
   return rv
 }
-func rzfit_swift_mesg_capabilities_date_dict( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_mesg_capabilities( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_field_capabilities_value_dict( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_field_capabilities( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_FIELD_CAPABILITIES_MESG = ptr.pointee
   if x.count != FIT_UINT16_INVALID  {
@@ -7375,24 +7375,24 @@ func rzfit_swift_field_capabilities_value_dict( ptr : UnsafePointer<FIT_FIELD_CA
   }
   return rv
 }
-func rzfit_swift_field_capabilities_string_dict( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_field_capabilities( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_FIELD_CAPABILITIES_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.mesg_num != FIT_UINT16_INVALID ) {
-    rv[ "mesg_num" ] = rzfit_swift_mesg_num_to_string(x.mesg_num)
+    rv[ "mesg_num" ] = rzfit_swift_string_from_mesg_num(x.mesg_num)
   }
   if( x.file != FIT_ENUM_INVALID ) {
-    rv[ "file" ] = rzfit_swift_file_to_string(x.file)
+    rv[ "file" ] = rzfit_swift_string_from_file(x.file)
   }
   return rv
 }
-func rzfit_swift_field_capabilities_date_dict( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_field_capabilities( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_device_settings_value_dict( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_device_settings( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_DEVICE_SETTINGS_MESG = ptr.pointee
   if x.utc_offset != FIT_UINT32_INVALID  {
@@ -7441,27 +7441,27 @@ func rzfit_swift_device_settings_value_dict( ptr : UnsafePointer<FIT_DEVICE_SETT
   }
   return rv
 }
-func rzfit_swift_device_settings_string_dict( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_device_settings( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_DEVICE_SETTINGS_MESG = ptr.pointee
   if( x.backlight_mode != FIT_ENUM_INVALID ) {
-    rv[ "backlight_mode" ] = rzfit_swift_backlight_mode_to_string(x.backlight_mode)
+    rv[ "backlight_mode" ] = rzfit_swift_string_from_backlight_mode(x.backlight_mode)
   }
   if( x.date_mode != FIT_ENUM_INVALID ) {
-    rv[ "date_mode" ] = rzfit_swift_date_mode_to_string(x.date_mode)
+    rv[ "date_mode" ] = rzfit_swift_string_from_date_mode(x.date_mode)
   }
   if( x.display_orientation != FIT_ENUM_INVALID ) {
-    rv[ "display_orientation" ] = rzfit_swift_display_orientation_to_string(x.display_orientation)
+    rv[ "display_orientation" ] = rzfit_swift_string_from_display_orientation(x.display_orientation)
   }
   if( x.mounting_side != FIT_ENUM_INVALID ) {
-    rv[ "mounting_side" ] = rzfit_swift_side_to_string(x.mounting_side)
+    rv[ "mounting_side" ] = rzfit_swift_string_from_side(x.mounting_side)
   }
   if( x.tap_sensitivity != FIT_ENUM_INVALID ) {
-    rv[ "tap_sensitivity" ] = rzfit_swift_tap_sensitivity_to_string(x.tap_sensitivity)
+    rv[ "tap_sensitivity" ] = rzfit_swift_string_from_tap_sensitivity(x.tap_sensitivity)
   }
   return rv
 }
-func rzfit_swift_device_settings_date_dict( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_device_settings( ptr : UnsafePointer<FIT_DEVICE_SETTINGS_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_DEVICE_SETTINGS_MESG = ptr.pointee
   if x.clock_time != FIT_UINT32_INVALID  {
@@ -7470,7 +7470,7 @@ func rzfit_swift_device_settings_date_dict( ptr : UnsafePointer<FIT_DEVICE_SETTI
   }
   return rv
 }
-func rzfit_swift_user_profile_value_dict( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_user_profile( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_USER_PROFILE_MESG = ptr.pointee
   if x.weight != FIT_UINT16_INVALID  {
@@ -7516,7 +7516,7 @@ func rzfit_swift_user_profile_value_dict( ptr : UnsafePointer<FIT_USER_PROFILE_M
   }
   return rv
 }
-func rzfit_swift_user_profile_string_dict( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_user_profile( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_USER_PROFILE_MESG = ptr.pointee
   let friendly_name = withUnsafeBytes(of: &x.friendly_name) { (rawPtr) -> String in
@@ -7527,53 +7527,53 @@ func rzfit_swift_user_profile_string_dict( ptr : UnsafePointer<FIT_USER_PROFILE_
     rv[ "friendly_name" ] = friendly_name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.local_id != FIT_UINT16_INVALID ) {
-    rv[ "local_id" ] = rzfit_swift_user_local_id_to_string(x.local_id)
+    rv[ "local_id" ] = rzfit_swift_string_from_user_local_id(x.local_id)
   }
   if( x.gender != FIT_ENUM_INVALID ) {
-    rv[ "gender" ] = rzfit_swift_gender_to_string(x.gender)
+    rv[ "gender" ] = rzfit_swift_string_from_gender(x.gender)
   }
   if( x.language != FIT_ENUM_INVALID ) {
-    rv[ "language" ] = rzfit_swift_language_to_string(x.language)
+    rv[ "language" ] = rzfit_swift_string_from_language(x.language)
   }
   if( x.elev_setting != FIT_ENUM_INVALID ) {
-    rv[ "elev_setting" ] = rzfit_swift_display_measure_to_string(x.elev_setting)
+    rv[ "elev_setting" ] = rzfit_swift_string_from_display_measure(x.elev_setting)
   }
   if( x.weight_setting != FIT_ENUM_INVALID ) {
-    rv[ "weight_setting" ] = rzfit_swift_display_measure_to_string(x.weight_setting)
+    rv[ "weight_setting" ] = rzfit_swift_string_from_display_measure(x.weight_setting)
   }
   if( x.hr_setting != FIT_ENUM_INVALID ) {
-    rv[ "hr_setting" ] = rzfit_swift_display_heart_to_string(x.hr_setting)
+    rv[ "hr_setting" ] = rzfit_swift_string_from_display_heart(x.hr_setting)
   }
   if( x.speed_setting != FIT_ENUM_INVALID ) {
-    rv[ "speed_setting" ] = rzfit_swift_display_measure_to_string(x.speed_setting)
+    rv[ "speed_setting" ] = rzfit_swift_string_from_display_measure(x.speed_setting)
   }
   if( x.dist_setting != FIT_ENUM_INVALID ) {
-    rv[ "dist_setting" ] = rzfit_swift_display_measure_to_string(x.dist_setting)
+    rv[ "dist_setting" ] = rzfit_swift_string_from_display_measure(x.dist_setting)
   }
   if( x.power_setting != FIT_ENUM_INVALID ) {
-    rv[ "power_setting" ] = rzfit_swift_display_power_to_string(x.power_setting)
+    rv[ "power_setting" ] = rzfit_swift_string_from_display_power(x.power_setting)
   }
   if( x.activity_class != FIT_ENUM_INVALID ) {
-    rv[ "activity_class" ] = rzfit_swift_activity_class_to_string(x.activity_class)
+    rv[ "activity_class" ] = rzfit_swift_string_from_activity_class(x.activity_class)
   }
   if( x.position_setting != FIT_ENUM_INVALID ) {
-    rv[ "position_setting" ] = rzfit_swift_display_position_to_string(x.position_setting)
+    rv[ "position_setting" ] = rzfit_swift_string_from_display_position(x.position_setting)
   }
   if( x.temperature_setting != FIT_ENUM_INVALID ) {
-    rv[ "temperature_setting" ] = rzfit_swift_display_measure_to_string(x.temperature_setting)
+    rv[ "temperature_setting" ] = rzfit_swift_string_from_display_measure(x.temperature_setting)
   }
   if( x.height_setting != FIT_ENUM_INVALID ) {
-    rv[ "height_setting" ] = rzfit_swift_display_measure_to_string(x.height_setting)
+    rv[ "height_setting" ] = rzfit_swift_string_from_display_measure(x.height_setting)
   }
   return rv
 }
-func rzfit_swift_user_profile_date_dict( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_user_profile( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_hrm_profile_value_dict( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_hrm_profile( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_HRM_PROFILE_MESG = ptr.pointee
   if x.hrm_ant_id != FIT_UINT16Z_INVALID  {
@@ -7594,18 +7594,18 @@ func rzfit_swift_hrm_profile_value_dict( ptr : UnsafePointer<FIT_HRM_PROFILE_MES
   }
   return rv
 }
-func rzfit_swift_hrm_profile_string_dict( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_hrm_profile( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_HRM_PROFILE_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_hrm_profile_date_dict( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_hrm_profile( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_sdm_profile_value_dict( ptr : UnsafePointer<FIT_SDM_PROFILE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_sdm_profile( ptr : UnsafePointer<FIT_SDM_PROFILE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SDM_PROFILE_MESG = ptr.pointee
   if x.odometer != FIT_UINT32_INVALID  {
@@ -7638,18 +7638,18 @@ func rzfit_swift_sdm_profile_value_dict( ptr : UnsafePointer<FIT_SDM_PROFILE_MES
   }
   return rv
 }
-func rzfit_swift_sdm_profile_string_dict( ptr : UnsafePointer<FIT_SDM_PROFILE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_sdm_profile( ptr : UnsafePointer<FIT_SDM_PROFILE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_SDM_PROFILE_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_sdm_profile_date_dict( ptr : UnsafePointer<FIT_SDM_PROFILE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_sdm_profile( ptr : UnsafePointer<FIT_SDM_PROFILE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_bike_profile_value_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_bike_profile( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_BIKE_PROFILE_MESG = ptr.pointee
   if x.odometer != FIT_UINT32_INVALID  {
@@ -7768,7 +7768,7 @@ func rzfit_swift_bike_profile_value_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_M
   }
   return rv
 }
-func rzfit_swift_bike_profile_string_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_bike_profile( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_BIKE_PROFILE_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -7779,20 +7779,20 @@ func rzfit_swift_bike_profile_string_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_
     rv[ "name" ] = name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.sub_sport != FIT_ENUM_INVALID ) {
-    rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
+    rv[ "sub_sport" ] = rzfit_swift_string_from_sub_sport(x.sub_sport)
   }
   return rv
 }
-func rzfit_swift_bike_profile_date_dict( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_bike_profile( ptr : UnsafePointer<FIT_BIKE_PROFILE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_connectivity_value_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_connectivity( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_CONNECTIVITY_MESG = ptr.pointee
   if x.bluetooth_enabled != FIT_BOOL_INVALID  {
@@ -7845,7 +7845,7 @@ func rzfit_swift_connectivity_value_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_M
   }
   return rv
 }
-func rzfit_swift_connectivity_string_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_connectivity( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_CONNECTIVITY_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -7857,10 +7857,10 @@ func rzfit_swift_connectivity_string_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_
   }
   return rv
 }
-func rzfit_swift_connectivity_date_dict( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_connectivity( ptr : UnsafePointer<FIT_CONNECTIVITY_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_zones_target_value_dict( ptr : UnsafePointer<FIT_ZONES_TARGET_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_zones_target( ptr : UnsafePointer<FIT_ZONES_TARGET_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_ZONES_TARGET_MESG = ptr.pointee
   if x.functional_threshold_power != FIT_UINT16_INVALID  {
@@ -7877,24 +7877,24 @@ func rzfit_swift_zones_target_value_dict( ptr : UnsafePointer<FIT_ZONES_TARGET_M
   }
   return rv
 }
-func rzfit_swift_zones_target_string_dict( ptr : UnsafePointer<FIT_ZONES_TARGET_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_zones_target( ptr : UnsafePointer<FIT_ZONES_TARGET_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_ZONES_TARGET_MESG = ptr.pointee
   if( x.hr_calc_type != FIT_ENUM_INVALID ) {
-    rv[ "hr_calc_type" ] = rzfit_swift_hr_zone_calc_to_string(x.hr_calc_type)
+    rv[ "hr_calc_type" ] = rzfit_swift_string_from_hr_zone_calc(x.hr_calc_type)
   }
   if( x.pwr_calc_type != FIT_ENUM_INVALID ) {
-    rv[ "pwr_calc_type" ] = rzfit_swift_pwr_zone_calc_to_string(x.pwr_calc_type)
+    rv[ "pwr_calc_type" ] = rzfit_swift_string_from_pwr_zone_calc(x.pwr_calc_type)
   }
   return rv
 }
-func rzfit_swift_zones_target_date_dict( ptr : UnsafePointer<FIT_ZONES_TARGET_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_zones_target( ptr : UnsafePointer<FIT_ZONES_TARGET_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_sport_value_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_sport( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:Double] {
   return [:]
 }
-func rzfit_swift_sport_string_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_sport( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SPORT_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -7905,17 +7905,17 @@ func rzfit_swift_sport_string_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [Str
     rv[ "name" ] = name
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.sub_sport != FIT_ENUM_INVALID ) {
-    rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
+    rv[ "sub_sport" ] = rzfit_swift_string_from_sub_sport(x.sub_sport)
   }
   return rv
 }
-func rzfit_swift_sport_date_dict( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_sport( ptr : UnsafePointer<FIT_SPORT_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_hr_zone_value_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_hr_zone( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_HR_ZONE_MESG = ptr.pointee
   if x.high_bpm != FIT_UINT8_INVALID  {
@@ -7924,7 +7924,7 @@ func rzfit_swift_hr_zone_value_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [
   }
   return rv
 }
-func rzfit_swift_hr_zone_string_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_hr_zone( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_HR_ZONE_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -7935,14 +7935,14 @@ func rzfit_swift_hr_zone_string_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> 
     rv[ "name" ] = name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_hr_zone_date_dict( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_hr_zone( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_speed_zone_value_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_speed_zone( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SPEED_ZONE_MESG = ptr.pointee
   if x.high_value != FIT_UINT16_INVALID  {
@@ -7951,7 +7951,7 @@ func rzfit_swift_speed_zone_value_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>
   }
   return rv
 }
-func rzfit_swift_speed_zone_string_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_speed_zone( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SPEED_ZONE_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -7962,14 +7962,14 @@ func rzfit_swift_speed_zone_string_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG
     rv[ "name" ] = name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_speed_zone_date_dict( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_speed_zone( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_cadence_zone_value_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_cadence_zone( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_CADENCE_ZONE_MESG = ptr.pointee
   if x.high_value != FIT_UINT8_INVALID  {
@@ -7978,7 +7978,7 @@ func rzfit_swift_cadence_zone_value_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_M
   }
   return rv
 }
-func rzfit_swift_cadence_zone_string_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_cadence_zone( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_CADENCE_ZONE_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -7989,14 +7989,14 @@ func rzfit_swift_cadence_zone_string_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_
     rv[ "name" ] = name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_cadence_zone_date_dict( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_cadence_zone( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_power_zone_value_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_power_zone( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_POWER_ZONE_MESG = ptr.pointee
   if x.high_value != FIT_UINT16_INVALID  {
@@ -8005,7 +8005,7 @@ func rzfit_swift_power_zone_value_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>
   }
   return rv
 }
-func rzfit_swift_power_zone_string_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_power_zone( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_POWER_ZONE_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -8016,14 +8016,14 @@ func rzfit_swift_power_zone_string_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG
     rv[ "name" ] = name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_power_zone_date_dict( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_power_zone( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_met_zone_value_dict( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_met_zone( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_MET_ZONE_MESG = ptr.pointee
   if x.calories != FIT_UINT16_INVALID  {
@@ -8040,21 +8040,21 @@ func rzfit_swift_met_zone_value_dict( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) ->
   }
   return rv
 }
-func rzfit_swift_met_zone_string_dict( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_met_zone( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_MET_ZONE_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_met_zone_date_dict( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_met_zone( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_dive_settings_value_dict( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_dive_settings( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:Double] {
   return [:]
 }
-func rzfit_swift_dive_settings_string_dict( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_dive_settings( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_DIVE_SETTINGS_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -8068,10 +8068,10 @@ func rzfit_swift_dive_settings_string_dict( ptr : UnsafePointer<FIT_DIVE_SETTING
   }
   return rv
 }
-func rzfit_swift_dive_settings_date_dict( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_dive_settings( ptr : UnsafePointer<FIT_DIVE_SETTINGS_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_goal_value_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_goal( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_GOAL_MESG = ptr.pointee
   if x.value != FIT_UINT32_INVALID  {
@@ -8096,30 +8096,30 @@ func rzfit_swift_goal_value_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String
   }
   return rv
 }
-func rzfit_swift_goal_string_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_goal( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_GOAL_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.sub_sport != FIT_ENUM_INVALID ) {
-    rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
+    rv[ "sub_sport" ] = rzfit_swift_string_from_sub_sport(x.sub_sport)
   }
   if( x.type != FIT_ENUM_INVALID ) {
-    rv[ "type" ] = rzfit_swift_goal_to_string(x.type)
+    rv[ "type" ] = rzfit_swift_string_from_goal(x.type)
   }
   if( x.recurrence != FIT_ENUM_INVALID ) {
-    rv[ "recurrence" ] = rzfit_swift_goal_recurrence_to_string(x.recurrence)
+    rv[ "recurrence" ] = rzfit_swift_string_from_goal_recurrence(x.recurrence)
   }
   if( x.source != FIT_ENUM_INVALID ) {
-    rv[ "source" ] = rzfit_swift_goal_source_to_string(x.source)
+    rv[ "source" ] = rzfit_swift_string_from_goal_source(x.source)
   }
   return rv
 }
-func rzfit_swift_goal_date_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_goal( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_GOAL_MESG = ptr.pointee
   if x.start_date != FIT_UINT32_INVALID  {
@@ -8132,7 +8132,7 @@ func rzfit_swift_goal_date_dict( ptr : UnsafePointer<FIT_GOAL_MESG>) -> [String:
   }
   return rv
 }
-func rzfit_swift_activity_value_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_activity( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_ACTIVITY_MESG = ptr.pointee
   if x.total_timer_time != FIT_UINT32_INVALID  {
@@ -8149,21 +8149,21 @@ func rzfit_swift_activity_value_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) ->
   }
   return rv
 }
-func rzfit_swift_activity_string_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_activity( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_ACTIVITY_MESG = ptr.pointee
   if( x.type != FIT_ENUM_INVALID ) {
-    rv[ "type" ] = rzfit_swift_activity_to_string(x.type)
+    rv[ "type" ] = rzfit_swift_string_from_activity(x.type)
   }
   if( x.event != FIT_ENUM_INVALID ) {
-    rv[ "event" ] = rzfit_swift_event_to_string(x.event)
+    rv[ "event" ] = rzfit_swift_string_from_event(x.event)
   }
   if( x.event_type != FIT_ENUM_INVALID ) {
-    rv[ "event_type" ] = rzfit_swift_event_type_to_string(x.event_type)
+    rv[ "event_type" ] = rzfit_swift_string_from_event_type(x.event_type)
   }
   return rv
 }
-func rzfit_swift_activity_date_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_activity( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_ACTIVITY_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -8176,7 +8176,7 @@ func rzfit_swift_activity_date_dict( ptr : UnsafePointer<FIT_ACTIVITY_MESG>) -> 
   }
   return rv
 }
-func rzfit_swift_session_value_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_session( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SESSION_MESG = ptr.pointee
   if x.start_position_lat != FIT_SINT32_INVALID  {
@@ -8533,35 +8533,35 @@ func rzfit_swift_session_value_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [
   }
   return rv
 }
-func rzfit_swift_session_string_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_session( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SESSION_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.left_right_balance != FIT_UINT16_INVALID ) {
-    rv[ "left_right_balance" ] = rzfit_swift_left_right_balance_100_to_string(x.left_right_balance)
+    rv[ "left_right_balance" ] = rzfit_swift_string_from_left_right_balance_100(x.left_right_balance)
   }
   if( x.event != FIT_ENUM_INVALID ) {
-    rv[ "event" ] = rzfit_swift_event_to_string(x.event)
+    rv[ "event" ] = rzfit_swift_string_from_event(x.event)
   }
   if( x.event_type != FIT_ENUM_INVALID ) {
-    rv[ "event_type" ] = rzfit_swift_event_type_to_string(x.event_type)
+    rv[ "event_type" ] = rzfit_swift_string_from_event_type(x.event_type)
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.sub_sport != FIT_ENUM_INVALID ) {
-    rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
+    rv[ "sub_sport" ] = rzfit_swift_string_from_sub_sport(x.sub_sport)
   }
   if( x.trigger != FIT_ENUM_INVALID ) {
-    rv[ "trigger" ] = rzfit_swift_session_trigger_to_string(x.trigger)
+    rv[ "trigger" ] = rzfit_swift_string_from_session_trigger(x.trigger)
   }
   if( x.swim_stroke != FIT_ENUM_INVALID ) {
-    rv[ "swim_stroke" ] = rzfit_swift_swim_stroke_to_string(x.swim_stroke)
+    rv[ "swim_stroke" ] = rzfit_swift_string_from_swim_stroke(x.swim_stroke)
   }
   if( x.pool_length_unit != FIT_ENUM_INVALID ) {
-    rv[ "pool_length_unit" ] = rzfit_swift_display_measure_to_string(x.pool_length_unit)
+    rv[ "pool_length_unit" ] = rzfit_swift_string_from_display_measure(x.pool_length_unit)
   }
   let opponent_name = withUnsafeBytes(of: &x.opponent_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
@@ -8572,7 +8572,7 @@ func rzfit_swift_session_string_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> 
   }
   return rv
 }
-func rzfit_swift_session_date_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_session( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_SESSION_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -8585,7 +8585,7 @@ func rzfit_swift_session_date_dict( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [S
   }
   return rv
 }
-func rzfit_swift_lap_value_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_LAP_MESG = ptr.pointee
   if x.start_position_lat != FIT_SINT32_INVALID  {
@@ -8916,42 +8916,42 @@ func rzfit_swift_lap_value_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:D
   }
   return rv
 }
-func rzfit_swift_lap_string_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_LAP_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.left_right_balance != FIT_UINT16_INVALID ) {
-    rv[ "left_right_balance" ] = rzfit_swift_left_right_balance_100_to_string(x.left_right_balance)
+    rv[ "left_right_balance" ] = rzfit_swift_string_from_left_right_balance_100(x.left_right_balance)
   }
   if( x.wkt_step_index != FIT_UINT16_INVALID ) {
-    rv[ "wkt_step_index" ] = rzfit_swift_message_index_to_string(x.wkt_step_index)
+    rv[ "wkt_step_index" ] = rzfit_swift_string_from_message_index(x.wkt_step_index)
   }
   if( x.event != FIT_ENUM_INVALID ) {
-    rv[ "event" ] = rzfit_swift_event_to_string(x.event)
+    rv[ "event" ] = rzfit_swift_string_from_event(x.event)
   }
   if( x.event_type != FIT_ENUM_INVALID ) {
-    rv[ "event_type" ] = rzfit_swift_event_type_to_string(x.event_type)
+    rv[ "event_type" ] = rzfit_swift_string_from_event_type(x.event_type)
   }
   if( x.intensity != FIT_ENUM_INVALID ) {
-    rv[ "intensity" ] = rzfit_swift_intensity_to_string(x.intensity)
+    rv[ "intensity" ] = rzfit_swift_string_from_intensity(x.intensity)
   }
   if( x.lap_trigger != FIT_ENUM_INVALID ) {
-    rv[ "lap_trigger" ] = rzfit_swift_lap_trigger_to_string(x.lap_trigger)
+    rv[ "lap_trigger" ] = rzfit_swift_string_from_lap_trigger(x.lap_trigger)
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.swim_stroke != FIT_ENUM_INVALID ) {
-    rv[ "swim_stroke" ] = rzfit_swift_swim_stroke_to_string(x.swim_stroke)
+    rv[ "swim_stroke" ] = rzfit_swift_string_from_swim_stroke(x.swim_stroke)
   }
   if( x.sub_sport != FIT_ENUM_INVALID ) {
-    rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
+    rv[ "sub_sport" ] = rzfit_swift_string_from_sub_sport(x.sub_sport)
   }
   return rv
 }
-func rzfit_swift_lap_date_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_LAP_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -8964,7 +8964,7 @@ func rzfit_swift_lap_date_dict( ptr : UnsafePointer<FIT_LAP_MESG>) -> [String:Da
   }
   return rv
 }
-func rzfit_swift_length_value_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_length( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_LENGTH_MESG = ptr.pointee
   if x.total_elapsed_time != FIT_UINT32_INVALID  {
@@ -9015,27 +9015,27 @@ func rzfit_swift_length_value_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [St
   }
   return rv
 }
-func rzfit_swift_length_string_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_length( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_LENGTH_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.event != FIT_ENUM_INVALID ) {
-    rv[ "event" ] = rzfit_swift_event_to_string(x.event)
+    rv[ "event" ] = rzfit_swift_string_from_event(x.event)
   }
   if( x.event_type != FIT_ENUM_INVALID ) {
-    rv[ "event_type" ] = rzfit_swift_event_type_to_string(x.event_type)
+    rv[ "event_type" ] = rzfit_swift_string_from_event_type(x.event_type)
   }
   if( x.swim_stroke != FIT_ENUM_INVALID ) {
-    rv[ "swim_stroke" ] = rzfit_swift_swim_stroke_to_string(x.swim_stroke)
+    rv[ "swim_stroke" ] = rzfit_swift_string_from_swim_stroke(x.swim_stroke)
   }
   if( x.length_type != FIT_ENUM_INVALID ) {
-    rv[ "length_type" ] = rzfit_swift_length_type_to_string(x.length_type)
+    rv[ "length_type" ] = rzfit_swift_string_from_length_type(x.length_type)
   }
   return rv
 }
-func rzfit_swift_length_date_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_length( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_LENGTH_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9048,7 +9048,7 @@ func rzfit_swift_length_date_dict( ptr : UnsafePointer<FIT_LENGTH_MESG>) -> [Str
   }
   return rv
 }
-func rzfit_swift_record_value_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_record( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_RECORD_MESG = ptr.pointee
   if x.position_lat != FIT_SINT32_INVALID  {
@@ -9227,24 +9227,24 @@ func rzfit_swift_record_value_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [St
   }
   return rv
 }
-func rzfit_swift_record_string_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_record( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_RECORD_MESG = ptr.pointee
   if( x.left_right_balance != FIT_UINT8_INVALID ) {
-    rv[ "left_right_balance" ] = rzfit_swift_left_right_balance_to_string(x.left_right_balance)
+    rv[ "left_right_balance" ] = rzfit_swift_string_from_left_right_balance(x.left_right_balance)
   }
   if( x.activity_type != FIT_ENUM_INVALID ) {
-    rv[ "activity_type" ] = rzfit_swift_activity_type_to_string(x.activity_type)
+    rv[ "activity_type" ] = rzfit_swift_string_from_activity_type(x.activity_type)
   }
   if( x.stroke_type != FIT_ENUM_INVALID ) {
-    rv[ "stroke_type" ] = rzfit_swift_stroke_type_to_string(x.stroke_type)
+    rv[ "stroke_type" ] = rzfit_swift_string_from_stroke_type(x.stroke_type)
   }
   if( x.device_index != FIT_UINT8_INVALID ) {
-    rv[ "device_index" ] = rzfit_swift_device_index_to_string(x.device_index)
+    rv[ "device_index" ] = rzfit_swift_string_from_device_index(x.device_index)
   }
   return rv
 }
-func rzfit_swift_record_date_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_record( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_RECORD_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9253,7 +9253,7 @@ func rzfit_swift_record_date_dict( ptr : UnsafePointer<FIT_RECORD_MESG>) -> [Str
   }
   return rv
 }
-func rzfit_swift_event_value_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_event( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_EVENT_MESG = ptr.pointee
   if x.data16 != FIT_UINT16_INVALID  {
@@ -9294,28 +9294,28 @@ func rzfit_swift_event_value_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [Stri
   }
   return rv
 }
-func rzfit_swift_event_string_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_event( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_EVENT_MESG = ptr.pointee
   if( x.data != FIT_UINT32_INVALID ) {
       if x.event == 0 { // timer
-        rv[ "timer_trigger" ] = rzfit_swift_timer_trigger_to_string(FIT_ENUM(x.data))
+        rv[ "timer_trigger" ] = rzfit_swift_string_from_timer_trigger(FIT_ENUM(x.data))
       }else if x.event == 27 { // fitness_equipment
-        rv[ "fitness_equipment_state" ] = rzfit_swift_fitness_equipment_state_to_string(FIT_ENUM(x.data))
+        rv[ "fitness_equipment_state" ] = rzfit_swift_string_from_fitness_equipment_state(FIT_ENUM(x.data))
     }
   }
   if( x.event != FIT_ENUM_INVALID ) {
-    rv[ "event" ] = rzfit_swift_event_to_string(x.event)
+    rv[ "event" ] = rzfit_swift_string_from_event(x.event)
   }
   if( x.event_type != FIT_ENUM_INVALID ) {
-    rv[ "event_type" ] = rzfit_swift_event_type_to_string(x.event_type)
+    rv[ "event_type" ] = rzfit_swift_string_from_event_type(x.event_type)
   }
   if( x.radar_threat_level_max != FIT_ENUM_INVALID ) {
-    rv[ "radar_threat_level_max" ] = rzfit_swift_radar_threat_level_type_to_string(x.radar_threat_level_max)
+    rv[ "radar_threat_level_max" ] = rzfit_swift_string_from_radar_threat_level_type(x.radar_threat_level_max)
   }
   return rv
 }
-func rzfit_swift_event_date_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_event( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_EVENT_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9324,7 +9324,7 @@ func rzfit_swift_event_date_dict( ptr : UnsafePointer<FIT_EVENT_MESG>) -> [Strin
   }
   return rv
 }
-func rzfit_swift_device_info_value_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_device_info( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_DEVICE_INFO_MESG = ptr.pointee
   if x.serial_number != FIT_UINT32Z_INVALID  {
@@ -9357,7 +9357,7 @@ func rzfit_swift_device_info_value_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MES
   }
   return rv
 }
-func rzfit_swift_device_info_string_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_device_info( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_DEVICE_INFO_MESG = ptr.pointee
   let product_name = withUnsafeBytes(of: &x.product_name) { (rawPtr) -> String in
@@ -9368,34 +9368,34 @@ func rzfit_swift_device_info_string_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_ME
     rv[ "product_name" ] = product_name
   }
   if( x.manufacturer != FIT_UINT16_INVALID ) {
-    rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
+    rv[ "manufacturer" ] = rzfit_swift_string_from_manufacturer(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
     }
   }
   if( x.device_index != FIT_UINT8_INVALID ) {
-    rv[ "device_index" ] = rzfit_swift_device_index_to_string(x.device_index)
+    rv[ "device_index" ] = rzfit_swift_string_from_device_index(x.device_index)
   }
   if( x.device_type != FIT_UINT8_INVALID ) {
       if x.source_type == 1 { // antplus
-        rv[ "antplus_device_type" ] = rzfit_swift_antplus_device_type_to_string(FIT_UINT8(x.device_type))
+        rv[ "antplus_device_type" ] = rzfit_swift_string_from_antplus_device_type(FIT_UINT8(x.device_type))
     }
   }
   if( x.battery_status != FIT_UINT8_INVALID ) {
-    rv[ "battery_status" ] = rzfit_swift_battery_status_to_string(x.battery_status)
+    rv[ "battery_status" ] = rzfit_swift_string_from_battery_status(x.battery_status)
   }
   if( x.sensor_position != FIT_ENUM_INVALID ) {
-    rv[ "sensor_position" ] = rzfit_swift_body_location_to_string(x.sensor_position)
+    rv[ "sensor_position" ] = rzfit_swift_string_from_body_location(x.sensor_position)
   }
   let descriptor = withUnsafeBytes(of: &x.descriptor) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
@@ -9405,14 +9405,14 @@ func rzfit_swift_device_info_string_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_ME
     rv[ "descriptor" ] = descriptor
   }
   if( x.ant_network != FIT_ENUM_INVALID ) {
-    rv[ "ant_network" ] = rzfit_swift_ant_network_to_string(x.ant_network)
+    rv[ "ant_network" ] = rzfit_swift_string_from_ant_network(x.ant_network)
   }
   if( x.source_type != FIT_ENUM_INVALID ) {
-    rv[ "source_type" ] = rzfit_swift_source_type_to_string(x.source_type)
+    rv[ "source_type" ] = rzfit_swift_string_from_source_type(x.source_type)
   }
   return rv
 }
-func rzfit_swift_device_info_date_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_device_info( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_DEVICE_INFO_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9421,7 +9421,7 @@ func rzfit_swift_device_info_date_dict( ptr : UnsafePointer<FIT_DEVICE_INFO_MESG
   }
   return rv
 }
-func rzfit_swift_training_file_value_dict( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_training_file( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_TRAINING_FILE_MESG = ptr.pointee
   if x.serial_number != FIT_UINT32Z_INVALID  {
@@ -9430,31 +9430,31 @@ func rzfit_swift_training_file_value_dict( ptr : UnsafePointer<FIT_TRAINING_FILE
   }
   return rv
 }
-func rzfit_swift_training_file_string_dict( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_training_file( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_TRAINING_FILE_MESG = ptr.pointee
   if( x.manufacturer != FIT_UINT16_INVALID ) {
-    rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
+    rv[ "manufacturer" ] = rzfit_swift_string_from_manufacturer(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
     }
   }
   if( x.type != FIT_ENUM_INVALID ) {
-    rv[ "type" ] = rzfit_swift_file_to_string(x.type)
+    rv[ "type" ] = rzfit_swift_string_from_file(x.type)
   }
   return rv
 }
-func rzfit_swift_training_file_date_dict( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_training_file( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_TRAINING_FILE_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9467,7 +9467,7 @@ func rzfit_swift_training_file_date_dict( ptr : UnsafePointer<FIT_TRAINING_FILE_
   }
   return rv
 }
-func rzfit_swift_hrv_value_dict( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_HRV_MESG = ptr.pointee
   if x.time != FIT_UINT16_INVALID  {
@@ -9477,13 +9477,13 @@ func rzfit_swift_hrv_value_dict( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:D
   }
   return rv
 }
-func rzfit_swift_hrv_string_dict( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_hrv_date_dict( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_weather_conditions_value_dict( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_weather_conditions( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_WEATHER_CONDITIONS_MESG = ptr.pointee
   if x.observed_location_lat != FIT_SINT32_INVALID  {
@@ -9528,7 +9528,7 @@ func rzfit_swift_weather_conditions_value_dict( ptr : UnsafePointer<FIT_WEATHER_
   }
   return rv
 }
-func rzfit_swift_weather_conditions_string_dict( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_weather_conditions( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_WEATHER_CONDITIONS_MESG = ptr.pointee
   let location = withUnsafeBytes(of: &x.location) { (rawPtr) -> String in
@@ -9539,17 +9539,17 @@ func rzfit_swift_weather_conditions_string_dict( ptr : UnsafePointer<FIT_WEATHER
     rv[ "location" ] = location
   }
   if( x.weather_report != FIT_ENUM_INVALID ) {
-    rv[ "weather_report" ] = rzfit_swift_weather_report_to_string(x.weather_report)
+    rv[ "weather_report" ] = rzfit_swift_string_from_weather_report(x.weather_report)
   }
   if( x.condition != FIT_ENUM_INVALID ) {
-    rv[ "condition" ] = rzfit_swift_weather_status_to_string(x.condition)
+    rv[ "condition" ] = rzfit_swift_string_from_weather_status(x.condition)
   }
   if( x.day_of_week != FIT_ENUM_INVALID ) {
-    rv[ "day_of_week" ] = rzfit_swift_day_of_week_to_string(x.day_of_week)
+    rv[ "day_of_week" ] = rzfit_swift_string_from_day_of_week(x.day_of_week)
   }
   return rv
 }
-func rzfit_swift_weather_conditions_date_dict( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_weather_conditions( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_WEATHER_CONDITIONS_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9562,10 +9562,10 @@ func rzfit_swift_weather_conditions_date_dict( ptr : UnsafePointer<FIT_WEATHER_C
   }
   return rv
 }
-func rzfit_swift_weather_alert_value_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_weather_alert( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:Double] {
   return [:]
 }
-func rzfit_swift_weather_alert_string_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_weather_alert( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_WEATHER_ALERT_MESG = ptr.pointee
   let report_id = withUnsafeBytes(of: &x.report_id) { (rawPtr) -> String in
@@ -9576,14 +9576,14 @@ func rzfit_swift_weather_alert_string_dict( ptr : UnsafePointer<FIT_WEATHER_ALER
     rv[ "report_id" ] = report_id
   }
   if( x.severity != FIT_ENUM_INVALID ) {
-    rv[ "severity" ] = rzfit_swift_weather_severity_to_string(x.severity)
+    rv[ "severity" ] = rzfit_swift_string_from_weather_severity(x.severity)
   }
   if( x.type != FIT_ENUM_INVALID ) {
-    rv[ "type" ] = rzfit_swift_weather_severe_type_to_string(x.type)
+    rv[ "type" ] = rzfit_swift_string_from_weather_severe_type(x.type)
   }
   return rv
 }
-func rzfit_swift_weather_alert_date_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_weather_alert( ptr : UnsafePointer<FIT_WEATHER_ALERT_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_WEATHER_ALERT_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9600,7 +9600,7 @@ func rzfit_swift_weather_alert_date_dict( ptr : UnsafePointer<FIT_WEATHER_ALERT_
   }
   return rv
 }
-func rzfit_swift_nmea_sentence_value_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_nmea_sentence( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_NMEA_SENTENCE_MESG = ptr.pointee
   if x.timestamp_ms != FIT_UINT16_INVALID  {
@@ -9609,7 +9609,7 @@ func rzfit_swift_nmea_sentence_value_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE
   }
   return rv
 }
-func rzfit_swift_nmea_sentence_string_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_nmea_sentence( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_NMEA_SENTENCE_MESG = ptr.pointee
   let sentence = withUnsafeBytes(of: &x.sentence) { (rawPtr) -> String in
@@ -9621,7 +9621,7 @@ func rzfit_swift_nmea_sentence_string_dict( ptr : UnsafePointer<FIT_NMEA_SENTENC
   }
   return rv
 }
-func rzfit_swift_nmea_sentence_date_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_nmea_sentence( ptr : UnsafePointer<FIT_NMEA_SENTENCE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_NMEA_SENTENCE_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9630,7 +9630,7 @@ func rzfit_swift_nmea_sentence_date_dict( ptr : UnsafePointer<FIT_NMEA_SENTENCE_
   }
   return rv
 }
-func rzfit_swift_aviation_attitude_value_dict( ptr : UnsafePointer<FIT_AVIATION_ATTITUDE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_aviation_attitude( ptr : UnsafePointer<FIT_AVIATION_ATTITUDE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_AVIATION_ATTITUDE_MESG = ptr.pointee
   if x.system_time != FIT_UINT32_INVALID  {
@@ -9679,10 +9679,10 @@ func rzfit_swift_aviation_attitude_value_dict( ptr : UnsafePointer<FIT_AVIATION_
   }
   return rv
 }
-func rzfit_swift_aviation_attitude_string_dict( ptr : UnsafePointer<FIT_AVIATION_ATTITUDE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_aviation_attitude( ptr : UnsafePointer<FIT_AVIATION_ATTITUDE_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_aviation_attitude_date_dict( ptr : UnsafePointer<FIT_AVIATION_ATTITUDE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_aviation_attitude( ptr : UnsafePointer<FIT_AVIATION_ATTITUDE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_AVIATION_ATTITUDE_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9691,7 +9691,7 @@ func rzfit_swift_aviation_attitude_date_dict( ptr : UnsafePointer<FIT_AVIATION_A
   }
   return rv
 }
-func rzfit_swift_video_title_value_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_video_title( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_VIDEO_TITLE_MESG = ptr.pointee
   if x.message_count != FIT_UINT16_INVALID  {
@@ -9700,7 +9700,7 @@ func rzfit_swift_video_title_value_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_MES
   }
   return rv
 }
-func rzfit_swift_video_title_string_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_video_title( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_VIDEO_TITLE_MESG = ptr.pointee
   let text = withUnsafeBytes(of: &x.text) { (rawPtr) -> String in
@@ -9711,14 +9711,14 @@ func rzfit_swift_video_title_string_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_ME
     rv[ "text" ] = text
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_video_title_date_dict( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_video_title( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_video_description_value_dict( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_video_description( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_VIDEO_DESCRIPTION_MESG = ptr.pointee
   if x.message_count != FIT_UINT16_INVALID  {
@@ -9727,11 +9727,11 @@ func rzfit_swift_video_description_value_dict( ptr : UnsafePointer<FIT_VIDEO_DES
   }
   return rv
 }
-func rzfit_swift_video_description_string_dict( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_video_description( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_VIDEO_DESCRIPTION_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   let text = withUnsafeBytes(of: &x.text) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
@@ -9742,27 +9742,27 @@ func rzfit_swift_video_description_string_dict( ptr : UnsafePointer<FIT_VIDEO_DE
   }
   return rv
 }
-func rzfit_swift_video_description_date_dict( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_video_description( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_set_value_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_set( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Double] {
   return [:]
 }
-func rzfit_swift_set_string_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_set( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_SET_MESG = ptr.pointee
   if( x.weight_display_unit != FIT_UINT16_INVALID ) {
-    rv[ "weight_display_unit" ] = rzfit_swift_fit_base_unit_to_string(x.weight_display_unit)
+    rv[ "weight_display_unit" ] = rzfit_swift_string_from_fit_base_unit(x.weight_display_unit)
   }
   return rv
 }
-func rzfit_swift_set_date_dict( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_set( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_course_value_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_course( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:Double] {
   return [:]
 }
-func rzfit_swift_course_string_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_course( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_COURSE_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -9773,20 +9773,20 @@ func rzfit_swift_course_string_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [S
     rv[ "name" ] = name
   }
   if( x.capabilities != FIT_UINT32Z_INVALID ) {
-    rv[ "capabilities" ] = rzfit_swift_course_capabilities_to_string(x.capabilities)
+    rv[ "capabilities" ] = rzfit_swift_string_from_course_capabilities(x.capabilities)
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.sub_sport != FIT_ENUM_INVALID ) {
-    rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
+    rv[ "sub_sport" ] = rzfit_swift_string_from_sub_sport(x.sub_sport)
   }
   return rv
 }
-func rzfit_swift_course_date_dict( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_course( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_course_point_value_dict( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_course_point( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_COURSE_POINT_MESG = ptr.pointee
   if x.position_lat != FIT_SINT32_INVALID  {
@@ -9807,7 +9807,7 @@ func rzfit_swift_course_point_value_dict( ptr : UnsafePointer<FIT_COURSE_POINT_M
   }
   return rv
 }
-func rzfit_swift_course_point_string_dict( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_course_point( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_COURSE_POINT_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -9818,14 +9818,14 @@ func rzfit_swift_course_point_string_dict( ptr : UnsafePointer<FIT_COURSE_POINT_
     rv[ "name" ] = name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.type != FIT_ENUM_INVALID ) {
-    rv[ "type" ] = rzfit_swift_course_point_to_string(x.type)
+    rv[ "type" ] = rzfit_swift_string_from_course_point(x.type)
   }
   return rv
 }
-func rzfit_swift_course_point_date_dict( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_course_point( ptr : UnsafePointer<FIT_COURSE_POINT_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_COURSE_POINT_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -9834,7 +9834,7 @@ func rzfit_swift_course_point_date_dict( ptr : UnsafePointer<FIT_COURSE_POINT_ME
   }
   return rv
 }
-func rzfit_swift_segment_id_value_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_segment_id( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SEGMENT_ID_MESG = ptr.pointee
   if x.user_profile_primary_key != FIT_UINT32_INVALID  {
@@ -9855,7 +9855,7 @@ func rzfit_swift_segment_id_value_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>
   }
   return rv
 }
-func rzfit_swift_segment_id_string_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_segment_id( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SEGMENT_ID_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -9873,20 +9873,20 @@ func rzfit_swift_segment_id_string_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG
     rv[ "uuid" ] = uuid
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.delete_status != FIT_ENUM_INVALID ) {
-    rv[ "delete_status" ] = rzfit_swift_segment_delete_status_to_string(x.delete_status)
+    rv[ "delete_status" ] = rzfit_swift_string_from_segment_delete_status(x.delete_status)
   }
   if( x.selection_type != FIT_ENUM_INVALID ) {
-    rv[ "selection_type" ] = rzfit_swift_segment_selection_type_to_string(x.selection_type)
+    rv[ "selection_type" ] = rzfit_swift_string_from_segment_selection_type(x.selection_type)
   }
   return rv
 }
-func rzfit_swift_segment_id_date_dict( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_segment_id( ptr : UnsafePointer<FIT_SEGMENT_ID_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_segment_leaderboard_entry_value_dict( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_segment_leaderboard_entry( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SEGMENT_LEADERBOARD_ENTRY_MESG = ptr.pointee
   if x.group_primary_key != FIT_UINT32_INVALID  {
@@ -9903,11 +9903,11 @@ func rzfit_swift_segment_leaderboard_entry_value_dict( ptr : UnsafePointer<FIT_S
   }
   return rv
 }
-func rzfit_swift_segment_leaderboard_entry_string_dict( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_segment_leaderboard_entry( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SEGMENT_LEADERBOARD_ENTRY_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
@@ -9917,14 +9917,14 @@ func rzfit_swift_segment_leaderboard_entry_string_dict( ptr : UnsafePointer<FIT_
     rv[ "name" ] = name
   }
   if( x.type != FIT_ENUM_INVALID ) {
-    rv[ "type" ] = rzfit_swift_segment_leaderboard_type_to_string(x.type)
+    rv[ "type" ] = rzfit_swift_string_from_segment_leaderboard_type(x.type)
   }
   return rv
 }
-func rzfit_swift_segment_leaderboard_entry_date_dict( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_segment_leaderboard_entry( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_segment_point_value_dict( ptr : UnsafePointer<FIT_SEGMENT_POINT_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_segment_point( ptr : UnsafePointer<FIT_SEGMENT_POINT_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SEGMENT_POINT_MESG = ptr.pointee
   if x.position_lat != FIT_SINT32_INVALID  {
@@ -9950,18 +9950,18 @@ func rzfit_swift_segment_point_value_dict( ptr : UnsafePointer<FIT_SEGMENT_POINT
   }
   return rv
 }
-func rzfit_swift_segment_point_string_dict( ptr : UnsafePointer<FIT_SEGMENT_POINT_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_segment_point( ptr : UnsafePointer<FIT_SEGMENT_POINT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_SEGMENT_POINT_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   return rv
 }
-func rzfit_swift_segment_point_date_dict( ptr : UnsafePointer<FIT_SEGMENT_POINT_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_segment_point( ptr : UnsafePointer<FIT_SEGMENT_POINT_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_segment_lap_value_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_segment_lap( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SEGMENT_LAP_MESG = ptr.pointee
   if x.start_position_lat != FIT_SINT32_INVALID  {
@@ -10215,7 +10215,7 @@ func rzfit_swift_segment_lap_value_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MES
   }
   return rv
 }
-func rzfit_swift_segment_lap_string_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_segment_lap( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SEGMENT_LAP_MESG = ptr.pointee
   let name = withUnsafeBytes(of: &x.name) { (rawPtr) -> String in
@@ -10226,31 +10226,31 @@ func rzfit_swift_segment_lap_string_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_ME
     rv[ "name" ] = name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.left_right_balance != FIT_UINT16_INVALID ) {
-    rv[ "left_right_balance" ] = rzfit_swift_left_right_balance_100_to_string(x.left_right_balance)
+    rv[ "left_right_balance" ] = rzfit_swift_string_from_left_right_balance_100(x.left_right_balance)
   }
   if( x.wkt_step_index != FIT_UINT16_INVALID ) {
-    rv[ "wkt_step_index" ] = rzfit_swift_message_index_to_string(x.wkt_step_index)
+    rv[ "wkt_step_index" ] = rzfit_swift_string_from_message_index(x.wkt_step_index)
   }
   if( x.event != FIT_ENUM_INVALID ) {
-    rv[ "event" ] = rzfit_swift_event_to_string(x.event)
+    rv[ "event" ] = rzfit_swift_string_from_event(x.event)
   }
   if( x.event_type != FIT_ENUM_INVALID ) {
-    rv[ "event_type" ] = rzfit_swift_event_type_to_string(x.event_type)
+    rv[ "event_type" ] = rzfit_swift_string_from_event_type(x.event_type)
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.sub_sport != FIT_ENUM_INVALID ) {
-    rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
+    rv[ "sub_sport" ] = rzfit_swift_string_from_sub_sport(x.sub_sport)
   }
   if( x.sport_event != FIT_ENUM_INVALID ) {
-    rv[ "sport_event" ] = rzfit_swift_sport_event_to_string(x.sport_event)
+    rv[ "sport_event" ] = rzfit_swift_string_from_sport_event(x.sport_event)
   }
   if( x.status != FIT_ENUM_INVALID ) {
-    rv[ "status" ] = rzfit_swift_segment_lap_status_to_string(x.status)
+    rv[ "status" ] = rzfit_swift_string_from_segment_lap_status(x.status)
   }
   let uuid = withUnsafeBytes(of: &x.uuid) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
@@ -10261,7 +10261,7 @@ func rzfit_swift_segment_lap_string_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_ME
   }
   return rv
 }
-func rzfit_swift_segment_lap_date_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_segment_lap( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_SEGMENT_LAP_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -10274,7 +10274,7 @@ func rzfit_swift_segment_lap_date_dict( ptr : UnsafePointer<FIT_SEGMENT_LAP_MESG
   }
   return rv
 }
-func rzfit_swift_segment_file_value_dict( ptr : UnsafePointer<FIT_SEGMENT_FILE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_segment_file( ptr : UnsafePointer<FIT_SEGMENT_FILE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SEGMENT_FILE_MESG = ptr.pointee
   if x.user_profile_primary_key != FIT_UINT32_INVALID  {
@@ -10297,11 +10297,11 @@ func rzfit_swift_segment_file_value_dict( ptr : UnsafePointer<FIT_SEGMENT_FILE_M
   }
   return rv
 }
-func rzfit_swift_segment_file_string_dict( ptr : UnsafePointer<FIT_SEGMENT_FILE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_segment_file( ptr : UnsafePointer<FIT_SEGMENT_FILE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_SEGMENT_FILE_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   let file_uuid = withUnsafeBytes(of: &x.file_uuid) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
@@ -10312,10 +10312,10 @@ func rzfit_swift_segment_file_string_dict( ptr : UnsafePointer<FIT_SEGMENT_FILE_
   }
   return rv
 }
-func rzfit_swift_segment_file_date_dict( ptr : UnsafePointer<FIT_SEGMENT_FILE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_segment_file( ptr : UnsafePointer<FIT_SEGMENT_FILE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_workout_value_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_workout( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_WORKOUT_MESG = ptr.pointee
   if x.num_valid_steps != FIT_UINT16_INVALID  {
@@ -10328,11 +10328,11 @@ func rzfit_swift_workout_value_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [
   }
   return rv
 }
-func rzfit_swift_workout_string_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_workout( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_WORKOUT_MESG = ptr.pointee
   if( x.capabilities != FIT_UINT32Z_INVALID ) {
-    rv[ "capabilities" ] = rzfit_swift_workout_capabilities_to_string(x.capabilities)
+    rv[ "capabilities" ] = rzfit_swift_string_from_workout_capabilities(x.capabilities)
   }
   let wkt_name = withUnsafeBytes(of: &x.wkt_name) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
@@ -10342,20 +10342,20 @@ func rzfit_swift_workout_string_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> 
     rv[ "wkt_name" ] = wkt_name
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.sub_sport != FIT_ENUM_INVALID ) {
-    rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
+    rv[ "sub_sport" ] = rzfit_swift_string_from_sub_sport(x.sub_sport)
   }
   if( x.pool_length_unit != FIT_ENUM_INVALID ) {
-    rv[ "pool_length_unit" ] = rzfit_swift_display_measure_to_string(x.pool_length_unit)
+    rv[ "pool_length_unit" ] = rzfit_swift_string_from_display_measure(x.pool_length_unit)
   }
   return rv
 }
-func rzfit_swift_workout_date_dict( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_workout( ptr : UnsafePointer<FIT_WORKOUT_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_workout_session_value_dict( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_workout_session( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_WORKOUT_SESSION_MESG = ptr.pointee
   if x.num_valid_steps != FIT_UINT16_INVALID  {
@@ -10372,27 +10372,27 @@ func rzfit_swift_workout_session_value_dict( ptr : UnsafePointer<FIT_WORKOUT_SES
   }
   return rv
 }
-func rzfit_swift_workout_session_string_dict( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_workout_session( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_WORKOUT_SESSION_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   if( x.sub_sport != FIT_ENUM_INVALID ) {
-    rv[ "sub_sport" ] = rzfit_swift_sub_sport_to_string(x.sub_sport)
+    rv[ "sub_sport" ] = rzfit_swift_string_from_sub_sport(x.sub_sport)
   }
   if( x.pool_length_unit != FIT_ENUM_INVALID ) {
-    rv[ "pool_length_unit" ] = rzfit_swift_display_measure_to_string(x.pool_length_unit)
+    rv[ "pool_length_unit" ] = rzfit_swift_string_from_display_measure(x.pool_length_unit)
   }
   return rv
 }
-func rzfit_swift_workout_session_date_dict( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_workout_session( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_workout_step_value_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_WORKOUT_STEP_MESG = ptr.pointee
   if x.duration_value != FIT_UINT32_INVALID  {
@@ -10535,7 +10535,7 @@ func rzfit_swift_workout_step_value_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_M
   }
   return rv
 }
-func rzfit_swift_workout_step_string_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_workout_step( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_WORKOUT_STEP_MESG = ptr.pointee
   let wkt_step_name = withUnsafeBytes(of: &x.wkt_step_name) { (rawPtr) -> String in
@@ -10546,7 +10546,7 @@ func rzfit_swift_workout_step_string_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_
     rv[ "wkt_step_name" ] = wkt_step_name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   let notes = withUnsafeBytes(of: &x.notes) { (rawPtr) -> String in
     let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
@@ -10556,26 +10556,26 @@ func rzfit_swift_workout_step_string_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_
     rv[ "notes" ] = notes
   }
   if( x.exercise_category != FIT_UINT16_INVALID ) {
-    rv[ "exercise_category" ] = rzfit_swift_exercise_category_to_string(x.exercise_category)
+    rv[ "exercise_category" ] = rzfit_swift_string_from_exercise_category(x.exercise_category)
   }
   if( x.duration_type != FIT_ENUM_INVALID ) {
-    rv[ "duration_type" ] = rzfit_swift_wkt_step_duration_to_string(x.duration_type)
+    rv[ "duration_type" ] = rzfit_swift_string_from_wkt_step_duration(x.duration_type)
   }
   if( x.target_type != FIT_ENUM_INVALID ) {
-    rv[ "target_type" ] = rzfit_swift_wkt_step_target_to_string(x.target_type)
+    rv[ "target_type" ] = rzfit_swift_string_from_wkt_step_target(x.target_type)
   }
   if( x.intensity != FIT_ENUM_INVALID ) {
-    rv[ "intensity" ] = rzfit_swift_intensity_to_string(x.intensity)
+    rv[ "intensity" ] = rzfit_swift_string_from_intensity(x.intensity)
   }
   if( x.equipment != FIT_ENUM_INVALID ) {
-    rv[ "equipment" ] = rzfit_swift_workout_equipment_to_string(x.equipment)
+    rv[ "equipment" ] = rzfit_swift_string_from_workout_equipment(x.equipment)
   }
   return rv
 }
-func rzfit_swift_workout_step_date_dict( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_workout_step( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_exercise_title_value_dict( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_exercise_title( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_EXERCISE_TITLE_MESG = ptr.pointee
   if x.exercise_name != FIT_UINT16_INVALID  {
@@ -10584,7 +10584,7 @@ func rzfit_swift_exercise_title_value_dict( ptr : UnsafePointer<FIT_EXERCISE_TIT
   }
   return rv
 }
-func rzfit_swift_exercise_title_string_dict( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_exercise_title( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_EXERCISE_TITLE_MESG = ptr.pointee
   let wkt_step_name = withUnsafeBytes(of: &x.wkt_step_name) { (rawPtr) -> String in
@@ -10595,17 +10595,17 @@ func rzfit_swift_exercise_title_string_dict( ptr : UnsafePointer<FIT_EXERCISE_TI
     rv[ "wkt_step_name" ] = wkt_step_name
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.exercise_category != FIT_UINT16_INVALID ) {
-    rv[ "exercise_category" ] = rzfit_swift_exercise_category_to_string(x.exercise_category)
+    rv[ "exercise_category" ] = rzfit_swift_string_from_exercise_category(x.exercise_category)
   }
   return rv
 }
-func rzfit_swift_exercise_title_date_dict( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_exercise_title( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_schedule_value_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_schedule( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SCHEDULE_MESG = ptr.pointee
   if x.serial_number != FIT_UINT32Z_INVALID  {
@@ -10618,31 +10618,31 @@ func rzfit_swift_schedule_value_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) ->
   }
   return rv
 }
-func rzfit_swift_schedule_string_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_schedule( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_SCHEDULE_MESG = ptr.pointee
   if( x.manufacturer != FIT_UINT16_INVALID ) {
-    rv[ "manufacturer" ] = rzfit_swift_manufacturer_to_string(x.manufacturer)
+    rv[ "manufacturer" ] = rzfit_swift_string_from_manufacturer(x.manufacturer)
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_favero_product_to_string(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_garmin_product_to_string(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
     }
   }
   if( x.type != FIT_ENUM_INVALID ) {
-    rv[ "type" ] = rzfit_swift_schedule_to_string(x.type)
+    rv[ "type" ] = rzfit_swift_string_from_schedule(x.type)
   }
   return rv
 }
-func rzfit_swift_schedule_date_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_schedule( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_SCHEDULE_MESG = ptr.pointee
   if x.time_created != FIT_UINT32_INVALID  {
@@ -10655,7 +10655,7 @@ func rzfit_swift_schedule_date_dict( ptr : UnsafePointer<FIT_SCHEDULE_MESG>) -> 
   }
   return rv
 }
-func rzfit_swift_totals_value_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_totals( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_TOTALS_MESG = ptr.pointee
   if x.timer_time != FIT_UINT32_INVALID  {
@@ -10684,18 +10684,18 @@ func rzfit_swift_totals_value_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [St
   }
   return rv
 }
-func rzfit_swift_totals_string_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_totals( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_TOTALS_MESG = ptr.pointee
   if( x.message_index != FIT_UINT16_INVALID ) {
-    rv[ "message_index" ] = rzfit_swift_message_index_to_string(x.message_index)
+    rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)
   }
   if( x.sport != FIT_ENUM_INVALID ) {
-    rv[ "sport" ] = rzfit_swift_sport_to_string(x.sport)
+    rv[ "sport" ] = rzfit_swift_string_from_sport(x.sport)
   }
   return rv
 }
-func rzfit_swift_totals_date_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_totals( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_TOTALS_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -10704,7 +10704,7 @@ func rzfit_swift_totals_date_dict( ptr : UnsafePointer<FIT_TOTALS_MESG>) -> [Str
   }
   return rv
 }
-func rzfit_swift_weight_scale_value_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_weight_scale( ptr : UnsafePointer<FIT_WEIGHT_SCALE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_WEIGHT_SCALE_MESG = ptr.pointee
   if x.percent_fat != FIT_UINT16_INVALID  {
@@ -10749,18 +10749,18 @@ func rzfit_swift_weight_scale_value_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_M
   }
   return rv
 }
-func rzfit_swift_weight_scale_string_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_weight_scale( ptr : UnsafePointer<FIT_WEIGHT_SCALE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_WEIGHT_SCALE_MESG = ptr.pointee
   if( x.weight != FIT_UINT16_INVALID ) {
-    rv[ "weight" ] = rzfit_swift_weight_to_string(x.weight)
+    rv[ "weight" ] = rzfit_swift_string_from_weight(x.weight)
   }
   if( x.user_profile_index != FIT_UINT16_INVALID ) {
-    rv[ "user_profile_index" ] = rzfit_swift_message_index_to_string(x.user_profile_index)
+    rv[ "user_profile_index" ] = rzfit_swift_string_from_message_index(x.user_profile_index)
   }
   return rv
 }
-func rzfit_swift_weight_scale_date_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_weight_scale( ptr : UnsafePointer<FIT_WEIGHT_SCALE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_WEIGHT_SCALE_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -10769,7 +10769,7 @@ func rzfit_swift_weight_scale_date_dict( ptr : UnsafePointer<FIT_WEIGHT_SCALE_ME
   }
   return rv
 }
-func rzfit_swift_blood_pressure_value_dict( ptr : UnsafePointer<FIT_BLOOD_PRESSURE_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_blood_pressure( ptr : UnsafePointer<FIT_BLOOD_PRESSURE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_BLOOD_PRESSURE_MESG = ptr.pointee
   if x.systolic_pressure != FIT_UINT16_INVALID  {
@@ -10802,21 +10802,21 @@ func rzfit_swift_blood_pressure_value_dict( ptr : UnsafePointer<FIT_BLOOD_PRESSU
   }
   return rv
 }
-func rzfit_swift_blood_pressure_string_dict( ptr : UnsafePointer<FIT_BLOOD_PRESSURE_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_blood_pressure( ptr : UnsafePointer<FIT_BLOOD_PRESSURE_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_BLOOD_PRESSURE_MESG = ptr.pointee
   if( x.user_profile_index != FIT_UINT16_INVALID ) {
-    rv[ "user_profile_index" ] = rzfit_swift_message_index_to_string(x.user_profile_index)
+    rv[ "user_profile_index" ] = rzfit_swift_string_from_message_index(x.user_profile_index)
   }
   if( x.heart_rate_type != FIT_ENUM_INVALID ) {
-    rv[ "heart_rate_type" ] = rzfit_swift_hr_type_to_string(x.heart_rate_type)
+    rv[ "heart_rate_type" ] = rzfit_swift_string_from_hr_type(x.heart_rate_type)
   }
   if( x.status != FIT_ENUM_INVALID ) {
-    rv[ "status" ] = rzfit_swift_bp_status_to_string(x.status)
+    rv[ "status" ] = rzfit_swift_string_from_bp_status(x.status)
   }
   return rv
 }
-func rzfit_swift_blood_pressure_date_dict( ptr : UnsafePointer<FIT_BLOOD_PRESSURE_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_blood_pressure( ptr : UnsafePointer<FIT_BLOOD_PRESSURE_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_BLOOD_PRESSURE_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -10825,13 +10825,13 @@ func rzfit_swift_blood_pressure_date_dict( ptr : UnsafePointer<FIT_BLOOD_PRESSUR
   }
   return rv
 }
-func rzfit_swift_monitoring_info_value_dict( ptr : UnsafePointer<FIT_MONITORING_INFO_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_monitoring_info( ptr : UnsafePointer<FIT_MONITORING_INFO_MESG>) -> [String:Double] {
   return [:]
 }
-func rzfit_swift_monitoring_info_string_dict( ptr : UnsafePointer<FIT_MONITORING_INFO_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_monitoring_info( ptr : UnsafePointer<FIT_MONITORING_INFO_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_monitoring_info_date_dict( ptr : UnsafePointer<FIT_MONITORING_INFO_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_monitoring_info( ptr : UnsafePointer<FIT_MONITORING_INFO_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_MONITORING_INFO_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -10844,7 +10844,7 @@ func rzfit_swift_monitoring_info_date_dict( ptr : UnsafePointer<FIT_MONITORING_I
   }
   return rv
 }
-func rzfit_swift_monitoring_value_dict( ptr : UnsafePointer<FIT_MONITORING_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_monitoring( ptr : UnsafePointer<FIT_MONITORING_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_MONITORING_MESG = ptr.pointee
   if x.distance != FIT_UINT32_INVALID  {
@@ -10891,21 +10891,21 @@ func rzfit_swift_monitoring_value_dict( ptr : UnsafePointer<FIT_MONITORING_MESG>
   }
   return rv
 }
-func rzfit_swift_monitoring_string_dict( ptr : UnsafePointer<FIT_MONITORING_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_monitoring( ptr : UnsafePointer<FIT_MONITORING_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_MONITORING_MESG = ptr.pointee
   if( x.device_index != FIT_UINT8_INVALID ) {
-    rv[ "device_index" ] = rzfit_swift_device_index_to_string(x.device_index)
+    rv[ "device_index" ] = rzfit_swift_string_from_device_index(x.device_index)
   }
   if( x.activity_type != FIT_ENUM_INVALID ) {
-    rv[ "activity_type" ] = rzfit_swift_activity_type_to_string(x.activity_type)
+    rv[ "activity_type" ] = rzfit_swift_string_from_activity_type(x.activity_type)
   }
   if( x.activity_subtype != FIT_ENUM_INVALID ) {
-    rv[ "activity_subtype" ] = rzfit_swift_activity_subtype_to_string(x.activity_subtype)
+    rv[ "activity_subtype" ] = rzfit_swift_string_from_activity_subtype(x.activity_subtype)
   }
   return rv
 }
-func rzfit_swift_monitoring_date_dict( ptr : UnsafePointer<FIT_MONITORING_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_monitoring( ptr : UnsafePointer<FIT_MONITORING_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_MONITORING_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -10918,7 +10918,7 @@ func rzfit_swift_monitoring_date_dict( ptr : UnsafePointer<FIT_MONITORING_MESG>)
   }
   return rv
 }
-func rzfit_swift_hr_value_dict( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_hr( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_HR_MESG = ptr.pointee
   if x.event_timestamp != FIT_UINT32_INVALID  {
@@ -10946,10 +10946,10 @@ func rzfit_swift_hr_value_dict( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:Dou
   }
   return rv
 }
-func rzfit_swift_hr_string_dict( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_hr( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_hr_date_dict( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_hr( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_HR_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -10958,7 +10958,7 @@ func rzfit_swift_hr_date_dict( ptr : UnsafePointer<FIT_HR_MESG>) -> [String:Date
   }
   return rv
 }
-func rzfit_swift_ant_rx_value_dict( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_ant_rx( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_ANT_RX_MESG = ptr.pointee
   if x.data.0 != FIT_BYTE_INVALID  {
@@ -10985,10 +10985,10 @@ func rzfit_swift_ant_rx_value_dict( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [St
   }
   return rv
 }
-func rzfit_swift_ant_rx_string_dict( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_ant_rx( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_ant_rx_date_dict( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_ant_rx( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_ANT_RX_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -10997,7 +10997,7 @@ func rzfit_swift_ant_rx_date_dict( ptr : UnsafePointer<FIT_ANT_RX_MESG>) -> [Str
   }
   return rv
 }
-func rzfit_swift_ant_tx_value_dict( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_ant_tx( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_ANT_TX_MESG = ptr.pointee
   if x.data.0 != FIT_BYTE_INVALID  {
@@ -11024,10 +11024,10 @@ func rzfit_swift_ant_tx_value_dict( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [St
   }
   return rv
 }
-func rzfit_swift_ant_tx_string_dict( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_ant_tx( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [String:String] {
   return [:]
 }
-func rzfit_swift_ant_tx_date_dict( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_ant_tx( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [String:Date] {
   var rv : [String:Date] = [:]
   let x : FIT_ANT_TX_MESG = ptr.pointee
   if x.timestamp != FIT_UINT32_INVALID  {
@@ -11036,7 +11036,7 @@ func rzfit_swift_ant_tx_date_dict( ptr : UnsafePointer<FIT_ANT_TX_MESG>) -> [Str
   }
   return rv
 }
-func rzfit_swift_exd_screen_configuration_value_dict( ptr : UnsafePointer<FIT_EXD_SCREEN_CONFIGURATION_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_exd_screen_configuration( ptr : UnsafePointer<FIT_EXD_SCREEN_CONFIGURATION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_EXD_SCREEN_CONFIGURATION_MESG = ptr.pointee
   if x.screen_index != FIT_UINT8_INVALID  {
@@ -11053,18 +11053,18 @@ func rzfit_swift_exd_screen_configuration_value_dict( ptr : UnsafePointer<FIT_EX
   }
   return rv
 }
-func rzfit_swift_exd_screen_configuration_string_dict( ptr : UnsafePointer<FIT_EXD_SCREEN_CONFIGURATION_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_exd_screen_configuration( ptr : UnsafePointer<FIT_EXD_SCREEN_CONFIGURATION_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_EXD_SCREEN_CONFIGURATION_MESG = ptr.pointee
   if( x.layout != FIT_ENUM_INVALID ) {
-    rv[ "layout" ] = rzfit_swift_exd_layout_to_string(x.layout)
+    rv[ "layout" ] = rzfit_swift_string_from_exd_layout(x.layout)
   }
   return rv
 }
-func rzfit_swift_exd_screen_configuration_date_dict( ptr : UnsafePointer<FIT_EXD_SCREEN_CONFIGURATION_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_exd_screen_configuration( ptr : UnsafePointer<FIT_EXD_SCREEN_CONFIGURATION_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_exd_data_field_configuration_value_dict( ptr : UnsafePointer<FIT_EXD_DATA_FIELD_CONFIGURATION_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_exd_data_field_configuration( ptr : UnsafePointer<FIT_EXD_DATA_FIELD_CONFIGURATION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_EXD_DATA_FIELD_CONFIGURATION_MESG = ptr.pointee
   if x.screen_index != FIT_UINT8_INVALID  {
@@ -11085,7 +11085,7 @@ func rzfit_swift_exd_data_field_configuration_value_dict( ptr : UnsafePointer<FI
   }
   return rv
 }
-func rzfit_swift_exd_data_field_configuration_string_dict( ptr : UnsafePointer<FIT_EXD_DATA_FIELD_CONFIGURATION_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_exd_data_field_configuration( ptr : UnsafePointer<FIT_EXD_DATA_FIELD_CONFIGURATION_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_EXD_DATA_FIELD_CONFIGURATION_MESG = ptr.pointee
   let title = withUnsafeBytes(of: &x.title) { (rawPtr) -> String in
@@ -11096,14 +11096,14 @@ func rzfit_swift_exd_data_field_configuration_string_dict( ptr : UnsafePointer<F
     rv[ "title" ] = title
   }
   if( x.display_type != FIT_ENUM_INVALID ) {
-    rv[ "display_type" ] = rzfit_swift_exd_display_type_to_string(x.display_type)
+    rv[ "display_type" ] = rzfit_swift_string_from_exd_display_type(x.display_type)
   }
   return rv
 }
-func rzfit_swift_exd_data_field_configuration_date_dict( ptr : UnsafePointer<FIT_EXD_DATA_FIELD_CONFIGURATION_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_exd_data_field_configuration( ptr : UnsafePointer<FIT_EXD_DATA_FIELD_CONFIGURATION_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_exd_data_concept_configuration_value_dict( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_exd_data_concept_configuration( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG = ptr.pointee
   if x.screen_index != FIT_UINT8_INVALID  {
@@ -11140,24 +11140,24 @@ func rzfit_swift_exd_data_concept_configuration_value_dict( ptr : UnsafePointer<
   }
   return rv
 }
-func rzfit_swift_exd_data_concept_configuration_string_dict( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_exd_data_concept_configuration( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG = ptr.pointee
   if( x.data_units != FIT_ENUM_INVALID ) {
-    rv[ "data_units" ] = rzfit_swift_exd_data_units_to_string(x.data_units)
+    rv[ "data_units" ] = rzfit_swift_string_from_exd_data_units(x.data_units)
   }
   if( x.qualifier != FIT_ENUM_INVALID ) {
-    rv[ "qualifier" ] = rzfit_swift_exd_qualifiers_to_string(x.qualifier)
+    rv[ "qualifier" ] = rzfit_swift_string_from_exd_qualifiers(x.qualifier)
   }
   if( x.descriptor != FIT_ENUM_INVALID ) {
-    rv[ "descriptor" ] = rzfit_swift_exd_descriptors_to_string(x.descriptor)
+    rv[ "descriptor" ] = rzfit_swift_string_from_exd_descriptors(x.descriptor)
   }
   return rv
 }
-func rzfit_swift_exd_data_concept_configuration_date_dict( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_exd_data_concept_configuration( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_field_description_value_dict( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_field_description( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_FIELD_DESCRIPTION_MESG = ptr.pointee
   if x.developer_data_index != FIT_UINT8_INVALID  {
@@ -11182,7 +11182,7 @@ func rzfit_swift_field_description_value_dict( ptr : UnsafePointer<FIT_FIELD_DES
   }
   return rv
 }
-func rzfit_swift_field_description_string_dict( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_field_description( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   var x : FIT_FIELD_DESCRIPTION_MESG = ptr.pointee
   let field_name = withUnsafeBytes(of: &x.field_name) { (rawPtr) -> String in
@@ -11200,20 +11200,20 @@ func rzfit_swift_field_description_string_dict( ptr : UnsafePointer<FIT_FIELD_DE
     rv[ "units" ] = units
   }
   if( x.fit_base_unit_id != FIT_UINT16_INVALID ) {
-    rv[ "fit_base_unit_id" ] = rzfit_swift_fit_base_unit_to_string(x.fit_base_unit_id)
+    rv[ "fit_base_unit_id" ] = rzfit_swift_string_from_fit_base_unit(x.fit_base_unit_id)
   }
   if( x.native_mesg_num != FIT_UINT16_INVALID ) {
-    rv[ "native_mesg_num" ] = rzfit_swift_mesg_num_to_string(x.native_mesg_num)
+    rv[ "native_mesg_num" ] = rzfit_swift_string_from_mesg_num(x.native_mesg_num)
   }
   if( x.fit_base_type_id != FIT_UINT8_INVALID ) {
-    rv[ "fit_base_type_id" ] = rzfit_swift_fit_base_type_to_string(x.fit_base_type_id)
+    rv[ "fit_base_type_id" ] = rzfit_swift_string_from_fit_base_type(x.fit_base_type_id)
   }
   return rv
 }
-func rzfit_swift_field_description_date_dict( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_field_description( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Date] {
   return [:]
 }
-func rzfit_swift_developer_data_id_value_dict( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Double] {
+func rzfit_swift_value_dict_for_developer_data_id( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_DEVELOPER_DATA_ID_MESG = ptr.pointee
   if x.developer_id.0 != FIT_BYTE_INVALID  {
@@ -11236,15 +11236,15 @@ func rzfit_swift_developer_data_id_value_dict( ptr : UnsafePointer<FIT_DEVELOPER
   }
   return rv
 }
-func rzfit_swift_developer_data_id_string_dict( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:String] {
+func rzfit_swift_string_dict_for_developer_data_id( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:String] {
   var rv : [String:String] = [:]
   let x : FIT_DEVELOPER_DATA_ID_MESG = ptr.pointee
   if( x.manufacturer_id != FIT_UINT16_INVALID ) {
-    rv[ "manufacturer_id" ] = rzfit_swift_manufacturer_to_string(x.manufacturer_id)
+    rv[ "manufacturer_id" ] = rzfit_swift_string_from_manufacturer(x.manufacturer_id)
   }
   return rv
 }
-func rzfit_swift_developer_data_id_date_dict( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Date] {
+func rzfit_swift_date_dict_for_developer_data_id( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Date] {
   return [:]
 }
 func rzfit_swift_build_mesg(mesg_num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>) -> FitMessage? {
@@ -11253,450 +11253,450 @@ func rzfit_swift_build_mesg(mesg_num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>
     case 0: // file_id
       uptr.withMemoryRebound(to: FIT_FILE_ID_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    0,
-                       mesg_values: rzfit_swift_file_id_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_file_id_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_file_id_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_file_id(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_file_id(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_file_id(ptr: $0))
       }
     case 1: // capabilities
       uptr.withMemoryRebound(to: FIT_CAPABILITIES_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    1,
-                       mesg_values: rzfit_swift_capabilities_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_capabilities_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_capabilities_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_capabilities(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_capabilities(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_capabilities(ptr: $0))
       }
     case 2: // device_settings
       uptr.withMemoryRebound(to: FIT_DEVICE_SETTINGS_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    2,
-                       mesg_values: rzfit_swift_device_settings_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_device_settings_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_device_settings_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_device_settings(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_device_settings(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_device_settings(ptr: $0))
       }
     case 3: // user_profile
       uptr.withMemoryRebound(to: FIT_USER_PROFILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    3,
-                       mesg_values: rzfit_swift_user_profile_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_user_profile_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_user_profile_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_user_profile(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_user_profile(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_user_profile(ptr: $0))
       }
     case 4: // hrm_profile
       uptr.withMemoryRebound(to: FIT_HRM_PROFILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    4,
-                       mesg_values: rzfit_swift_hrm_profile_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_hrm_profile_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_hrm_profile_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_hrm_profile(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_hrm_profile(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_hrm_profile(ptr: $0))
       }
     case 5: // sdm_profile
       uptr.withMemoryRebound(to: FIT_SDM_PROFILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    5,
-                       mesg_values: rzfit_swift_sdm_profile_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_sdm_profile_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_sdm_profile_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_sdm_profile(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_sdm_profile(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_sdm_profile(ptr: $0))
       }
     case 6: // bike_profile
       uptr.withMemoryRebound(to: FIT_BIKE_PROFILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    6,
-                       mesg_values: rzfit_swift_bike_profile_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_bike_profile_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_bike_profile_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_bike_profile(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_bike_profile(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_bike_profile(ptr: $0))
       }
     case 7: // zones_target
       uptr.withMemoryRebound(to: FIT_ZONES_TARGET_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    7,
-                       mesg_values: rzfit_swift_zones_target_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_zones_target_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_zones_target_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_zones_target(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_zones_target(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_zones_target(ptr: $0))
       }
     case 8: // hr_zone
       uptr.withMemoryRebound(to: FIT_HR_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    8,
-                       mesg_values: rzfit_swift_hr_zone_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_hr_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_hr_zone_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_hr_zone(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_hr_zone(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_hr_zone(ptr: $0))
       }
     case 9: // power_zone
       uptr.withMemoryRebound(to: FIT_POWER_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    9,
-                       mesg_values: rzfit_swift_power_zone_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_power_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_power_zone_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_power_zone(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_power_zone(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_power_zone(ptr: $0))
       }
     case 10: // met_zone
       uptr.withMemoryRebound(to: FIT_MET_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    10,
-                       mesg_values: rzfit_swift_met_zone_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_met_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_met_zone_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_met_zone(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_met_zone(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_met_zone(ptr: $0))
       }
     case 12: // sport
       uptr.withMemoryRebound(to: FIT_SPORT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    12,
-                       mesg_values: rzfit_swift_sport_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_sport_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_sport_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_sport(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_sport(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_sport(ptr: $0))
       }
     case 15: // goal
       uptr.withMemoryRebound(to: FIT_GOAL_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    15,
-                       mesg_values: rzfit_swift_goal_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_goal_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_goal_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_goal(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_goal(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_goal(ptr: $0))
       }
     case 18: // session
       uptr.withMemoryRebound(to: FIT_SESSION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    18,
-                       mesg_values: rzfit_swift_session_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_session_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_session_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_session(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_session(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_session(ptr: $0))
       }
     case 19: // lap
       uptr.withMemoryRebound(to: FIT_LAP_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    19,
-                       mesg_values: rzfit_swift_lap_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_lap_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_lap_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_lap(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_lap(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_lap(ptr: $0))
       }
     case 20: // record
       uptr.withMemoryRebound(to: FIT_RECORD_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    20,
-                       mesg_values: rzfit_swift_record_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_record_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_record_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_record(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_record(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_record(ptr: $0))
       }
     case 21: // event
       uptr.withMemoryRebound(to: FIT_EVENT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    21,
-                       mesg_values: rzfit_swift_event_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_event_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_event_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_event(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_event(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_event(ptr: $0))
       }
     case 23: // device_info
       uptr.withMemoryRebound(to: FIT_DEVICE_INFO_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    23,
-                       mesg_values: rzfit_swift_device_info_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_device_info_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_device_info_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_device_info(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_device_info(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_device_info(ptr: $0))
       }
     case 26: // workout
       uptr.withMemoryRebound(to: FIT_WORKOUT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    26,
-                       mesg_values: rzfit_swift_workout_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_workout_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_workout_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_workout(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_workout(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_workout(ptr: $0))
       }
     case 27: // workout_step
       uptr.withMemoryRebound(to: FIT_WORKOUT_STEP_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    27,
-                       mesg_values: rzfit_swift_workout_step_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_workout_step_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_workout_step_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_workout_step(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_workout_step(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_workout_step(ptr: $0))
       }
     case 28: // schedule
       uptr.withMemoryRebound(to: FIT_SCHEDULE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    28,
-                       mesg_values: rzfit_swift_schedule_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_schedule_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_schedule_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_schedule(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_schedule(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_schedule(ptr: $0))
       }
     case 30: // weight_scale
       uptr.withMemoryRebound(to: FIT_WEIGHT_SCALE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    30,
-                       mesg_values: rzfit_swift_weight_scale_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_weight_scale_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_weight_scale_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_weight_scale(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_weight_scale(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_weight_scale(ptr: $0))
       }
     case 31: // course
       uptr.withMemoryRebound(to: FIT_COURSE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    31,
-                       mesg_values: rzfit_swift_course_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_course_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_course_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_course(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_course(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_course(ptr: $0))
       }
     case 32: // course_point
       uptr.withMemoryRebound(to: FIT_COURSE_POINT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    32,
-                       mesg_values: rzfit_swift_course_point_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_course_point_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_course_point_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_course_point(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_course_point(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_course_point(ptr: $0))
       }
     case 33: // totals
       uptr.withMemoryRebound(to: FIT_TOTALS_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    33,
-                       mesg_values: rzfit_swift_totals_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_totals_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_totals_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_totals(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_totals(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_totals(ptr: $0))
       }
     case 34: // activity
       uptr.withMemoryRebound(to: FIT_ACTIVITY_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    34,
-                       mesg_values: rzfit_swift_activity_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_activity_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_activity_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_activity(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_activity(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_activity(ptr: $0))
       }
     case 35: // software
       uptr.withMemoryRebound(to: FIT_SOFTWARE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    35,
-                       mesg_values: rzfit_swift_software_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_software_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_software_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_software(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_software(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_software(ptr: $0))
       }
     case 37: // file_capabilities
       uptr.withMemoryRebound(to: FIT_FILE_CAPABILITIES_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    37,
-                       mesg_values: rzfit_swift_file_capabilities_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_file_capabilities_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_file_capabilities_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_file_capabilities(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_file_capabilities(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_file_capabilities(ptr: $0))
       }
     case 38: // mesg_capabilities
       uptr.withMemoryRebound(to: FIT_MESG_CAPABILITIES_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    38,
-                       mesg_values: rzfit_swift_mesg_capabilities_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_mesg_capabilities_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_mesg_capabilities_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_mesg_capabilities(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_mesg_capabilities(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_mesg_capabilities(ptr: $0))
       }
     case 39: // field_capabilities
       uptr.withMemoryRebound(to: FIT_FIELD_CAPABILITIES_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    39,
-                       mesg_values: rzfit_swift_field_capabilities_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_field_capabilities_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_field_capabilities_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_field_capabilities(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_field_capabilities(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_field_capabilities(ptr: $0))
       }
     case 49: // file_creator
       uptr.withMemoryRebound(to: FIT_FILE_CREATOR_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    49,
-                       mesg_values: rzfit_swift_file_creator_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_file_creator_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_file_creator_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_file_creator(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_file_creator(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_file_creator(ptr: $0))
       }
     case 51: // blood_pressure
       uptr.withMemoryRebound(to: FIT_BLOOD_PRESSURE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    51,
-                       mesg_values: rzfit_swift_blood_pressure_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_blood_pressure_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_blood_pressure_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_blood_pressure(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_blood_pressure(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_blood_pressure(ptr: $0))
       }
     case 53: // speed_zone
       uptr.withMemoryRebound(to: FIT_SPEED_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    53,
-                       mesg_values: rzfit_swift_speed_zone_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_speed_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_speed_zone_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_speed_zone(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_speed_zone(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_speed_zone(ptr: $0))
       }
     case 55: // monitoring
       uptr.withMemoryRebound(to: FIT_MONITORING_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    55,
-                       mesg_values: rzfit_swift_monitoring_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_monitoring_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_monitoring_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_monitoring(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_monitoring(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_monitoring(ptr: $0))
       }
     case 72: // training_file
       uptr.withMemoryRebound(to: FIT_TRAINING_FILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    72,
-                       mesg_values: rzfit_swift_training_file_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_training_file_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_training_file_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_training_file(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_training_file(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_training_file(ptr: $0))
       }
     case 78: // hrv
       uptr.withMemoryRebound(to: FIT_HRV_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    78,
-                       mesg_values: rzfit_swift_hrv_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_hrv_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_hrv_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_hrv(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_hrv(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_hrv(ptr: $0))
       }
     case 80: // ant_rx
       uptr.withMemoryRebound(to: FIT_ANT_RX_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    80,
-                       mesg_values: rzfit_swift_ant_rx_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_ant_rx_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_ant_rx_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_ant_rx(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_ant_rx(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_ant_rx(ptr: $0))
       }
     case 81: // ant_tx
       uptr.withMemoryRebound(to: FIT_ANT_TX_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    81,
-                       mesg_values: rzfit_swift_ant_tx_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_ant_tx_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_ant_tx_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_ant_tx(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_ant_tx(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_ant_tx(ptr: $0))
       }
     case 101: // length
       uptr.withMemoryRebound(to: FIT_LENGTH_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    101,
-                       mesg_values: rzfit_swift_length_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_length_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_length_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_length(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_length(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_length(ptr: $0))
       }
     case 103: // monitoring_info
       uptr.withMemoryRebound(to: FIT_MONITORING_INFO_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    103,
-                       mesg_values: rzfit_swift_monitoring_info_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_monitoring_info_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_monitoring_info_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_monitoring_info(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_monitoring_info(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_monitoring_info(ptr: $0))
       }
     case 106: // slave_device
       uptr.withMemoryRebound(to: FIT_SLAVE_DEVICE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    106,
-                       mesg_values: rzfit_swift_slave_device_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_slave_device_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_slave_device_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_slave_device(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_slave_device(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_slave_device(ptr: $0))
       }
     case 127: // connectivity
       uptr.withMemoryRebound(to: FIT_CONNECTIVITY_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    127,
-                       mesg_values: rzfit_swift_connectivity_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_connectivity_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_connectivity_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_connectivity(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_connectivity(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_connectivity(ptr: $0))
       }
     case 128: // weather_conditions
       uptr.withMemoryRebound(to: FIT_WEATHER_CONDITIONS_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    128,
-                       mesg_values: rzfit_swift_weather_conditions_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_weather_conditions_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_weather_conditions_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_weather_conditions(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_weather_conditions(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_weather_conditions(ptr: $0))
       }
     case 129: // weather_alert
       uptr.withMemoryRebound(to: FIT_WEATHER_ALERT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    129,
-                       mesg_values: rzfit_swift_weather_alert_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_weather_alert_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_weather_alert_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_weather_alert(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_weather_alert(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_weather_alert(ptr: $0))
       }
     case 131: // cadence_zone
       uptr.withMemoryRebound(to: FIT_CADENCE_ZONE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    131,
-                       mesg_values: rzfit_swift_cadence_zone_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_cadence_zone_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_cadence_zone_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_cadence_zone(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_cadence_zone(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_cadence_zone(ptr: $0))
       }
     case 132: // hr
       uptr.withMemoryRebound(to: FIT_HR_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    132,
-                       mesg_values: rzfit_swift_hr_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_hr_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_hr_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_hr(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_hr(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_hr(ptr: $0))
       }
     case 142: // segment_lap
       uptr.withMemoryRebound(to: FIT_SEGMENT_LAP_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    142,
-                       mesg_values: rzfit_swift_segment_lap_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_segment_lap_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_lap_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_segment_lap(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_segment_lap(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_segment_lap(ptr: $0))
       }
     case 148: // segment_id
       uptr.withMemoryRebound(to: FIT_SEGMENT_ID_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    148,
-                       mesg_values: rzfit_swift_segment_id_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_segment_id_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_id_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_segment_id(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_segment_id(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_segment_id(ptr: $0))
       }
     case 149: // segment_leaderboard_entry
       uptr.withMemoryRebound(to: FIT_SEGMENT_LEADERBOARD_ENTRY_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    149,
-                       mesg_values: rzfit_swift_segment_leaderboard_entry_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_segment_leaderboard_entry_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_leaderboard_entry_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_segment_leaderboard_entry(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_segment_leaderboard_entry(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_segment_leaderboard_entry(ptr: $0))
       }
     case 150: // segment_point
       uptr.withMemoryRebound(to: FIT_SEGMENT_POINT_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    150,
-                       mesg_values: rzfit_swift_segment_point_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_segment_point_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_point_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_segment_point(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_segment_point(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_segment_point(ptr: $0))
       }
     case 151: // segment_file
       uptr.withMemoryRebound(to: FIT_SEGMENT_FILE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    151,
-                       mesg_values: rzfit_swift_segment_file_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_segment_file_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_segment_file_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_segment_file(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_segment_file(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_segment_file(ptr: $0))
       }
     case 158: // workout_session
       uptr.withMemoryRebound(to: FIT_WORKOUT_SESSION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    158,
-                       mesg_values: rzfit_swift_workout_session_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_workout_session_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_workout_session_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_workout_session(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_workout_session(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_workout_session(ptr: $0))
       }
     case 177: // nmea_sentence
       uptr.withMemoryRebound(to: FIT_NMEA_SENTENCE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    177,
-                       mesg_values: rzfit_swift_nmea_sentence_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_nmea_sentence_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_nmea_sentence_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_nmea_sentence(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_nmea_sentence(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_nmea_sentence(ptr: $0))
       }
     case 178: // aviation_attitude
       uptr.withMemoryRebound(to: FIT_AVIATION_ATTITUDE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    178,
-                       mesg_values: rzfit_swift_aviation_attitude_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_aviation_attitude_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_aviation_attitude_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_aviation_attitude(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_aviation_attitude(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_aviation_attitude(ptr: $0))
       }
     case 185: // video_title
       uptr.withMemoryRebound(to: FIT_VIDEO_TITLE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    185,
-                       mesg_values: rzfit_swift_video_title_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_video_title_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_video_title_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_video_title(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_video_title(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_video_title(ptr: $0))
       }
     case 186: // video_description
       uptr.withMemoryRebound(to: FIT_VIDEO_DESCRIPTION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    186,
-                       mesg_values: rzfit_swift_video_description_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_video_description_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_video_description_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_video_description(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_video_description(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_video_description(ptr: $0))
       }
     case 200: // exd_screen_configuration
       uptr.withMemoryRebound(to: FIT_EXD_SCREEN_CONFIGURATION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    200,
-                       mesg_values: rzfit_swift_exd_screen_configuration_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_exd_screen_configuration_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_exd_screen_configuration_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_exd_screen_configuration(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_exd_screen_configuration(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_exd_screen_configuration(ptr: $0))
       }
     case 201: // exd_data_field_configuration
       uptr.withMemoryRebound(to: FIT_EXD_DATA_FIELD_CONFIGURATION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    201,
-                       mesg_values: rzfit_swift_exd_data_field_configuration_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_exd_data_field_configuration_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_exd_data_field_configuration_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_exd_data_field_configuration(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_exd_data_field_configuration(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_exd_data_field_configuration(ptr: $0))
       }
     case 202: // exd_data_concept_configuration
       uptr.withMemoryRebound(to: FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    202,
-                       mesg_values: rzfit_swift_exd_data_concept_configuration_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_exd_data_concept_configuration_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_exd_data_concept_configuration_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_exd_data_concept_configuration(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_exd_data_concept_configuration(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_exd_data_concept_configuration(ptr: $0))
       }
     case 206: // field_description
       uptr.withMemoryRebound(to: FIT_FIELD_DESCRIPTION_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    206,
-                       mesg_values: rzfit_swift_field_description_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_field_description_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_field_description_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_field_description(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_field_description(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_field_description(ptr: $0))
       }
     case 207: // developer_data_id
       uptr.withMemoryRebound(to: FIT_DEVELOPER_DATA_ID_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    207,
-                       mesg_values: rzfit_swift_developer_data_id_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_developer_data_id_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_developer_data_id_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_developer_data_id(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_developer_data_id(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_developer_data_id(ptr: $0))
       }
     case 225: // set
       uptr.withMemoryRebound(to: FIT_SET_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    225,
-                       mesg_values: rzfit_swift_set_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_set_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_set_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_set(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_set(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_set(ptr: $0))
       }
     case 258: // dive_settings
       uptr.withMemoryRebound(to: FIT_DIVE_SETTINGS_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    258,
-                       mesg_values: rzfit_swift_dive_settings_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_dive_settings_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_dive_settings_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_dive_settings(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_dive_settings(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_dive_settings(ptr: $0))
       }
     case 264: // exercise_title
       uptr.withMemoryRebound(to: FIT_EXERCISE_TITLE_MESG.self, capacity: 1) {
       rv = FitMessage( mesg_num:    264,
-                       mesg_values: rzfit_swift_exercise_title_value_dict(ptr: $0),
-                       mesg_enums:  rzfit_swift_exercise_title_string_dict(ptr: $0),
-                       mesg_dates:  rzfit_swift_exercise_title_date_dict(ptr: $0))
+                       mesg_values: rzfit_swift_value_dict_for_exercise_title(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_exercise_title(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_exercise_title(ptr: $0))
       }
     default:
        rv = FitMessage( mesg_num: mesg_num, mesg_values: [:], mesg_enums: [:], mesg_dates: [:])

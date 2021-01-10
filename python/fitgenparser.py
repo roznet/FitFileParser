@@ -90,7 +90,7 @@ class Type :
     def swift_stmt_extension(self,use_type):
         rv = [ 'public extension {} {{'.format( use_type ),
                '  func name() -> String {',
-               '    return rzfit_swift_mesg_num_to_string(self)',
+               '    return {}(self)'.format(self.swift_fname_to_string()),
                '  }',
                '  static let invalid : FitMessageType = 0xFFFF'
               ]
@@ -100,7 +100,7 @@ class Type :
         return rv
 
     def swift_fname_to_string(self):
-        return f'rzfit_swift_{self.name}_to_string'
+        return f'rzfit_swift_string_from_{self.name}'
     
     def swift_func_to_string(self):
         rv = [ 'func {}(_ input : {}) -> String'.format( self.swift_fname_to_string(), self.objc_type() ),
@@ -116,7 +116,7 @@ class Type :
         return rv
 
     def swift_fname_from_string(self):
-        return f'rzfit_swift_{self.name}_from_string'
+        return f'rzfit_swift_string_to_{self.name}'
     
     def swift_func_from_string(self):
         rv = [ 'func {}(_ input : String) -> {}'.format( self.swift_fname_from_string(), self.objc_type() ),
@@ -704,7 +704,7 @@ class Message:
                 
     #--- Swift message
     def swift_fname_field_num_to_string(self):
-        return 'rzfit_swift_{}_field_num_to_string'.format( self.name )
+        return 'rzfit_swift_field_num_to_string_for_{}'.format( self.name )
 
     def swift_func_field_num_to_string(self,ctx):
         rv = []
@@ -723,7 +723,7 @@ class Message:
         return rv
 
     def swift_fname_value_dict(self):
-        return 'rzfit_swift_{}_value_dict'.format( self.name )
+        return 'rzfit_swift_value_dict_for_{}'.format( self.name )
     
     def swift_func_value_dict(self,ctx):
         rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Double] {{'.format( self.swift_fname_value_dict(), self.struct_name ) ]
@@ -746,7 +746,7 @@ class Message:
         return rv
     
     def swift_fname_string_dict(self):
-        return 'rzfit_swift_{}_string_dict'.format( self.name )
+        return 'rzfit_swift_string_dict_for_{}'.format( self.name )
     
     def swift_func_string_dict(self,ctx):
         rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:String] {{'.format(self.swift_fname_string_dict(), self.struct_name ) ]
@@ -772,7 +772,7 @@ class Message:
         return( rv )
     
     def swift_fname_date_dict(self):
-        return 'rzfit_swift_{}_date_dict'.format( self.name )
+        return 'rzfit_swift_date_dict_for_{}'.format( self.name )
     
     def swift_func_date_dict(self,ctx):
         rv = [ 'func {}( ptr : UnsafePointer<{}>) -> [String:Date] {{'.format( self.swift_fname_date_dict(), self.struct_name ),
@@ -1211,7 +1211,7 @@ class Context:
 
 
     def swift_fname_type_to_string(self):
-        return 'rzfit_swift_type_to_string'
+        return 'rzfit_swift_string_for_type'
 
     def swift_func_type_to_string(self):
         rv = [ 'func {}(fit_type : FIT_UINT8, val : FIT_UINT32 ) -> String {{'.format( self.swift_fname_type_to_string() ),

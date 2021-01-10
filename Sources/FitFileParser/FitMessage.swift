@@ -26,7 +26,7 @@ public class FitMessage {
     private var devunits : [FitFieldKey:String]?
         
     public var messageTypeDescription : String?{
-        return rzfit_swift_mesg_num_to_string(messageType)
+        return rzfit_swift_string_from_mesg_num(messageType)
     }
 
     private var cacheInterpretation : [FitFieldKey:FitFieldValue]
@@ -114,7 +114,7 @@ public class FitMessage {
                 rv[key] =  FitFieldValue(withValue: val, andUnit: unit)
             }else if( self.messageType == FitMessageType.field_description && key == "native_field_num" ){
                 if let mesgnumstr = enums["native_mesg_num"] {
-                    let mesgnum = rzfit_swift_mesg_num_from_string(mesgnumstr)
+                    let mesgnum = rzfit_swift_string_to_mesg_num(mesgnumstr)
                     let native = rzfit_swift_field_num_to_string(mesg_num: mesgnum, field_num:FIT_UINT16(val), strings: self.enums)
                     
                     rv[key] = FitFieldValue(withName: native)
