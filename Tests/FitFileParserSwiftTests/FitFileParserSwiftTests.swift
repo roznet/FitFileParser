@@ -91,6 +91,26 @@ final class FitFileParserSwiftTests: XCTestCase {
         }
     }
     
+    
+    func testJsonEncoding(){
+        let path = self.findResource(name: "running.fit")
+        
+        if let fit = FitFile(file: path ) {
+            let messages = fit.messages
+            XCTAssertGreaterThan(messages.count, 0)
+            let encoder = JSONEncoder()
+            if let data = try? encoder.encode(messages) {
+                let decoder = JSONDecoder()
+                if let readmessages = try? decoder.decode([FitMessage].self, from: data) {
+                    XCTAssertEqual(readmessages.count, messages.count)
+                    for (message,readmessage) in zip(messages, readmessages) {
+                        XCTAssertEqual(message, readmessage);
+                    }
+                }
+            }
+        }
+    }
+    
     func testParsingPerformance(){
         let path  = self.findResource(name: "running.fit")
         if let data = try? Data(contentsOf: path) {

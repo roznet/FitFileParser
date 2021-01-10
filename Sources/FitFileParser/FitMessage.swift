@@ -15,7 +15,7 @@ import FitFileParserObjc
 ///
 /// It will keep tracks and can provide units as well as developer fields
 ///
-public class FitMessage {
+public class FitMessage : Codable {
     
     /// The message type, which is the fit message number
     public let messageType : FitMessageType
@@ -24,13 +24,29 @@ public class FitMessage {
     private let dates : [FitFieldKey:Date]
     private var devfields : [FitFieldKey:Double]?
     private var devunits : [FitFieldKey:String]?
-        
+       
+    private enum CodingKeys: String, CodingKey {
+            case messageType,values,enums,dates,devfields,devunits
+    }
+    
     public var messageTypeDescription : String?{
         return rzfit_swift_string_from_mesg_num(messageType)
     }
 
     private var cacheInterpretation : [FitFieldKey:FitFieldValue]
     
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.messageType = try FitMessageType(container.decode(Int.self, forKey: .messageType))
+        self.values = try container.decode([String:Double].self, forKey: .values)
+        self.enums = try container.decode([String:String].self, forKey: .enums)
+        self.dates = try container.decode([String:Date].self, forKey: .dates)
+        self.devfields = try container.decodeIfPresent([String:Double].self, forKey: .devfields)
+        self.devunits = try container.decodeIfPresent([String:String].self, forKey: .devunits)
+        
+        self.cacheInterpretation = [:]
+    }
+
     public init(mesg_num  : FIT_MESG_NUM, mesg_values : [FitFieldKey:Double], mesg_enums : [FitFieldKey:String], mesg_dates : [FitFieldKey:Date]) {
         messageType = mesg_num
         values = mesg_values
@@ -40,6 +56,7 @@ public class FitMessage {
         devfields = nil
         devunits = nil
     }
+    
     
     public convenience init(mesg_num : FIT_MESG_NUM, withFitFields:[FitFieldKey:FitFieldValue]) {
         var ivalues : [FitFieldKey:Double] = [:]
@@ -193,4 +210,16 @@ extension FitMessage : CustomStringConvertible {
         return rv.joined(separator: "")
     }
 
+}
+
+extension FitMessage : Equatable {
+    public static func == (lhs: FitMessage, rhs: FitMessage) -> Bool {
+        return
+            lhs.messageType == rhs.messageType &&
+            lhs.values == rhs.values &&
+            lhs.enums == rhs.enums &&
+            lhs.dates == rhs.dates &&
+            lhs.devfields == rhs.devfields &&
+            lhs.devunits == rhs.devunits
+    }
 }
