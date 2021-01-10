@@ -108,7 +108,7 @@ class Type :
                '   switch input {{'.format( self.name ),
               ]
         for d in self.values:
-            rv.append( '    case {}: return "{}";'.format( d['value'], d['name'] ) )
+            rv.append( '    case {}: return "{}"'.format( d['value'], d['name'] ) )
         rv.append( '   default: return "{}_\(input)"'.format( self.name) )
         rv.extend( [ '  }',
                      '}',
@@ -159,11 +159,11 @@ class Type :
         return rv
     
     def objc_fname_to_string(self):
-        return 'rzfit_objc_{}_to_string'.format( self.name )
+        return 'rzfit_objc_string_from_{}'.format( self.name )
 
-    def objc_func_to_string(self):
+    def objc_func_to_string(self,fileprivate=True):
         var_name = fix_variable_name( self.name )
-        rv = [ 'NSString * {}( {} {} ){{'.format( self.objc_fname_to_string(), self.objc_type(), var_name ),
+        rv = [ '{}NSString * {}( {} {} ){{'.format( 'static ' if fileprivate else '', self.objc_fname_to_string(), self.objc_type(), var_name ),
                '  switch({}){{'.format( var_name )
                ]
         for d in self.values:
@@ -809,15 +809,15 @@ class Message:
 
     #--- objc message
     def objc_fname_field_num_to_string(self):
-        return 'rzfit_objc_{}_field_num_to_string'.format( self.name )
+        return 'rzfit_objc_field_num_to_string_for_{}'.format( self.name )
             
     def objc_func_field_num_to_string(self,ctx):
         rv = []
 
         if self.has_switched_field():
-            rv.append( 'NSString * {}( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){{'.format( self.objc_fname_field_num_to_string() ) ),
+            rv.append( 'static NSString * {}( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){{'.format( self.objc_fname_field_num_to_string() ) ),
         else:
-            rv.append( 'NSString * {}( FIT_UINT8 field_num ){{'.format( self.objc_fname_field_num_to_string() ) )
+            rv.append( 'static NSString * {}( FIT_UINT8 field_num ){{'.format( self.objc_fname_field_num_to_string() ) )
         rv.append( '  switch( field_num ){'  )
         for field in self.fields:
             rv.extend( field.objc_stmt_case_to_string(ctx,self) )
@@ -829,7 +829,7 @@ class Message:
         return rv
 
     def objc_fname_field_info(self):
-        return 'rzfit_objc_{}_field_info'.format( self.name )
+        return 'rzfit_objc_field_info_for_{}'.format( self.name )
 
     def objc_func_field_info(self, ctx ):
         needed = []
@@ -840,9 +840,9 @@ class Message:
         rv = []
         if needed:
             if self.has_switched_field():
-                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field, FIT_INTERP_FIELD * interp){{'.format( self.objc_fname_field_info() ) )
+                rv.append( 'static FIT_FIELD_INFO {}(FIT_UINT16 field, FIT_INTERP_FIELD * interp){{'.format( self.objc_fname_field_info() ) )
             else:
-                rv.append( 'FIT_FIELD_INFO {}(FIT_UINT16 field){{'.format( self.objc_fname_field_info() ) )
+                rv.append( 'static FIT_FIELD_INFO {}(FIT_UINT16 field){{'.format( self.objc_fname_field_info() ) )
                 
             rv.append( '  switch( field ){' ),
             rv.extend( needed )
@@ -1022,36 +1022,27 @@ class Context:
         if unit_name not in self.units:
             self.units[ unit_name ] = len( self.units ) + 1
         return self.units[ unit_name ]
-
+    
+    def ordered_types(self):
+        ordered = sorted( self.types.keys(), key=lambda x: self.types[x].type_num )
+        return ordered
+        
     #---- objc context
     def objc_fname_field_info(self):
         return 'rzfit_objc_field_info'
     
     def objc_func_field_info(self):
-        mesg_num = self.types['mesg_num']
-        done = dict()
         rv = []
-        for m in mesg_num.values:
-            mesg_name = m['name']
-            if mesg_name in self.messages:
-                message = self.messages[mesg_name]
-                mesg_info = message.objc_func_field_info(self)
-                if mesg_info:
-                    rv.extend( mesg_info )
-                    done[ mesg_name ] = 1
-                
         rv.extend( [ 'FIT_FIELD_INFO {}( FIT_UINT16 global_mesg_num, FIT_UINT16 field, FIT_INTERP_FIELD * interp ){{'.format( self.objc_fname_field_info() ),
                      '  switch(global_mesg_num){',
                     ] )
-        for m in mesg_num.values:
-            mesg_num = m['value']
-            mesg_name = m['name']
-            if mesg_name in done:
-                message = self.messages[mesg_name]
-                if message.has_switched_field():
-                    rv.append( '    case {}: return {}(field,interp);'.format( mesg_num, message.objc_fname_field_info() ) )
-                else:
-                    rv.append( '    case {}: return {}(field);'.format( mesg_num, message.objc_fname_field_info() ) )
+        for message in self.messages.values():
+            mesg_num = message.mesg_num
+            mesg_name = message.name
+            if message.has_switched_field():
+                rv.append( '    case {}: return {}(field,interp);'.format( mesg_num, message.objc_fname_field_info() ) )
+            else:
+                rv.append( '    case {}: return {}(field);'.format( mesg_num, message.objc_fname_field_info() ) )
         rv.extend( [ '    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };',
                      '  }',
                      '}'
@@ -1078,12 +1069,6 @@ class Context:
 
     def objc_fname_type_to_string(self):
         return 'rzfit_objc_type_to_string'
-
-
-    def ordered_types(self):
-        ordered = sorted( self.types.keys(), key=lambda x: self.types[x].type_num )
-        return ordered
-        
     
     def objc_func_type_to_string(self):
         rv = [ 'NSString * {}( FIT_TYPE fit_type, FIT_UINT32 val ){{'.format( self.objc_fname_type_to_string() ),
@@ -1330,7 +1315,6 @@ class Command :
             if one.name != 'mesg_num':
                 rv.extend(  one.swift_func_to_string() )
         
-
         rv.extend( [
             '',
             '//MARK: - fit convert structure to dict',
@@ -1403,51 +1387,39 @@ class Command :
         print( 'Writing {}'.format( objc_file_name ) )
         
         oof = open( objc_file_name, 'w')
-        oof.write( '\n'.join( [
+
+        rv = [
             '// This file is auto generated, Do not edit',
             '',
             '@import Foundation;',
             '#include "{}"'.format( objc_header ),
             ''
-        ] ) )
-        oof.write( '\n'.join( [
             '#pragma mark - types conversion section\n',
-            '\n'
-        ] ) )
-
+        ]
+                         
         for (n,t) in self.context.types.items():
-            oof.write( '\n'.join( t.objc_func_to_string() ) )
-            
-        oof.write( '\n'.join( [
-            '#pragma mark - type conversion section\n',
-            '\n'
-        ] ) )
-        
-        oof.write( '\n'.join( self.context.objc_func_type_to_string() ) )
-        
-        oof.write( '\n'.join( [
-            '#pragma mark - unit conversion section\n',
-            '\n'
-        ] ) )
+            if t.name != 'mesg_num':
+                rv.extend( t.objc_func_to_string() )
 
-        oof.write( '\n'.join( self.context.objc_func_unit_to_string() ) )
+        rv.append( '#pragma mark - message field info' )
         
-        oof.write( '\n'.join( [
-            '#pragma mark - message field name section\n',
-            '\n'
-        ] ) )
+        for (n,m) in self.context.messages.items():
+            rv.extend( m.objc_func_field_info(self.context) )
+
+        rv.append( '#pragma mark - message field name conversion section' )
 
         for (n,m) in self.context.messages.items():
-            oof.write( '\n'.join( m.objc_func_field_num_to_string(self.context) ) )
+            rv.extend( m.objc_func_field_num_to_string(self.context) )
 
-        oof.write( '\n'.join( self.context.objc_func_field_num_to_string() ) )
-        
-        oof.write( '\n'.join( [
-            '#pragma mark - field info section\n',
-            '\n'
-        ] ) )
+        rv.append( '#pragma mark - public section' )
 
-        oof.write( '\n'.join( self.context.objc_func_field_info() ) )
+        rv.extend( self.context.types['mesg_num'].objc_func_to_string(fileprivate=False) )
+        rv.extend( self.context.objc_func_unit_to_string() )
+        rv.extend( self.context.objc_func_field_num_to_string() )
+        rv.extend( self.context.objc_func_type_to_string() )
+        rv.extend( self.context.objc_func_field_info() )
+
+        oof.write( '\n'.join( rv ) )
 
     def cmd_generate(self):
         self.generate_objc_mesg_def()

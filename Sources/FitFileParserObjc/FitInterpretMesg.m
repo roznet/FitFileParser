@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "fit_convert.h"
 #import "rzfit_objc_map.h"
-#import "fit_interpret.h"
+#import "FitInterpretMesg.h"
 
 FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field){
     if( interp != nil){
@@ -40,7 +40,7 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
 }
 
 -(NSString*)description{
-    NSString * mesg = rzfit_objc_mesg_num_to_string(_fields.global_mesg_num);
+    NSString * mesg = rzfit_objc_string_from_mesg_num(_fields.global_mesg_num);
     return [NSString stringWithFormat:@"<%@:%@(%@) values[%@] dates[%@] strings[%@}>", NSStringFromClass([self class]), mesg, @(_fields.global_mesg_num), @(_fields.double_count),@(_fields.date_count), @(_fields.string_count)  ];
 }
 
@@ -239,21 +239,27 @@ FIT_UINT32 fit_interp_string_value( FIT_INTERP_FIELD * interp, FIT_UINT16 field)
             }
         }
         if( added_double ){
-            if( field_info.scale != FIT_SCALE_NONE){
-                _fields.double_values[ _fields.double_count ] /= (double) field_info.scale;
-                if( field_info.offset != FIT_OFFSET_NONE ){
-                    _fields.double_values[ _fields.double_count ] -= (double)field_info.offset;
+            if( _fields.double_count < FIT_INTERP_MAX_FIELD ){
+                if( field_info.scale != FIT_SCALE_NONE){
+                    _fields.double_values[ _fields.double_count ] /= (double) field_info.scale;
+                    if( field_info.offset != FIT_OFFSET_NONE ){
+                        _fields.double_values[ _fields.double_count ] -= (double)field_info.offset;
+                    }
                 }
+                _fields.double_fields[ _fields.double_count ] = field_num;
+                _fields.double_count++;
             }
-            _fields.double_fields[ _fields.double_count ] = field_num;
-            _fields.double_count++;
         }
         else if( added_string ){
-            _fields.string_fields[ _fields.string_count ] = field_num;
-            _fields.string_count++;
+            if( _fields.string_count < FIT_INTERP_MAX_FIELD ){
+                _fields.string_fields[ _fields.string_count ] = field_num;
+                _fields.string_count++;
+            }
         }else if( added_date ){
-            _fields.date_fields[ _fields.date_count ] = field_num;
-            _fields.date_count++;
+            if( _fields.date_count < FIT_INTERP_MAX_FIELD ){
+                _fields.date_fields[ _fields.date_count ] = field_num;
+                _fields.date_count++;
+            }
         }
     }
     // Now do a loop for fix strings that have pending types

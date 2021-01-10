@@ -24,7 +24,7 @@
 //
 
 
-#include "rzfit_parse_dev_data.h"
+#include "FitDevDataParser.h"
 
 #include "fit.h"
 #include "fit_convert.h"

@@ -27,10 +27,10 @@
 
 #include "fit_convert.h"
 
+/// An Objective C to parse Developer Fields into Objective c types
 @interface FitDevDataParser : NSObject
 
 +(nonnull FitDevDataParser*)devDataParser:(nonnull FIT_CONVERT_STATE  *) state knownUnits:(nonnull NSArray<NSString*>*)known;
-
 
 -(void)initState:(nonnull FIT_CONVERT_STATE *)state;
 -(void)recordDeveloperField:(nonnull const FIT_UINT8 *)mesg;
