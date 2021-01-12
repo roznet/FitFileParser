@@ -187,8 +187,9 @@ class Field:
     '''
     field_num: field number (ex: 1)
     name: field name (ex: 'manufacturer' or 'product')
-    type_name: type (ex: 'manufacturer' or 'uint16'
-    scale,offset: None or value
+    type_name: type (ex: 'manufacturer' or 'uint16')
+    scale: None or value
+    offset: None or value
     unit: None or str (ex: 'bpm')
     member: member in a struct
 
@@ -1449,7 +1450,7 @@ if __name__ == "__main__":
     description = "\n".join( [ '  {}: {}'.format( k,v['help'] ) for (k,v) in commands.items() ] )
     
     parser = argparse.ArgumentParser( description='Auto Generate Parser files', formatter_class=argparse.RawTextHelpFormatter )
-    
+
     parser.add_argument( 'command', metavar='Command', help = 'command to execute:\n' + description )
     parser.add_argument( 'profile', default = 'Profile.xlsx' )
     parser.add_argument( '-o', '--objcdir',   default = '../Sources/FitFileParserObjc' )
