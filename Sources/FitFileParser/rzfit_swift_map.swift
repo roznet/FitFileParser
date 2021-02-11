@@ -1077,7 +1077,7 @@ func rzfit_swift_string_for_type(fit_type : FIT_UINT8, val : FIT_UINT32 ) -> Str
     default: return "fit_type_\(fit_type)_\(val)"
   }
 }
-func rzfit_swift_string_to_mesg_num(_ input : String) -> FIT_UINT16
+public func rzfit_swift_string_to_mesg_num(_ input : String) -> FIT_UINT16
 {
    switch input {
     case "file_id": return 0;

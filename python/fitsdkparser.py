@@ -3,7 +3,7 @@
 # This utility will generate the swift code from the c Fit SDK
 #   You can download the Fit SDK from https://developer.garmin.com/fit and update your local copy using the diffsdk.py script
 #
-#   in the python directory run ./fitgenparser.py generate Profile.xlsx
+#   in the python directory run ./fitsdkparser.py generate Profile.xlsx
 #      
 #
 
@@ -12,7 +12,7 @@ import argparse
 import json
 import pprint
 import openpyxl
-
+import logging
 import os
 
 def fix_variable_name( var_name ):
@@ -42,9 +42,7 @@ base_type_alignments = {
     'uint64':8,
     'uint64z':8,
     'float32':4
-    
 }
-
 
 class Type :
     '''
@@ -275,8 +273,7 @@ class Field:
         field = Field(ctx,row)
         if field.is_fit_type:
             if self.references and not self.is_fit_type:
-                if ctx.args.verbose:
-                    print( 'Warning: swifted field {} has value and enum, assuming value'.format( self ) )
+                logging.debug( 'swifted field {} has value and enum, assuming value'.format( self ) )
 
             if not self.references:
                 self.is_fit_type = True
@@ -926,20 +923,31 @@ class Message:
                      ] )
         return rv
         
-class Context:
+class Profile:
     '''
     units: dict name to internal unit name (ex: { 'bpm': 1 } )
     types: dict name to Type object (ex: { 'garmin_product': Type(garmin_product) } )
     messages: dict name to Message object (ex: { 'mesg_num' : Message(mesg_num) } )
     structs: dict of fit type to Struct defined in c (ex: { 'FIT_RECORD_MESG' : Struct(record) } ) 
     '''
-    def __init__(self,args):
-        self.args = args
+    def __init__(self,path_to_profile, types=None, messages=None, fields=None, verbose=True):
+        '''
+        path_to_profile: path to Profile.xlsx from the Fit SDK
+        types: array of type names to focus on for generation function or None for all (ex: ['sport','mesg_num'...])
+        messages: array of messages to focus on or None for all (ex: ['record','session',...])
+        verbose: flag to suppress output of progresses
+        '''
+        self.profile = path_to_profile
+        self.verbose = verbose
+        self.focus_types = types
+        self.focus_messages = messages
+        self.focus_fields = fields
         self.parse_profile_excel()
 
     def parse_profile_excel(self):
-        print( 'Parsing {}'.format( self.args.profile ) )
-        wb = openpyxl.load_workbook(filename=self.args.profile)
+        logging.info( 'Parsing {}'.format( self.profile ) )
+            
+        wb = openpyxl.load_workbook(filename=self.profile)
         ws_types = list(wb['Types'].values)
         self.types = {}
         current = None
@@ -955,9 +963,7 @@ class Context:
                     continue
                 current.add_row( row )
 
-        
-                
-        print( 'Read {} types'.format( len(self.types ) ) )
+        logging.info( 'Read {} types'.format( len(self.types ) ) )
 
         ws_messages = list(wb['Messages'].values)
         self.messages = {}
@@ -970,13 +976,14 @@ class Context:
                 self.messages[ current.name ] = current
             elif current and row[2]:
                 current.add( self,row )
-        print( 'Read {} messages'.format( len(self.messages ) ) )
-        print( 'Read {} units'.format( len(self.units ) ) )
+        if self.verbose:
+            logging.info( 'Read {} messages'.format( len(self.messages ) ) )
+            logging.info( 'Read {} units'.format( len(self.units ) ) )
         
     def arg_types(self):
         rv = []
-        if self.args.type:
-            for i in self.args.type.split( ','):
+        if self.types:
+            for i in self.focus_types:
                 if i in self.types:
                     rv.append( self.types[i] )
                 elif int(i) > 0:
@@ -990,8 +997,8 @@ class Context:
     
     def arg_messages(self):
         rv = []
-        if self.args.message:
-            for i in self.args.message.split( ','):
+        if self.focus_messages:
+            for i in self.focus_messages:
                 if i in self.messages:
                     rv.append( self.messages[i] )
                 elif int(i) > 0:
@@ -1004,8 +1011,8 @@ class Context:
 
     def arg_fields(self,message):
         rv = []
-        if self.args.field:
-            for i in self.args.field.split( ','):
+        if self.focus_fields:
+            for i in self.focus_fields:
                 if i in message.fields_map:
                     rv.append( message.fields_map[i] )
                 elif int(i) > 0:
@@ -1096,8 +1103,8 @@ class Context:
         for t in mesg_num.values:
             mesg_name = t['name']
             if mesg_name not in self.messages:
-                if self.args.verbose:
-                    print( 'Warning: Message {} in mesg_num type has no definition, skipping for objc'.format( mesg_name ) )
+                if self.verbose:
+                    logging.debug( 'Message {} in mesg_num type has no definition, skipping for objc'.format( mesg_name ) )
             else:
                 mesg = self.messages[ mesg_name ]
                 if mesg.has_switched_field():
@@ -1148,7 +1155,7 @@ class Context:
                     ] )
         return rv
         
-    #--- swift Context
+    #--- swift Profile
     def swift_unit_functions(self):
         rv = []
         rv = [ 'func rzfit_swift_known_units( ) -> [String] {' ,
@@ -1217,8 +1224,7 @@ class Context:
         for t in mesg_num.values:
             mesg_name = t['name']
             if mesg_name not in self.messages:
-                if self.args.verbose:
-                    print( 'Warning: Message {} in mesg_num type not defined, skipping for swift'.format( mesg_name ) )
+                logging.debug( 'Message {} in mesg_num type not defined, skipping for swift'.format( mesg_name ) )
             else:
                 mesg = self.messages[mesg_name]
                 if mesg.has_switched_field():
@@ -1269,13 +1275,17 @@ class Context:
 class Command :
     def __init__(self,args):
         self.args = args
-        self.context = Context(args)
+        if self.args.quiet:
+            logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.WARNING )
+        else:
+            logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+        self.context = Profile(args.profile,messages=args.message,fields=args.field,types=args.type)
         
     def generate_swift_file(self):
         swift_dir = self.args.swiftdir
         swift_file_name = os.path.join( swift_dir, 'rzfit_swift_map.swift' )
         
-        print( 'Writing {}'.format( swift_file_name ) )
+        logging.info( 'Writing {}'.format( swift_file_name ) )
         oof = open( swift_file_name, 'w' )
 
         rv =  [
@@ -1336,7 +1346,7 @@ class Command :
         objc_file_name = os.path.join( objc_dir, 'rzfit_objc_reference_mesg.m' )
         objc_header = 'rzfit_objc_reference_mesg.h'
         objc_header_name = os.path.join( objc_dir, objc_header )
-        print( 'Writing {}'.format( objc_file_name ) )
+        logging.info( 'Writing {}'.format( objc_file_name ) )
         oof = open( objc_file_name, 'w')
         
         rv = [
@@ -1353,7 +1363,7 @@ class Command :
 
         oof.write( '\n'.join( rv ) )
 
-        print( 'Writing {}'.format( objc_header_name ) )
+        logging.info( 'Writing {}'.format( objc_header_name ) )
         ooh = open( objc_header_name, 'w')
         
         rv = [
@@ -1379,7 +1389,7 @@ class Command :
         objc_file_name = os.path.join( objc_dir, 'rzfit_objc_map.m' )
         objc_header = 'rzfit_objc_map.h'
         
-        print( 'Writing {}'.format( objc_file_name ) )
+        logging.info( 'Writing {}'.format( objc_file_name ) )
         
         oof = open( objc_file_name, 'w')
 
@@ -1458,7 +1468,7 @@ if __name__ == "__main__":
     parser.add_argument( '-m', '--message',  default = None )
     parser.add_argument( '-t', '--type',  default = None )
     parser.add_argument( '-f', '--field',  default = None )
-    parser.add_argument( '-v', '--verbose',  action='store_true' )
+    parser.add_argument( '-q', '--quiet',  default=False, action='store_true' )
     args = parser.parse_args()
 
     command = Command( args )
@@ -1466,8 +1476,5 @@ if __name__ == "__main__":
     if args.command in commands:
         getattr(command,commands[args.command]['attr'])()
     else:
-        print( 'Invalid command "{}"'.format( args.command) )
+        logging.error( 'Invalid command "{}"'.format( args.command) )
         parser.print_help()
-
-
-    
