@@ -7,7 +7,7 @@
 // warranties of merchantability, non-infringement, or fitness for a particular
 // purpose, are specifically disclaimed.
 //
-// Copyright 2020 Garmin Canada Inc.
+// Copyright 2021 Garmin Canada Inc.
 ////////////////////////////////////////////////////////////////////////////////
 
 

@@ -678,6 +678,9 @@ static NSString * rzfit_objc_string_from_intensity( FIT_ENUM intensity ){
     case 1: return @"rest";
     case 2: return @"warmup";
     case 3: return @"cooldown";
+    case 4: return @"recovery";
+    case 5: return @"interval";
+    case 6: return @"other";
     default: return [NSString stringWithFormat:@"intensity_%u", (unsigned int)intensity];
   }
 }
@@ -1171,6 +1174,7 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 131: return @"chileaf";
     case 132: return @"cycplus";
     case 133: return @"gravaa_byte";
+    case 134: return @"sigeyi";
     case 255: return @"development";
     case 257: return @"healthandlife";
     case 258: return @"lezyne";
@@ -1225,6 +1229,7 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 307: return @"onelap";
     case 308: return @"monark_exercise";
     case 309: return @"form";
+    case 310: return @"decathlon";
     case 5759: return @"actigraphcorp";
     default: return [NSString stringWithFormat:@"manufacturer_%u", (unsigned int)manufacturer];
   }
@@ -1474,6 +1479,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 3113: return @"fr945";
     case 3121: return @"edge_530";
     case 3122: return @"edge_830";
+    case 3126: return @"instinct_esports";
     case 3134: return @"fenix5s_plus_apac";
     case 3135: return @"fenix5x_plus_apac";
     case 3142: return @"edge_520_plus_apac";
@@ -1492,6 +1498,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 3249: return @"marq_commander";
     case 3250: return @"marq_expedition";
     case 3251: return @"marq_athlete";
+    case 3258: return @"descent_mk2";
     case 3287: return @"fenix6S_sport";
     case 3288: return @"fenix6S";
     case 3289: return @"fenix6_sport";
@@ -1531,6 +1538,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 3624: return @"marq_adventurer";
     case 3648: return @"marq_adventurer_asia";
     case 3639: return @"swim2_apac";
+    case 3702: return @"descent_mk2_asia";
     case 3737: return @"venu_daimler_asia";
     case 3739: return @"marq_golfer";
     case 3740: return @"venu_daimler";
@@ -2342,6 +2350,7 @@ static NSString * rzfit_objc_string_from_exd_layout( FIT_ENUM exd_layout ){
     case 5: return @"full_quarter_split";
     case 6: return @"half_vertical_left_split";
     case 7: return @"half_horizontal_top_split";
+    case 8: return @"dynamic";
     default: return [NSString stringWithFormat:@"exd_layout_%u", (unsigned int)exd_layout];
   }
 }

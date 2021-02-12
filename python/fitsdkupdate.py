@@ -37,7 +37,9 @@ def update_version(fn_from,fn_to,execute=False):
     patterns = {
         'copyright' : re.compile( '// Copyright ([0-9]+) Garmin Canada' ),
         'profile'   : re.compile( '// Profile Version = ([0-9.]+)' ),
-        'tag'       : re.compile( '// Tag = production/' )
+        'tag'       : re.compile( '// Tag = production/' ),
+        'def_minor' : re.compile( ' +#define FIT_PROFILE_VERSION_MINOR +([0-9]+)' ),
+        'def_major' : re.compile( ' +#define FIT_PROFILE_VERSION_MAJOR +([0-9]+)' ),
         }
     
     version = None
@@ -46,7 +48,7 @@ def update_version(fn_from,fn_to,execute=False):
     f_i = open(fn_from, 'r')
 
     for line in f_i:
-        if line.startswith( '//' ):
+        if line.startswith( '//' ) or 'FIT_PROFILE_VERSION' in line:
             for k,v in patterns.items():
                 m = v.match( line )
                 if m:
@@ -63,7 +65,7 @@ def update_version(fn_from,fn_to,execute=False):
     
     for line in f_o:
         wrote = False
-        if line.startswith( '//' ):
+        if line.startswith( '//' ) or 'FIT_PROFILE_VERSION' in line:
             for k,v in patterns.items():
                 if k in values:
                     if v.match( line ):
