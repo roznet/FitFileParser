@@ -2,6 +2,10 @@
 
 import FitFileParserObjc
 
+extension FitFile {
+  public static let sdkVersion = "21.40"
+}
+
 //MARK: - Module Entry Point Functions
 
 func rzfit_swift_build_mesg(mesg_num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>) -> FitMessage? {
@@ -1174,7 +1178,7 @@ public func rzfit_swift_string_to_mesg_num(_ input : String) -> FIT_UINT16
   }
 }
 
-func rzfit_swift_string_from_mesg_num(_ input : FIT_UINT16) -> String
+public func rzfit_swift_string_from_mesg_num(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0: return "file_id"

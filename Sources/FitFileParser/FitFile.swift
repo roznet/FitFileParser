@@ -329,6 +329,4 @@ public class FitFile {
         }
         return rv
     }
-
-    
 }

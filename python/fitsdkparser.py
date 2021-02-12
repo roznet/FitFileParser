@@ -101,7 +101,7 @@ class Type :
         return f'rzfit_swift_string_from_{self.name}'
     
     def swift_func_to_string(self,fileprivate=True):
-        rv = [ '{}func {}(_ input : {}) -> String'.format( 'fileprivate ' if fileprivate else '', self.swift_fname_to_string(), self.objc_type() ),
+        rv = [ '{}func {}(_ input : {}) -> String'.format( 'fileprivate ' if fileprivate else 'public ', self.swift_fname_to_string(), self.objc_type() ),
                '{',
                '   switch input {{'.format( self.name ),
               ]
@@ -117,7 +117,7 @@ class Type :
         return f'rzfit_swift_string_to_{self.name}'
     
     def swift_func_from_string(self,fileprivate=True):
-        rv = [ '{}func {}(_ input : String) -> {}'.format( 'fileprivate ' if fileprivate else '', self.swift_fname_from_string(), self.objc_type() ),
+        rv = [ '{}func {}(_ input : String) -> {}'.format( 'fileprivate ' if fileprivate else 'public ', self.swift_fname_from_string(), self.objc_type() ),
                '{',
                '   switch input {'
               ]
@@ -1293,6 +1293,17 @@ class Command :
             '',
             'import FitFileParserObjc'
         ]
+
+        if os.path.isfile( 'fitsdkversion.txt' ):
+            with open( 'fitsdkversion.txt', 'r' ) as vf:
+                version = vf.readline().rstrip()
+            rv.extend( [
+                '',
+                'extension FitFile {',
+                '  public static let sdkVersion = "{}"'.format( version ),
+                '}'
+                ] )
+        
         rv.extend( [
             '',
             '//MARK: - Module Entry Point Functions',
