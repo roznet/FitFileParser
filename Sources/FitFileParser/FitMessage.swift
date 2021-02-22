@@ -101,6 +101,11 @@ public class FitMessage : Codable {
         return interp[key]
     }
     
+    /// Clear all cached value when memory need to be reclaimed. All value will then be recalculated if needed
+    public func purgeCache() {
+        self.cacheInterpretation = [:]
+    }
+    
     /// Returns the best swift interpreation of each of the field in the message
     /// Some of the interpration is generic or a function of knowledge on the field, for example times or coordinates
     /// the returned FitFieldValue

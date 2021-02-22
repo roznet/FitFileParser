@@ -329,4 +329,12 @@ public class FitFile {
         }
         return rv
     }
+    
+    /// Clear all cached value when memory need to be reclaimed. All value will then be recalculated if needed
+    public func purgeCache() {
+        for message in self.messages {
+            message.purgeCache()
+        }
+    }
+
 }
