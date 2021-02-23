@@ -7636,15 +7636,15 @@ fileprivate func rzfit_swift_string_dict_for_file_id( ptr : UnsafePointer<FIT_FI
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
     }
   }
   if( x.type != FIT_ENUM_INVALID ) {
@@ -7718,15 +7718,15 @@ fileprivate func rzfit_swift_string_dict_for_slave_device( ptr : UnsafePointer<F
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
     }
   }
   return rv
@@ -7738,7 +7738,7 @@ fileprivate func rzfit_swift_value_dict_for_capabilities( ptr : UnsafePointer<FI
   var rv : [String:Double] = [:]
   let x : FIT_CAPABILITIES_MESG = ptr.pointee
   if x.languages.0 != FIT_UINT8Z_INVALID  {
-  // Array[4]
+    // Array[4]
     let val : Double = Double(x.languages.0)
     rv[ "languages" ] = val
   }
@@ -7873,22 +7873,22 @@ fileprivate func rzfit_swift_value_dict_for_device_settings( ptr : UnsafePointer
     rv[ "utc_offset" ] = val
   }
   if x.time_offset.0 != FIT_UINT32_INVALID  {
-  // Array[2]
+    // Array[2]
     let val : Double = Double(x.time_offset.0)
     rv[ "time_offset" ] = val
   }
   if x.time_zone_offset.0 != FIT_SINT8_INVALID  {
-  // Array[2]
+    // Array[2]
     let val : Double = (Double(x.time_zone_offset.0)/Double(4))
     rv[ "time_zone_offset" ] = val
   }
   if x.pages_enabled != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.pages_enabled)
     rv[ "pages_enabled" ] = val
   }
   if x.default_page != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.default_page)
     rv[ "default_page" ] = val
   }
@@ -7951,7 +7951,7 @@ fileprivate func rzfit_swift_value_dict_for_user_profile( ptr : UnsafePointer<FI
     rv[ "weight" ] = val
   }
   if x.global_id.0 != FIT_BYTE_INVALID  {
-  // Array[6]
+    // Array[6]
     let val : Double = Double(x.global_id.0)
     rv[ "global_id" ] = val
   }
@@ -8222,7 +8222,7 @@ fileprivate func rzfit_swift_value_dict_for_bike_profile( ptr : UnsafePointer<FI
     rv[ "front_gear_num" ] = val
   }
   if x.front_gear != FIT_UINT8Z_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.front_gear)
     rv[ "front_gear" ] = val
   }
@@ -8231,7 +8231,7 @@ fileprivate func rzfit_swift_value_dict_for_bike_profile( ptr : UnsafePointer<FI
     rv[ "rear_gear_num" ] = val
   }
   if x.rear_gear != FIT_UINT8Z_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.rear_gear)
     rv[ "rear_gear" ] = val
   }
@@ -8725,22 +8725,22 @@ fileprivate func rzfit_swift_value_dict_for_session( ptr : UnsafePointer<FIT_SES
     rv[ "total_moving_time" ] = val
   }
   if x.time_in_hr_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_hr_zone)/Double(1000))
     rv[ "time_in_hr_zone" ] = val
   }
   if x.time_in_speed_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_speed_zone)/Double(1000))
     rv[ "time_in_speed_zone" ] = val
   }
   if x.time_in_cadence_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_cadence_zone)/Double(1000))
     rv[ "time_in_cadence_zone" ] = val
   }
   if x.time_in_power_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_power_zone)/Double(1000))
     rv[ "time_in_power_zone" ] = val
   }
@@ -8901,12 +8901,12 @@ fileprivate func rzfit_swift_value_dict_for_session( ptr : UnsafePointer<FIT_SES
     rv[ "opponent_score" ] = val
   }
   if x.stroke_count != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.stroke_count)
     rv[ "stroke_count" ] = val
   }
   if x.zone_count != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.zone_count)
     rv[ "zone_count" ] = val
   }
@@ -9122,22 +9122,22 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
     rv[ "total_moving_time" ] = val
   }
   if x.time_in_hr_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_hr_zone)/Double(1000))
     rv[ "time_in_hr_zone" ] = val
   }
   if x.time_in_speed_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_speed_zone)/Double(1000))
     rv[ "time_in_speed_zone" ] = val
   }
   if x.time_in_cadence_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_cadence_zone)/Double(1000))
     rv[ "time_in_cadence_zone" ] = val
   }
   if x.time_in_power_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_power_zone)/Double(1000))
     rv[ "time_in_power_zone" ] = val
   }
@@ -9270,12 +9270,12 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
     rv[ "opponent_score" ] = val
   }
   if x.stroke_count != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.stroke_count)
     rv[ "stroke_count" ] = val
   }
   if x.zone_count != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.zone_count)
     rv[ "zone_count" ] = val
   }
@@ -9296,32 +9296,32 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
     rv[ "player_score" ] = val
   }
   if x.avg_total_hemoglobin_conc != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.avg_total_hemoglobin_conc)/Double(100))
     rv[ "avg_total_hemoglobin_conc" ] = val
   }
   if x.min_total_hemoglobin_conc != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.min_total_hemoglobin_conc)/Double(100))
     rv[ "min_total_hemoglobin_conc" ] = val
   }
   if x.max_total_hemoglobin_conc != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.max_total_hemoglobin_conc)/Double(100))
     rv[ "max_total_hemoglobin_conc" ] = val
   }
   if x.avg_saturated_hemoglobin_percent != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.avg_saturated_hemoglobin_percent)/Double(10))
     rv[ "avg_saturated_hemoglobin_percent" ] = val
   }
   if x.min_saturated_hemoglobin_percent != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.min_saturated_hemoglobin_percent)/Double(10))
     rv[ "min_saturated_hemoglobin_percent" ] = val
   }
   if x.max_saturated_hemoglobin_percent != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.max_saturated_hemoglobin_percent)/Double(10))
     rv[ "max_saturated_hemoglobin_percent" ] = val
   }
@@ -9469,12 +9469,12 @@ fileprivate func rzfit_swift_value_dict_for_length( ptr : UnsafePointer<FIT_LENG
     rv[ "opponent_score" ] = val
   }
   if x.stroke_count != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.stroke_count)
     rv[ "stroke_count" ] = val
   }
   if x.zone_count != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.zone_count)
     rv[ "zone_count" ] = val
   }
@@ -9637,7 +9637,7 @@ fileprivate func rzfit_swift_value_dict_for_record( ptr : UnsafePointer<FIT_RECO
     rv[ "cadence" ] = val
   }
   if x.compressed_speed_distance.0 != FIT_BYTE_INVALID  {
-  // Array[3]
+    // Array[3]
     let val : Double = Double(x.compressed_speed_distance.0)
     rv[ "compressed_speed_distance" ] = val
   }
@@ -9654,7 +9654,7 @@ fileprivate func rzfit_swift_value_dict_for_record( ptr : UnsafePointer<FIT_RECO
     rv[ "temperature" ] = val
   }
   if x.speed_1s.0 != FIT_UINT8_INVALID  {
-  // Array[5]
+    // Array[5]
     let val : Double = (Double(x.speed_1s.0)/Double(16))
     rv[ "speed_1s" ] = val
   }
@@ -9772,9 +9772,9 @@ fileprivate func rzfit_swift_string_dict_for_event( ptr : UnsafePointer<FIT_EVEN
   let x : FIT_EVENT_MESG = ptr.pointee
   if( x.data != FIT_UINT32_INVALID ) {
       if x.event == 0 { // timer
-        rv[ "timer_trigger" ] = rzfit_swift_string_from_timer_trigger(FIT_ENUM(x.data))
+        rv[ "timer_trigger" ] = rzfit_swift_string_from_timer_trigger(FIT_ENUM(truncatingIfNeeded: x.data))
       }else if x.event == 27 { // fitness_equipment
-        rv[ "fitness_equipment_state" ] = rzfit_swift_string_from_fitness_equipment_state(FIT_ENUM(x.data))
+        rv[ "fitness_equipment_state" ] = rzfit_swift_string_from_fitness_equipment_state(FIT_ENUM(truncatingIfNeeded: x.data))
     }
   }
   if( x.event != FIT_ENUM_INVALID ) {
@@ -9845,15 +9845,15 @@ fileprivate func rzfit_swift_string_dict_for_device_info( ptr : UnsafePointer<FI
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
     }
   }
   if( x.device_index != FIT_UINT8_INVALID ) {
@@ -9861,7 +9861,7 @@ fileprivate func rzfit_swift_string_dict_for_device_info( ptr : UnsafePointer<FI
   }
   if( x.device_type != FIT_UINT8_INVALID ) {
       if x.source_type == 1 { // antplus
-        rv[ "antplus_device_type" ] = rzfit_swift_string_from_antplus_device_type(FIT_UINT8(x.device_type))
+        rv[ "antplus_device_type" ] = rzfit_swift_string_from_antplus_device_type(FIT_UINT8(truncatingIfNeeded: x.device_type))
     }
   }
   if( x.battery_status != FIT_UINT8_INVALID ) {
@@ -9911,15 +9911,15 @@ fileprivate func rzfit_swift_string_dict_for_training_file( ptr : UnsafePointer<
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
     }
   }
   if( x.type != FIT_ENUM_INVALID ) {
@@ -9944,7 +9944,7 @@ fileprivate func rzfit_swift_value_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MES
   var rv : [String:Double] = [:]
   let x : FIT_HRV_MESG = ptr.pointee
   if x.time != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time)/Double(1000))
     rv[ "time" ] = val
   }
@@ -10107,7 +10107,7 @@ fileprivate func rzfit_swift_value_dict_for_aviation_attitude( ptr : UnsafePoint
   var rv : [String:Double] = [:]
   let x : FIT_AVIATION_ATTITUDE_MESG = ptr.pointee
   if x.system_time != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.system_time)
     rv[ "system_time" ] = val
   }
@@ -10116,37 +10116,37 @@ fileprivate func rzfit_swift_value_dict_for_aviation_attitude( ptr : UnsafePoint
     rv[ "timestamp_ms" ] = val
   }
   if x.pitch != FIT_SINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.pitch)/Double(10430.38))
     rv[ "pitch" ] = val
   }
   if x.roll != FIT_SINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.roll)/Double(10430.38))
     rv[ "roll" ] = val
   }
   if x.accel_lateral != FIT_SINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.accel_lateral)/Double(100))
     rv[ "accel_lateral" ] = val
   }
   if x.accel_normal != FIT_SINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.accel_normal)/Double(100))
     rv[ "accel_normal" ] = val
   }
   if x.turn_rate != FIT_SINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.turn_rate)/Double(1024))
     rv[ "turn_rate" ] = val
   }
   if x.track != FIT_UINT16_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.track)/Double(10430.38))
     rv[ "track" ] = val
   }
   if x.attitude_stage_complete != FIT_UINT8_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.attitude_stage_complete)
     rv[ "attitude_stage_complete" ] = val
   }
@@ -10413,7 +10413,7 @@ fileprivate func rzfit_swift_value_dict_for_segment_point( ptr : UnsafePointer<F
     rv[ "distance" ] = val
   }
   if x.leader_time != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.leader_time)/Double(1000))
     rv[ "leader_time" ] = val
   }
@@ -10499,22 +10499,22 @@ fileprivate func rzfit_swift_value_dict_for_segment_lap( ptr : UnsafePointer<FIT
     rv[ "total_moving_time" ] = val
   }
   if x.time_in_hr_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_hr_zone)/Double(1000))
     rv[ "time_in_hr_zone" ] = val
   }
   if x.time_in_speed_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_speed_zone)/Double(1000))
     rv[ "time_in_speed_zone" ] = val
   }
   if x.time_in_cadence_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_cadence_zone)/Double(1000))
     rv[ "time_in_cadence_zone" ] = val
   }
   if x.time_in_power_zone != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.time_in_power_zone)/Double(1000))
     rv[ "time_in_power_zone" ] = val
   }
@@ -10755,12 +10755,12 @@ fileprivate func rzfit_swift_value_dict_for_segment_file( ptr : UnsafePointer<FI
     rv[ "user_profile_primary_key" ] = val
   }
   if x.leader_group_primary_key != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.leader_group_primary_key)
     rv[ "leader_group_primary_key" ] = val
   }
   if x.leader_activity_id != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.leader_activity_id)
     rv[ "leader_activity_id" ] = val
   }
@@ -11099,15 +11099,15 @@ fileprivate func rzfit_swift_string_dict_for_schedule( ptr : UnsafePointer<FIT_S
   }
   if( x.product != FIT_UINT16_INVALID ) {
       if x.manufacturer == 263 { // favero_electronics
-        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(x.product))
+        rv[ "favero_product" ] = rzfit_swift_string_from_favero_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 1 { // garmin
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 15 { // dynastream
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 13 { // dynastream_oem
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
       }else if x.manufacturer == 89 { // tacx
-        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(x.product))
+        rv[ "garmin_product" ] = rzfit_swift_string_from_garmin_product(FIT_UINT16(truncatingIfNeeded: x.product))
     }
   }
   if( x.type != FIT_ENUM_INVALID ) {
@@ -11395,7 +11395,7 @@ fileprivate func rzfit_swift_value_dict_for_hr( ptr : UnsafePointer<FIT_HR_MESG>
   var rv : [String:Double] = [:]
   let x : FIT_HR_MESG = ptr.pointee
   if x.event_timestamp != FIT_UINT32_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = (Double(x.event_timestamp)/Double(1024))
     rv[ "event_timestamp" ] = val
   }
@@ -11408,12 +11408,12 @@ fileprivate func rzfit_swift_value_dict_for_hr( ptr : UnsafePointer<FIT_HR_MESG>
     rv[ "time256" ] = val
   }
   if x.filtered_bpm != FIT_UINT8_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.filtered_bpm)
     rv[ "filtered_bpm" ] = val
   }
   if x.event_timestamp_12 != FIT_BYTE_INVALID  {
-  // Array[1]
+    // Array[1]
     let val : Double = Double(x.event_timestamp_12)
     rv[ "event_timestamp_12" ] = val
   }
@@ -11435,7 +11435,7 @@ fileprivate func rzfit_swift_value_dict_for_ant_rx( ptr : UnsafePointer<FIT_ANT_
   var rv : [String:Double] = [:]
   let x : FIT_ANT_RX_MESG = ptr.pointee
   if x.data.0 != FIT_BYTE_INVALID  {
-  // Array[8]
+    // Array[8]
     let val : Double = Double(x.data.0)
     rv[ "data" ] = val
   }
@@ -11448,7 +11448,7 @@ fileprivate func rzfit_swift_value_dict_for_ant_rx( ptr : UnsafePointer<FIT_ANT_
     rv[ "mesg_id" ] = val
   }
   if x.mesg_data.0 != FIT_BYTE_INVALID  {
-  // Array[9]
+    // Array[9]
     let val : Double = Double(x.mesg_data.0)
     rv[ "mesg_data" ] = val
   }
@@ -11474,7 +11474,7 @@ fileprivate func rzfit_swift_value_dict_for_ant_tx( ptr : UnsafePointer<FIT_ANT_
   var rv : [String:Double] = [:]
   let x : FIT_ANT_TX_MESG = ptr.pointee
   if x.data.0 != FIT_BYTE_INVALID  {
-  // Array[8]
+    // Array[8]
     let val : Double = Double(x.data.0)
     rv[ "data" ] = val
   }
@@ -11487,7 +11487,7 @@ fileprivate func rzfit_swift_value_dict_for_ant_tx( ptr : UnsafePointer<FIT_ANT_
     rv[ "mesg_id" ] = val
   }
   if x.mesg_data.0 != FIT_BYTE_INVALID  {
-  // Array[9]
+    // Array[9]
     let val : Double = Double(x.mesg_data.0)
     rv[ "mesg_data" ] = val
   }
@@ -11690,12 +11690,12 @@ fileprivate func rzfit_swift_value_dict_for_developer_data_id( ptr : UnsafePoint
   var rv : [String:Double] = [:]
   let x : FIT_DEVELOPER_DATA_ID_MESG = ptr.pointee
   if x.developer_id.0 != FIT_BYTE_INVALID  {
-  // Array[16]
+    // Array[16]
     let val : Double = Double(x.developer_id.0)
     rv[ "developer_id" ] = val
   }
   if x.application_id.0 != FIT_BYTE_INVALID  {
-  // Array[16]
+    // Array[16]
     let val : Double = Double(x.application_id.0)
     rv[ "application_id" ] = val
   }

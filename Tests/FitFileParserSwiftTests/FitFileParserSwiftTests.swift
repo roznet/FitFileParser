@@ -20,9 +20,9 @@ final class FitFileParserSwiftTests: XCTestCase {
             var hr  : [Double] = []
             var ts  : [Date]   = []
             for message in fit.messages(forMessageType: .record) {
-                if let one_gps = message.interpretedField(key: "position")?.fitValue,
-                   let one_hr  = message.interpretedField(key: "heart_rate")?.fitValue,
-                   let one_ts  = message.interpretedField(key: "timestamp")?.fitValue {
+                if let one_gps = message.interpretedValue(key: "position"),
+                   let one_hr  = message.interpretedValue(key: "heart_rate"),
+                   let one_ts  = message.interpretedValue(key: "timestamp") {
                     if case let FitValue.coordinate(coord) = one_gps {
                         gps.append( coord )
                     }

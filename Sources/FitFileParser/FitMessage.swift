@@ -95,18 +95,24 @@ public class FitMessage : Codable {
         return rv
     }
     
+    /// Returns the best swift interpretation for a specific the field in the message as a FitFieldValue
     public func interpretedField(key:FitFieldKey) -> FitFieldValue? {
         let interp = self.interpretedFields()
-        
         return interp[key]
     }
-    
+
+    /// Returns the best swift interpretation for a specific the field in the message as a FitValue
+    public func interpretedValue(key:FitFieldKey) -> FitValue? {
+        let interp = self.interpretedFields()
+        return interp[key]?.fitValue
+    }
+
     /// Clear all cached value when memory need to be reclaimed. All value will then be recalculated if needed
     public func purgeCache() {
         self.cacheInterpretation = [:]
     }
     
-    /// Returns the best swift interpreation of each of the field in the message
+    /// Returns the best swift interpretation of each of the field in the message
     /// Some of the interpration is generic or a function of knowledge on the field, for example times or coordinates
     /// the returned FitFieldValue
     /// - Returns: Array of keys to FitFieldValue
