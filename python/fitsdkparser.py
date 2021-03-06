@@ -149,6 +149,25 @@ class Type :
             ] )
         return rv
 
+    def swift_fname_reverse_value(self):
+        return 'rzfit_swift_reverse_value_{}'.format( self.name )
+
+    def swift_func_reverse_value(self):
+        rv = first_line_with_annotate_comment(prefix = '', annotate=self.annotate)
+        rv.extend( [ 'fileprivate func {}(value : String) -> RzFitSwiftValue'.format(  self.swift_fname_reverse_value() ),
+               '{',
+               '   switch value {'
+              ] )
+        for d in self.values:
+            rv.append( '    case "{}": return .string("{}")'.format( d['value'],d['name'] ) )
+            rv.append( '    case "{}": return .string("{}")'.format( d['name'],d['value'] ) )
+        rv.append( '   default: return .unknown'.format( self.objc_type() ) )
+        rv.extend( [ '  }',
+                     '}',
+                     '' ] )
+        return rv
+        
+    
     #--- objc type
     def objc_type(self):
         return 'FIT_{}'.format( self.base_type.upper() )
@@ -536,7 +555,29 @@ class Field:
             rv.extend( ['    case {}: return "{}"'.format(self.field_num, self.name ) ] )
             
         return rv
-      
+
+    def swift_stmt_case_reverse_value(self,ctx,message):
+        rv = first_line_with_annotate_comment('    ',ctx.annotate)
+
+        rv.extend( [
+                '    case "{}": // {}'.format( self.name, self.type_name),
+        ])
+        if self.type_name == 'date_time':
+            rv.append( '      guard let dbl : Double = Double(value) else { return .unknown }' )
+            rv.append( '      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )' )
+            rv.append( '      return .date(dat)' )
+        elif self.type_name in ctx.types:
+            ttype = ctx.types[ self.type_name ]
+            rv.append( '      return {}(value: value)'.format( ttype.swift_fname_reverse_value() ) )
+        else:
+            rv.append( '      guard let dbl : Double = Double(value) else { return .unknown }' )
+            rv.append( '      return .value(dbl)' )
+        if self.references:
+            for r in self.references:
+                rv.extend( r.swift_stmt_case_reverse_value(ctx,message) )
+            
+        return rv
+    
     #---- objc field
     def objc_stmt_build_references_variables(self,ctx,message):
         all_var = dict()
@@ -837,6 +878,26 @@ class Message:
               ] )
         return rv
 
+    def swift_fname_reverse_value(self):
+        return 'rzfit_swift_reverse_value_{}'.format( self.name )
+    
+    def swift_func_reverse_value(self,ctx):
+        rv = first_line_with_annotate_comment('', ctx.annotate)
+        rv.extend( [
+            'fileprivate func {}(field: String, value: String) -> RzFitSwiftValue {{'.format( self.swift_fname_reverse_value() ),
+            '  switch field {'
+        ])
+        for field in self.fields:
+            rv.extend( field.swift_stmt_case_reverse_value(ctx,self) )
+                
+        rv.extend( [
+            '  default:',
+            '    return .unknown',
+            '  }',
+            '}'
+        ])
+        return rv
+    
     #--- objc message
     def objc_fname_field_num_to_string(self):
         return 'rzfit_objc_field_num_to_string_for_{}'.format( self.name )
@@ -1251,7 +1312,40 @@ class Profile:
                      '}' ] )
                      
         return rv
-    
+
+
+    def swift_fname_reverse_value(self):
+        return 'rzfit_swift_reverse_value'
+        
+    def swift_func_reverse_value(self):
+        rv = first_line_with_annotate_comment('', self.annotate)
+        rv.extend( [
+            'public enum RzFitSwiftValue {',
+            '  case string(String)',
+            '  case value(Double)',
+            '  case date(Date)',
+            '  case unknown',
+            '}',
+            '',
+            'public func {}(mesg: String, field: String, value: String) -> RzFitSwiftValue {{'.format( self.swift_fname_reverse_value() ),
+            '  switch mesg {'
+        ])
+        for mesg in self.types['mesg_num'].values:
+            if mesg['name'] in self.messages:
+                message = self.messages[ mesg['name'] ]
+                rv.extend( [ '  case "{}": // {}'.format( mesg['name'], mesg['value'] ),
+                             '    return {}(field: field, value: value )'.format(message.swift_fname_reverse_value()),
+                             ] )
+                           
+        rv.extend( [
+            '  default:',
+            '    return .unknown',
+            '  }',
+            '}'
+        ])
+
+        return rv
+                   
     def swift_fname_field_num_to_string(self):
         return 'rzfit_swift_field_num_to_string'
 
@@ -1323,6 +1417,29 @@ class Command :
         else:
             logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
         self.context = Profile(args.profile,messages=args.message,fields=args.field,types=args.type,annotate=args.annotate)
+
+    def generate_swift_reverse_file(self):
+        swift_dir = self.args.swiftdir
+        swift_file_name = os.path.join( swift_dir, 'rzfit_swift_reverse_map.swift' )
+        
+        logging.info( 'Writing {}'.format( swift_file_name ) )
+        oof = open( swift_file_name, 'w' )
+
+        rv =  [
+            '// This file is auto generated, Do not edit',
+            '',
+            'import FitFileParserObjc'
+        ]
+
+        rv.extend( self.context.swift_func_reverse_value() )
+        
+        for (n,m) in self.context.messages.items():
+            rv.extend( m.swift_func_reverse_value(self.context) )
+            
+        for one in self.context.types.values():
+            rv.extend(  one.swift_func_reverse_value() )
+        
+        oof.write( '\n'.join( rv ) )
         
     def generate_swift_file(self):
         swift_dir = self.args.swiftdir
@@ -1484,7 +1601,8 @@ class Command :
         self.generate_objc_mesg_def()
         self.generate_objc_file()
         self.generate_swift_file()
-
+        self.generate_swift_reverse_file()
+        
     def cmd_message(self):
         messages = self.context.arg_messages()
         for m in messages:
