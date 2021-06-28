@@ -1,4 +1,5 @@
 import XCTest
+import CoreLocation
 @testable import FitFileParser
 @testable import FitFileParserObjc
 
