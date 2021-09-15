@@ -641,6 +641,7 @@ static NSString * rzfit_objc_string_from_sub_sport( FIT_ENUM sub_sport ){
     case 57: return @"apnea_hunting";
     case 58: return @"virtual_activity";
     case 59: return @"obstacle";
+    case 65: return @"sail_race";
     case 254: return @"all";
     default: return [NSString stringWithFormat:@"sub_sport_%u", (unsigned int)sub_sport];
   }
@@ -1084,6 +1085,7 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 38: return @"osynce";
     case 39: return @"holux";
     case 40: return @"concept2";
+    case 41: return @"shimano";
     case 42: return @"one_giant_leap";
     case 43: return @"ace_sensor";
     case 44: return @"brim_brothers";
@@ -1175,6 +1177,7 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 132: return @"cycplus";
     case 133: return @"gravaa_byte";
     case 134: return @"sigeyi";
+    case 135: return @"coospo";
     case 255: return @"development";
     case 257: return @"healthandlife";
     case 258: return @"lezyne";
@@ -1230,6 +1233,7 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 308: return @"monark_exercise";
     case 309: return @"form";
     case 310: return @"decathlon";
+    case 311: return @"syncros";
     case 5759: return @"actigraphcorp";
     default: return [NSString stringWithFormat:@"manufacturer_%u", (unsigned int)manufacturer];
   }
@@ -1392,6 +1396,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 2362: return @"vivo_smart_gps_hr_asia";
     case 2368: return @"vivo_move";
     case 2379: return @"varia_taillight";
+    case 2396: return @"fr235_asia";
     case 2397: return @"fr235_japan";
     case 2398: return @"varia_vision";
     case 2406: return @"vivo_fit3";
@@ -1443,6 +1448,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 2769: return @"foretrex_601_701";
     case 2772: return @"vivo_move_hr";
     case 2713: return @"edge_1030";
+    case 2787: return @"vector_3";
     case 2796: return @"fenix5_asia";
     case 2797: return @"fenix5s_asia";
     case 2798: return @"fenix5x_asia";
@@ -1453,6 +1459,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 2832: return @"vivo_sport_apac";
     case 2833: return @"fr935_asia";
     case 2859: return @"descent";
+    case 2878: return @"vivo_fit4";
     case 2886: return @"fr645";
     case 2888: return @"fr645m";
     case 2891: return @"fr30";
@@ -1499,12 +1506,14 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 3250: return @"marq_expedition";
     case 3251: return @"marq_athlete";
     case 3258: return @"descent_mk2";
+    case 3284: return @"gpsmap66i";
     case 3287: return @"fenix6S_sport";
     case 3288: return @"fenix6S";
     case 3289: return @"fenix6_sport";
     case 3290: return @"fenix6";
     case 3291: return @"fenix6x";
     case 3299: return @"hrm_dual";
+    case 3300: return @"hrm_pro";
     case 3308: return @"vivo_move3_premium";
     case 3314: return @"approach_s40";
     case 3321: return @"fr245m_asia";
@@ -1526,28 +1535,52 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 3451: return @"marq_athlete_asia";
     case 3469: return @"fr45_asia";
     case 3473: return @"vivoactive3_daimler";
+    case 3498: return @"legacy_rey";
+    case 3499: return @"legacy_darth_vader";
+    case 3500: return @"legacy_captain_marvel";
+    case 3501: return @"legacy_first_avenger";
     case 3512: return @"fenix6s_sport_asia";
     case 3513: return @"fenix6s_asia";
     case 3514: return @"fenix6_sport_asia";
     case 3515: return @"fenix6_asia";
     case 3516: return @"fenix6x_asia";
+    case 3535: return @"legacy_captain_marvel_asia";
+    case 3536: return @"legacy_first_avenger_asia";
+    case 3537: return @"legacy_rey_asia";
+    case 3538: return @"legacy_darth_vader_asia";
+    case 3542: return @"descent_mk2s";
     case 3558: return @"edge_130_plus";
     case 3570: return @"edge_1030_plus";
+    case 3578: return @"rally_200";
     case 3589: return @"fr745";
     case 3600: return @"venusq";
+    case 3615: return @"lily";
     case 3624: return @"marq_adventurer";
+    case 3638: return @"enduro";
     case 3648: return @"marq_adventurer_asia";
     case 3639: return @"swim2_apac";
     case 3702: return @"descent_mk2_asia";
+    case 3703: return @"venu2";
+    case 3704: return @"venu2s";
     case 3737: return @"venu_daimler_asia";
     case 3739: return @"marq_golfer";
     case 3740: return @"venu_daimler";
     case 3794: return @"fr745_asia";
+    case 3809: return @"lily_asia";
     case 3812: return @"edge_1030_plus_asia";
     case 3813: return @"edge_130_plus_asia";
+    case 3823: return @"approach_s12";
+    case 3872: return @"enduro_asia";
     case 3837: return @"venusq_asia";
     case 3850: return @"marq_golfer_asia";
-    case 3851: return @"venu2plus";
+    case  3927: return @"approach_g12";
+    case 3930: return @"descent_mk2s_asia";
+    case 3934: return @"approach_s42";
+    case 3949: return @"venu2s_asia";
+    case 3950: return @"venu2_asia";
+    case 3986: return @"approach_S12_asia";
+    case  4001: return @"approach_g12_asia";
+    case 4002: return @"approach_s42_asia";
     case 10007: return @"sdm4";
     case 10014: return @"edge_remote";
     case 20533: return @"tacx_training_app_win";
@@ -4910,6 +4943,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_session(FIT_UINT16 field, FIT_IN
     case 187: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // avg_flow
     case 199: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_ascent
     case 200: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_descent
+    case 208: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // avg_core_temperature
+    case 209: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // min_core_temperature
+    case 210: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // max_core_temperature
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5059,6 +5095,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_lap(FIT_UINT16 field, FIT_INTERP
     case 154: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // avg_flow
     case 156: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_ascent
     case 157: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_descent
+    case 158: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // avg_core_temperature
+    case 159: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // min_core_temperature
+    case 160: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // max_core_temperature
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5160,6 +5199,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_record(FIT_UINT16 field){
     case 118: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // ebike_battery_level
     case 119: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 41, .fit_flag = 0 }; // ebike_assist_mode
     case 120: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // ebike_assist_level_percent
+    case 139: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // core_temperature
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -6826,6 +6866,9 @@ static NSString * rzfit_objc_field_num_to_string_for_session( FIT_UINT8 field_nu
     case 187: return @"avg_flow";
     case 199: return @"total_fractional_ascent";
     case 200: return @"total_fractional_descent";
+    case 208: return @"avg_core_temperature";
+    case 209: return @"min_core_temperature";
+    case 210: return @"max_core_temperature";
     default: return [NSString stringWithFormat:@"session_field_num_%u", (unsigned int)field_num];
   }
 }
@@ -6979,6 +7022,9 @@ static NSString * rzfit_objc_field_num_to_string_for_lap( FIT_UINT8 field_num, F
     case 154: return @"avg_flow";
     case 156: return @"total_fractional_ascent";
     case 157: return @"total_fractional_descent";
+    case 158: return @"avg_core_temperature";
+    case 159: return @"min_core_temperature";
+    case 160: return @"max_core_temperature";
     default: return [NSString stringWithFormat:@"lap_field_num_%u", (unsigned int)field_num];
   }
 }
@@ -7082,6 +7128,7 @@ static NSString * rzfit_objc_field_num_to_string_for_record( FIT_UINT8 field_num
     case 118: return @"ebike_battery_level";
     case 119: return @"ebike_assist_mode";
     case 120: return @"ebike_assist_level_percent";
+    case 139: return @"core_temperature";
     default: return [NSString stringWithFormat:@"record_field_num_%u", (unsigned int)field_num];
   }
 }
