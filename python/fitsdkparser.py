@@ -265,6 +265,7 @@ class Field:
         self.include = False
 
         self.is_switched = False
+        self.is_component = False
         self.switch_require_complete = False
         # some fields seem to be default, some other will require rest to be there
         # need to keep track so we default in switch to main field or wait for more information
@@ -306,6 +307,16 @@ class Field:
         if len(self.reference_field_value) != len(self.reference_field):
             print( 'bug inconsistent reference_field {} {} {}'.format( self.name, row[11], row[12] ) )
         self.references = []
+
+        if row[5]:
+            self.is_component = True
+            self.components = row[5].replace('\n','').split( ',')
+            self.components_scale = str(row[6]).replace('\n','').split( ',') if row[6] else None
+            self.components_bits = str(row[9]).replace('\n','').split( ',') if row[9] else None
+        else:
+            self.components = None
+            self.components_scale = None
+            self.components_bits = None
         
     def add_reference(self,ctx,row):
         field = Field(ctx,row)
@@ -340,13 +351,18 @@ class Field:
         return base
     
     def __repr__(self):
+        if self.components:
+            desc_components = ', components[{}]'.format( len(self.components) )
+        else:
+            desc_components = ''
+            
         if self.is_switched:
-            return  'Field({}={}<{}>, {}, switch{{{}}})'.format(self.name, self.field_num, self.base_type, self.type_category(), len(self.references) )
+            return  'Field({}={}<{}>, {}, switch{{{}}}{})'.format(self.name, self.field_num, self.base_type, self.type_category(), len(self.references), desc_components )
         else:
             if self.field_num:
-                return  'Field({}={}<{}>, {})'.format(self.name, self.field_num, self.base_type, self.type_category() )
+                return  'Field({}={}<{}>, {}{})'.format(self.name, self.field_num, self.base_type, self.type_category(), desc_components )
             else:
-                return  'Field({}<{}>, {})'.format(self.name, self.base_type, self.type_category() )
+                return  'Field({}<{}>, {}{})'.format(self.name, self.base_type, self.type_category(), desc_components )
 
 
     def base_type_alignment(self):
@@ -369,11 +385,14 @@ class Field:
             
     def description(self):
         rv = [ repr(self) ]
-        print( self.references)
         if self.references:
             for field in self.references:
                 refs = ','.join(list(set(field.reference_field)))
-                rv.append( 'switch({}): {}'.format( refs, field ) )
+                rv.append( 'switch({}): {}'.format( refs, field.description() ) )
+
+        if self.components:
+            for component,bit in zip(self.components,self.components_bits):
+                rv.append( 'compoment: {} = {}[{}]'.format( component,self.name,bit ) )
         return '\n'.join( rv )
         
     def formula(self):
@@ -720,8 +739,8 @@ class Message:
         
     def add(self,ctx,row):
         if row[1] is not None:
-            field = Field( ctx,row )
-                
+            field = Field(ctx,row)
+
             self.fields.append( field )
             self.fields_map[ field.name ] = field
         elif len(self.fields)>0:
@@ -1078,7 +1097,7 @@ class Profile:
         
     def arg_types(self):
         rv = []
-        if self.types:
+        if self.focus_types:
             for i in self.focus_types:
                 if i in self.types:
                     rv.append( self.types[i] )
@@ -1105,6 +1124,16 @@ class Profile:
             rv = self.messages.values()
         return rv
 
+    def debug_field(self,message,field):
+        if self.debug and self.focus_field:
+            return field in self.arg_fields(message)
+        return False
+
+    def debug_message(self,message):
+        if self.debug and self.focus_messages:
+            return message in self.arg_messages()
+        return False
+    
     def arg_fields(self,message):
         rv = []
         if self.focus_fields:
@@ -1416,7 +1445,12 @@ class Command :
             logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.WARNING )
         else:
             logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-        self.context = Profile(args.profile,messages=args.message,fields=args.field,types=args.type,annotate=args.annotate)
+            
+        messages = args.message.split( '+' ) if args.message else None
+        types = args.type.split( '+') if args.type else None
+        fields = args.field.split( '+' ) if args.field else None
+        
+        self.context = Profile(args.profile,messages=messages,fields=fields,types=types,annotate=args.annotate)
 
     def generate_swift_reverse_file(self):
         swift_dir = self.args.swiftdir
@@ -1638,10 +1672,11 @@ if __name__ == "__main__":
     parser.add_argument( '-a', '--annotate',   action='store_true', default=False, help = 'Annotate source code with generating code location info' )
     parser.add_argument( '-o', '--objcdir',   default = '../Sources/FitFileParserObjc' )
     parser.add_argument( '-s', '--swiftdir',  default = '../Sources/FitFileParser' )
-    parser.add_argument( '-m', '--message',  default = None )
-    parser.add_argument( '-t', '--type',  default = None )
-    parser.add_argument( '-f', '--field',  default = None )
+    parser.add_argument( '-m', '--message',  default = None , help = 'messages separated by + as string or message number')
+    parser.add_argument( '-t', '--type',  default = None, help = 'types separated by + as string or type number' )
+    parser.add_argument( '-f', '--field',  default = None, help = 'field separated by + as string or field number' )
     parser.add_argument( '-q', '--quiet',  default=False, action='store_true' )
+    parser.add_argument( '-d', '--debug',  default=False, action='store_true', help = 'print extra debug information on the message or field selected' )
     args = parser.parse_args()
 
     command = Command( args )
