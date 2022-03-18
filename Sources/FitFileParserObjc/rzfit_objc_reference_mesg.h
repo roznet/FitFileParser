@@ -95,6 +95,7 @@ typedef FIT_UINT16 FIT_MESG_NUM;
 #define FIT_MESG_NUM_DIVE_SUMMARY                   ((FIT_MESG_NUM)268)   
 #define FIT_MESG_NUM_JUMP                           ((FIT_MESG_NUM)285)   
 #define FIT_MESG_NUM_CLIMB_PRO                      ((FIT_MESG_NUM)317)   
+#define FIT_MESG_NUM_DEVICE_AUX_BATTERY_INFO        ((FIT_MESG_NUM)375)   
 #define FIT_MESG_NUM_MFG_RANGE_MIN                  ((FIT_MESG_NUM)0xFF00)
 #define FIT_MESG_NUM_MFG_RANGE_MAX                  ((FIT_MESG_NUM)0xFFFE)
 
@@ -663,16 +664,20 @@ typedef struct {
 
 typedef struct {
   FIT_UINT32 timestamp; // 
+  FIT_UINT16 battery_voltage; // 
+  FIT_UINT8 device_index; // device_index
+  FIT_UINT8 battery_status; // battery_status
+  FIT_UINT8 battery_identifier; // 
+} FIT_DEVICE_AUX_BATTERY_INFO_MESG;
+
+typedef struct {
+  FIT_UINT32 timestamp; // 
   FIT_UINT32Z serial_number; // 
   FIT_UINT32 time_created; // 
   FIT_UINT16 manufacturer; // manufacturer
   FIT_UINT16 product; // 
   FIT_ENUM type; // file
 } FIT_TRAINING_FILE_MESG;
-
-typedef struct {
-  FIT_UINT16 time[1]; // 
-} FIT_HRV_MESG;
 
 typedef struct {
   FIT_UINT32 timestamp; // 
@@ -738,6 +743,27 @@ typedef struct {
 typedef struct {
   FIT_UINT16 weight_display_unit; // fit_base_unit
 } FIT_SET_MESG;
+
+typedef struct {
+  FIT_STRING field_name[64]; // 
+  FIT_STRING units[16]; // 
+  FIT_UINT16 fit_base_unit_id; // fit_base_unit
+  FIT_UINT16 native_mesg_num; // mesg_num
+  FIT_UINT8 developer_data_index; // 
+  FIT_UINT8 field_definition_number; // 
+  FIT_UINT8 fit_base_type_id; // fit_base_type
+  FIT_UINT8 scale; // 
+  FIT_SINT8 offset; // 
+  FIT_UINT8 native_field_num; // 
+} FIT_FIELD_DESCRIPTION_MESG;
+
+typedef struct {
+  FIT_BYTE developer_id[16]; // 
+  FIT_BYTE application_id[16]; // 
+  FIT_UINT32 application_version; // 
+  FIT_UINT16 manufacturer_id; // manufacturer
+  FIT_UINT8 developer_data_index; // 
+} FIT_DEVELOPER_DATA_ID_MESG;
 
 typedef struct {
   FIT_STRING name[16]; // 
@@ -1045,22 +1071,5 @@ typedef struct {
 } FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG;
 
 typedef struct {
-  FIT_STRING field_name[64]; // 
-  FIT_STRING units[16]; // 
-  FIT_UINT16 fit_base_unit_id; // fit_base_unit
-  FIT_UINT16 native_mesg_num; // mesg_num
-  FIT_UINT8 developer_data_index; // 
-  FIT_UINT8 field_definition_number; // 
-  FIT_UINT8 fit_base_type_id; // fit_base_type
-  FIT_UINT8 scale; // 
-  FIT_SINT8 offset; // 
-  FIT_UINT8 native_field_num; // 
-} FIT_FIELD_DESCRIPTION_MESG;
-
-typedef struct {
-  FIT_BYTE developer_id[16]; // 
-  FIT_BYTE application_id[16]; // 
-  FIT_UINT32 application_version; // 
-  FIT_UINT16 manufacturer_id; // manufacturer
-  FIT_UINT8 developer_data_index; // 
-} FIT_DEVELOPER_DATA_ID_MESG;
+  FIT_UINT16 time[1]; // 
+} FIT_HRV_MESG;

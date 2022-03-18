@@ -940,6 +940,27 @@ typedef struct {
   FIT_UINT8 arch;
   FIT_UINT16 global_mesg_num;
   FIT_UINT8 num_fields;
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  5];
+} FIT_DEVICE_AUX_BATTERY_INFO_MESG_DEF;
+
+static const FIT_DEVICE_AUX_BATTERY_INFO_MESG_DEF device_aux_battery_info_mesg_def = {
+  0, // reserved_1
+  FIT_ARCH_ENDIAN, // arch,
+  /* device_aux_battery_info */375, // mesg_num,
+  5,
+  {
+    /* timestamp */253,        (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
+    /* battery_voltage */1,    (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
+    /* device_index */0,       (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
+    /* battery_status */2,     (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
+    /* battery_identifier */3, (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
+  }
+};
+typedef struct {
+  FIT_UINT8 reserved_1;
+  FIT_UINT8 arch;
+  FIT_UINT16 global_mesg_num;
+  FIT_UINT8 num_fields;
   FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  6];
 } FIT_TRAINING_FILE_MESG_DEF;
 
@@ -955,23 +976,6 @@ static const FIT_TRAINING_FILE_MESG_DEF training_file_mesg_def = {
     /* manufacturer */1,  (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
     /* product */2,       (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
     /* type */0,          (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
-  }
-};
-typedef struct {
-  FIT_UINT8 reserved_1;
-  FIT_UINT8 arch;
-  FIT_UINT16 global_mesg_num;
-  FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  1];
-} FIT_HRV_MESG_DEF;
-
-static const FIT_HRV_MESG_DEF hrv_mesg_def = {
-  0, // reserved_1
-  FIT_ARCH_ENDIAN, // arch,
-  /* hrv */78, // mesg_num,
-  1,
-  {
-    /* time */0, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
   }
 };
 typedef struct {
@@ -1128,6 +1132,53 @@ static const FIT_SET_MESG_DEF set_mesg_def = {
   1,
   {
     /* weight_display_unit */9, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
+  }
+};
+typedef struct {
+  FIT_UINT8 reserved_1;
+  FIT_UINT8 arch;
+  FIT_UINT16 global_mesg_num;
+  FIT_UINT8 num_fields;
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 10];
+} FIT_FIELD_DESCRIPTION_MESG_DEF;
+
+static const FIT_FIELD_DESCRIPTION_MESG_DEF field_description_mesg_def = {
+  0, // reserved_1
+  FIT_ARCH_ENDIAN, // arch,
+  /* field_description */206, // mesg_num,
+  10,
+  {
+    /* field_name */3,              (sizeof(FIT_STRING)*64), FIT_BASE_TYPE_STRING,   
+    /* units */8,                   (sizeof(FIT_STRING)*16), FIT_BASE_TYPE_STRING,   
+    /* fit_base_unit_id */13,       (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* native_mesg_num */14,        (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* developer_data_index */0,    (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* field_definition_number */1, (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* fit_base_type_id */2,        (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* scale */6,                   (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* offset */7,                  (sizeof(FIT_SINT8)*1),   FIT_BASE_TYPE_SINT8,    
+    /* native_field_num */15,       (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+  }
+};
+typedef struct {
+  FIT_UINT8 reserved_1;
+  FIT_UINT8 arch;
+  FIT_UINT16 global_mesg_num;
+  FIT_UINT8 num_fields;
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  5];
+} FIT_DEVELOPER_DATA_ID_MESG_DEF;
+
+static const FIT_DEVELOPER_DATA_ID_MESG_DEF developer_data_id_mesg_def = {
+  0, // reserved_1
+  FIT_ARCH_ENDIAN, // arch,
+  /* developer_data_id */207, // mesg_num,
+  5,
+  {
+    /* developer_id */0,         (sizeof(FIT_BYTE)*16),  FIT_BASE_TYPE_BYTE,    
+    /* application_id */1,       (sizeof(FIT_BYTE)*16),  FIT_BASE_TYPE_BYTE,    
+    /* application_version */4,  (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
+    /* manufacturer_id */2,      (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
+    /* developer_data_index */3, (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
   }
 };
 typedef struct {
@@ -1739,49 +1790,19 @@ typedef struct {
   FIT_UINT8 arch;
   FIT_UINT16 global_mesg_num;
   FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 10];
-} FIT_FIELD_DESCRIPTION_MESG_DEF;
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  1];
+} FIT_HRV_MESG_DEF;
 
-static const FIT_FIELD_DESCRIPTION_MESG_DEF field_description_mesg_def = {
+static const FIT_HRV_MESG_DEF hrv_mesg_def = {
   0, // reserved_1
   FIT_ARCH_ENDIAN, // arch,
-  /* field_description */206, // mesg_num,
-  10,
+  /* hrv */78, // mesg_num,
+  1,
   {
-    /* field_name */3,              (sizeof(FIT_STRING)*64), FIT_BASE_TYPE_STRING,   
-    /* units */8,                   (sizeof(FIT_STRING)*16), FIT_BASE_TYPE_STRING,   
-    /* fit_base_unit_id */13,       (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
-    /* native_mesg_num */14,        (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
-    /* developer_data_index */0,    (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
-    /* field_definition_number */1, (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
-    /* fit_base_type_id */2,        (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
-    /* scale */6,                   (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
-    /* offset */7,                  (sizeof(FIT_SINT8)*1),   FIT_BASE_TYPE_SINT8,    
-    /* native_field_num */15,       (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* time */0, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
   }
 };
-typedef struct {
-  FIT_UINT8 reserved_1;
-  FIT_UINT8 arch;
-  FIT_UINT16 global_mesg_num;
-  FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  5];
-} FIT_DEVELOPER_DATA_ID_MESG_DEF;
-
-static const FIT_DEVELOPER_DATA_ID_MESG_DEF developer_data_id_mesg_def = {
-  0, // reserved_1
-  FIT_ARCH_ENDIAN, // arch,
-  /* developer_data_id */207, // mesg_num,
-  5,
-  {
-    /* developer_id */0,         (sizeof(FIT_BYTE)*16),  FIT_BASE_TYPE_BYTE,    
-    /* application_id */1,       (sizeof(FIT_BYTE)*16),  FIT_BASE_TYPE_BYTE,    
-    /* application_version */4,  (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* manufacturer_id */2,      (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* developer_data_index */3, (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-  }
-};
-FIT_UINT8 reference_mesg_defs_size = 64;
+FIT_UINT8 reference_mesg_defs_size = 65;
 FIT_CONST_MESG_DEF_PTR reference_mesg_defs[] = {
   (FIT_CONST_MESG_DEF_PTR) &file_id_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &file_creator_mesg_def,
@@ -1813,8 +1834,8 @@ FIT_CONST_MESG_DEF_PTR reference_mesg_defs[] = {
   (FIT_CONST_MESG_DEF_PTR) &record_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &event_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &device_info_mesg_def,
+  (FIT_CONST_MESG_DEF_PTR) &device_aux_battery_info_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &training_file_mesg_def,
-  (FIT_CONST_MESG_DEF_PTR) &hrv_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &weather_conditions_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &weather_alert_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &nmea_sentence_mesg_def,
@@ -1822,6 +1843,8 @@ FIT_CONST_MESG_DEF_PTR reference_mesg_defs[] = {
   (FIT_CONST_MESG_DEF_PTR) &video_title_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &video_description_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &set_mesg_def,
+  (FIT_CONST_MESG_DEF_PTR) &field_description_mesg_def,
+  (FIT_CONST_MESG_DEF_PTR) &developer_data_id_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &course_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &course_point_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &segment_id_mesg_def,
@@ -1845,8 +1868,7 @@ FIT_CONST_MESG_DEF_PTR reference_mesg_defs[] = {
   (FIT_CONST_MESG_DEF_PTR) &exd_screen_configuration_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &exd_data_field_configuration_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &exd_data_concept_configuration_mesg_def,
-  (FIT_CONST_MESG_DEF_PTR) &field_description_mesg_def,
-  (FIT_CONST_MESG_DEF_PTR) &developer_data_id_mesg_def,
+  (FIT_CONST_MESG_DEF_PTR) &hrv_mesg_def,
 };
 
 void fit_set_reference_mesg_defs() {

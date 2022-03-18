@@ -3,7 +3,7 @@
 import FitFileParserObjc
 
 extension FitFile {
-  public static let sdkVersion = "21.60"
+  public static let sdkVersion = "21.78"
 }
 
 //MARK: - Module Entry Point Functions
@@ -459,6 +459,13 @@ func rzfit_swift_build_mesg(mesg_num : FIT_MESG_NUM, uptr : UnsafePointer<UInt8>
                        mesg_enums:  rzfit_swift_string_dict_for_exercise_title(ptr: $0),
                        mesg_dates:  rzfit_swift_date_dict_for_exercise_title(ptr: $0))
       }
+    case 375: // device_aux_battery_info
+      uptr.withMemoryRebound(to: FIT_DEVICE_AUX_BATTERY_INFO_MESG.self, capacity: 1) {
+      rv = FitMessage( mesg_num:    375,
+                       mesg_values: rzfit_swift_value_dict_for_device_aux_battery_info(ptr: $0),
+                       mesg_enums:  rzfit_swift_string_dict_for_device_aux_battery_info(ptr: $0),
+                       mesg_dates:  rzfit_swift_date_dict_for_device_aux_battery_info(ptr: $0))
+      }
     default:
        rv = FitMessage( mesg_num: mesg_num, mesg_values: [:], mesg_enums: [:], mesg_dates: [:])
     }
@@ -770,7 +777,12 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "ebike_assist_mode": return "depends on sensor"
    case "ebike_assist_level_percent": return "percent"
    case "core_temperature": return "C"
-   case "battery_level": return "V"
+    case "battery_level": 
+        switch mesg_num {
+      case 21: return "V" // event
+      case 23: return "%" // device_info
+      default: return nil
+     }
    case "virtual_partner_speed": return "m/s"
    case "hr_high_alert": return "bpm"
    case "hr_low_alert": return "bpm"
@@ -783,6 +795,8 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "time_duration_alert": return "s"
    case "distance_duration_alert": return "m"
    case "calorie_duration_alert": return "calories"
+   case "radar_threat_avg_approach_speed": return "m/s"
+   case "radar_threat_max_approach_speed": return "m/s"
    case "cum_operating_time": return "s"
    case "battery_voltage": return "V"
    case "wind_direction": return "degrees"
@@ -841,6 +855,7 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "clip_start": return "ms"
    case "clip_end": return "ms"
    case "hang_time": return "s"
+   case "current_dist": return "m"
    case "segment_time": return "s"
    case "leader_time": return "s"
    case "active_time": return "s"
@@ -912,7 +927,10 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "end_n2": return "percent"
    case "o2_toxicity": return "OTUs"
    case "bottom_time": return "s"
-   case "current_dist": return "m"
+   case "avg_ascent_rate": return "m/s"
+   case "avg_descent_rate": return "m/s"
+   case "max_ascent_rate": return "m/s"
+   case "max_descent_rate": return "m/s"
     default: return nil
    }
 }
@@ -1176,6 +1194,7 @@ public func rzfit_swift_string_to_mesg_num(_ input : String) -> FIT_UINT16
     case "dive_summary": return 268;
     case "jump": return 285;
     case "climb_pro": return 317;
+    case "device_aux_battery_info": return 375;
     case "mfg_range_min": return 0xFF00;
     case "mfg_range_max": return 0xFFFE;
    default: return FIT_UINT16_INVALID;
@@ -1273,6 +1292,7 @@ public func rzfit_swift_string_from_mesg_num(_ input : FIT_UINT16) -> String
     case 268: return "dive_summary"
     case 285: return "jump"
     case 317: return "climb_pro"
+    case 375: return "device_aux_battery_info"
     case 0xFF00: return "mfg_range_min"
     case 0xFFFE: return "mfg_range_max"
    default: return "mesg_num_\(input)"
@@ -1373,6 +1393,7 @@ public extension FitMessageType {
   static let dive_summary : FitMessageType = 268
   static let jump : FitMessageType = 285
   static let climb_pro : FitMessageType = 317
+  static let device_aux_battery_info : FitMessageType = 375
   static let mfg_range_min : FitMessageType = 0xFF00
   static let mfg_range_max : FitMessageType = 0xFFFE
 }
@@ -1474,6 +1495,7 @@ fileprivate func rzfit_swift_string_from_gender(_ input : FIT_ENUM) -> String
    switch input {
     case 0: return "female"
     case 1: return "male"
+    case 2: return "unspecified"
    default: return "gender_\(input)"
   }
 }
@@ -2017,7 +2039,11 @@ fileprivate func rzfit_swift_string_from_sub_sport(_ input : FIT_ENUM) -> String
     case 57: return "apnea_hunting"
     case 58: return "virtual_activity"
     case 59: return "obstacle"
+    case 62: return "breathing"
     case 65: return "sail_race"
+    case 67: return "ultra"
+    case 68: return "indoor_climbing"
+    case 69: return "bouldering"
     case 254: return "all"
    default: return "sub_sport_\(input)"
   }
@@ -2554,6 +2580,12 @@ fileprivate func rzfit_swift_string_from_manufacturer(_ input : FIT_UINT16) -> S
     case 133: return "gravaa_byte"
     case 134: return "sigeyi"
     case 135: return "coospo"
+    case 136: return "geoid"
+    case 137: return "bosch"
+    case 138: return "kyto"
+    case 139: return "kinetic_sports"
+    case 140: return "decathlon_byte"
+    case 141: return "tq_systems"
     case 255: return "development"
     case 257: return "healthandlife"
     case 258: return "lezyne"
@@ -2610,6 +2642,12 @@ fileprivate func rzfit_swift_string_from_manufacturer(_ input : FIT_UINT16) -> S
     case 309: return "form"
     case 310: return "decathlon"
     case 311: return "syncros"
+    case 312: return "heatup"
+    case 313: return "cannondale"
+    case 314: return "true_fitness"
+    case 315: return "RGT_cycling"
+    case 316: return "vasa"
+    case 317: return "race_republic"
     case 5759: return "actigraphcorp"
    default: return "manufacturer_\(input)"
   }
@@ -2634,6 +2672,7 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 14: return "fr225_single_byte_product_id"
     case 15: return "gen3_bsm_single_byte_product_id"
     case 16: return "gen3_bcm_single_byte_product_id"
+    case 255: return "OHR"
     case 473: return "fr301_china"
     case 474: return "fr301_japan"
     case 475: return "fr301_korea"
@@ -2909,6 +2948,7 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 3449: return "marq_commander_asia"
     case 3450: return "marq_expedition_asia"
     case 3451: return "marq_athlete_asia"
+    case 3466: return "instinct_solar"
     case 3469: return "fr45_asia"
     case 3473: return "vivoactive3_daimler"
     case 3498: return "legacy_rey"
@@ -2933,8 +2973,9 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 3615: return "lily"
     case 3624: return "marq_adventurer"
     case 3638: return "enduro"
-    case 3648: return "marq_adventurer_asia"
     case 3639: return "swim2_apac"
+    case 3648: return "marq_adventurer_asia"
+    case 3652: return "fr945_lte"
     case 3702: return "descent_mk2_asia"
     case 3703: return "venu2"
     case 3704: return "venu2s"
@@ -2949,18 +2990,49 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 3872: return "enduro_asia"
     case 3837: return "venusq_asia"
     case 3850: return "marq_golfer_asia"
+    case 3851: return "venu2_plus"
+    case 3869: return "fr55"
+    case 3888: return "instinct_2"
+    case 3905: return "fenix7s"
+    case 3906: return "fenix7"
+    case 3907: return "fenix7x"
+    case 3908: return "fenix7s_apac"
+    case 3909: return "fenix7_apac"
+    case 3910: return "fenix7x_apac"
     case  3927: return "approach_g12"
     case 3930: return "descent_mk2s_asia"
     case 3934: return "approach_s42"
+    case 3943: return "epix_gen2"
+    case 3944: return "epix_gen2_apac"
     case 3949: return "venu2s_asia"
     case 3950: return "venu2_asia"
+    case 3978: return "fr945_lte_asia"
     case 3986: return "approach_S12_asia"
     case  4001: return "approach_g12_asia"
     case 4002: return "approach_s42_asia"
+    case 4005: return "descent_g1"
+    case 4017: return "venu2_plus_asia"
+    case 4033: return "fr55_asia"
+    case 4071: return "instinct_2_asia"
+    case 4125: return "d2_air_x10"
+    case 4132: return "descent_g1_asia"
+    case 4265: return "tacx_neo_smart"
+    case 4266: return "tacx_neo2_smart"
+    case 4267: return "tacx_neo2_t_smart"
+    case 4268: return "tacx_neo_smart_bike"
+    case 4269: return "tacx_satori_smart"
+    case 4270: return "tacx_flow_smart"
+    case 4271: return "tacx_vortex_smart"
+    case 4272: return "tacx_bushido_smart"
+    case 4273: return "tacx_genius_smart"
+    case 4274: return "tacx_flux_flux_s_smart"
+    case 4275: return "tacx_flux2_smart"
+    case 4276: return "tacx_magnum"
     case 10007: return "sdm4"
     case 10014: return "edge_remote"
     case 20533: return "tacx_training_app_win"
     case 20534: return "tacx_training_app_mac"
+    case 20565: return "tacx_training_app_mac_catalyst"
     case 20119: return "training_center"
     case 30045: return "tacx_training_app_android"
     case 30046: return "tacx_training_app_ios"
@@ -2988,6 +3060,7 @@ fileprivate func rzfit_swift_string_from_antplus_device_type(_ input : FIT_UINT8
     case 26: return "racquet"
     case 27: return "control_hub"
     case 31: return "muscle_oxygen"
+    case 34: return "shifting"
     case 35: return "bike_light_main"
     case 36: return "bike_light_shared"
     case 38: return "exd"
@@ -6622,6 +6695,8 @@ fileprivate func rzfit_swift_field_num_to_string_for_event( field_num : FIT_UINT
     case 13: return "device_index"
     case 21: return "radar_threat_level_max"
     case 22: return "radar_threat_count"
+    case 23: return "radar_threat_avg_approach_speed"
+    case 24: return "radar_threat_max_approach_speed"
     default: return "event_field_num_\(field_num)"
   }
 }
@@ -6665,7 +6740,18 @@ fileprivate func rzfit_swift_field_num_to_string_for_device_info( field_num : FI
     case 22: return "ant_network"
     case 25: return "source_type"
     case 27: return "product_name"
+    case 32: return "battery_level"
     default: return "device_info_field_num_\(field_num)"
+  }
+}
+fileprivate func rzfit_swift_field_num_to_string_for_device_aux_battery_info( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "device_index"
+    case 1: return "battery_voltage"
+    case 2: return "battery_status"
+    case 3: return "battery_identifier"
+    default: return "device_aux_battery_info_field_num_\(field_num)"
   }
 }
 fileprivate func rzfit_swift_field_num_to_string_for_training_file( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
@@ -6690,12 +6776,6 @@ fileprivate func rzfit_swift_field_num_to_string_for_training_file( field_num : 
     case 3: return "serial_number"
     case 4: return "time_created"
     default: return "training_file_field_num_\(field_num)"
-  }
-}
-fileprivate func rzfit_swift_field_num_to_string_for_hrv( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "time"
-    default: return "hrv_field_num_\(field_num)"
   }
 }
 fileprivate func rzfit_swift_field_num_to_string_for_weather_conditions( field_num : FIT_UINT16 ) -> String {
@@ -6955,6 +7035,47 @@ fileprivate func rzfit_swift_field_num_to_string_for_jump( field_num : FIT_UINT1
     case 7: return "speed"
     case 8: return "enhanced_speed"
     default: return "jump_field_num_\(field_num)"
+  }
+}
+fileprivate func rzfit_swift_field_num_to_string_for_climb_pro( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "position_lat"
+    case 1: return "position_long"
+    case 2: return "climb_pro_event"
+    case 3: return "climb_number"
+    case 4: return "climb_category"
+    case 5: return "current_dist"
+    default: return "climb_pro_field_num_\(field_num)"
+  }
+}
+fileprivate func rzfit_swift_field_num_to_string_for_field_description( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "developer_data_index"
+    case 1: return "field_definition_number"
+    case 2: return "fit_base_type_id"
+    case 3: return "field_name"
+    case 4: return "array"
+    case 5: return "components"
+    case 6: return "scale"
+    case 7: return "offset"
+    case 8: return "units"
+    case 9: return "bits"
+    case 10: return "accumulate"
+    case 13: return "fit_base_unit_id"
+    case 14: return "native_mesg_num"
+    case 15: return "native_field_num"
+    default: return "field_description_field_num_\(field_num)"
+  }
+}
+fileprivate func rzfit_swift_field_num_to_string_for_developer_data_id( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 0: return "developer_id"
+    case 1: return "application_id"
+    case 2: return "manufacturer_id"
+    case 3: return "developer_data_index"
+    case 4: return "application_version"
+    default: return "developer_data_id_field_num_\(field_num)"
   }
 }
 fileprivate func rzfit_swift_field_num_to_string_for_course( field_num : FIT_UINT16 ) -> String {
@@ -7498,35 +7619,6 @@ fileprivate func rzfit_swift_field_num_to_string_for_exd_data_concept_configurat
     default: return "exd_data_concept_configuration_field_num_\(field_num)"
   }
 }
-fileprivate func rzfit_swift_field_num_to_string_for_field_description( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "developer_data_index"
-    case 1: return "field_definition_number"
-    case 2: return "fit_base_type_id"
-    case 3: return "field_name"
-    case 4: return "array"
-    case 5: return "components"
-    case 6: return "scale"
-    case 7: return "offset"
-    case 8: return "units"
-    case 9: return "bits"
-    case 10: return "accumulate"
-    case 13: return "fit_base_unit_id"
-    case 14: return "native_mesg_num"
-    case 15: return "native_field_num"
-    default: return "field_description_field_num_\(field_num)"
-  }
-}
-fileprivate func rzfit_swift_field_num_to_string_for_developer_data_id( field_num : FIT_UINT16 ) -> String {
-  switch field_num {
-    case 0: return "developer_id"
-    case 1: return "application_id"
-    case 2: return "manufacturer_id"
-    case 3: return "developer_data_index"
-    case 4: return "application_version"
-    default: return "developer_data_id_field_num_\(field_num)"
-  }
-}
 fileprivate func rzfit_swift_field_num_to_string_for_dive_summary( field_num : FIT_UINT16 ) -> String {
   switch field_num {
     case 253: return "timestamp"
@@ -7542,19 +7634,18 @@ fileprivate func rzfit_swift_field_num_to_string_for_dive_summary( field_num : F
     case 9: return "o2_toxicity"
     case 10: return "dive_number"
     case 11: return "bottom_time"
+    case 17: return "avg_ascent_rate"
+    case 22: return "avg_descent_rate"
+    case 23: return "max_ascent_rate"
+    case 24: return "max_descent_rate"
+    case 25: return "hang_time"
     default: return "dive_summary_field_num_\(field_num)"
   }
 }
-fileprivate func rzfit_swift_field_num_to_string_for_climb_pro( field_num : FIT_UINT16 ) -> String {
+fileprivate func rzfit_swift_field_num_to_string_for_hrv( field_num : FIT_UINT16 ) -> String {
   switch field_num {
-    case 253: return "timestamp"
-    case 0: return "position_lat"
-    case 1: return "position_long"
-    case 2: return "climb_pro_event"
-    case 3: return "climb_number"
-    case 4: return "climb_category"
-    case 5: return "current_dist"
-    default: return "climb_pro_field_num_\(field_num)"
+    case 0: return "time"
+    default: return "hrv_field_num_\(field_num)"
   }
 }
 func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UINT16, strings : [String:String]) -> String {
@@ -7646,6 +7737,7 @@ func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UIN
     case 268: return rzfit_swift_field_num_to_string_for_dive_summary(field_num: field_num)
     case 285: return rzfit_swift_field_num_to_string_for_jump(field_num: field_num)
     case 317: return rzfit_swift_field_num_to_string_for_climb_pro(field_num: field_num)
+    case 375: return rzfit_swift_field_num_to_string_for_device_aux_battery_info(field_num: field_num)
     default: return "mesg_num_\(mesg_num)_field_num_\(field_num)"
    }
 }
@@ -9938,6 +10030,39 @@ fileprivate func rzfit_swift_date_dict_for_device_info( ptr : UnsafePointer<FIT_
   }
   return rv
 }
+fileprivate func rzfit_swift_value_dict_for_device_aux_battery_info( ptr : UnsafePointer<FIT_DEVICE_AUX_BATTERY_INFO_MESG>) -> [String:Double] {
+  var rv : [String:Double] = [:]
+  let x : FIT_DEVICE_AUX_BATTERY_INFO_MESG = ptr.pointee
+  if x.battery_voltage != FIT_UINT16_INVALID  {
+    let val : Double = (Double(x.battery_voltage)/Double(256))
+    rv[ "battery_voltage" ] = val
+  }
+  if x.battery_identifier != FIT_UINT8_INVALID  {
+    let val : Double = Double(x.battery_identifier)
+    rv[ "battery_identifier" ] = val
+  }
+  return rv
+}
+fileprivate func rzfit_swift_string_dict_for_device_aux_battery_info( ptr : UnsafePointer<FIT_DEVICE_AUX_BATTERY_INFO_MESG>) -> [String:String] {
+  var rv : [String:String] = [:]
+  let x : FIT_DEVICE_AUX_BATTERY_INFO_MESG = ptr.pointee
+  if( x.device_index != FIT_UINT8_INVALID ) {
+    rv[ "device_index" ] = rzfit_swift_string_from_device_index(x.device_index)
+  }
+  if( x.battery_status != FIT_UINT8_INVALID ) {
+    rv[ "battery_status" ] = rzfit_swift_string_from_battery_status(x.battery_status)
+  }
+  return rv
+}
+fileprivate func rzfit_swift_date_dict_for_device_aux_battery_info( ptr : UnsafePointer<FIT_DEVICE_AUX_BATTERY_INFO_MESG>) -> [String:Date] {
+  var rv : [String:Date] = [:]
+  let x : FIT_DEVICE_AUX_BATTERY_INFO_MESG = ptr.pointee
+  if x.timestamp != FIT_UINT32_INVALID  {
+    let val : Date =  Date(timeIntervalSinceReferenceDate: Double(x.timestamp)-347241600.0 )
+    rv[ "timestamp" ] = val
+  }
+  return rv
+}
 fileprivate func rzfit_swift_value_dict_for_training_file( ptr : UnsafePointer<FIT_TRAINING_FILE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_TRAINING_FILE_MESG = ptr.pointee
@@ -9983,22 +10108,6 @@ fileprivate func rzfit_swift_date_dict_for_training_file( ptr : UnsafePointer<FI
     rv[ "time_created" ] = val
   }
   return rv
-}
-fileprivate func rzfit_swift_value_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Double] {
-  var rv : [String:Double] = [:]
-  let x : FIT_HRV_MESG = ptr.pointee
-  if x.time != FIT_UINT16_INVALID  {
-    // Array[1]
-    let val : Double = (Double(x.time)/Double(1000))
-    rv[ "time" ] = val
-  }
-  return rv
-}
-fileprivate func rzfit_swift_string_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:String] {
-  return [:]
-}
-fileprivate func rzfit_swift_date_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Date] {
-  return [:]
 }
 fileprivate func rzfit_swift_value_dict_for_weather_conditions( ptr : UnsafePointer<FIT_WEATHER_CONDITIONS_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
@@ -10274,6 +10383,96 @@ fileprivate func rzfit_swift_string_dict_for_set( ptr : UnsafePointer<FIT_SET_ME
   return rv
 }
 fileprivate func rzfit_swift_date_dict_for_set( ptr : UnsafePointer<FIT_SET_MESG>) -> [String:Date] {
+  return [:]
+}
+fileprivate func rzfit_swift_value_dict_for_field_description( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Double] {
+  var rv : [String:Double] = [:]
+  let x : FIT_FIELD_DESCRIPTION_MESG = ptr.pointee
+  if x.developer_data_index != FIT_UINT8_INVALID  {
+    let val : Double = Double(x.developer_data_index)
+    rv[ "developer_data_index" ] = val
+  }
+  if x.field_definition_number != FIT_UINT8_INVALID  {
+    let val : Double = Double(x.field_definition_number)
+    rv[ "field_definition_number" ] = val
+  }
+  if x.scale != FIT_UINT8_INVALID  {
+    let val : Double = Double(x.scale)
+    rv[ "scale" ] = val
+  }
+  if x.offset != FIT_SINT8_INVALID  {
+    let val : Double = Double(x.offset)
+    rv[ "offset" ] = val
+  }
+  if x.native_field_num != FIT_UINT8_INVALID  {
+    let val : Double = Double(x.native_field_num)
+    rv[ "native_field_num" ] = val
+  }
+  return rv
+}
+fileprivate func rzfit_swift_string_dict_for_field_description( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:String] {
+  var rv : [String:String] = [:]
+  var x : FIT_FIELD_DESCRIPTION_MESG = ptr.pointee
+  let field_name = withUnsafeBytes(of: &x.field_name) { (rawPtr) -> String in
+    let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
+    return String(cString: ptr)
+  }
+  if !field_name.isEmpty {
+    rv[ "field_name" ] = field_name
+  }
+  let units = withUnsafeBytes(of: &x.units) { (rawPtr) -> String in
+    let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
+    return String(cString: ptr)
+  }
+  if !units.isEmpty {
+    rv[ "units" ] = units
+  }
+  if( x.fit_base_unit_id != FIT_UINT16_INVALID ) {
+    rv[ "fit_base_unit_id" ] = rzfit_swift_string_from_fit_base_unit(x.fit_base_unit_id)
+  }
+  if( x.native_mesg_num != FIT_UINT16_INVALID ) {
+    rv[ "native_mesg_num" ] = rzfit_swift_string_from_mesg_num(x.native_mesg_num)
+  }
+  if( x.fit_base_type_id != FIT_UINT8_INVALID ) {
+    rv[ "fit_base_type_id" ] = rzfit_swift_string_from_fit_base_type(x.fit_base_type_id)
+  }
+  return rv
+}
+fileprivate func rzfit_swift_date_dict_for_field_description( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Date] {
+  return [:]
+}
+fileprivate func rzfit_swift_value_dict_for_developer_data_id( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Double] {
+  var rv : [String:Double] = [:]
+  let x : FIT_DEVELOPER_DATA_ID_MESG = ptr.pointee
+  if x.developer_id.0 != FIT_BYTE_INVALID  {
+    // Array[16]
+    let val : Double = Double(x.developer_id.0)
+    rv[ "developer_id" ] = val
+  }
+  if x.application_id.0 != FIT_BYTE_INVALID  {
+    // Array[16]
+    let val : Double = Double(x.application_id.0)
+    rv[ "application_id" ] = val
+  }
+  if x.application_version != FIT_UINT32_INVALID  {
+    let val : Double = Double(x.application_version)
+    rv[ "application_version" ] = val
+  }
+  if x.developer_data_index != FIT_UINT8_INVALID  {
+    let val : Double = Double(x.developer_data_index)
+    rv[ "developer_data_index" ] = val
+  }
+  return rv
+}
+fileprivate func rzfit_swift_string_dict_for_developer_data_id( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:String] {
+  var rv : [String:String] = [:]
+  let x : FIT_DEVELOPER_DATA_ID_MESG = ptr.pointee
+  if( x.manufacturer_id != FIT_UINT16_INVALID ) {
+    rv[ "manufacturer_id" ] = rzfit_swift_string_from_manufacturer(x.manufacturer_id)
+  }
+  return rv
+}
+fileprivate func rzfit_swift_date_dict_for_developer_data_id( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Date] {
   return [:]
 }
 fileprivate func rzfit_swift_value_dict_for_course( ptr : UnsafePointer<FIT_COURSE_MESG>) -> [String:Double] {
@@ -11674,93 +11873,19 @@ fileprivate func rzfit_swift_string_dict_for_exd_data_concept_configuration( ptr
 fileprivate func rzfit_swift_date_dict_for_exd_data_concept_configuration( ptr : UnsafePointer<FIT_EXD_DATA_CONCEPT_CONFIGURATION_MESG>) -> [String:Date] {
   return [:]
 }
-fileprivate func rzfit_swift_value_dict_for_field_description( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Double] {
+fileprivate func rzfit_swift_value_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
-  let x : FIT_FIELD_DESCRIPTION_MESG = ptr.pointee
-  if x.developer_data_index != FIT_UINT8_INVALID  {
-    let val : Double = Double(x.developer_data_index)
-    rv[ "developer_data_index" ] = val
-  }
-  if x.field_definition_number != FIT_UINT8_INVALID  {
-    let val : Double = Double(x.field_definition_number)
-    rv[ "field_definition_number" ] = val
-  }
-  if x.scale != FIT_UINT8_INVALID  {
-    let val : Double = Double(x.scale)
-    rv[ "scale" ] = val
-  }
-  if x.offset != FIT_SINT8_INVALID  {
-    let val : Double = Double(x.offset)
-    rv[ "offset" ] = val
-  }
-  if x.native_field_num != FIT_UINT8_INVALID  {
-    let val : Double = Double(x.native_field_num)
-    rv[ "native_field_num" ] = val
+  let x : FIT_HRV_MESG = ptr.pointee
+  if x.time != FIT_UINT16_INVALID  {
+    // Array[1]
+    let val : Double = (Double(x.time)/Double(1000))
+    rv[ "time" ] = val
   }
   return rv
 }
-fileprivate func rzfit_swift_string_dict_for_field_description( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:String] {
-  var rv : [String:String] = [:]
-  var x : FIT_FIELD_DESCRIPTION_MESG = ptr.pointee
-  let field_name = withUnsafeBytes(of: &x.field_name) { (rawPtr) -> String in
-    let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
-    return String(cString: ptr)
-  }
-  if !field_name.isEmpty {
-    rv[ "field_name" ] = field_name
-  }
-  let units = withUnsafeBytes(of: &x.units) { (rawPtr) -> String in
-    let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
-    return String(cString: ptr)
-  }
-  if !units.isEmpty {
-    rv[ "units" ] = units
-  }
-  if( x.fit_base_unit_id != FIT_UINT16_INVALID ) {
-    rv[ "fit_base_unit_id" ] = rzfit_swift_string_from_fit_base_unit(x.fit_base_unit_id)
-  }
-  if( x.native_mesg_num != FIT_UINT16_INVALID ) {
-    rv[ "native_mesg_num" ] = rzfit_swift_string_from_mesg_num(x.native_mesg_num)
-  }
-  if( x.fit_base_type_id != FIT_UINT8_INVALID ) {
-    rv[ "fit_base_type_id" ] = rzfit_swift_string_from_fit_base_type(x.fit_base_type_id)
-  }
-  return rv
-}
-fileprivate func rzfit_swift_date_dict_for_field_description( ptr : UnsafePointer<FIT_FIELD_DESCRIPTION_MESG>) -> [String:Date] {
+fileprivate func rzfit_swift_string_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:String] {
   return [:]
 }
-fileprivate func rzfit_swift_value_dict_for_developer_data_id( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Double] {
-  var rv : [String:Double] = [:]
-  let x : FIT_DEVELOPER_DATA_ID_MESG = ptr.pointee
-  if x.developer_id.0 != FIT_BYTE_INVALID  {
-    // Array[16]
-    let val : Double = Double(x.developer_id.0)
-    rv[ "developer_id" ] = val
-  }
-  if x.application_id.0 != FIT_BYTE_INVALID  {
-    // Array[16]
-    let val : Double = Double(x.application_id.0)
-    rv[ "application_id" ] = val
-  }
-  if x.application_version != FIT_UINT32_INVALID  {
-    let val : Double = Double(x.application_version)
-    rv[ "application_version" ] = val
-  }
-  if x.developer_data_index != FIT_UINT8_INVALID  {
-    let val : Double = Double(x.developer_data_index)
-    rv[ "developer_data_index" ] = val
-  }
-  return rv
-}
-fileprivate func rzfit_swift_string_dict_for_developer_data_id( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:String] {
-  var rv : [String:String] = [:]
-  let x : FIT_DEVELOPER_DATA_ID_MESG = ptr.pointee
-  if( x.manufacturer_id != FIT_UINT16_INVALID ) {
-    rv[ "manufacturer_id" ] = rzfit_swift_string_from_manufacturer(x.manufacturer_id)
-  }
-  return rv
-}
-fileprivate func rzfit_swift_date_dict_for_developer_data_id( ptr : UnsafePointer<FIT_DEVELOPER_DATA_ID_MESG>) -> [String:Date] {
+fileprivate func rzfit_swift_date_dict_for_hrv( ptr : UnsafePointer<FIT_HRV_MESG>) -> [String:Date] {
   return [:]
 }
