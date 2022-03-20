@@ -13,6 +13,22 @@ final class FitFileParserSwiftTests: XCTestCase {
         
     }
     
+    func testComponentFields(){
+
+        let path = self.findResource(name: "gearstest.fit")
+        
+        if let fit = FitFile(file: path ) {
+            let messages = fit.messages(forMessageType: .event)
+            for message in messages {
+                if let name = message.interpretedField(key: "event")?.name {
+                    if name == "rear_gear_change" {
+                        XCTAssertNotNil(message.interpretedField(key:"rear_gear_num")?.value)
+                    }
+                }
+            }
+        }
+    }
+    
     func testReadmeExampleSyntax(){
         let path = self.findResource(name: "running.fit")
         

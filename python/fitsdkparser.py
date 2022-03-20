@@ -310,13 +310,27 @@ class Field:
 
         if row[5]:
             self.is_component = True
-            self.components = row[5].replace('\n','').split( ',')
-            self.components_scale = str(row[6]).replace('\n','').split( ',') if row[6] else None
-            self.components_bits = str(row[9]).replace('\n','').split( ',') if row[9] else None
+            
+            components_name = row[5].replace('\n','').split( ',')
+            components_scale = str(row[6]).replace('\n','').split( ',') if row[6] else None
+            components_bits = str(row[9]).replace('\n','').split( ',') if row[9] else None
+            components_units = str(row[8]).replace('\n','').split( ',') if row[8] else None
+
+            if components_units and len(components_units) == 1:
+                single = components_units[0]
+                components_units = [single for x in components_name]
+            components = []
+            for index,(name,bits) in enumerate(zip(components_name,components_bits)):
+                one = {'name':name,'bits':bits}
+                if components_scale and index < len(components_scale):
+                    one['scale'] = components_scale[index]
+                if components_units and index < len(components_units):
+                    one['unit'] = components_units[index]
+                components.append(one)
+            self.components = components
         else:
             self.components = None
-            self.components_scale = None
-            self.components_bits = None
+
         
     def add_reference(self,ctx,row):
         field = Field(ctx,row)
@@ -391,8 +405,8 @@ class Field:
                 rv.append( 'switch({}): {}'.format( refs, field.description() ) )
 
         if self.components:
-            for component,bit in zip(self.components,self.components_bits):
-                rv.append( 'compoment: {} = {}[{}]'.format( component,self.name,bit ) )
+            for component in self.components:
+                rv.append( 'compoment: {} = {}[{}]'.format( component['name'],self.name,component['bits'] ) )
         return '\n'.join( rv )
         
     def formula(self):
@@ -430,22 +444,32 @@ class Field:
         array_access = ''
         if self.is_array and self.array_size > 1:
             array_access = '.0'
-        if self.is_value:
+        something_done = False
+        if self.is_value or self.is_switched:
             lines = first_line_with_annotate_comment(prefix,ctx.annotate)
+            
             lines.extend( [ prefix + 'if x.{}{} != {}_INVALID  {{'.format( member, array_access, self.objc_base_type ) ] )
-
-            if self.is_switched:
-                lines.extend( self.swift_stmt_case_convert_to_value(ctx, message) )
-            else:
+            if self.is_value:
+                something_done = True
                 if self.is_array:
                     lines.append( prefix + '  // Array[{}]'.format( self.array_size ) )
+
                 formula = self.swift_expr_formula(ctx)
                 lines.extend( [ prefix + '  let val : Double = {}'.format( formula ),
                                  prefix + '  rv[ "{}" ] = val'.format(self.name),
                                  ] )
-                 
-            lines.append( prefix + '}' )
             
+            if self.is_switched:
+                switch_stmt = self.swift_stmt_case_convert_to_value(ctx, message)
+                if switch_stmt:
+                    lines.extend( switch_stmt )
+                    something_done = True
+        
+            lines.append( prefix + '}' )
+
+        if not something_done:
+            return []
+        
         return lines
 
     def swift_stmt_convert_string(self,ctx,message,prefix='  '):
@@ -494,11 +518,49 @@ class Field:
             
         return lines
 
+    def swift_stmt_components_convert_to_value(self,ctx,message,components):
+        prefix = '         '
+        rv = first_line_with_annotate_comment(prefix,ctx.annotate)
+
+        components_tuples = []
+        has_scale = False
+        for component in components:
+            component_tuple = '({}, "{}"'.format( component['bits'],component['name'] )
+            if 'scale' in component:
+                has_scale = True
+                component_tuple += ', {}'.format(component['scale'])
+            component_tuple += ')'
+            components_tuples.append(component_tuple)
+
+
+            
+        rv.extend( [ prefix + 'var sourceData : UInt32 = UInt32(x.data)',
+                     prefix + 'for info in [ {} ] {{'.format(', '.join(components_tuples)),
+                     prefix + '  let bits = info.0',
+                     prefix + '  let name = info.1'
+                    ] )
+        if has_scale:
+            rv.append( prefix + '  let scale = info.2' )
+            formula = 'Double(val) / Double(scale)'
+        else:
+            formula = 'Double(val)'
+        
+        rv.extend( [
+                     prefix + '  let mask : UInt32 = (1 << bits ) - 1',
+                     prefix + '  let val = sourceData & mask',
+                     prefix + '  sourceData = sourceData >> bits',
+                     prefix + '  rv[name] = {}'.format(formula),
+                     prefix + '}'
+                    ] )
+
+        return rv
+    
     def swift_stmt_case_convert_to_value(self,ctx,message):
         rv = []
         
         if self.references:
             rv = first_line_with_annotate_comment('  ',ctx.annotate)
+            something_done = False
             if_statement = 'if'
             for r in self.references:
                 if not r.reference_field:
@@ -506,11 +568,19 @@ class Field:
                 for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
                     ref_type_obj = message.type_for_field(ctx,onefield)
                     formula = self.swift_expr_formula(ctx)
-                    rv.extend( [ '      {} x.{} == {} {{ // {}'.format( if_statement, onefield, ref_type_obj.value_for_string(oneval), oneval ),
-                                 '        let val : Double = {}'.format( formula ),
-                                 '        rv[ "{}" ] = val'.format( r.name ),
-                                 ] )
-                    if_statement = '}else if'
+                    if r.is_value:
+                        something_done = True
+                        rv.append('      {} x.{} == {} {{ // {}'.format( if_statement, onefield, ref_type_obj.value_for_string(oneval), oneval ))
+                        prefix = '         '
+                        if r.components:
+                            rv.extend( self.swift_stmt_components_convert_to_value(ctx, message, r.components) )
+                        else:
+                            rv.extend( [ prefix + 'let val : Double = {}'.format( formula ),
+                                         prefix + 'rv[ "{}" ] = val'.format( r.name ),
+                                        ] )
+                        if_statement = '}else if'
+                    else:
+                        rv.extend( [ '      // Skipped {} that is not a value'.format( r.name ) ] )
             if if_statement != 'if':
                 rv.append( '      }else{' )
                 formula = self.swift_expr_formula(ctx)
@@ -519,7 +589,8 @@ class Field:
                              '      }',
                              ] )
             
-
+            if not something_done:
+                return []
         return rv
 
     def swift_stmt_case_convert_to_string(self,ctx,message):
@@ -1066,7 +1137,8 @@ class Profile:
         ws_types = list(wb['Types'].values)
         self.types = {}
         current = None
-        
+
+        self.types_columns = ws_types[0]
         for row in ws_types[1:]:
             if len(row)>0 and row[0] and row[1]:
                 # len+1 so 0 means no type
@@ -1081,6 +1153,7 @@ class Profile:
         logging.info( 'Read {} types'.format( len(self.types ) ) )
 
         ws_messages = list(wb['Messages'].values)
+        self.messages_columns = ws_messages[0]
         self.messages = {}
         current = None
         self.units = {}
@@ -1120,6 +1193,9 @@ class Profile:
                     for m in self.messages.values():
                         if int(m.mesg_num) == int(i):
                             rv.append( m )
+            # this message is required to be always here to compiled, as needed for developer field decoding code
+            if 'field_description' not in self.focus_messages:
+                rv.append( self.messages['field_description'] )
         else:
             rv = self.messages.values()
         return rv
@@ -1140,10 +1216,15 @@ class Profile:
             for i in self.focus_fields:
                 if i in message.fields_map:
                     rv.append( message.fields_map[i] )
-                elif int(i) > 0:
-                    for f in message.fields:
-                        if int(f.field_num) == int(i):
-                            rv.append( f )
+                else:
+                    try:
+                        if int(i) > 0:
+                            for f in message.fields:
+                                if int(f.field_num) == int(i):
+                                    rv.append( f )
+                    except:
+                        # if not an int, just ignore
+                        pass
         else:
             rv = message.fields
         return rv
