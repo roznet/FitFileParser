@@ -16,6 +16,29 @@ import logging
 import os
 from inspect import currentframe,getframeinfo
 
+MSG_COL_MESSAGE_NAME = 0
+MSG_COL_FIELD_DEF = 1
+MSG_COL_FIELD_NAME = 2
+MSG_COL_FIELD_TYPE = 3
+MSG_COL_ARRAY = 4
+MSG_COL_COMPONENTS = 5
+MSG_COL_SCALE = 6
+MSG_COL_OFFSET = 7
+MSG_COL_UNITS = 8
+MSG_COL_BITS = 9
+MSG_COL_ACCUMULATE = 10
+MSG_COL_REF_FIELD_NAME = 11
+MSG_COL_REF_FIELD_VALUE = 12
+MSG_COL_COMMENT = 13
+MSG_COL_PRODUCTS = 14
+MSG_COL_EXAMPLE = 15
+
+TYP_COL_TYPE_NAME = 0
+TYP_COL_BASE_TYPE = 1
+TYP_COL_VALUE_NAME = 2
+TYP_COL_VALUE = 3
+TYP_COL_COMMENT = 4
+
 def fix_variable_name( var_name ):
     '''
     fix for reserved names
@@ -75,9 +98,9 @@ class Type :
         return 'FIT_{}'.format( self.name.upper() )
 
     def add_row(self,row):
-        if len(row)>4 and row[0] is None and row[1] is None:
-            self.values.append( { 'name': row[2], 'value':row[3] } )
-            self.values_map[row[2]] = row[3]
+        if len(row)>4 and row[TYP_COL_TYPE_NAME] is None and row[TYP_COL_BASE_TYPE] is None:
+            self.values.append( { 'name': row[TYP_COL_VALUE_NAME], 'value':row[TYP_COL_VALUE] } )
+            self.values_map[row[TYP_COL_VALUE_NAME]] = row[TYP_COL_VALUE]
             return True
         else:
             return False
@@ -234,14 +257,14 @@ class Field:
     reference_field_value: None or array of value to check if should be used (ex: ['garmin','running'] )
     '''
     def __init__(self,ctx,row):
-        self.field_num = row[1]
+        self.field_num = row[MSG_COL_FIELD_DEF]
         self.annotate = ctx.annotate
-        self.name = row[2]
-        self.type_name = row[3]
+        self.name = row[MSG_COL_FIELD_NAME]
+        self.type_name = row[MSG_COL_FIELD_TYPE]
         self.objc_type = 'FIT_{}'.format(self.type_name.upper() )
-        self.scale = row[6]
-        self.offset = row[7]
-        self.unit = row[8]
+        self.scale = row[MSG_COL_SCALE]
+        self.offset = row[MSG_COL_OFFSET]
+        self.unit = row[MSG_COL_UNITS]
         self.unit_num = ctx.unit_num( self.unit )
 
         if self.type_name in ctx.types:
@@ -282,24 +305,24 @@ class Field:
         else:
             self.is_value = True
 
-        if row[4]:
+        if row[MSG_COL_ARRAY]:
             self.is_array = True
-            if row[4] != '[N]':
+            if row[MSG_COL_ARRAY] != '[N]':
                 # sometime the size is there
-                digits = re.findall(r'\d+', row[4])
+                digits = re.findall(r'\d+', row[MSG_COL_ARRAY])
                 self.array_size = int( digits[0] )
                 
-        if row[15]:
+        if row[MSG_COL_EXAMPLE]:
             self.include = True
             if (self.is_array or self.is_string) and not self.array_size:
-                self.array_size = int( row[15] )
+                self.array_size = int( row[MSG_COL_EXAMPLE] )
             
-        self.reference_field = row[11]
-        if row[11]:
-            self.reference_field = row[11].replace( '\n','').split( ',' )
+        self.reference_field = row[MSG_COL_REF_FIELD_NAME]
+        if row[MSG_COL_REF_FIELD_NAME]:
+            self.reference_field = row[MSG_COL_REF_FIELD_NAME].replace( '\n','').split( ',' )
         else:
             self.reference_field = []
-        if row[12]:
+        if row[MSG_COL_REF_FIELD_VALUE]:
             self.reference_field_value = row[12].replace( '\n','').split( ',' )
         else:
             self.reference_field_value = []
@@ -308,28 +331,29 @@ class Field:
             print( 'bug inconsistent reference_field {} {} {}'.format( self.name, row[11], row[12] ) )
         self.references = []
 
-        if row[5]:
-            self.is_component = True
+        self.components = None
+        if row[MSG_COL_COMPONENTS]:
             
-            components_name = row[5].replace('\n','').split( ',')
-            components_scale = str(row[6]).replace('\n','').split( ',') if row[6] else None
-            components_bits = str(row[9]).replace('\n','').split( ',') if row[9] else None
-            components_units = str(row[8]).replace('\n','').split( ',') if row[8] else None
+            components_name = row[MSG_COL_COMPONENTS].replace('\n','').split( ',')
+            components_scale = str(row[MSG_COL_SCALE]).replace('\n','').split( ',') if row[MSG_COL_SCALE] else None
+            components_bits = str(row[MSG_COL_BITS]).replace('\n','').split( ',') if row[MSG_COL_BITS] else None
+            components_units = str(row[MSG_COL_UNITS]).replace('\n','').split( ',') if row[MSG_COL_UNITS] else None
 
-            if components_units and len(components_units) == 1:
-                single = components_units[0]
-                components_units = [single for x in components_name]
-            components = []
-            for index,(name,bits) in enumerate(zip(components_name,components_bits)):
-                one = {'name':name,'bits':bits}
-                if components_scale and index < len(components_scale):
-                    one['scale'] = components_scale[index]
-                if components_units and index < len(components_units):
-                    one['unit'] = components_units[index]
-                components.append(one)
-            self.components = components
-        else:
-            self.components = None
+            if len(components_name) > 1:
+                self.is_component = True
+
+                if components_units and len(components_units) == 1:
+                    single = components_units[0]
+                    components_units = [single for x in components_name]
+                components = []
+                for index,(name,bits) in enumerate(zip(components_name,components_bits)):
+                    one = {'name':name,'bits':bits}
+                    if components_scale and index < len(components_scale):
+                        one['scale'] = components_scale[index]
+                    if components_units and index < len(components_units):
+                        one['unit'] = components_units[index]
+                    components.append(one)
+                self.components = components
 
         
     def add_reference(self,ctx,row):
@@ -345,6 +369,10 @@ class Field:
         self.is_switched = True
         self.references.append( field )
 
+    def finalize(self,ctx,msg):
+        pass
+
+        
     def type_category(self):
         base = self.type_name
         if self.is_date:
@@ -363,6 +391,19 @@ class Field:
             base = base + '[{}]'.format( self.array_size )
 
         return base
+
+    def has_value(self):
+        if self.is_value:
+            return True
+        if self.is_switched:
+            for field in self.references:
+                if field.has_value():
+                    return True
+
+        if self.components:
+            return True
+        
+        return False
     
     def __repr__(self):
         if self.components:
@@ -377,7 +418,6 @@ class Field:
                 return  'Field({}={}<{}>, {}{})'.format(self.name, self.field_num, self.base_type, self.type_category(), desc_components )
             else:
                 return  'Field({}<{}>, {}{})'.format(self.name, self.base_type, self.type_category(), desc_components )
-
 
     def base_type_alignment(self):
         if self.base_type in base_type_alignments:
@@ -445,11 +485,16 @@ class Field:
         if self.is_array and self.array_size > 1:
             array_access = '.0'
         something_done = False
-        if self.is_value or self.is_switched:
+        if self.has_value():
             lines = first_line_with_annotate_comment(prefix,ctx.annotate)
             
             lines.extend( [ prefix + 'if x.{}{} != {}_INVALID  {{'.format( member, array_access, self.objc_base_type ) ] )
-            if self.is_value:
+            if self.is_switched:
+                switch_stmt = self.swift_stmt_case_convert_to_value(ctx, message)
+                if switch_stmt:
+                    lines.extend( switch_stmt )
+                    something_done = True
+            elif self.is_value:
                 something_done = True
                 if self.is_array:
                     lines.append( prefix + '  // Array[{}]'.format( self.array_size ) )
@@ -459,11 +504,6 @@ class Field:
                                  prefix + '  rv[ "{}" ] = val'.format(self.name),
                                  ] )
             
-            if self.is_switched:
-                switch_stmt = self.swift_stmt_case_convert_to_value(ctx, message)
-                if switch_stmt:
-                    lines.extend( switch_stmt )
-                    something_done = True
         
             lines.append( prefix + '}' )
 
@@ -558,20 +598,20 @@ class Field:
     def swift_stmt_case_convert_to_value(self,ctx,message):
         rv = []
         
+        prefix = '         '
         if self.references:
             rv = first_line_with_annotate_comment('  ',ctx.annotate)
             something_done = False
             if_statement = 'if'
             for r in self.references:
                 if not r.reference_field:
-                    print( 'bug', self.name, r.name )
+                    logging.error( 'bug missing field {}.{}'.format( self.name, r.name ))
                 for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
                     ref_type_obj = message.type_for_field(ctx,onefield)
                     formula = self.swift_expr_formula(ctx)
                     if r.is_value:
                         something_done = True
                         rv.append('      {} x.{} == {} {{ // {}'.format( if_statement, onefield, ref_type_obj.value_for_string(oneval), oneval ))
-                        prefix = '         '
                         if r.components:
                             rv.extend( self.swift_stmt_components_convert_to_value(ctx, message, r.components) )
                         else:
@@ -580,14 +620,21 @@ class Field:
                                         ] )
                         if_statement = '}else if'
                     else:
-                        rv.extend( [ '      // Skipped {} that is not a value'.format( r.name ) ] )
+                        if ctx.annotate:
+                            rv.extend( [ prefix + '// Skipped {} that is not a value'.format( r.name ) ] )
+                        
             if if_statement != 'if':
-                rv.append( '      }else{' )
-                formula = self.swift_expr_formula(ctx)
-                rv.extend( [ '        let val : Double = {}'.format( formula ),
-                             '        rv[ "{}" ] = val'.format( self.name ),
-                             '      }',
-                             ] )
+                # unclear we should have an else here
+                # it will create a field with the value of the field, but given it's switch
+                if True:
+                    rv.append( '      }else{' )
+                    formula = self.swift_expr_formula(ctx)
+                    rv.extend( [ '        let val : Double = {}'.format( formula ),
+                                 '        rv[ "{}" ] = val'.format( self.name ),
+                                 '      }',
+                                ] )
+                else:
+                    rv.append( '      }' )
             
             if not something_done:
                 return []
@@ -809,7 +856,7 @@ class Message:
         return( 'Message({}={})[{}]'.format( self.name, self.mesg_num, len( self.fields ) ) )
         
     def add(self,ctx,row):
-        if row[1] is not None:
+        if row[MSG_COL_FIELD_DEF] is not None:
             field = Field(ctx,row)
 
             self.fields.append( field )
@@ -817,6 +864,10 @@ class Message:
         elif len(self.fields)>0:
             self.fields[-1].add_reference(ctx,row)
 
+    def finalize(self,ctx):
+        for field in self.fields:
+            field.finalize(ctx,self)
+            
     def type_for_field(self,ctx,field_name):
         # field ex: manufacturer
         #    return type for that field
@@ -1138,32 +1189,48 @@ class Profile:
         self.types = {}
         current = None
 
-        self.types_columns = ws_types[0]
+        self.types_columns = list(ws_types[0])
+        # check consistency with our variables
+        for idx,col in enumerate(list(self.types_columns)):
+            varname = 'TYP_COL_{}'.format(col.upper().replace(' ', '_').replace('#','').replace(':',''))
+            if eval(varname) != idx:
+                print( '{} = {} but in spreadsheet is col {}'.format(varname, eval(varname), idx))
+
         for row in ws_types[1:]:
-            if len(row)>0 and row[0] and row[1]:
+            if len(row)>0 and row[TYP_COL_TYPE_NAME] and row[TYP_COL_BASE_TYPE]:
                 # len+1 so 0 means no type
-                current = Type( row[0], row[1], len(self.types)+1, annotate=self.annotate )
+                current = Type( row[TYP_COL_TYPE_NAME], row[TYP_COL_BASE_TYPE], len(self.types)+1, annotate=self.annotate )
                 self.types[ current.name ] = current
             elif current:
                 # special case with duplicated number, breaks switch
-                if row[4] and row[4].startswith('Deprecated' ) and row[2] == 'forecast':
+                if row[TYP_COL_COMMENT] and row[TYP_COL_COMMENT].startswith('Deprecated' ) and row[TYP_COL_VALUE_NAME] == 'forecast':
                     continue
                 current.add_row( row )
 
         logging.info( 'Read {} types'.format( len(self.types ) ) )
 
         ws_messages = list(wb['Messages'].values)
-        self.messages_columns = ws_messages[0]
+        self.messages_columns = [x.strip() for x in list(ws_messages[0]) if x]
+
+        for idx,col in enumerate(list(self.messages_columns)):
+            varname = 'MSG_COL_{}'.format(col.upper().replace(' #','').replace(' ', '_').replace(':',''))
+            if eval(varname) != idx:
+                logging.error( '{} = {} but in spreadsheet is col {}'.format(varname, eval(varname), idx))
+        
         self.messages = {}
         current = None
         self.units = {}
         
         for row in ws_messages[1:]:
-            if row[0]:
-                current = Message(self,row[0])
+            if row[MSG_COL_MESSAGE_NAME]:
+                if current:
+                    current.finalize(self)
+                
+                current = Message(self,row[MSG_COL_MESSAGE_NAME])
                 self.messages[ current.name ] = current
-            elif current and row[2]:
+            elif current and row[MSG_COL_FIELD_NAME]:
                 current.add( self,row )
+                
         if self.verbose:
             logging.info( 'Read {} messages'.format( len(self.messages ) ) )
             logging.info( 'Read {} units'.format( len(self.units ) ) )

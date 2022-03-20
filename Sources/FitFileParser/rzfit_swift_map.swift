@@ -7935,8 +7935,6 @@ fileprivate func rzfit_swift_value_dict_for_mesg_capabilities( ptr : UnsafePoint
   var rv : [String:Double] = [:]
   let x : FIT_MESG_CAPABILITIES_MESG = ptr.pointee
   if x.count != FIT_UINT16_INVALID  {
-    let val : Double = Double(x.count)
-    rv[ "count" ] = val
       if x.count_type == 0 { // num_per_file
          let val : Double = Double(x.count)
          rv[ "num_per_file" ] = val
@@ -8811,8 +8809,6 @@ fileprivate func rzfit_swift_value_dict_for_session( ptr : UnsafePointer<FIT_SES
     rv[ "total_distance" ] = val
   }
   if x.total_cycles != FIT_UINT32_INVALID  {
-    let val : Double = Double(x.total_cycles)
-    rv[ "total_cycles" ] = val
       if x.sport == 1 { // running
          let val : Double = Double(x.total_cycles)
          rv[ "total_strides" ] = val
@@ -9083,8 +9079,6 @@ fileprivate func rzfit_swift_value_dict_for_session( ptr : UnsafePointer<FIT_SES
     rv[ "max_heart_rate" ] = val
   }
   if x.avg_cadence != FIT_UINT8_INVALID  {
-    let val : Double = Double(x.avg_cadence)
-    rv[ "avg_cadence" ] = val
       if x.sport == 1 { // running
          let val : Double = Double(x.avg_cadence)
          rv[ "avg_running_cadence" ] = val
@@ -9094,8 +9088,6 @@ fileprivate func rzfit_swift_value_dict_for_session( ptr : UnsafePointer<FIT_SES
       }
   }
   if x.max_cadence != FIT_UINT8_INVALID  {
-    let val : Double = Double(x.max_cadence)
-    rv[ "max_cadence" ] = val
       if x.sport == 1 { // running
          let val : Double = Double(x.max_cadence)
          rv[ "max_running_cadence" ] = val
@@ -9234,8 +9226,6 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
     rv[ "total_distance" ] = val
   }
   if x.total_cycles != FIT_UINT32_INVALID  {
-    let val : Double = Double(x.total_cycles)
-    rv[ "total_cycles" ] = val
       if x.sport == 1 { // running
          let val : Double = Double(x.total_cycles)
          rv[ "total_strides" ] = val
@@ -9484,8 +9474,6 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
     rv[ "max_heart_rate" ] = val
   }
   if x.avg_cadence != FIT_UINT8_INVALID  {
-    let val : Double = Double(x.avg_cadence)
-    rv[ "avg_cadence" ] = val
       if x.sport == 1 { // running
          let val : Double = Double(x.avg_cadence)
          rv[ "avg_running_cadence" ] = val
@@ -9495,8 +9483,6 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
       }
   }
   if x.max_cadence != FIT_UINT8_INVALID  {
-    let val : Double = Double(x.max_cadence)
-    rv[ "max_cadence" ] = val
       if x.sport == 1 { // running
          let val : Double = Double(x.max_cadence)
          rv[ "max_running_cadence" ] = val
@@ -9880,8 +9866,6 @@ fileprivate func rzfit_swift_value_dict_for_event( ptr : UnsafePointer<FIT_EVENT
   var rv : [String:Double] = [:]
   let x : FIT_EVENT_MESG = ptr.pointee
   if x.data != FIT_UINT32_INVALID  {
-      // Skipped timer_trigger that is not a value
-      // Skipped course_point_index that is not a value
       if x.event == 11 { // battery
          let val : Double = Double(x.data)
          rv[ "battery_level" ] = val
@@ -9921,7 +9905,6 @@ fileprivate func rzfit_swift_value_dict_for_event( ptr : UnsafePointer<FIT_EVENT
       }else if x.event == 25 { // calorie_duration_alert
          let val : Double = Double(x.data)
          rv[ "calorie_duration_alert" ] = val
-      // Skipped fitness_equipment_state that is not a value
       }else if x.event == 33 { // sport_point
          var sourceData : UInt32 = UInt32(x.data)
          for info in [ (16, "score", 1), (16, "opponent_score", 1) ] {
@@ -9955,8 +9938,6 @@ fileprivate func rzfit_swift_value_dict_for_event( ptr : UnsafePointer<FIT_EVENT
            sourceData = sourceData >> bits
            rv[name] = Double(val) / Double(scale)
          }
-      // Skipped rider_position that is not a value
-      // Skipped comm_timeout that is not a value
       }else if x.event == 75 { // radar_threat_alert
          var sourceData : UInt32 = UInt32(x.data)
          for info in [ (8, "radar_threat_level_max", 1), (8, "radar_threat_count", 1), (8, "radar_threat_avg_approach_speed", 10), (8, "radar_threat_max_approach_speed", 10) ] {
@@ -10065,7 +10046,6 @@ fileprivate func rzfit_swift_value_dict_for_device_info( ptr : UnsafePointer<FIT
     rv[ "ant_device_number" ] = val
   }
   if x.device_type != FIT_UINT8_INVALID  {
-      // Skipped antplus_device_type that is not a value
       if x.source_type == 0 { // ant
          let val : Double = Double(x.device_type)
          rv[ "ant_device_type" ] = val
@@ -10827,8 +10807,6 @@ fileprivate func rzfit_swift_value_dict_for_segment_lap( ptr : UnsafePointer<FIT
     rv[ "total_distance" ] = val
   }
   if x.total_cycles != FIT_UINT32_INVALID  {
-    let val : Double = Double(x.total_cycles)
-    rv[ "total_cycles" ] = val
       if x.sport == 2 { // cycling
          let val : Double = Double(x.total_cycles)
          rv[ "total_strokes" ] = val
@@ -11232,8 +11210,6 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
   var rv : [String:Double] = [:]
   let x : FIT_WORKOUT_STEP_MESG = ptr.pointee
   if x.duration_value != FIT_UINT32_INVALID  {
-    let val : Double = Double(x.duration_value)
-    rv[ "duration_value" ] = val
       if x.duration_type == 0 { // time
          let val : Double = Double(x.duration_value)
          rv[ "duration_time" ] = val
@@ -11243,8 +11219,6 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.duration_type == 1 { // distance
          let val : Double = Double(x.duration_value)
          rv[ "duration_distance" ] = val
-      // Skipped duration_hr that is not a value
-      // Skipped duration_hr that is not a value
       }else if x.duration_type == 4 { // calories
          let val : Double = Double(x.duration_value)
          rv[ "duration_calories" ] = val
@@ -11272,8 +11246,6 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.duration_type == 13 { // repeat_until_power_greater_than
          let val : Double = Double(x.duration_value)
          rv[ "duration_step" ] = val
-      // Skipped duration_power that is not a value
-      // Skipped duration_power that is not a value
       }else if x.duration_type == 29 { // reps
          let val : Double = Double(x.duration_value)
          rv[ "duration_reps" ] = val
@@ -11283,8 +11255,6 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }
   }
   if x.target_value != FIT_UINT32_INVALID  {
-    let val : Double = Double(x.target_value)
-    rv[ "target_value" ] = val
       if x.target_type == 0 { // speed
          let val : Double = Double(x.target_value)
          rv[ "target_speed_zone" ] = val
@@ -11309,43 +11279,30 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.duration_type == 9 { // repeat_until_calories
          let val : Double = Double(x.target_value)
          rv[ "repeat_calories" ] = val
-      // Skipped repeat_hr that is not a value
-      // Skipped repeat_hr that is not a value
-      // Skipped repeat_power that is not a value
-      // Skipped repeat_power that is not a value
-      // Skipped target_stroke_type that is not a value
       }else{
         let val : Double = Double(x.target_value)
         rv[ "target_value" ] = val
       }
   }
   if x.custom_target_value_low != FIT_UINT32_INVALID  {
-    let val : Double = Double(x.custom_target_value_low)
-    rv[ "custom_target_value_low" ] = val
       if x.target_type == 0 { // speed
          let val : Double = Double(x.custom_target_value_low)
          rv[ "custom_target_speed_low" ] = val
-      // Skipped custom_target_heart_rate_low that is not a value
       }else if x.target_type == 3 { // cadence
          let val : Double = Double(x.custom_target_value_low)
          rv[ "custom_target_cadence_low" ] = val
-      // Skipped custom_target_power_low that is not a value
       }else{
         let val : Double = Double(x.custom_target_value_low)
         rv[ "custom_target_value_low" ] = val
       }
   }
   if x.custom_target_value_high != FIT_UINT32_INVALID  {
-    let val : Double = Double(x.custom_target_value_high)
-    rv[ "custom_target_value_high" ] = val
       if x.target_type == 0 { // speed
          let val : Double = Double(x.custom_target_value_high)
          rv[ "custom_target_speed_high" ] = val
-      // Skipped custom_target_heart_rate_high that is not a value
       }else if x.target_type == 3 { // cadence
          let val : Double = Double(x.custom_target_value_high)
          rv[ "custom_target_cadence_high" ] = val
-      // Skipped custom_target_power_high that is not a value
       }else{
         let val : Double = Double(x.custom_target_value_high)
         rv[ "custom_target_value_high" ] = val
@@ -11670,8 +11627,6 @@ fileprivate func rzfit_swift_value_dict_for_monitoring( ptr : UnsafePointer<FIT_
     rv[ "distance" ] = val
   }
   if x.cycles != FIT_UINT32_INVALID  {
-    let val : Double = (Double(x.cycles)/Double(2))
-    rv[ "cycles" ] = val
       if x.activity_type == 6 { // walking
          let val : Double = (Double(x.cycles)/Double(2))
          rv[ "steps" ] = val
