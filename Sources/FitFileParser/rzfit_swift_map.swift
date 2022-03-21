@@ -9949,7 +9949,11 @@ fileprivate func rzfit_swift_value_dict_for_event( ptr : UnsafePointer<FIT_EVENT
            sourceData = sourceData >> bits
            rv[name] = Double(val) / Double(scale)
          }
-      }else{
+      }else if x.event != 0 /* timer */ &&
+               x.event != 10 /* course_point */ &&
+               x.event != 27 /* fitness_equipment */ &&
+               x.event != 44 /* rider_position_change */ &&
+               x.event != 47 /* comm_timeout */ {
         let val : Double = Double(x.data)
         rv[ "data" ] = val
       }
@@ -10049,7 +10053,8 @@ fileprivate func rzfit_swift_value_dict_for_device_info( ptr : UnsafePointer<FIT
       if x.source_type == 0 { // ant
          let val : Double = Double(x.device_type)
          rv[ "ant_device_type" ] = val
-      }else{
+      }else if x.source_type != 1 /* antplus */ &&
+               x.source_type != 1 /* antplus */ {
         let val : Double = Double(x.device_type)
         rv[ "device_type" ] = val
       }
@@ -11249,7 +11254,10 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.duration_type == 29 { // reps
          let val : Double = Double(x.duration_value)
          rv[ "duration_reps" ] = val
-      }else{
+      }else if x.duration_type != 2 /* hr_less_than */ &&
+               x.duration_type != 3 /* hr_greater_than */ &&
+               x.duration_type != 14 /* power_less_than */ &&
+               x.duration_type != 15 /* power_greater_than */ {
         let val : Double = Double(x.duration_value)
         rv[ "duration_value" ] = val
       }
@@ -11279,7 +11287,11 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.duration_type == 9 { // repeat_until_calories
          let val : Double = Double(x.target_value)
          rv[ "repeat_calories" ] = val
-      }else{
+      }else if x.duration_type != 10 /* repeat_until_hr_less_than */ &&
+               x.duration_type != 11 /* repeat_until_hr_greater_than */ &&
+               x.duration_type != 12 /* repeat_until_power_less_than */ &&
+               x.duration_type != 13 /* repeat_until_power_greater_than */ &&
+               x.target_type != 11 /* swim_stroke */ {
         let val : Double = Double(x.target_value)
         rv[ "target_value" ] = val
       }
@@ -11291,7 +11303,8 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.target_type == 3 { // cadence
          let val : Double = Double(x.custom_target_value_low)
          rv[ "custom_target_cadence_low" ] = val
-      }else{
+      }else if x.target_type != 1 /* heart_rate */ &&
+               x.target_type != 4 /* power */ {
         let val : Double = Double(x.custom_target_value_low)
         rv[ "custom_target_value_low" ] = val
       }
@@ -11303,7 +11316,8 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.target_type == 3 { // cadence
          let val : Double = Double(x.custom_target_value_high)
          rv[ "custom_target_cadence_high" ] = val
-      }else{
+      }else if x.target_type != 1 /* heart_rate */ &&
+               x.target_type != 4 /* power */ {
         let val : Double = Double(x.custom_target_value_high)
         rv[ "custom_target_value_high" ] = val
       }

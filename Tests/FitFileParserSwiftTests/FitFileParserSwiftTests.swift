@@ -84,6 +84,13 @@ final class FitFileParserSwiftTests: XCTestCase {
                             // skip empty string, not interpreted the same
                             continue
                         }
+                        // skip mixed switched type that is not fully handled by generic
+                        if message.messageType.name() == "device_info" && fast_key == "device_type" {
+                            continue
+                        }
+                        if message.messageType.name() == "event" && fast_key == "data" {
+                            continue
+                        }
                         XCTAssertNotNil(generic_message.interpretedField(key: fast_key), "\(message.messageType.name()).\(fast_key): missing")
                         // Know fields where array skipped in fast mode
                         if generic_message.messageType == .developer_data_id && fast_key == "application_id" {

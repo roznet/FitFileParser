@@ -21,6 +21,7 @@ typedef FIT_UINT8 FIT_UNIT;
 #define FIT_FLAG_NONE      0b0000
 #define FIT_FLAG_DATE      0b0001
 #define FIT_FLAG_REL       0b0010
+#define FIT_FLAG_PENDING   0b0100
 
 typedef struct {
     FIT_SINT16   scale;
