@@ -1295,7 +1295,7 @@ public func rzfit_swift_string_from_mesg_num(_ input : FIT_UINT16) -> String
     case 375: return "device_aux_battery_info"
     case 0xFF00: return "mfg_range_min"
     case 0xFFFE: return "mfg_range_max"
-   default: return "mesg_num_\(input)"
+    default: return "mesg_num_\(input)"
   }
 }
 
@@ -1423,7 +1423,7 @@ fileprivate func rzfit_swift_string_from_file(_ input : FIT_ENUM) -> String
     case 40: return "exd_configuration"
     case 0xF7: return "mfg_range_min"
     case 0xFE: return "mfg_range_max"
-   default: return "file_\(input)"
+    default: return "file_\(input)"
   }
 }
 
@@ -1432,7 +1432,7 @@ fileprivate func rzfit_swift_string_from_checksum(_ input : FIT_UINT8) -> String
    switch input {
     case 0: return "clear"
     case 1: return "ok"
-   default: return "checksum_\(input)"
+    default: return "checksum_\(input)"
   }
 }
 
@@ -1442,7 +1442,7 @@ fileprivate func rzfit_swift_string_from_file_flags(_ input : FIT_UINT8Z) -> Str
     case 0x02: return "read"
     case 0x04: return "write"
     case 0x08: return "erase"
-   default: return "file_flags_\(input)"
+    default: return "file_flags_\(input)"
   }
 }
 
@@ -1452,7 +1452,7 @@ fileprivate func rzfit_swift_string_from_mesg_count(_ input : FIT_ENUM) -> Strin
     case 0: return "num_per_file"
     case 1: return "max_per_file"
     case 2: return "max_per_file_type"
-   default: return "mesg_count_\(input)"
+    default: return "mesg_count_\(input)"
   }
 }
 
@@ -1460,7 +1460,7 @@ fileprivate func rzfit_swift_string_from_date_time(_ input : FIT_UINT32) -> Stri
 {
    switch input {
     case 0x10000000: return "min"
-   default: return "date_time_\(input)"
+    default: return "date_time_\(input)"
   }
 }
 
@@ -1468,25 +1468,28 @@ fileprivate func rzfit_swift_string_from_local_date_time(_ input : FIT_UINT32) -
 {
    switch input {
     case 0x10000000: return "min"
-   default: return "local_date_time_\(input)"
+    default: return "local_date_time_\(input)"
   }
 }
 
 fileprivate func rzfit_swift_string_from_message_index(_ input : FIT_UINT16) -> String
 {
-   switch input {
-    case 0x8000: return "selected"
-    case 0x7000: return "reserved"
-    case 0x0FFF: return "mask"
-   default: return "message_index_\(input)"
+  let flag = input & (~0x0FFF)
+  if flag == 0x8000 { return "selected" }
+  if flag == 0x7000 { return "reserved" }
+  else { return "message_index_\(flag)" }
   }
-}
 
+fileprivate func rzfit_swift_value_from_message_index(_ input : FIT_UINT16) -> Double
+{
+  let masked = input & 0x0FFF
+  return Double( masked )
+}
 fileprivate func rzfit_swift_string_from_device_index(_ input : FIT_UINT8) -> String
 {
    switch input {
     case 0: return "creator"
-   default: return "device_index_\(input)"
+    default: return "device_index_\(input)"
   }
 }
 
@@ -1496,7 +1499,7 @@ fileprivate func rzfit_swift_string_from_gender(_ input : FIT_ENUM) -> String
     case 0: return "female"
     case 1: return "male"
     case 2: return "unspecified"
-   default: return "gender_\(input)"
+    default: return "gender_\(input)"
   }
 }
 
@@ -1542,7 +1545,7 @@ fileprivate func rzfit_swift_string_from_language(_ input : FIT_ENUM) -> String
     case 36: return "burmese"
     case 37: return "mongolian"
     case 254: return "custom"
-   default: return "language_\(input)"
+    default: return "language_\(input)"
   }
 }
 
@@ -1557,7 +1560,7 @@ fileprivate func rzfit_swift_string_from_language_bits_0(_ input : FIT_UINT8Z) -
     case 0x20: return "croatian"
     case 0x40: return "czech"
     case 0x80: return "danish"
-   default: return "language_bits_0_\(input)"
+    default: return "language_bits_0_\(input)"
   }
 }
 
@@ -1572,7 +1575,7 @@ fileprivate func rzfit_swift_string_from_language_bits_1(_ input : FIT_UINT8Z) -
     case 0x20: return "polish"
     case 0x40: return "portuguese"
     case 0x80: return "slovakian"
-   default: return "language_bits_1_\(input)"
+    default: return "language_bits_1_\(input)"
   }
 }
 
@@ -1587,7 +1590,7 @@ fileprivate func rzfit_swift_string_from_language_bits_2(_ input : FIT_UINT8Z) -
     case 0x20: return "ukrainian"
     case 0x40: return "arabic"
     case 0x80: return "farsi"
-   default: return "language_bits_2_\(input)"
+    default: return "language_bits_2_\(input)"
   }
 }
 
@@ -1602,7 +1605,7 @@ fileprivate func rzfit_swift_string_from_language_bits_3(_ input : FIT_UINT8Z) -
     case 0x20: return "taiwanese"
     case 0x40: return "thai"
     case 0x80: return "hebrew"
-   default: return "language_bits_3_\(input)"
+    default: return "language_bits_3_\(input)"
   }
 }
 
@@ -1615,7 +1618,7 @@ fileprivate func rzfit_swift_string_from_language_bits_4(_ input : FIT_UINT8Z) -
     case 0x08: return "vietnamese"
     case 0x10: return "burmese"
     case 0x20: return "mongolian"
-   default: return "language_bits_4_\(input)"
+    default: return "language_bits_4_\(input)"
   }
 }
 
@@ -1728,7 +1731,7 @@ fileprivate func rzfit_swift_string_from_time_zone(_ input : FIT_ENUM) -> String
     case 103: return "santiago"
     case 253: return "manual"
     case 254: return "automatic"
-   default: return "time_zone_\(input)"
+    default: return "time_zone_\(input)"
   }
 }
 
@@ -1738,7 +1741,7 @@ fileprivate func rzfit_swift_string_from_display_measure(_ input : FIT_ENUM) -> 
     case 0: return "metric"
     case 1: return "statute"
     case 2: return "nautical"
-   default: return "display_measure_\(input)"
+    default: return "display_measure_\(input)"
   }
 }
 
@@ -1748,7 +1751,7 @@ fileprivate func rzfit_swift_string_from_display_heart(_ input : FIT_ENUM) -> St
     case 0: return "bpm"
     case 1: return "max"
     case 2: return "reserve"
-   default: return "display_heart_\(input)"
+    default: return "display_heart_\(input)"
   }
 }
 
@@ -1757,7 +1760,7 @@ fileprivate func rzfit_swift_string_from_display_power(_ input : FIT_ENUM) -> St
    switch input {
     case 0: return "watts"
     case 1: return "percent_ftp"
-   default: return "display_power_\(input)"
+    default: return "display_power_\(input)"
   }
 }
 
@@ -1806,7 +1809,7 @@ fileprivate func rzfit_swift_string_from_display_position(_ input : FIT_ENUM) ->
     case 39: return "estonian_grid"
     case 40: return "latvian_grid"
     case 41: return "swedish_ref_99_grid"
-   default: return "display_position_\(input)"
+    default: return "display_position_\(input)"
   }
 }
 
@@ -1816,7 +1819,7 @@ fileprivate func rzfit_swift_string_from_switch(_ input : FIT_ENUM) -> String
     case 0: return "off"
     case 1: return "on"
     case 2: return "auto"
-   default: return "switch_\(input)"
+    default: return "switch_\(input)"
   }
 }
 
@@ -1874,7 +1877,7 @@ fileprivate func rzfit_swift_string_from_sport(_ input : FIT_ENUM) -> String
     case 48: return "floor_climbing"
     case 53: return "diving"
     case 254: return "all"
-   default: return "sport_\(input)"
+    default: return "sport_\(input)"
   }
 }
 
@@ -1889,7 +1892,7 @@ fileprivate func rzfit_swift_string_from_sport_bits_0(_ input : FIT_UINT8Z) -> S
     case 0x20: return "swimming"
     case 0x40: return "basketball"
     case 0x80: return "soccer"
-   default: return "sport_bits_0_\(input)"
+    default: return "sport_bits_0_\(input)"
   }
 }
 
@@ -1904,7 +1907,7 @@ fileprivate func rzfit_swift_string_from_sport_bits_1(_ input : FIT_UINT8Z) -> S
     case 0x20: return "alpine_skiing"
     case 0x40: return "snowboarding"
     case 0x80: return "rowing"
-   default: return "sport_bits_1_\(input)"
+    default: return "sport_bits_1_\(input)"
   }
 }
 
@@ -1919,7 +1922,7 @@ fileprivate func rzfit_swift_string_from_sport_bits_2(_ input : FIT_UINT8Z) -> S
     case 0x20: return "e_biking"
     case 0x40: return "motorcycling"
     case 0x80: return "boating"
-   default: return "sport_bits_2_\(input)"
+    default: return "sport_bits_2_\(input)"
   }
 }
 
@@ -1934,7 +1937,7 @@ fileprivate func rzfit_swift_string_from_sport_bits_3(_ input : FIT_UINT8Z) -> S
     case 0x20: return "fishing"
     case 0x40: return "inline_skating"
     case 0x80: return "rock_climbing"
-   default: return "sport_bits_3_\(input)"
+    default: return "sport_bits_3_\(input)"
   }
 }
 
@@ -1949,7 +1952,7 @@ fileprivate func rzfit_swift_string_from_sport_bits_4(_ input : FIT_UINT8Z) -> S
     case 0x20: return "stand_up_paddleboarding"
     case 0x40: return "surfing"
     case 0x80: return "wakeboarding"
-   default: return "sport_bits_4_\(input)"
+    default: return "sport_bits_4_\(input)"
   }
 }
 
@@ -1964,7 +1967,7 @@ fileprivate func rzfit_swift_string_from_sport_bits_5(_ input : FIT_UINT8Z) -> S
     case 0x20: return "tactical"
     case 0x40: return "jumpmaster"
     case 0x80: return "boxing"
-   default: return "sport_bits_5_\(input)"
+    default: return "sport_bits_5_\(input)"
   }
 }
 
@@ -1972,7 +1975,7 @@ fileprivate func rzfit_swift_string_from_sport_bits_6(_ input : FIT_UINT8Z) -> S
 {
    switch input {
     case 0x01: return "floor_climbing"
-   default: return "sport_bits_6_\(input)"
+    default: return "sport_bits_6_\(input)"
   }
 }
 
@@ -2045,7 +2048,7 @@ fileprivate func rzfit_swift_string_from_sub_sport(_ input : FIT_ENUM) -> String
     case 68: return "indoor_climbing"
     case 69: return "bouldering"
     case 254: return "all"
-   default: return "sub_sport_\(input)"
+    default: return "sub_sport_\(input)"
   }
 }
 
@@ -2061,7 +2064,7 @@ fileprivate func rzfit_swift_string_from_sport_event(_ input : FIT_ENUM) -> Stri
     case 6: return "training"
     case 7: return "transportation"
     case 8: return "touring"
-   default: return "sport_event_\(input)"
+    default: return "sport_event_\(input)"
   }
 }
 
@@ -2070,7 +2073,7 @@ fileprivate func rzfit_swift_string_from_activity(_ input : FIT_ENUM) -> String
    switch input {
     case 0: return "manual"
     case 1: return "auto_multi_sport"
-   default: return "activity_\(input)"
+    default: return "activity_\(input)"
   }
 }
 
@@ -2084,7 +2087,7 @@ fileprivate func rzfit_swift_string_from_intensity(_ input : FIT_ENUM) -> String
     case 4: return "recovery"
     case 5: return "interval"
     case 6: return "other"
-   default: return "intensity_\(input)"
+    default: return "intensity_\(input)"
   }
 }
 
@@ -2095,7 +2098,7 @@ fileprivate func rzfit_swift_string_from_session_trigger(_ input : FIT_ENUM) -> 
     case 1: return "manual"
     case 2: return "auto_multi_sport"
     case 3: return "fitness_equipment"
-   default: return "session_trigger_\(input)"
+    default: return "session_trigger_\(input)"
   }
 }
 
@@ -2109,7 +2112,7 @@ fileprivate func rzfit_swift_string_from_autolap_trigger(_ input : FIT_ENUM) -> 
     case 4: return "position_waypoint"
     case 5: return "position_marked"
     case 6: return "off"
-   default: return "autolap_trigger_\(input)"
+    default: return "autolap_trigger_\(input)"
   }
 }
 
@@ -2125,7 +2128,7 @@ fileprivate func rzfit_swift_string_from_lap_trigger(_ input : FIT_ENUM) -> Stri
     case 6: return "position_marked"
     case 7: return "session_end"
     case 8: return "fitness_equipment"
-   default: return "lap_trigger_\(input)"
+    default: return "lap_trigger_\(input)"
   }
 }
 
@@ -2138,7 +2141,7 @@ fileprivate func rzfit_swift_string_from_time_mode(_ input : FIT_ENUM) -> String
     case 3: return "hour_12_with_seconds"
     case 4: return "hour_24_with_seconds"
     case 5: return "utc"
-   default: return "time_mode_\(input)"
+    default: return "time_mode_\(input)"
   }
 }
 
@@ -2152,7 +2155,7 @@ fileprivate func rzfit_swift_string_from_backlight_mode(_ input : FIT_ENUM) -> S
     case 4: return "smart_notifications"
     case 5: return "key_and_messages_night"
     case 6: return "key_and_messages_and_smart_notifications"
-   default: return "backlight_mode_\(input)"
+    default: return "backlight_mode_\(input)"
   }
 }
 
@@ -2161,7 +2164,7 @@ fileprivate func rzfit_swift_string_from_date_mode(_ input : FIT_ENUM) -> String
    switch input {
     case 0: return "day_month"
     case 1: return "month_day"
-   default: return "date_mode_\(input)"
+    default: return "date_mode_\(input)"
   }
 }
 
@@ -2169,7 +2172,7 @@ fileprivate func rzfit_swift_string_from_backlight_timeout(_ input : FIT_UINT8) 
 {
    switch input {
     case 0: return "infinite"
-   default: return "backlight_timeout_\(input)"
+    default: return "backlight_timeout_\(input)"
   }
 }
 
@@ -2213,7 +2216,7 @@ fileprivate func rzfit_swift_string_from_event(_ input : FIT_ENUM) -> String
     case 46: return "elev_low_alert"
     case 47: return "comm_timeout"
     case 75: return "radar_threat_alert"
-   default: return "event_\(input)"
+    default: return "event_\(input)"
   }
 }
 
@@ -2230,7 +2233,7 @@ fileprivate func rzfit_swift_string_from_event_type(_ input : FIT_ENUM) -> Strin
     case 7: return "end_all_depreciated"
     case 8: return "stop_disable"
     case 9: return "stop_disable_all"
-   default: return "event_type_\(input)"
+    default: return "event_type_\(input)"
   }
 }
 
@@ -2240,7 +2243,7 @@ fileprivate func rzfit_swift_string_from_timer_trigger(_ input : FIT_ENUM) -> St
     case 0: return "manual"
     case 1: return "auto"
     case 2: return "fitness_equipment"
-   default: return "timer_trigger_\(input)"
+    default: return "timer_trigger_\(input)"
   }
 }
 
@@ -2251,7 +2254,7 @@ fileprivate func rzfit_swift_string_from_fitness_equipment_state(_ input : FIT_E
     case 1: return "in_use"
     case 2: return "paused"
     case 3: return "unknown"
-   default: return "fitness_equipment_state_\(input)"
+    default: return "fitness_equipment_state_\(input)"
   }
 }
 
@@ -2262,7 +2265,7 @@ fileprivate func rzfit_swift_string_from_tone(_ input : FIT_ENUM) -> String
     case 1: return "tone"
     case 2: return "vibrate"
     case 3: return "tone_and_vibrate"
-   default: return "tone_\(input)"
+    default: return "tone_\(input)"
   }
 }
 
@@ -2273,7 +2276,7 @@ fileprivate func rzfit_swift_string_from_autoscroll(_ input : FIT_ENUM) -> Strin
     case 1: return "slow"
     case 2: return "medium"
     case 3: return "fast"
-   default: return "autoscroll_\(input)"
+    default: return "autoscroll_\(input)"
   }
 }
 
@@ -2283,7 +2286,7 @@ fileprivate func rzfit_swift_string_from_activity_class(_ input : FIT_ENUM) -> S
     case 0x7F: return "level"
     case 100: return "level_max"
     case 0x80: return "athlete"
-   default: return "activity_class_\(input)"
+    default: return "activity_class_\(input)"
   }
 }
 
@@ -2293,7 +2296,7 @@ fileprivate func rzfit_swift_string_from_hr_zone_calc(_ input : FIT_ENUM) -> Str
     case 0: return "custom"
     case 1: return "percent_max_hr"
     case 2: return "percent_hrr"
-   default: return "hr_zone_calc_\(input)"
+    default: return "hr_zone_calc_\(input)"
   }
 }
 
@@ -2302,7 +2305,7 @@ fileprivate func rzfit_swift_string_from_pwr_zone_calc(_ input : FIT_ENUM) -> St
    switch input {
     case 0: return "custom"
     case 1: return "percent_ftp"
-   default: return "pwr_zone_calc_\(input)"
+    default: return "pwr_zone_calc_\(input)"
   }
 }
 
@@ -2340,7 +2343,7 @@ fileprivate func rzfit_swift_string_from_wkt_step_duration(_ input : FIT_ENUM) -
     case 28: return "repetition_time"
     case 29: return "reps"
     case 31: return "time_only"
-   default: return "wkt_step_duration_\(input)"
+    default: return "wkt_step_duration_\(input)"
   }
 }
 
@@ -2361,7 +2364,7 @@ fileprivate func rzfit_swift_string_from_wkt_step_target(_ input : FIT_ENUM) -> 
     case 11: return "swim_stroke"
     case 12: return "speed_lap"
     case 13: return "heart_rate_lap"
-   default: return "wkt_step_target_\(input)"
+    default: return "wkt_step_target_\(input)"
   }
 }
 
@@ -2375,7 +2378,7 @@ fileprivate func rzfit_swift_string_from_goal(_ input : FIT_ENUM) -> String
     case 4: return "steps"
     case 5: return "ascent"
     case 6: return "active_minutes"
-   default: return "goal_\(input)"
+    default: return "goal_\(input)"
   }
 }
 
@@ -2388,7 +2391,7 @@ fileprivate func rzfit_swift_string_from_goal_recurrence(_ input : FIT_ENUM) -> 
     case 3: return "monthly"
     case 4: return "yearly"
     case 5: return "custom"
-   default: return "goal_recurrence_\(input)"
+    default: return "goal_recurrence_\(input)"
   }
 }
 
@@ -2398,7 +2401,7 @@ fileprivate func rzfit_swift_string_from_goal_source(_ input : FIT_ENUM) -> Stri
     case 0: return "auto"
     case 1: return "community"
     case 2: return "user"
-   default: return "goal_source_\(input)"
+    default: return "goal_source_\(input)"
   }
 }
 
@@ -2407,7 +2410,7 @@ fileprivate func rzfit_swift_string_from_schedule(_ input : FIT_ENUM) -> String
    switch input {
     case 0: return "workout"
     case 1: return "course"
-   default: return "schedule_\(input)"
+    default: return "schedule_\(input)"
   }
 }
 
@@ -2440,7 +2443,7 @@ fileprivate func rzfit_swift_string_from_course_point(_ input : FIT_ENUM) -> Str
     case 23: return "u_turn"
     case 24: return "segment_start"
     case 25: return "segment_end"
-   default: return "course_point_\(input)"
+    default: return "course_point_\(input)"
   }
 }
 
@@ -2649,7 +2652,7 @@ fileprivate func rzfit_swift_string_from_manufacturer(_ input : FIT_UINT16) -> S
     case 316: return "vasa"
     case 317: return "race_republic"
     case 5759: return "actigraphcorp"
-   default: return "manufacturer_\(input)"
+    default: return "manufacturer_\(input)"
   }
 }
 
@@ -3040,7 +3043,7 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 65531: return "connectiq_simulator"
     case 65532: return "android_antplus_plugin"
     case 65534: return "connect"
-   default: return "garmin_product_\(input)"
+    default: return "garmin_product_\(input)"
   }
 }
 
@@ -3072,7 +3075,7 @@ fileprivate func rzfit_swift_string_from_antplus_device_type(_ input : FIT_UINT8
     case 122: return "bike_cadence"
     case 123: return "bike_speed"
     case 124: return "stride_speed_distance"
-   default: return "antplus_device_type_\(input)"
+    default: return "antplus_device_type_\(input)"
   }
 }
 
@@ -3083,7 +3086,7 @@ fileprivate func rzfit_swift_string_from_ant_network(_ input : FIT_ENUM) -> Stri
     case 1: return "antplus"
     case 2: return "antfs"
     case 3: return "private"
-   default: return "ant_network_\(input)"
+    default: return "ant_network_\(input)"
   }
 }
 
@@ -3104,7 +3107,7 @@ fileprivate func rzfit_swift_string_from_workout_capabilities(_ input : FIT_UINT
     case 0x00001000: return "grade"
     case 0x00002000: return "resistance"
     case 0x00004000: return "protected"
-   default: return "workout_capabilities_\(input)"
+    default: return "workout_capabilities_\(input)"
   }
 }
 
@@ -3118,7 +3121,7 @@ fileprivate func rzfit_swift_string_from_battery_status(_ input : FIT_UINT8) -> 
     case 5: return "critical"
     case 6: return "charging"
     case 7: return "unknown"
-   default: return "battery_status_\(input)"
+    default: return "battery_status_\(input)"
   }
 }
 
@@ -3127,7 +3130,7 @@ fileprivate func rzfit_swift_string_from_hr_type(_ input : FIT_ENUM) -> String
    switch input {
     case 0: return "normal"
     case 1: return "irregular"
-   default: return "hr_type_\(input)"
+    default: return "hr_type_\(input)"
   }
 }
 
@@ -3145,7 +3148,7 @@ fileprivate func rzfit_swift_string_from_course_capabilities(_ input : FIT_UINT3
     case 0x00000100: return "training"
     case 0x00000200: return "navigation"
     case 0x00000400: return "bikeway"
-   default: return "course_capabilities_\(input)"
+    default: return "course_capabilities_\(input)"
   }
 }
 
@@ -3153,7 +3156,7 @@ fileprivate func rzfit_swift_string_from_weight(_ input : FIT_UINT16) -> String
 {
    switch input {
     case 0xFFFE: return "calculating"
-   default: return "weight_\(input)"
+    default: return "weight_\(input)"
   }
 }
 
@@ -3161,7 +3164,7 @@ fileprivate func rzfit_swift_string_from_workout_hr(_ input : FIT_UINT32) -> Str
 {
    switch input {
     case 100: return "bpm_offset"
-   default: return "workout_hr_\(input)"
+    default: return "workout_hr_\(input)"
   }
 }
 
@@ -3169,7 +3172,7 @@ fileprivate func rzfit_swift_string_from_workout_power(_ input : FIT_UINT32) -> 
 {
    switch input {
     case 1000: return "watts_offset"
-   default: return "workout_power_\(input)"
+    default: return "workout_power_\(input)"
   }
 }
 
@@ -3181,7 +3184,7 @@ fileprivate func rzfit_swift_string_from_bp_status(_ input : FIT_ENUM) -> String
     case 2: return "error_no_measurement"
     case 3: return "error_data_out_of_range"
     case 4: return "error_irregular_heart_rate"
-   default: return "bp_status_\(input)"
+    default: return "bp_status_\(input)"
   }
 }
 
@@ -3194,7 +3197,7 @@ fileprivate func rzfit_swift_string_from_user_local_id(_ input : FIT_UINT16) -> 
     case 0x00FF: return "stationary_max"
     case 0x0100: return "portable_min"
     case 0xFFFE: return "portable_max"
-   default: return "user_local_id_\(input)"
+    default: return "user_local_id_\(input)"
   }
 }
 
@@ -3208,7 +3211,7 @@ fileprivate func rzfit_swift_string_from_swim_stroke(_ input : FIT_ENUM) -> Stri
     case 4: return "drill"
     case 5: return "mixed"
     case 6: return "im"
-   default: return "swim_stroke_\(input)"
+    default: return "swim_stroke_\(input)"
   }
 }
 
@@ -3224,7 +3227,7 @@ fileprivate func rzfit_swift_string_from_activity_type(_ input : FIT_ENUM) -> St
     case 6: return "walking"
     case 8: return "sedentary"
     case 254: return "all"
-   default: return "activity_type_\(input)"
+    default: return "activity_type_\(input)"
   }
 }
 
@@ -3251,7 +3254,7 @@ fileprivate func rzfit_swift_string_from_activity_subtype(_ input : FIT_ENUM) ->
     case 17: return "lap_swimming"
     case 18: return "open_water"
     case 254: return "all"
-   default: return "activity_subtype_\(input)"
+    default: return "activity_subtype_\(input)"
   }
 }
 
@@ -3261,7 +3264,7 @@ fileprivate func rzfit_swift_string_from_activity_level(_ input : FIT_ENUM) -> S
     case 0: return "low"
     case 1: return "medium"
     case 2: return "high"
-   default: return "activity_level_\(input)"
+    default: return "activity_level_\(input)"
   }
 }
 
@@ -3270,34 +3273,40 @@ fileprivate func rzfit_swift_string_from_side(_ input : FIT_ENUM) -> String
    switch input {
     case 0: return "right"
     case 1: return "left"
-   default: return "side_\(input)"
+    default: return "side_\(input)"
   }
 }
 
 fileprivate func rzfit_swift_string_from_left_right_balance(_ input : FIT_UINT8) -> String
 {
-   switch input {
-    case 0x7F: return "mask"
-    case 0x80: return "right"
-   default: return "left_right_balance_\(input)"
+  let flag = input & (~0x7F)
+  if flag == 0x80 { return "right" }
+  else { return "left_right_balance_\(flag)" }
   }
-}
 
+fileprivate func rzfit_swift_value_from_left_right_balance(_ input : FIT_UINT8) -> Double
+{
+  let masked = input & 0x7F
+  return Double( masked )
+}
 fileprivate func rzfit_swift_string_from_left_right_balance_100(_ input : FIT_UINT16) -> String
 {
-   switch input {
-    case 0x3FFF: return "mask"
-    case 0x8000: return "right"
-   default: return "left_right_balance_100_\(input)"
+  let flag = input & (~0x3FFF)
+  if flag == 0x8000 { return "right" }
+  else { return "left_right_balance_100_\(flag)" }
   }
-}
 
+fileprivate func rzfit_swift_value_from_left_right_balance_100(_ input : FIT_UINT16) -> Double
+{
+  let masked = input & 0x3FFF
+  return Double( masked )
+}
 fileprivate func rzfit_swift_string_from_length_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "idle"
     case 1: return "active"
-   default: return "length_type_\(input)"
+    default: return "length_type_\(input)"
   }
 }
 
@@ -3311,7 +3320,7 @@ fileprivate func rzfit_swift_string_from_day_of_week(_ input : FIT_ENUM) -> Stri
     case 4: return "thursday"
     case 5: return "friday"
     case 6: return "saturday"
-   default: return "day_of_week_\(input)"
+    default: return "day_of_week_\(input)"
   }
 }
 
@@ -3350,7 +3359,7 @@ fileprivate func rzfit_swift_string_from_connectivity_capabilities(_ input : FIT
     case 0x20000000: return "live_track_auto_start"
     case 0x40000000: return "live_track_messaging"
     case 0x80000000: return "instant_input"
-   default: return "connectivity_capabilities_\(input)"
+    default: return "connectivity_capabilities_\(input)"
   }
 }
 
@@ -3360,7 +3369,7 @@ fileprivate func rzfit_swift_string_from_weather_report(_ input : FIT_ENUM) -> S
     case 0: return "current"
     case 1: return "hourly_forecast"
     case 2: return "daily_forecast"
-   default: return "weather_report_\(input)"
+    default: return "weather_report_\(input)"
   }
 }
 
@@ -3388,7 +3397,7 @@ fileprivate func rzfit_swift_string_from_weather_status(_ input : FIT_ENUM) -> S
     case 20: return "light_rain_snow"
     case 21: return "heavy_rain_snow"
     case 22: return "cloudy"
-   default: return "weather_status_\(input)"
+    default: return "weather_status_\(input)"
   }
 }
 
@@ -3400,7 +3409,7 @@ fileprivate func rzfit_swift_string_from_weather_severity(_ input : FIT_ENUM) ->
     case 2: return "watch"
     case 3: return "advisory"
     case 4: return "statement"
-   default: return "weather_severity_\(input)"
+    default: return "weather_severity_\(input)"
   }
 }
 
@@ -3492,21 +3501,21 @@ fileprivate func rzfit_swift_string_from_weather_severe_type(_ input : FIT_ENUM)
     case 82: return "low_water"
     case 83: return "hydrological"
     case 84: return "special_weather"
-   default: return "weather_severe_type_\(input)"
+    default: return "weather_severe_type_\(input)"
   }
 }
 
 fileprivate func rzfit_swift_string_from_time_into_day(_ input : FIT_UINT32) -> String
 {
    switch input {
-   default: return "time_into_day_\(input)"
+    default: return "time_into_day_\(input)"
   }
 }
 
 fileprivate func rzfit_swift_string_from_localtime_into_day(_ input : FIT_UINT32) -> String
 {
    switch input {
-   default: return "localtime_into_day_\(input)"
+    default: return "localtime_into_day_\(input)"
   }
 }
 
@@ -3519,7 +3528,7 @@ fileprivate func rzfit_swift_string_from_stroke_type(_ input : FIT_ENUM) -> Stri
     case 3: return "forehand"
     case 4: return "backhand"
     case 5: return "smash"
-   default: return "stroke_type_\(input)"
+    default: return "stroke_type_\(input)"
   }
 }
 
@@ -3566,7 +3575,7 @@ fileprivate func rzfit_swift_string_from_body_location(_ input : FIT_ENUM) -> St
     case 37: return "waist_front"
     case 38: return "waist_left"
     case 39: return "waist_right"
-   default: return "body_location_\(input)"
+    default: return "body_location_\(input)"
   }
 }
 
@@ -3575,7 +3584,7 @@ fileprivate func rzfit_swift_string_from_segment_lap_status(_ input : FIT_ENUM) 
    switch input {
     case 0: return "end"
     case 1: return "fail"
-   default: return "segment_lap_status_\(input)"
+    default: return "segment_lap_status_\(input)"
   }
 }
 
@@ -3593,7 +3602,7 @@ fileprivate func rzfit_swift_string_from_segment_leaderboard_type(_ input : FIT_
     case 8: return "goal"
     case 9: return "rival"
     case 10: return "club_leader"
-   default: return "segment_leaderboard_type_\(input)"
+    default: return "segment_leaderboard_type_\(input)"
   }
 }
 
@@ -3603,7 +3612,7 @@ fileprivate func rzfit_swift_string_from_segment_delete_status(_ input : FIT_ENU
     case 0: return "do_not_delete"
     case 1: return "delete_one"
     case 2: return "delete_all"
-   default: return "segment_delete_status_\(input)"
+    default: return "segment_delete_status_\(input)"
   }
 }
 
@@ -3612,7 +3621,7 @@ fileprivate func rzfit_swift_string_from_segment_selection_type(_ input : FIT_EN
    switch input {
     case 0: return "starred"
     case 1: return "suggested"
-   default: return "segment_selection_type_\(input)"
+    default: return "segment_selection_type_\(input)"
   }
 }
 
@@ -3625,14 +3634,14 @@ fileprivate func rzfit_swift_string_from_source_type(_ input : FIT_ENUM) -> Stri
     case 3: return "bluetooth_low_energy"
     case 4: return "wifi"
     case 5: return "local"
-   default: return "source_type_\(input)"
+    default: return "source_type_\(input)"
   }
 }
 
 fileprivate func rzfit_swift_string_from_local_device_type(_ input : FIT_UINT8) -> String
 {
    switch input {
-   default: return "local_device_type_\(input)"
+    default: return "local_device_type_\(input)"
   }
 }
 
@@ -3644,7 +3653,7 @@ fileprivate func rzfit_swift_string_from_display_orientation(_ input : FIT_ENUM)
     case 2: return "landscape"
     case 3: return "portrait_flipped"
     case 4: return "landscape_flipped"
-   default: return "display_orientation_\(input)"
+    default: return "display_orientation_\(input)"
   }
 }
 
@@ -3657,7 +3666,7 @@ fileprivate func rzfit_swift_string_from_workout_equipment(_ input : FIT_ENUM) -
     case 3: return "swim_paddles"
     case 4: return "swim_pull_buoy"
     case 5: return "swim_snorkel"
-   default: return "workout_equipment_\(input)"
+    default: return "workout_equipment_\(input)"
   }
 }
 
@@ -3668,7 +3677,7 @@ fileprivate func rzfit_swift_string_from_watchface_mode(_ input : FIT_ENUM) -> S
     case 1: return "analog"
     case 2: return "connect_iq"
     case 3: return "disabled"
-   default: return "watchface_mode_\(input)"
+    default: return "watchface_mode_\(input)"
   }
 }
 
@@ -3678,7 +3687,7 @@ fileprivate func rzfit_swift_string_from_digital_watchface_layout(_ input : FIT_
     case 0: return "traditional"
     case 1: return "modern"
     case 2: return "bold"
-   default: return "digital_watchface_layout_\(input)"
+    default: return "digital_watchface_layout_\(input)"
   }
 }
 
@@ -3688,7 +3697,7 @@ fileprivate func rzfit_swift_string_from_analog_watchface_layout(_ input : FIT_E
     case 0: return "minimal"
     case 1: return "traditional"
     case 2: return "modern"
-   default: return "analog_watchface_layout_\(input)"
+    default: return "analog_watchface_layout_\(input)"
   }
 }
 
@@ -3699,7 +3708,7 @@ fileprivate func rzfit_swift_string_from_rider_position_type(_ input : FIT_ENUM)
     case 1: return "standing"
     case 2: return "transition_to_seated"
     case 3: return "transition_to_standing"
-   default: return "rider_position_type_\(input)"
+    default: return "rider_position_type_\(input)"
   }
 }
 
@@ -3710,7 +3719,7 @@ fileprivate func rzfit_swift_string_from_power_phase_type(_ input : FIT_ENUM) ->
     case 1: return "power_phase_end_angle"
     case 2: return "power_phase_arc_length"
     case 3: return "power_phase_center"
-   default: return "power_phase_type_\(input)"
+    default: return "power_phase_type_\(input)"
   }
 }
 
@@ -3730,7 +3739,7 @@ fileprivate func rzfit_swift_string_from_camera_event_type(_ input : FIT_ENUM) -
     case 12: return "video_second_stream_pause"
     case 13: return "video_resume"
     case 14: return "video_second_stream_resume"
-   default: return "camera_event_type_\(input)"
+    default: return "camera_event_type_\(input)"
   }
 }
 
@@ -3741,7 +3750,7 @@ fileprivate func rzfit_swift_string_from_sensor_type(_ input : FIT_ENUM) -> Stri
     case 1: return "gyroscope"
     case 2: return "compass"
     case 3: return "barometer"
-   default: return "sensor_type_\(input)"
+    default: return "sensor_type_\(input)"
   }
 }
 
@@ -3752,7 +3761,7 @@ fileprivate func rzfit_swift_string_from_bike_light_network_config_type(_ input 
     case 4: return "individual"
     case 5: return "high_visibility"
     case 6: return "trail"
-   default: return "bike_light_network_config_type_\(input)"
+    default: return "bike_light_network_config_type_\(input)"
   }
 }
 
@@ -3763,7 +3772,7 @@ fileprivate func rzfit_swift_string_from_comm_timeout_type(_ input : FIT_UINT16)
     case 1: return "pairing_timeout"
     case 2: return "connection_lost"
     case 3: return "connection_timeout"
-   default: return "comm_timeout_type_\(input)"
+    default: return "comm_timeout_type_\(input)"
   }
 }
 
@@ -3774,7 +3783,7 @@ fileprivate func rzfit_swift_string_from_camera_orientation_type(_ input : FIT_E
     case 1: return "camera_orientation_90"
     case 2: return "camera_orientation_180"
     case 3: return "camera_orientation_270"
-   default: return "camera_orientation_type_\(input)"
+    default: return "camera_orientation_type_\(input)"
   }
 }
 
@@ -3785,7 +3794,7 @@ fileprivate func rzfit_swift_string_from_attitude_stage(_ input : FIT_ENUM) -> S
     case 1: return "aligning"
     case 2: return "degraded"
     case 3: return "valid"
-   default: return "attitude_stage_\(input)"
+    default: return "attitude_stage_\(input)"
   }
 }
 
@@ -3805,7 +3814,7 @@ fileprivate func rzfit_swift_string_from_attitude_validity(_ input : FIT_UINT16)
     case 0x0400: return "solution_coasting"
     case 0x0800: return "true_track_angle"
     case 0x1000: return "magnetic_heading"
-   default: return "attitude_validity_\(input)"
+    default: return "attitude_validity_\(input)"
   }
 }
 
@@ -3817,7 +3826,7 @@ fileprivate func rzfit_swift_string_from_auto_sync_frequency(_ input : FIT_ENUM)
     case 2: return "frequent"
     case 3: return "once_a_day"
     case 4: return "remote"
-   default: return "auto_sync_frequency_\(input)"
+    default: return "auto_sync_frequency_\(input)"
   }
 }
 
@@ -3833,7 +3842,7 @@ fileprivate func rzfit_swift_string_from_exd_layout(_ input : FIT_ENUM) -> Strin
     case 6: return "half_vertical_left_split"
     case 7: return "half_horizontal_top_split"
     case 8: return "dynamic"
-   default: return "exd_layout_\(input)"
+    default: return "exd_layout_\(input)"
   }
 }
 
@@ -3851,7 +3860,7 @@ fileprivate func rzfit_swift_string_from_exd_display_type(_ input : FIT_ENUM) ->
     case 8: return "string"
     case 9: return "simple_dynamic_icon"
     case 10: return "gauge"
-   default: return "exd_display_type_\(input)"
+    default: return "exd_display_type_\(input)"
   }
 }
 
@@ -3908,7 +3917,7 @@ fileprivate func rzfit_swift_string_from_exd_data_units(_ input : FIT_ENUM) -> S
     case 47: return "meters_per_min"
     case 48: return "meters_per_sec"
     case 49: return "eight_cardinal"
-   default: return "exd_data_units_\(input)"
+    default: return "exd_data_units_\(input)"
   }
 }
 
@@ -3959,7 +3968,7 @@ fileprivate func rzfit_swift_string_from_exd_qualifiers(_ input : FIT_ENUM) -> S
     case 248: return "zone_3"
     case 249: return "zone_2"
     case 250: return "zone_1"
-   default: return "exd_qualifiers_\(input)"
+    default: return "exd_qualifiers_\(input)"
   }
 }
 
@@ -4063,7 +4072,7 @@ fileprivate func rzfit_swift_string_from_exd_descriptors(_ input : FIT_ENUM) -> 
     case 94: return "ambient_pressure"
     case 95: return "pressure"
     case 96: return "vam"
-   default: return "exd_descriptors_\(input)"
+    default: return "exd_descriptors_\(input)"
   }
 }
 
@@ -4077,7 +4086,7 @@ fileprivate func rzfit_swift_string_from_auto_activity_detect(_ input : FIT_UINT
     case 0x00000008: return "walking"
     case 0x00000020: return "elliptical"
     case 0x00000400: return "sedentary"
-   default: return "auto_activity_detect_\(input)"
+    default: return "auto_activity_detect_\(input)"
   }
 }
 
@@ -4092,7 +4101,7 @@ fileprivate func rzfit_swift_string_from_supported_exd_screen_layouts(_ input : 
     case 0x00000020: return "full_quarter_split"
     case 0x00000040: return "half_vertical_left_split"
     case 0x00000080: return "half_horizontal_top_split"
-   default: return "supported_exd_screen_layouts_\(input)"
+    default: return "supported_exd_screen_layouts_\(input)"
   }
 }
 
@@ -4116,7 +4125,7 @@ fileprivate func rzfit_swift_string_from_fit_base_type(_ input : FIT_UINT8) -> S
     case 142: return "sint64"
     case 143: return "uint64"
     case 144: return "uint64z"
-   default: return "fit_base_type_\(input)"
+    default: return "fit_base_type_\(input)"
   }
 }
 
@@ -4161,7 +4170,7 @@ fileprivate func rzfit_swift_string_from_turn_type(_ input : FIT_ENUM) -> String
     case 35: return "uturn_right_idx"
     case 36: return "icon_inv_idx"
     case 37: return "icon_idx_cnt"
-   default: return "turn_type_\(input)"
+    default: return "turn_type_\(input)"
   }
 }
 
@@ -4170,7 +4179,7 @@ fileprivate func rzfit_swift_string_from_bike_light_beam_angle_mode(_ input : FI
    switch input {
     case 0: return "manual"
     case 1: return "auto"
-   default: return "bike_light_beam_angle_mode_\(input)"
+    default: return "bike_light_beam_angle_mode_\(input)"
   }
 }
 
@@ -4180,7 +4189,7 @@ fileprivate func rzfit_swift_string_from_fit_base_unit(_ input : FIT_UINT16) -> 
     case 0: return "other"
     case 1: return "kilogram"
     case 2: return "pound"
-   default: return "fit_base_unit_\(input)"
+    default: return "fit_base_unit_\(input)"
   }
 }
 
@@ -4189,7 +4198,7 @@ fileprivate func rzfit_swift_string_from_set_type(_ input : FIT_UINT8) -> String
    switch input {
     case 0: return "rest"
     case 1: return "active"
-   default: return "set_type_\(input)"
+    default: return "set_type_\(input)"
   }
 }
 
@@ -4230,7 +4239,7 @@ fileprivate func rzfit_swift_string_from_exercise_category(_ input : FIT_UINT16)
     case 31: return "warm_up"
     case 32: return "run"
     case 65534: return "unknown"
-   default: return "exercise_category_\(input)"
+    default: return "exercise_category_\(input)"
   }
 }
 
@@ -4264,7 +4273,7 @@ fileprivate func rzfit_swift_string_from_bench_press_exercise_name(_ input : FIT
     case 24: return "triple_stop_barbell_bench_press"
     case 25: return "wide_grip_barbell_bench_press"
     case 26: return "alternating_dumbbell_chest_press"
-   default: return "bench_press_exercise_name_\(input)"
+    default: return "bench_press_exercise_name_\(input)"
   }
 }
 
@@ -4292,7 +4301,7 @@ fileprivate func rzfit_swift_string_from_calf_raise_exercise_name(_ input : FIT_
     case 18: return "standing_calf_raise"
     case 19: return "weighted_standing_calf_raise"
     case 20: return "standing_dumbbell_calf_raise"
-   default: return "calf_raise_exercise_name_\(input)"
+    default: return "calf_raise_exercise_name_\(input)"
   }
 }
 
@@ -4321,7 +4330,7 @@ fileprivate func rzfit_swift_string_from_cardio_exercise_name(_ input : FIT_UINT
     case 19: return "weighted_squat_jacks"
     case 20: return "triple_under"
     case 21: return "weighted_triple_under"
-   default: return "cardio_exercise_name_\(input)"
+    default: return "cardio_exercise_name_\(input)"
   }
 }
 
@@ -4333,7 +4342,7 @@ fileprivate func rzfit_swift_string_from_carry_exercise_name(_ input : FIT_UINT1
     case 2: return "farmers_walk_on_toes"
     case 3: return "hex_dumbbell_hold"
     case 4: return "overhead_carry"
-   default: return "carry_exercise_name_\(input)"
+    default: return "carry_exercise_name_\(input)"
   }
 }
 
@@ -4363,7 +4372,7 @@ fileprivate func rzfit_swift_string_from_chop_exercise_name(_ input : FIT_UINT16
     case 20: return "standing_split_rotational_chop"
     case 21: return "standing_split_rotational_reverse_chop"
     case 22: return "standing_stability_reverse_chop"
-   default: return "chop_exercise_name_\(input)"
+    default: return "chop_exercise_name_\(input)"
   }
 }
 
@@ -4443,7 +4452,7 @@ fileprivate func rzfit_swift_string_from_core_exercise_name(_ input : FIT_UINT16
     case 70: return "swimming"
     case 71: return "teaser"
     case 72: return "the_hundred"
-   default: return "core_exercise_name_\(input)"
+    default: return "core_exercise_name_\(input)"
   }
 }
 
@@ -4535,7 +4544,7 @@ fileprivate func rzfit_swift_string_from_crunch_exercise_name(_ input : FIT_UINT
     case 82: return "weighted_toes_to_bar"
     case 83: return "crunch"
     case 84: return "straight_leg_crunch_with_ball"
-   default: return "crunch_exercise_name_\(input)"
+    default: return "crunch_exercise_name_\(input)"
   }
 }
 
@@ -4586,7 +4595,7 @@ fileprivate func rzfit_swift_string_from_curl_exercise_name(_ input : FIT_UINT16
     case 41: return "swiss_ball_ez_bar_preacher_curl"
     case 42: return "twisting_standing_dumbbell_biceps_curl"
     case 43: return "wide_grip_ez_bar_biceps_curl"
-   default: return "curl_exercise_name_\(input)"
+    default: return "curl_exercise_name_\(input)"
   }
 }
 
@@ -4612,7 +4621,7 @@ fileprivate func rzfit_swift_string_from_deadlift_exercise_name(_ input : FIT_UI
     case 16: return "sumo_deadlift_high_pull"
     case 17: return "trap_bar_deadlift"
     case 18: return "wide_grip_barbell_deadlift"
-   default: return "deadlift_exercise_name_\(input)"
+    default: return "deadlift_exercise_name_\(input)"
   }
 }
 
@@ -4629,7 +4638,7 @@ fileprivate func rzfit_swift_string_from_flye_exercise_name(_ input : FIT_UINT16
     case 7: return "swiss_ball_dumbbell_flye"
     case 8: return "arm_rotations"
     case 9: return "hug_a_tree"
-   default: return "flye_exercise_name_\(input)"
+    default: return "flye_exercise_name_\(input)"
   }
 }
 
@@ -4686,7 +4695,7 @@ fileprivate func rzfit_swift_string_from_hip_raise_exercise_name(_ input : FIT_U
     case 47: return "leg_circles"
     case 48: return "leg_lift"
     case 49: return "leg_lift_in_external_rotation"
-   default: return "hip_raise_exercise_name_\(input)"
+    default: return "hip_raise_exercise_name_\(input)"
   }
 }
 
@@ -4727,7 +4736,7 @@ fileprivate func rzfit_swift_string_from_hip_stability_exercise_name(_ input : F
     case 31: return "weighted_standing_rear_leg_raise"
     case 32: return "supine_hip_internal_rotation"
     case 33: return "weighted_supine_hip_internal_rotation"
-   default: return "hip_stability_exercise_name_\(input)"
+    default: return "hip_stability_exercise_name_\(input)"
   }
 }
 
@@ -4737,7 +4746,7 @@ fileprivate func rzfit_swift_string_from_hip_swing_exercise_name(_ input : FIT_U
     case 0: return "single_arm_kettlebell_swing"
     case 1: return "single_arm_dumbbell_swing"
     case 2: return "step_out_swing"
-   default: return "hip_swing_exercise_name_\(input)"
+    default: return "hip_swing_exercise_name_\(input)"
   }
 }
 
@@ -4784,7 +4793,7 @@ fileprivate func rzfit_swift_string_from_hyperextension_exercise_name(_ input : 
     case 37: return "superman_on_swiss_ball"
     case 38: return "cobra"
     case 39: return "supine_floor_barre"
-   default: return "hyperextension_exercise_name_\(input)"
+    default: return "hyperextension_exercise_name_\(input)"
   }
 }
 
@@ -4825,7 +4834,7 @@ fileprivate func rzfit_swift_string_from_lateral_raise_exercise_name(_ input : F
     case 31: return "weighted_wall_slide"
     case 32: return "arm_circles"
     case 33: return "shaving_the_head"
-   default: return "lateral_raise_exercise_name_\(input)"
+    default: return "lateral_raise_exercise_name_\(input)"
   }
 }
 
@@ -4844,7 +4853,7 @@ fileprivate func rzfit_swift_string_from_leg_curl_exercise_name(_ input : FIT_UI
     case 9: return "staggered_stance_good_morning"
     case 10: return "swiss_ball_hip_raise_and_leg_curl"
     case 11: return "zercher_good_morning"
-   default: return "leg_curl_exercise_name_\(input)"
+    default: return "leg_curl_exercise_name_\(input)"
   }
 }
 
@@ -4873,7 +4882,7 @@ fileprivate func rzfit_swift_string_from_leg_raise_exercise_name(_ input : FIT_U
     case 19: return "weighted_hanging_knee_raise"
     case 20: return "lateral_stepover"
     case 21: return "weighted_lateral_stepover"
-   default: return "leg_raise_exercise_name_\(input)"
+    default: return "leg_raise_exercise_name_\(input)"
   }
 }
 
@@ -4961,7 +4970,7 @@ fileprivate func rzfit_swift_string_from_lunge_exercise_name(_ input : FIT_UINT1
     case 78: return "walking_lunge"
     case 79: return "weighted_walking_lunge"
     case 80: return "wide_grip_overhead_barbell_split_squat"
-   default: return "lunge_exercise_name_\(input)"
+    default: return "lunge_exercise_name_\(input)"
   }
 }
 
@@ -4989,7 +4998,7 @@ fileprivate func rzfit_swift_string_from_olympic_lift_exercise_name(_ input : FI
     case 18: return "single_arm_kettlebell_snatch"
     case 19: return "split_jerk"
     case 20: return "squat_clean_and_jerk"
-   default: return "olympic_lift_exercise_name_\(input)"
+    default: return "olympic_lift_exercise_name_\(input)"
   }
 }
 
@@ -5131,7 +5140,7 @@ fileprivate func rzfit_swift_string_from_plank_exercise_name(_ input : FIT_UINT1
     case 132: return "plank_with_arm_variations"
     case 133: return "plank_with_leg_lift"
     case 134: return "reverse_plank_with_leg_pull"
-   default: return "plank_exercise_name_\(input)"
+    default: return "plank_exercise_name_\(input)"
   }
 }
 
@@ -5171,7 +5180,7 @@ fileprivate func rzfit_swift_string_from_plyo_exercise_name(_ input : FIT_UINT16
     case 30: return "weighted_squat_jump_onto_box"
     case 31: return "squat_jumps_in_and_out"
     case 32: return "weighted_squat_jumps_in_and_out"
-   default: return "plyo_exercise_name_\(input)"
+    default: return "plyo_exercise_name_\(input)"
   }
 }
 
@@ -5217,7 +5226,7 @@ fileprivate func rzfit_swift_string_from_pull_up_exercise_name(_ input : FIT_UIN
     case 36: return "suspended_chin_up"
     case 37: return "weighted_suspended_chin_up"
     case 38: return "pull_up"
-   default: return "pull_up_exercise_name_\(input)"
+    default: return "pull_up_exercise_name_\(input)"
   }
 }
 
@@ -5303,7 +5312,7 @@ fileprivate func rzfit_swift_string_from_push_up_exercise_name(_ input : FIT_UIN
     case 76: return "weighted_ring_push_up"
     case 77: return "push_up"
     case 78: return "pilates_pushup"
-   default: return "push_up_exercise_name_\(input)"
+    default: return "push_up_exercise_name_\(input)"
   }
 }
 
@@ -5344,7 +5353,7 @@ fileprivate func rzfit_swift_string_from_row_exercise_name(_ input : FIT_UINT16)
     case 31: return "underhand_grip_cable_row"
     case 32: return "v_grip_cable_row"
     case 33: return "wide_grip_seated_cable_row"
-   default: return "row_exercise_name_\(input)"
+    default: return "row_exercise_name_\(input)"
   }
 }
 
@@ -5375,7 +5384,7 @@ fileprivate func rzfit_swift_string_from_shoulder_press_exercise_name(_ input : 
     case 21: return "split_stance_hammer_curl_to_press"
     case 22: return "swiss_ball_dumbbell_shoulder_press"
     case 23: return "weight_plate_front_raise"
-   default: return "shoulder_press_exercise_name_\(input)"
+    default: return "shoulder_press_exercise_name_\(input)"
   }
 }
 
@@ -5415,7 +5424,7 @@ fileprivate func rzfit_swift_string_from_shoulder_stability_exercise_name(_ inpu
     case 30: return "weighted_swiss_ball_w_raise"
     case 31: return "swiss_ball_y_raise"
     case 32: return "weighted_swiss_ball_y_raise"
-   default: return "shoulder_stability_exercise_name_\(input)"
+    default: return "shoulder_stability_exercise_name_\(input)"
   }
 }
 
@@ -5439,7 +5448,7 @@ fileprivate func rzfit_swift_string_from_shrug_exercise_name(_ input : FIT_UINT1
     case 14: return "serratus_shrug"
     case 15: return "weighted_serratus_shrug"
     case 16: return "wide_grip_jump_shrug"
-   default: return "shrug_exercise_name_\(input)"
+    default: return "shrug_exercise_name_\(input)"
   }
 }
 
@@ -5484,7 +5493,7 @@ fileprivate func rzfit_swift_string_from_sit_up_exercise_name(_ input : FIT_UINT
     case 35: return "x_abs"
     case 36: return "weighted_x_abs"
     case 37: return "sit_up"
-   default: return "sit_up_exercise_name_\(input)"
+    default: return "sit_up_exercise_name_\(input)"
   }
 }
 
@@ -5583,7 +5592,7 @@ fileprivate func rzfit_swift_string_from_squat_exercise_name(_ input : FIT_UINT1
     case 89: return "squat_jumps_in_n_out"
     case 90: return "pilates_plie_squats_parallel_turned_out_flat_and_heels"
     case 91: return "releve_straight_leg_and_knee_bent_with_one_leg_variation"
-   default: return "squat_exercise_name_\(input)"
+    default: return "squat_exercise_name_\(input)"
   }
 }
 
@@ -5603,7 +5612,7 @@ fileprivate func rzfit_swift_string_from_total_body_exercise_name(_ input : FIT_
     case 10: return "weighted_squat_plank_push_up"
     case 11: return "standing_t_rotation_balance"
     case 12: return "weighted_standing_t_rotation_balance"
-   default: return "total_body_exercise_name_\(input)"
+    default: return "total_body_exercise_name_\(input)"
   }
 }
 
@@ -5651,7 +5660,7 @@ fileprivate func rzfit_swift_string_from_triceps_extension_exercise_name(_ input
     case 38: return "triceps_extension_on_floor"
     case 39: return "triceps_pressdown"
     case 40: return "weighted_dip"
-   default: return "triceps_extension_exercise_name_\(input)"
+    default: return "triceps_extension_exercise_name_\(input)"
   }
 }
 
@@ -5689,7 +5698,7 @@ fileprivate func rzfit_swift_string_from_warm_up_exercise_name(_ input : FIT_UIN
     case 28: return "walking_leg_cradles"
     case 29: return "walkout"
     case 30: return "walkout_from_push_up_position"
-   default: return "warm_up_exercise_name_\(input)"
+    default: return "warm_up_exercise_name_\(input)"
   }
 }
 
@@ -5700,7 +5709,7 @@ fileprivate func rzfit_swift_string_from_run_exercise_name(_ input : FIT_UINT16)
     case 1: return "walk"
     case 2: return "jog"
     case 3: return "sprint"
-   default: return "run_exercise_name_\(input)"
+    default: return "run_exercise_name_\(input)"
   }
 }
 
@@ -5711,7 +5720,7 @@ fileprivate func rzfit_swift_string_from_water_type(_ input : FIT_ENUM) -> Strin
     case 1: return "salt"
     case 2: return "en13319"
     case 3: return "custom"
-   default: return "water_type_\(input)"
+    default: return "water_type_\(input)"
   }
 }
 
@@ -5719,7 +5728,7 @@ fileprivate func rzfit_swift_string_from_tissue_model_type(_ input : FIT_ENUM) -
 {
    switch input {
     case 0: return "zhl_16c"
-   default: return "tissue_model_type_\(input)"
+    default: return "tissue_model_type_\(input)"
   }
 }
 
@@ -5729,7 +5738,7 @@ fileprivate func rzfit_swift_string_from_dive_gas_status(_ input : FIT_ENUM) -> 
     case 0: return "disabled"
     case 1: return "enabled"
     case 2: return "backup_only"
-   default: return "dive_gas_status_\(input)"
+    default: return "dive_gas_status_\(input)"
   }
 }
 
@@ -5738,7 +5747,7 @@ fileprivate func rzfit_swift_string_from_dive_alarm_type(_ input : FIT_ENUM) -> 
    switch input {
     case 0: return "depth"
     case 1: return "time"
-   default: return "dive_alarm_type_\(input)"
+    default: return "dive_alarm_type_\(input)"
   }
 }
 
@@ -5747,7 +5756,7 @@ fileprivate func rzfit_swift_string_from_dive_backlight_mode(_ input : FIT_ENUM)
    switch input {
     case 0: return "at_depth"
     case 1: return "always_on"
-   default: return "dive_backlight_mode_\(input)"
+    default: return "dive_backlight_mode_\(input)"
   }
 }
 
@@ -5756,7 +5765,7 @@ fileprivate func rzfit_swift_string_from_favero_product(_ input : FIT_UINT16) ->
    switch input {
     case 10: return "assioma_uno"
     case 12: return "assioma_duo"
-   default: return "favero_product_\(input)"
+    default: return "favero_product_\(input)"
   }
 }
 
@@ -5766,7 +5775,7 @@ fileprivate func rzfit_swift_string_from_climb_pro_event(_ input : FIT_ENUM) -> 
     case 0: return "approach"
     case 1: return "start"
     case 2: return "complete"
-   default: return "climb_pro_event_\(input)"
+    default: return "climb_pro_event_\(input)"
   }
 }
 
@@ -5776,7 +5785,7 @@ fileprivate func rzfit_swift_string_from_tap_sensitivity(_ input : FIT_ENUM) -> 
     case 0: return "high"
     case 1: return "medium"
     case 2: return "low"
-   default: return "tap_sensitivity_\(input)"
+    default: return "tap_sensitivity_\(input)"
   }
 }
 
@@ -5787,7 +5796,7 @@ fileprivate func rzfit_swift_string_from_radar_threat_level_type(_ input : FIT_E
     case 1: return "threat_none"
     case 2: return "threat_approaching"
     case 3: return "threat_approaching_fast"
-   default: return "radar_threat_level_type_\(input)"
+    default: return "radar_threat_level_type_\(input)"
   }
 }
 
@@ -7819,6 +7828,9 @@ fileprivate func rzfit_swift_date_dict_for_file_creator( ptr : UnsafePointer<FIT
 fileprivate func rzfit_swift_value_dict_for_software( ptr : UnsafePointer<FIT_SOFTWARE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SOFTWARE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.version != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.version)/Double(100))
     rv[ "version" ] = val
@@ -7901,6 +7913,9 @@ fileprivate func rzfit_swift_value_dict_for_file_capabilities( ptr : UnsafePoint
     let val : Double = Double(x.max_size)
     rv[ "max_size" ] = val
   }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.max_count != FIT_UINT16_INVALID  {
     let val : Double = Double(x.max_count)
     rv[ "max_count" ] = val
@@ -7934,6 +7949,9 @@ fileprivate func rzfit_swift_date_dict_for_file_capabilities( ptr : UnsafePointe
 fileprivate func rzfit_swift_value_dict_for_mesg_capabilities( ptr : UnsafePointer<FIT_MESG_CAPABILITIES_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_MESG_CAPABILITIES_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.count != FIT_UINT16_INVALID  {
       if x.count_type == 0 { // num_per_file
          let val : Double = Double(x.count)
@@ -7974,6 +7992,9 @@ fileprivate func rzfit_swift_date_dict_for_mesg_capabilities( ptr : UnsafePointe
 fileprivate func rzfit_swift_value_dict_for_field_capabilities( ptr : UnsafePointer<FIT_FIELD_CAPABILITIES_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_FIELD_CAPABILITIES_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.count != FIT_UINT16_INVALID  {
     let val : Double = Double(x.count)
     rv[ "count" ] = val
@@ -8082,6 +8103,9 @@ fileprivate func rzfit_swift_date_dict_for_device_settings( ptr : UnsafePointer<
 fileprivate func rzfit_swift_value_dict_for_user_profile( ptr : UnsafePointer<FIT_USER_PROFILE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_USER_PROFILE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.weight != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.weight)/Double(10))
     rv[ "weight" ] = val
@@ -8185,6 +8209,9 @@ fileprivate func rzfit_swift_date_dict_for_user_profile( ptr : UnsafePointer<FIT
 fileprivate func rzfit_swift_value_dict_for_hrm_profile( ptr : UnsafePointer<FIT_HRM_PROFILE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_HRM_PROFILE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.hrm_ant_id != FIT_UINT16Z_INVALID  {
     let val : Double = Double(x.hrm_ant_id)
     rv[ "hrm_ant_id" ] = val
@@ -8220,6 +8247,9 @@ fileprivate func rzfit_swift_value_dict_for_sdm_profile( ptr : UnsafePointer<FIT
   if x.odometer != FIT_UINT32_INVALID  {
     let val : Double = (Double(x.odometer)/Double(100))
     rv[ "odometer" ] = val
+  }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
   }
   if x.sdm_ant_id != FIT_UINT16Z_INVALID  {
     let val : Double = Double(x.sdm_ant_id)
@@ -8264,6 +8294,9 @@ fileprivate func rzfit_swift_value_dict_for_bike_profile( ptr : UnsafePointer<FI
   if x.odometer != FIT_UINT32_INVALID  {
     let val : Double = (Double(x.odometer)/Double(100))
     rv[ "odometer" ] = val
+  }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
   }
   if x.bike_spd_ant_id != FIT_UINT16Z_INVALID  {
     let val : Double = Double(x.bike_spd_ant_id)
@@ -8527,6 +8560,9 @@ fileprivate func rzfit_swift_date_dict_for_sport( ptr : UnsafePointer<FIT_SPORT_
 fileprivate func rzfit_swift_value_dict_for_hr_zone( ptr : UnsafePointer<FIT_HR_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_HR_ZONE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.high_bpm != FIT_UINT8_INVALID  {
     let val : Double = Double(x.high_bpm)
     rv[ "high_bpm" ] = val
@@ -8554,6 +8590,9 @@ fileprivate func rzfit_swift_date_dict_for_hr_zone( ptr : UnsafePointer<FIT_HR_Z
 fileprivate func rzfit_swift_value_dict_for_speed_zone( ptr : UnsafePointer<FIT_SPEED_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_SPEED_ZONE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.high_value != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.high_value)/Double(1000))
     rv[ "high_value" ] = val
@@ -8581,6 +8620,9 @@ fileprivate func rzfit_swift_date_dict_for_speed_zone( ptr : UnsafePointer<FIT_S
 fileprivate func rzfit_swift_value_dict_for_cadence_zone( ptr : UnsafePointer<FIT_CADENCE_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_CADENCE_ZONE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.high_value != FIT_UINT8_INVALID  {
     let val : Double = Double(x.high_value)
     rv[ "high_value" ] = val
@@ -8608,6 +8650,9 @@ fileprivate func rzfit_swift_date_dict_for_cadence_zone( ptr : UnsafePointer<FIT
 fileprivate func rzfit_swift_value_dict_for_power_zone( ptr : UnsafePointer<FIT_POWER_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_POWER_ZONE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.high_value != FIT_UINT16_INVALID  {
     let val : Double = Double(x.high_value)
     rv[ "high_value" ] = val
@@ -8635,6 +8680,9 @@ fileprivate func rzfit_swift_date_dict_for_power_zone( ptr : UnsafePointer<FIT_P
 fileprivate func rzfit_swift_value_dict_for_met_zone( ptr : UnsafePointer<FIT_MET_ZONE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_MET_ZONE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.calories != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.calories)/Double(10))
     rv[ "calories" ] = val
@@ -8690,6 +8738,9 @@ fileprivate func rzfit_swift_value_dict_for_goal( ptr : UnsafePointer<FIT_GOAL_M
   if x.target_value != FIT_UINT32_INVALID  {
     let val : Double = Double(x.target_value)
     rv[ "target_value" ] = val
+  }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
   }
   if x.recurrence_value != FIT_UINT16_INVALID  {
     let val : Double = Double(x.recurrence_value)
@@ -8904,6 +8955,9 @@ fileprivate func rzfit_swift_value_dict_for_session( ptr : UnsafePointer<FIT_SES
     let val : Double = (Double(x.enhanced_max_altitude)/Double(5))-Double(500)
     rv[ "enhanced_max_altitude" ] = val
   }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.total_calories != FIT_UINT16_INVALID  {
     let val : Double = Double(x.total_calories)
     rv[ "total_calories" ] = val
@@ -8959,6 +9013,9 @@ fileprivate func rzfit_swift_value_dict_for_session( ptr : UnsafePointer<FIT_SES
   if x.intensity_factor != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.intensity_factor)/Double(1000))
     rv[ "intensity_factor" ] = val
+  }
+  if x.left_right_balance != FIT_UINT16_INVALID  {
+    rv[ "left_right_balance_value" ] = rzfit_swift_value_from_left_right_balance_100(x.left_right_balance)
   }
   if x.avg_stroke_distance != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.avg_stroke_distance)/Double(100))
@@ -9297,6 +9354,9 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
     let val : Double = (Double(x.enhanced_max_altitude)/Double(5))-Double(500)
     rv[ "enhanced_max_altitude" ] = val
   }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.total_calories != FIT_UINT16_INVALID  {
     let val : Double = Double(x.total_calories)
     rv[ "total_calories" ] = val
@@ -9336,6 +9396,9 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
   if x.normalized_power != FIT_UINT16_INVALID  {
     let val : Double = Double(x.normalized_power)
     rv[ "normalized_power" ] = val
+  }
+  if x.left_right_balance != FIT_UINT16_INVALID  {
+    rv[ "left_right_balance_value" ] = rzfit_swift_value_from_left_right_balance_100(x.left_right_balance)
   }
   if x.first_length_index != FIT_UINT16_INVALID  {
     let val : Double = Double(x.first_length_index)
@@ -9400,6 +9463,9 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
   if x.min_altitude != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.min_altitude)/Double(5))-Double(500)
     rv[ "min_altitude" ] = val
+  }
+  if x.wkt_step_index != FIT_UINT16_INVALID  {
+    rv[ "wkt_step_index_value" ] = rzfit_swift_value_from_message_index(x.wkt_step_index)
   }
   if x.opponent_score != FIT_UINT16_INVALID  {
     let val : Double = Double(x.opponent_score)
@@ -9583,6 +9649,9 @@ fileprivate func rzfit_swift_value_dict_for_length( ptr : UnsafePointer<FIT_LENG
   if x.total_timer_time != FIT_UINT32_INVALID  {
     let val : Double = (Double(x.total_timer_time)/Double(1000))
     rv[ "total_timer_time" ] = val
+  }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
   }
   if x.total_strokes != FIT_UINT16_INVALID  {
     let val : Double = Double(x.total_strokes)
@@ -9797,6 +9866,9 @@ fileprivate func rzfit_swift_value_dict_for_record( ptr : UnsafePointer<FIT_RECO
   if x.cycles != FIT_UINT8_INVALID  {
     let val : Double = Double(x.cycles)
     rv[ "cycles" ] = val
+  }
+  if x.left_right_balance != FIT_UINT8_INVALID  {
+    rv[ "left_right_balance_value" ] = rzfit_swift_value_from_left_right_balance(x.left_right_balance)
   }
   if x.gps_accuracy != FIT_UINT8_INVALID  {
     let val : Double = Double(x.gps_accuracy)
@@ -10423,6 +10495,9 @@ fileprivate func rzfit_swift_date_dict_for_aviation_attitude( ptr : UnsafePointe
 fileprivate func rzfit_swift_value_dict_for_video_title( ptr : UnsafePointer<FIT_VIDEO_TITLE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_VIDEO_TITLE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.message_count != FIT_UINT16_INVALID  {
     let val : Double = Double(x.message_count)
     rv[ "message_count" ] = val
@@ -10450,6 +10525,9 @@ fileprivate func rzfit_swift_date_dict_for_video_title( ptr : UnsafePointer<FIT_
 fileprivate func rzfit_swift_value_dict_for_video_description( ptr : UnsafePointer<FIT_VIDEO_DESCRIPTION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_VIDEO_DESCRIPTION_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.message_count != FIT_UINT16_INVALID  {
     let val : Double = Double(x.message_count)
     rv[ "message_count" ] = val
@@ -10620,6 +10698,9 @@ fileprivate func rzfit_swift_value_dict_for_course_point( ptr : UnsafePointer<FI
     let val : Double = (Double(x.distance)/Double(100))
     rv[ "distance" ] = val
   }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.favorite != FIT_BOOL_INVALID  {
     let val : Double = Double(x.favorite)
     rv[ "favorite" ] = val
@@ -10720,6 +10801,9 @@ fileprivate func rzfit_swift_value_dict_for_segment_leaderboard_entry( ptr : Uns
     let val : Double = (Double(x.segment_time)/Double(1000))
     rv[ "segment_time" ] = val
   }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   return rv
 }
 fileprivate func rzfit_swift_string_dict_for_segment_leaderboard_entry( ptr : UnsafePointer<FIT_SEGMENT_LEADERBOARD_ENTRY_MESG>) -> [String:String] {
@@ -10762,6 +10846,9 @@ fileprivate func rzfit_swift_value_dict_for_segment_point( ptr : UnsafePointer<F
     // Array[1]
     let val : Double = (Double(x.leader_time)/Double(1000))
     rv[ "leader_time" ] = val
+  }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
   }
   if x.altitude != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.altitude)/Double(5))-Double(500)
@@ -10868,6 +10955,9 @@ fileprivate func rzfit_swift_value_dict_for_segment_lap( ptr : UnsafePointer<FIT
     let val : Double = (Double(x.active_time)/Double(1000))
     rv[ "active_time" ] = val
   }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.total_calories != FIT_UINT16_INVALID  {
     let val : Double = Double(x.total_calories)
     rv[ "total_calories" ] = val
@@ -10903,6 +10993,9 @@ fileprivate func rzfit_swift_value_dict_for_segment_lap( ptr : UnsafePointer<FIT
   if x.normalized_power != FIT_UINT16_INVALID  {
     let val : Double = Double(x.normalized_power)
     rv[ "normalized_power" ] = val
+  }
+  if x.left_right_balance != FIT_UINT16_INVALID  {
+    rv[ "left_right_balance_value" ] = rzfit_swift_value_from_left_right_balance_100(x.left_right_balance)
   }
   if x.avg_altitude != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.avg_altitude)/Double(5))-Double(500)
@@ -10955,6 +11048,9 @@ fileprivate func rzfit_swift_value_dict_for_segment_lap( ptr : UnsafePointer<FIT
   if x.min_altitude != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.min_altitude)/Double(5))-Double(500)
     rv[ "min_altitude" ] = val
+  }
+  if x.wkt_step_index != FIT_UINT16_INVALID  {
+    rv[ "wkt_step_index_value" ] = rzfit_swift_value_from_message_index(x.wkt_step_index)
   }
   if x.front_gear_shift_count != FIT_UINT16_INVALID  {
     let val : Double = Double(x.front_gear_shift_count)
@@ -11110,6 +11206,9 @@ fileprivate func rzfit_swift_value_dict_for_segment_file( ptr : UnsafePointer<FI
     let val : Double = Double(x.leader_activity_id)
     rv[ "leader_activity_id" ] = val
   }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.enabled != FIT_BOOL_INVALID  {
     let val : Double = Double(x.enabled)
     rv[ "enabled" ] = val
@@ -11177,6 +11276,9 @@ fileprivate func rzfit_swift_date_dict_for_workout( ptr : UnsafePointer<FIT_WORK
 fileprivate func rzfit_swift_value_dict_for_workout_session( ptr : UnsafePointer<FIT_WORKOUT_SESSION_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_WORKOUT_SESSION_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.num_valid_steps != FIT_UINT16_INVALID  {
     let val : Double = Double(x.num_valid_steps)
     rv[ "num_valid_steps" ] = val
@@ -11322,6 +11424,9 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
         rv[ "custom_target_value_high" ] = val
       }
   }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   return rv
 }
 fileprivate func rzfit_swift_string_dict_for_workout_step( ptr : UnsafePointer<FIT_WORKOUT_STEP_MESG>) -> [String:String] {
@@ -11367,6 +11472,9 @@ fileprivate func rzfit_swift_date_dict_for_workout_step( ptr : UnsafePointer<FIT
 fileprivate func rzfit_swift_value_dict_for_exercise_title( ptr : UnsafePointer<FIT_EXERCISE_TITLE_MESG>) -> [String:Double] {
   var rv : [String:Double] = [:]
   let x : FIT_EXERCISE_TITLE_MESG = ptr.pointee
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.exercise_name != FIT_UINT16_INVALID  {
     let val : Double = Double(x.exercise_name)
     rv[ "exercise_name" ] = val
@@ -11467,6 +11575,9 @@ fileprivate func rzfit_swift_value_dict_for_totals( ptr : UnsafePointer<FIT_TOTA
     let val : Double = Double(x.active_time)
     rv[ "active_time" ] = val
   }
+  if x.message_index != FIT_UINT16_INVALID  {
+    rv[ "message_index_value" ] = rzfit_swift_value_from_message_index(x.message_index)
+  }
   if x.sessions != FIT_UINT16_INVALID  {
     let val : Double = Double(x.sessions)
     rv[ "sessions" ] = val
@@ -11523,6 +11634,9 @@ fileprivate func rzfit_swift_value_dict_for_weight_scale( ptr : UnsafePointer<FI
   if x.active_met != FIT_UINT16_INVALID  {
     let val : Double = (Double(x.active_met)/Double(4))
     rv[ "active_met" ] = val
+  }
+  if x.user_profile_index != FIT_UINT16_INVALID  {
+    rv[ "user_profile_index_value" ] = rzfit_swift_value_from_message_index(x.user_profile_index)
   }
   if x.physique_rating != FIT_UINT8_INVALID  {
     let val : Double = Double(x.physique_rating)
@@ -11584,6 +11698,9 @@ fileprivate func rzfit_swift_value_dict_for_blood_pressure( ptr : UnsafePointer<
   if x.map_evening_values != FIT_UINT16_INVALID  {
     let val : Double = Double(x.map_evening_values)
     rv[ "map_evening_values" ] = val
+  }
+  if x.user_profile_index != FIT_UINT16_INVALID  {
+    rv[ "user_profile_index_value" ] = rzfit_swift_value_from_message_index(x.user_profile_index)
   }
   if x.heart_rate != FIT_UINT8_INVALID  {
     let val : Double = Double(x.heart_rate)

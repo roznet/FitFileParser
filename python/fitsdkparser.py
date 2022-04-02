@@ -106,13 +106,23 @@ class Type :
         self.type_num = type_num
         self.values = []
         self.values_map = {}
+        self.is_masked_value = False
         self.annotate = annotate
 
     def fit_type(self):
         return 'FIT_{}'.format( self.name.upper() )
 
+
+    def is_string(self):
+        return not self.is_masked_value
+
+    def is_value(self):
+        return self.is_masked_value
+    
     def add_row(self,row):
         if len(row)>4 and row[TYP_COL_TYPE_NAME] is None and row[TYP_COL_BASE_TYPE] is None:
+            if row[TYP_COL_VALUE_NAME] == 'mask':
+                self.is_masked_value = True
             self.values.append( { 'name': row[TYP_COL_VALUE_NAME], 'value':row[TYP_COL_VALUE] } )
             self.values_map[row[TYP_COL_VALUE_NAME]] = row[TYP_COL_VALUE]
             return True
@@ -150,16 +160,53 @@ class Type :
     
     def swift_func_to_string(self,fileprivate=True):
         rv = first_line_with_annotate_comment('',annotate = self.annotate)
-        rv.extend( [ '{}func {}(_ input : {}) -> String'.format( 'fileprivate ' if fileprivate else 'public ', self.swift_fname_to_string(), self.objc_type() ),
+        if self.is_masked_value:
+            mask = None
+            for v in self.values:
+                if v['name'] == 'mask':
+                    mask = v['value']
+
+            rv.extend( [ '{}func {}(_ input : {}) -> String'.format( 'fileprivate ' if fileprivate else 'public ', self.swift_fname_to_string(), self.objc_type() ),
+                             '{',
+                             '  let flag = input & (~{})'.format( mask ),
+                            ] )
+            for d in self.values:
+                if d['name'] != 'mask':
+                    rv.append( '  if flag == {} {{ return "{}" }}'.format( d['value'], d['name'] ) )
+            rv.append( '  else {{ return "{}_\(flag)" }}'.format( self.name) )
+            rv.extend( [ '  }',
+                         ''] )
+        else:
+            rv.extend( [ '{}func {}(_ input : {}) -> String'.format( 'fileprivate ' if fileprivate else 'public ', self.swift_fname_to_string(), self.objc_type() ),
                '{',
                '   switch input {{'.format( self.name ),
               ] )
-        for d in self.values:
-            rv.append( '    case {}: return "{}"'.format( d['value'], d['name'] ) )
-        rv.append( '   default: return "{}_\(input)"'.format( self.name) )
-        rv.extend( [ '  }',
+            for d in self.values:
+                rv.append( '    case {}: return "{}"'.format( d['value'], d['name'] ) )
+            rv.append( '    default: return "{}_\(input)"'.format( self.name) )
+            rv.extend( [ '  }',
+                         '}',
+                        ''] )
+        return rv
+    
+    def swift_fname_to_value(self):
+        return f'rzfit_swift_value_from_{self.name}'
+
+    def swift_func_to_value(self,fileprivate=True):
+        if not self.is_masked_value:
+            return []
+        
+        rv = first_line_with_annotate_comment(prefix = '', annotate=self.annotate)
+        mask = None
+        for v in self.values:
+            if v['name'] == 'mask':
+                mask = v['value']
+        rv.extend( [ '{}func {}(_ input : {}) -> Double'.format('fileprivate ' if fileprivate else 'public', self.swift_fname_to_value(),self.objc_type() ),
+                     '{',
+                     '  let masked = input & {}'.format( mask ),
+                     '  return Double( masked )',
                      '}',
-                     ''] )
+                     ] )
         return rv
 
     def swift_fname_from_string(self):
@@ -204,7 +251,8 @@ class Type :
                      '' ] )
         return rv
         
-    
+
+        
     #--- objc type
     def objc_type(self):
         return 'FIT_{}'.format( self.base_type.upper() )
@@ -260,6 +308,7 @@ class Field:
     field_num: field number (ex: 1)
     name: field name (ex: 'manufacturer' or 'product')
     type_name: type (ex: 'manufacturer' or 'uint16')
+    fit_type: Type object if relevant or None
     scale: None or value
     offset: None or value
     unit: None or str (ex: 'bpm')
@@ -416,6 +465,9 @@ class Field:
 
         if self.components:
             return True
+
+        if self.fit_type and self.fit_type.is_masked_value:
+            return True
         
         return False
     
@@ -517,6 +569,9 @@ class Field:
                 lines.extend( [ prefix + '  let val : Double = {}'.format( formula ),
                                  prefix + '  rv[ "{}" ] = val'.format(self.name),
                                  ] )
+            elif self.fit_type and self.fit_type.is_masked_value:
+                something_done = True
+                lines.append( prefix + '  rv[ "{}_value" ] = {}(x.{})'.format(self.name, self.fit_type.swift_fname_to_value(), member ) )
             
         
             lines.append( prefix + '}' )
@@ -1697,6 +1752,8 @@ class Command :
         for one in self.context.types.values():
             if one.name != 'mesg_num':
                 rv.extend(  one.swift_func_to_string() )
+                if one.is_masked_value:
+                    rv.extend( one.swift_func_to_value() )
         
         rv.extend( [
             '',
