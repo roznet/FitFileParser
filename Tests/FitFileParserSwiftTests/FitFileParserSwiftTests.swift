@@ -28,6 +28,30 @@ final class FitFileParserSwiftTests: XCTestCase {
             }
         }
     }
+
+    func testMaskedFields(){
+
+        let path = self.findResource(name: "leftrightbalancetest.fit")
+        
+        if let fit = FitFile(file: path ) {
+            let messages = fit.messages(forMessageType: .record)
+            var count = 0
+            for message in messages {
+                if let name = message.interpretedField(key: "left_right_balance")?.name {
+                    if name == "right" {
+                        let value = message.interpretedField(key:"left_right_balance_value")?.value
+                        XCTAssertNotNil(value)
+                        if let value = value {
+                            count += 1
+                            XCTAssertLessThanOrEqual(value, 100.0)
+                        }
+                    }
+                }
+            }
+            XCTAssertGreaterThan(count, 0)
+        }
+    }
+
     
     func testReadmeExampleSyntax(){
         let path = self.findResource(name: "running.fit")
