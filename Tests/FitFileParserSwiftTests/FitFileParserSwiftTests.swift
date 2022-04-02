@@ -115,6 +115,10 @@ final class FitFileParserSwiftTests: XCTestCase {
                         if message.messageType.name() == "event" && fast_key == "data" {
                             continue
                         }
+                        // skipped masked field not interpreted by generic
+                        if fast_key == "message_index_value" {
+                            continue
+                        }
                         XCTAssertNotNil(generic_message.interpretedField(key: fast_key), "\(message.messageType.name()).\(fast_key): missing")
                         // Know fields where array skipped in fast mode
                         if generic_message.messageType == .developer_data_id && fast_key == "application_id" {
