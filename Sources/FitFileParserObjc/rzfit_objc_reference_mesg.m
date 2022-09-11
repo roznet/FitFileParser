@@ -1457,27 +1457,31 @@ typedef struct {
   FIT_UINT8 arch;
   FIT_UINT16 global_mesg_num;
   FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 12];
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 16];
 } FIT_WORKOUT_STEP_MESG_DEF;
 
 static const FIT_WORKOUT_STEP_MESG_DEF workout_step_mesg_def = {
   0, // reserved_1
   FIT_ARCH_ENDIAN, // arch,
   /* workout_step */27, // mesg_num,
-  12,
+  16,
   {
-    /* wkt_step_name */0,            (sizeof(FIT_STRING)*16), FIT_BASE_TYPE_STRING,   
-    /* duration_value */2,           (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
-    /* target_value */4,             (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
-    /* custom_target_value_low */5,  (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
-    /* custom_target_value_high */6, (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
-    /* message_index */254,          (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
-    /* notes */8,                    (sizeof(FIT_STRING)*50), FIT_BASE_TYPE_STRING,   
-    /* exercise_category */10,       (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
-    /* duration_type */1,            (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
-    /* target_type */3,              (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
-    /* intensity */7,                (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
-    /* equipment */9,                (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* wkt_step_name */0,                       (sizeof(FIT_STRING)*16), FIT_BASE_TYPE_STRING,   
+    /* duration_value */2,                      (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* target_value */4,                        (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* custom_target_value_low */5,             (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* custom_target_value_high */6,            (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* secondary_target_value */20,             (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* secondary_custom_target_value_low */21,  (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* secondary_custom_target_value_high */22, (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* message_index */254,                     (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* notes */8,                               (sizeof(FIT_STRING)*50), FIT_BASE_TYPE_STRING,   
+    /* exercise_category */10,                  (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* duration_type */1,                       (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* target_type */3,                         (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* intensity */7,                           (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* equipment */9,                           (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* secondary_target_type */19,              (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
   }
 };
 typedef struct {

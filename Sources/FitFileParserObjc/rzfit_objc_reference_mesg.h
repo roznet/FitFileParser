@@ -925,6 +925,9 @@ typedef struct {
   FIT_UINT32 target_value; // 
   FIT_UINT32 custom_target_value_low; // 
   FIT_UINT32 custom_target_value_high; // 
+  FIT_UINT32 secondary_target_value; // 
+  FIT_UINT32 secondary_custom_target_value_low; // 
+  FIT_UINT32 secondary_custom_target_value_high; // 
   FIT_UINT16 message_index; // message_index
   FIT_STRING notes[50]; // 
   FIT_UINT16 exercise_category; // exercise_category
@@ -932,6 +935,7 @@ typedef struct {
   FIT_ENUM target_type; // wkt_step_target
   FIT_ENUM intensity; // intensity
   FIT_ENUM equipment; // workout_equipment
+  FIT_ENUM secondary_target_type; // wkt_step_target
 } FIT_WORKOUT_STEP_MESG;
 
 typedef struct {

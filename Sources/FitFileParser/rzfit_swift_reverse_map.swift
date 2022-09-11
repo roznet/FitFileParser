@@ -1385,6 +1385,9 @@ fileprivate func rzfit_swift_reverse_value_session(field: String, value: String)
     case "avg_vam": // uint16
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
+    case "training_load_peak": // sint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
     case "total_grit": // float32
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
@@ -3539,6 +3542,51 @@ fileprivate func rzfit_swift_reverse_value_workout_step(field: String, value: St
       return .value(dbl)
     case "weight_display_unit": // fit_base_unit
       return rzfit_swift_reverse_value_fit_base_unit(value: value)
+    case "secondary_target_type": // wkt_step_target
+      return rzfit_swift_reverse_value_wkt_step_target(value: value)
+    case "secondary_target_value": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_target_speed_zone": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_target_hr_zone": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_target_cadence_zone": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_target_power_zone": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_target_stroke_type": // swim_stroke
+      return rzfit_swift_reverse_value_swim_stroke(value: value)
+    case "secondary_custom_target_value_low": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_custom_target_speed_low": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_custom_target_heart_rate_low": // workout_hr
+      return rzfit_swift_reverse_value_workout_hr(value: value)
+    case "secondary_custom_target_cadence_low": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_custom_target_power_low": // workout_power
+      return rzfit_swift_reverse_value_workout_power(value: value)
+    case "secondary_custom_target_value_high": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_custom_target_speed_high": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_custom_target_heart_rate_high": // workout_hr
+      return rzfit_swift_reverse_value_workout_hr(value: value)
+    case "secondary_custom_target_cadence_high": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "secondary_custom_target_power_high": // workout_power
+      return rzfit_swift_reverse_value_workout_power(value: value)
   default:
     return .unknown
   }
@@ -3868,11 +3916,16 @@ fileprivate func rzfit_swift_reverse_value_memo_glob(field: String, value: Strin
     case "memo": // byte
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
-    case "message_number": // uint16
+    case "mesg_num": // mesg_num
+      return rzfit_swift_reverse_value_mesg_num(value: value)
+    case "parent_index": // message_index
+      return rzfit_swift_reverse_value_message_index(value: value)
+    case "field_num": // uint8
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
-    case "message_index": // message_index
-      return rzfit_swift_reverse_value_message_index(value: value)
+    case "data": // uint8z
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
   default:
     return .unknown
   }
@@ -4411,8 +4464,6 @@ fileprivate func rzfit_swift_reverse_value_gender(value : String) -> RzFitSwiftV
     case "female": return .string("0")
     case "1": return .string("male")
     case "male": return .string("1")
-    case "2": return .string("unspecified")
-    case "unspecified": return .string("2")
    default: return .unknown
   }
 }
@@ -5972,6 +6023,60 @@ fileprivate func rzfit_swift_reverse_value_course_point(value : String) -> RzFit
     case "segment_start": return .string("24")
     case "25": return .string("segment_end")
     case "segment_end": return .string("25")
+    case "27": return .string("campsite")
+    case "campsite": return .string("27")
+    case "28": return .string("aid_station")
+    case "aid_station": return .string("28")
+    case "29": return .string("rest_area")
+    case "rest_area": return .string("29")
+    case "30": return .string("general_distance")
+    case "general_distance": return .string("30")
+    case "31": return .string("service")
+    case "service": return .string("31")
+    case "32": return .string("energy_gel")
+    case "energy_gel": return .string("32")
+    case "33": return .string("sports_drink")
+    case "sports_drink": return .string("33")
+    case "34": return .string("mile_marker")
+    case "mile_marker": return .string("34")
+    case "35": return .string("checkpoint")
+    case "checkpoint": return .string("35")
+    case "36": return .string("shelter")
+    case "shelter": return .string("36")
+    case "37": return .string("meeting_spot")
+    case "meeting_spot": return .string("37")
+    case "38": return .string("overlook")
+    case "overlook": return .string("38")
+    case "39": return .string("toilet")
+    case "toilet": return .string("39")
+    case "40": return .string("shower")
+    case "shower": return .string("40")
+    case "41": return .string("gear")
+    case "gear": return .string("41")
+    case "42": return .string("sharp_curve")
+    case "sharp_curve": return .string("42")
+    case "43": return .string("steep_incline")
+    case "steep_incline": return .string("43")
+    case "44": return .string("tunnel")
+    case "tunnel": return .string("44")
+    case "45": return .string("bridge")
+    case "bridge": return .string("45")
+    case "46": return .string("obstacle")
+    case "obstacle": return .string("46")
+    case "47": return .string("crossing")
+    case "crossing": return .string("47")
+    case "48": return .string("store")
+    case "store": return .string("48")
+    case "49": return .string("transition")
+    case "transition": return .string("49")
+    case "50": return .string("navaid")
+    case "navaid": return .string("50")
+    case "51": return .string("transport")
+    case "transport": return .string("51")
+    case "52": return .string("alert")
+    case "alert": return .string("52")
+    case "53": return .string("info")
+    case "info": return .string("53")
    default: return .unknown
   }
 }
@@ -6257,6 +6362,12 @@ fileprivate func rzfit_swift_reverse_value_manufacturer(value : String) -> RzFit
     case "decathlon_byte": return .string("140")
     case "141": return .string("tq_systems")
     case "tq_systems": return .string("141")
+    case "142": return .string("tag_heuer")
+    case "tag_heuer": return .string("142")
+    case "143": return .string("keiser_fitness")
+    case "keiser_fitness": return .string("143")
+    case "144": return .string("zwift_byte")
+    case "zwift_byte": return .string("144")
     case "255": return .string("development")
     case "development": return .string("255")
     case "257": return .string("healthandlife")
@@ -6381,6 +6492,10 @@ fileprivate func rzfit_swift_reverse_value_manufacturer(value : String) -> RzFit
     case "vasa": return .string("316")
     case "317": return .string("race_republic")
     case "race_republic": return .string("317")
+    case "318": return .string("fazua")
+    case "fazua": return .string("318")
+    case "319": return .string("oreka_training")
+    case "oreka_training": return .string("319")
     case "5759": return .string("actigraphcorp")
     case "actigraphcorp": return .string("5759")
    default: return .unknown
@@ -7094,6 +7209,14 @@ fileprivate func rzfit_swift_reverse_value_garmin_product(value : String) -> RzF
     case "fr945_lte_asia": return .string("3978")
     case "3986": return .string("approach_S12_asia")
     case "approach_S12_asia": return .string("3986")
+    case "3990": return .string("fr255_music")
+    case "fr255_music": return .string("3990")
+    case "3991": return .string("fr255_small_music")
+    case "fr255_small_music": return .string("3991")
+    case "3992": return .string("fr255")
+    case "fr255": return .string("3992")
+    case "3993": return .string("fr255_small")
+    case "fr255_small": return .string("3993")
     case " 4001": return .string("approach_g12_asia")
     case "approach_g12_asia": return .string(" 4001")
     case "4002": return .string("approach_s42_asia")
@@ -7102,14 +7225,22 @@ fileprivate func rzfit_swift_reverse_value_garmin_product(value : String) -> RzF
     case "descent_g1": return .string("4005")
     case "4017": return .string("venu2_plus_asia")
     case "venu2_plus_asia": return .string("4017")
+    case "4024": return .string("fr955")
+    case "fr955": return .string("4024")
     case "4033": return .string("fr55_asia")
     case "fr55_asia": return .string("4033")
+    case "4063": return .string("vivosmart_5")
+    case "vivosmart_5": return .string("4063")
     case "4071": return .string("instinct_2_asia")
     case "instinct_2_asia": return .string("4071")
     case "4125": return .string("d2_air_x10")
     case "d2_air_x10": return .string("4125")
+    case "4130": return .string("hrm_pro_plus")
+    case "hrm_pro_plus": return .string("4130")
     case "4132": return .string("descent_g1_asia")
     case "descent_g1_asia": return .string("4132")
+    case "4169": return .string("edge_explore2")
+    case "edge_explore2": return .string("4169")
     case "4265": return .string("tacx_neo_smart")
     case "tacx_neo_smart": return .string("4265")
     case "4266": return .string("tacx_neo2_smart")
@@ -7134,6 +7265,8 @@ fileprivate func rzfit_swift_reverse_value_garmin_product(value : String) -> RzF
     case "tacx_flux2_smart": return .string("4275")
     case "4276": return .string("tacx_magnum")
     case "tacx_magnum": return .string("4276")
+    case "4135": return .string("tactix7")
+    case "tactix7": return .string("4135")
     case "10007": return .string("sdm4")
     case "sdm4": return .string("10007")
     case "10014": return .string("edge_remote")

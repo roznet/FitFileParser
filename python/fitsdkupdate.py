@@ -3,7 +3,7 @@
 # download latest fit sdk from https://developer.garmin.com/fitconv
 #
 # This will copy the profile, update the version.txt and update the fit sdk c source code comment with the latest version information
-# After the update, run fitsdkgenerate.py to regenerage the code with the updated profile
+# After the update, run fitsdkparser.py to regenerage the code with the updated profile
 #
 # run utility against that directory
 #     ./fitsdkupdate.py /path/to/FitSDKRElease_20.XX.00
@@ -95,8 +95,7 @@ def do_copy( f_from, f_to, execute = False ):
     if file_hash(f_from) != file_hash( f_to ):
         rv = True
         print( 'cp {} {}'.format( f_from, f_to ) )
-        if args.execute:
-            shutil.copyfile( f_from, f_to )
+        shutil.copyfile( f_from, f_to )
     else:
         print( 'Unchanged {} from {}'.format( f_to, f_from ) )
             
@@ -123,7 +122,7 @@ def check_diffs(args):
             if os.path.isfile( f_from ) and os.path.isfile( f_to ):
                 file_fix_crlf(f_from)
                 file_fix_crlf(f_to)
-                found = update_version(f_from, f_to, args.execute )
+                found = update_version(f_from, f_to, True )
                 if found:
                     version = found
                     
@@ -132,30 +131,28 @@ def check_diffs(args):
             else:
                 print( 'missing {} {}'.format( f_from, f_to ) )
 
+                
+        profile_from = os.path.join( args.sdkpath, 'Profile.xlsx' )
+        profile_to   = 'Profile.xlsx'
+        
+        if os.path.isfile( profile_from ) and os.path.isfile( profile_to ):
+            do_copy( profile_from, profile_to, True )
+
         if version:
             with open( 'fitsdkversion.txt', 'r') as vf:
                 oldversion = vf.readline().rstrip()
 
             if oldversion == version:
                 print( f'Same version {version}' )
+                print( f'You can run "fitsdkparser.py generate Profile.xls" but no changes are expected' )
             else:
-                if args.execute:
-                    print( f'Save fitsdkversion.txt with {version} from {oldversion}' )
-                    with open( 'fitsdkversion.txt', 'w' ) as of:
-                        of.write( version )
-                else:
-                    print( f'New {version} was {oldversion}' )
-                
-        profile_from = os.path.join( args.sdkpath, 'Profile.xlsx' )
-        profile_to   = 'Profile.xlsx'
-        
-        if os.path.isfile( profile_from ) and os.path.isfile( profile_to ):
-            do_copy( profile_from, profile_to, args.execute )
-
+                print( f'Save fitsdkversion.txt with {version} from {oldversion}' )
+                with open( 'fitsdkversion.txt', 'w' ) as of:
+                    of.write( version )
+                print( f'You can run "fitsdkparser.py generate Profile.xls" to update the code with latest version' )
 if __name__ == "__main__":
     parser = argparse.ArgumentParser( description='diff with sdk' )
     parser.add_argument( 'sdkpath' )
-    parser.add_argument( '-e', '--execute', action='store_true', help='Execute the copy instead of just showing the diffs' )
     parser.add_argument( '-v', '--verbose', action='store_true' )
     parser.add_argument( '-d', '--diff', action='store_true', help='start ksdiff to look at diff' )
     parser.add_argument( '-o', '--output', default='../Sources/FitFileParserObjc' )
