@@ -3219,29 +3219,29 @@ fileprivate func rzfit_swift_string_from_weight(_ input : FIT_UINT16) -> String
 
 fileprivate func rzfit_swift_string_from_workout_hr(_ input : FIT_UINT32) -> String
 {
-   switch input {
-    case 100: return "bpm_offset"
-    default: return "workout_hr_\(input)"
+  if input < 100 {
+    return "%"
+  }else{
+    return "bpm"
   }
 }
-
 fileprivate func rzfit_swift_value_from_workout_hr(_ input : FIT_UINT32) -> Double
 {
-  let offset : Double = 100
-  return Double( input ) - offset
+  let offset = FIT_UINT32(100)
+  return input < offset ? Double(input) : Double(input - offset)
 }
 fileprivate func rzfit_swift_string_from_workout_power(_ input : FIT_UINT32) -> String
 {
-   switch input {
-    case 1000: return "watts_offset"
-    default: return "workout_power_\(input)"
+  if input < 1000 {
+    return "%"
+  }else{
+    return "bpm"
   }
 }
-
 fileprivate func rzfit_swift_value_from_workout_power(_ input : FIT_UINT32) -> Double
 {
-  let offset : Double = 1000
-  return Double( input ) - offset
+  let offset = FIT_UINT32(1000)
+  return input < offset ? Double(input) : Double(input - offset)
 }
 fileprivate func rzfit_swift_string_from_bp_status(_ input : FIT_ENUM) -> String
 {
@@ -8830,7 +8830,15 @@ fileprivate func rzfit_swift_string_dict_for_dive_settings( ptr : UnsafePointer<
   if !name.isEmpty {
     rv[ "name" ] = name
   }
+  if( x.heart_rate_source_type != FIT_ENUM_INVALID ) {
+    rv[ "heart_rate_source_type" ] = rzfit_swift_string_from_source_type(x.heart_rate_source_type)
+  }
   if( x.heart_rate_source != FIT_UINT8_INVALID ) {
+      if x.heart_rate_source_type == 1 { // antplus
+        rv[ "heart_rate_antplus_device_type" ] = rzfit_swift_string_from_antplus_device_type(FIT_UINT8(truncatingIfNeeded: x.heart_rate_source))
+      }else if x.heart_rate_source_type == 5 { // local
+        rv[ "heart_rate_local_device_type" ] = rzfit_swift_string_from_local_device_type(FIT_UINT8(truncatingIfNeeded: x.heart_rate_source))
+    }
   }
   return rv
 }
@@ -10183,8 +10191,14 @@ fileprivate func rzfit_swift_string_dict_for_event( ptr : UnsafePointer<FIT_EVEN
   if( x.data != FIT_UINT32_INVALID ) {
       if x.event == 0 { // timer
         rv[ "timer_trigger" ] = rzfit_swift_string_from_timer_trigger(FIT_ENUM(truncatingIfNeeded: x.data))
+      }else if x.event == 10 { // course_point
+        rv[ "course_point_index" ] = rzfit_swift_string_from_message_index(FIT_UINT16(truncatingIfNeeded: x.data))
       }else if x.event == 27 { // fitness_equipment
         rv[ "fitness_equipment_state" ] = rzfit_swift_string_from_fitness_equipment_state(FIT_ENUM(truncatingIfNeeded: x.data))
+      }else if x.event == 44 { // rider_position_change
+        rv[ "rider_position" ] = rzfit_swift_string_from_rider_position_type(FIT_ENUM(truncatingIfNeeded: x.data))
+      }else if x.event == 47 { // comm_timeout
+        rv[ "comm_timeout" ] = rzfit_swift_string_from_comm_timeout_type(FIT_UINT16(truncatingIfNeeded: x.data))
     }
   }
   if( x.event != FIT_ENUM_INVALID ) {
@@ -11614,6 +11628,63 @@ fileprivate func rzfit_swift_string_dict_for_workout_step( ptr : UnsafePointer<F
   }
   if !wkt_step_name.isEmpty {
     rv[ "wkt_step_name" ] = wkt_step_name
+  }
+  if( x.duration_value != FIT_UINT32_INVALID ) {
+      if x.duration_type == 2 { // hr_less_than
+        rv[ "duration_hr_unit" ] = rzfit_swift_string_from_workout_hr(FIT_UINT32(truncatingIfNeeded: x.duration_value))
+      }else if x.duration_type == 3 { // hr_greater_than
+        rv[ "duration_hr_unit" ] = rzfit_swift_string_from_workout_hr(FIT_UINT32(truncatingIfNeeded: x.duration_value))
+      }else if x.duration_type == 14 { // power_less_than
+        rv[ "duration_power_unit" ] = rzfit_swift_string_from_workout_power(FIT_UINT32(truncatingIfNeeded: x.duration_value))
+      }else if x.duration_type == 15 { // power_greater_than
+        rv[ "duration_power_unit" ] = rzfit_swift_string_from_workout_power(FIT_UINT32(truncatingIfNeeded: x.duration_value))
+    }
+  }
+  if( x.target_value != FIT_UINT32_INVALID ) {
+      if x.duration_type == 10 { // repeat_until_hr_less_than
+        rv[ "repeat_hr_unit" ] = rzfit_swift_string_from_workout_hr(FIT_UINT32(truncatingIfNeeded: x.target_value))
+      }else if x.duration_type == 11 { // repeat_until_hr_greater_than
+        rv[ "repeat_hr_unit" ] = rzfit_swift_string_from_workout_hr(FIT_UINT32(truncatingIfNeeded: x.target_value))
+      }else if x.duration_type == 12 { // repeat_until_power_less_than
+        rv[ "repeat_power_unit" ] = rzfit_swift_string_from_workout_power(FIT_UINT32(truncatingIfNeeded: x.target_value))
+      }else if x.duration_type == 13 { // repeat_until_power_greater_than
+        rv[ "repeat_power_unit" ] = rzfit_swift_string_from_workout_power(FIT_UINT32(truncatingIfNeeded: x.target_value))
+      }else if x.target_type == 11 { // swim_stroke
+        rv[ "target_stroke_type" ] = rzfit_swift_string_from_swim_stroke(FIT_ENUM(truncatingIfNeeded: x.target_value))
+    }
+  }
+  if( x.custom_target_value_low != FIT_UINT32_INVALID ) {
+      if x.target_type == 1 { // heart_rate
+        rv[ "custom_target_heart_rate_low_unit" ] = rzfit_swift_string_from_workout_hr(FIT_UINT32(truncatingIfNeeded: x.custom_target_value_low))
+      }else if x.target_type == 4 { // power
+        rv[ "custom_target_power_low_unit" ] = rzfit_swift_string_from_workout_power(FIT_UINT32(truncatingIfNeeded: x.custom_target_value_low))
+    }
+  }
+  if( x.custom_target_value_high != FIT_UINT32_INVALID ) {
+      if x.target_type == 1 { // heart_rate
+        rv[ "custom_target_heart_rate_high_unit" ] = rzfit_swift_string_from_workout_hr(FIT_UINT32(truncatingIfNeeded: x.custom_target_value_high))
+      }else if x.target_type == 4 { // power
+        rv[ "custom_target_power_high_unit" ] = rzfit_swift_string_from_workout_power(FIT_UINT32(truncatingIfNeeded: x.custom_target_value_high))
+    }
+  }
+  if( x.secondary_target_value != FIT_UINT32_INVALID ) {
+      if x.secondary_target_type == 11 { // swim_stroke
+        rv[ "secondary_target_stroke_type" ] = rzfit_swift_string_from_swim_stroke(FIT_ENUM(truncatingIfNeeded: x.secondary_target_value))
+    }
+  }
+  if( x.secondary_custom_target_value_low != FIT_UINT32_INVALID ) {
+      if x.secondary_target_type == 1 { // heart_rate
+        rv[ "secondary_custom_target_heart_rate_low_unit" ] = rzfit_swift_string_from_workout_hr(FIT_UINT32(truncatingIfNeeded: x.secondary_custom_target_value_low))
+      }else if x.secondary_target_type == 4 { // power
+        rv[ "secondary_custom_target_power_low_unit" ] = rzfit_swift_string_from_workout_power(FIT_UINT32(truncatingIfNeeded: x.secondary_custom_target_value_low))
+    }
+  }
+  if( x.secondary_custom_target_value_high != FIT_UINT32_INVALID ) {
+      if x.secondary_target_type == 1 { // heart_rate
+        rv[ "secondary_custom_target_heart_rate_high_unit" ] = rzfit_swift_string_from_workout_hr(FIT_UINT32(truncatingIfNeeded: x.secondary_custom_target_value_high))
+      }else if x.secondary_target_type == 4 { // power
+        rv[ "secondary_custom_target_power_high_unit" ] = rzfit_swift_string_from_workout_power(FIT_UINT32(truncatingIfNeeded: x.secondary_custom_target_value_high))
+    }
   }
   if( x.message_index != FIT_UINT16_INVALID ) {
     rv[ "message_index" ] = rzfit_swift_string_from_message_index(x.message_index)

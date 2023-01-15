@@ -342,6 +342,7 @@ typedef struct {
 
 typedef struct {
   FIT_STRING name[16]; // 
+  FIT_ENUM heart_rate_source_type; // source_type
   FIT_UINT8 heart_rate_source; // 
 } FIT_DIVE_SETTINGS_MESG;
 

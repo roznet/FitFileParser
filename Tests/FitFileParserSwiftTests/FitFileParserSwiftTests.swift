@@ -181,7 +181,10 @@ final class FitFileParserSwiftTests: XCTestCase {
         let path = self.findResource(name: "2023-01-13_heartratef.fit")
         var expected = [
                         "custom_target_heart_rate_low":false,
-                        "custom_target_heart_rate_high":false]
+                        "custom_target_heart_rate_high":false,
+                        "custom_target_heart_rate_low_unit":false,
+                        "custom_target_heart_rate_high_unit":false
+        ]
         if let fit = FitFile(file: path) {
             let steps = fit.messages(forMessageType: .workout_step)
             for step in steps {

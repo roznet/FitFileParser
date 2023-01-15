@@ -78,7 +78,7 @@ base_type_alignments = {
     'float32':4
 }
 
-type_offset_value_name = { 'bpm_offset': 1, 'watts_offset': 1 }
+type_offset_value_name = { 'bpm_offset': ['%','bpm'], 'watts_offset': ['%','bpm'] }
 
 def first_line_with_annotate_comment(prefix = '', annotate = True):
     if not annotate:
@@ -183,6 +183,23 @@ class Type :
             rv.append( '  else {{ return "{}_\(flag)" }}'.format( self.name) )
             rv.extend( [ '  }',
                          ''] )
+        elif self.is_offset_value:
+            offset = None
+            units = None
+            for v in self.values:
+                if v['name'] in type_offset_value_name:
+                    offset = v['value']
+                    units = type_offset_value_name[v['name']]
+
+            rv.extend( [ '{}func {}(_ input : {}) -> String'.format( 'fileprivate ' if fileprivate else 'public ', self.swift_fname_to_string(), self.objc_type() ),
+                             '{',
+                             '  if input < {} {}'.format(offset,'{'),
+                             '    return "{}"'.format(units[0]),
+                             '  }else{',
+                             '    return "{}"'.format(units[1]),
+                             '  }',
+                             '}'
+                            ] )
         else:
             rv.extend( [ '{}func {}(_ input : {}) -> String'.format( 'fileprivate ' if fileprivate else 'public ', self.swift_fname_to_string(), self.objc_type() ),
                '{',
@@ -222,8 +239,8 @@ class Type :
                     offset = v['value']
             rv.extend( [ '{}func {}(_ input : {}) -> Double'.format('fileprivate ' if fileprivate else 'public', self.swift_fname_to_value(),self.objc_type() ),
                          '{',
-                         '  let offset : Double = {}'.format( offset ),
-                         '  return Double( input ) - offset',
+                         '  let offset = {}({})'.format( self.objc_type(), offset ),
+                         '  return input < offset ? Double(input) : Double(input - offset)',
                          '}',
                         ] )
                 
@@ -371,6 +388,7 @@ class Field:
         self.include = False
 
         self.is_switched = False
+        self.switched_with_mixed_type = False
         self.is_component = False
         self.switch_require_complete = False
         # some fields seem to be default, some other will require rest to be there
@@ -443,7 +461,7 @@ class Field:
         field = Field(ctx,row)
         if field.is_fit_type:
             if self.references and not self.is_fit_type:
-                logging.debug( 'swifted field {} has value and enum, assuming value'.format( self ) )
+                self.switched_with_mixed_type = True
 
             if not self.references:
                 self.is_fit_type = True
@@ -453,6 +471,12 @@ class Field:
         self.references.append( field )
 
     def finalize(self,ctx,msg):
+        if self.include:
+            # make sure field with reference that are included have their reference included
+            for ref_fields in self.references:
+                for field in ref_fields.reference_field:
+                    if not msg.fields_map[field].include:
+                        msg.fields_map[field].include = True
         pass
 
         
@@ -607,8 +631,8 @@ class Field:
     def swift_stmt_convert_string(self,ctx,message,prefix='  '):
         lines = []
         
-        if self.is_string or self.is_fit_type:
-            if self.is_fit_type and not self.is_array:
+        if self.is_string or self.is_fit_type or self.switched_with_mixed_type:
+            if (self.is_fit_type or self.switched_with_mixed_type) and not self.is_array:
                 lines = first_line_with_annotate_comment(prefix,ctx.annotate)
                 lines.extend( [ prefix + 'if( x.{} != {}_INVALID ) {{'.format( self.member, self.objc_base_type  ) ] )
                 if self.is_switched:
@@ -756,6 +780,7 @@ class Field:
             for r in self.references:
                 if not r.reference_field:
                     logging.error( 'bug', self.name, r.name )
+
                 if r.name in ctx.types:
                     r_type_obj = ctx.types[r.name]
                     for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
@@ -764,6 +789,18 @@ class Field:
                                      '        rv[ "{}" ] = {}({}(truncatingIfNeeded: x.{}))'.format( r.name,r_type_obj.swift_fname_to_string(), r_type_obj.objc_type(), self.name ),
                                      ] )
                         if_statement = '}else if'
+                else:
+                    for (onefield, oneval) in zip( r.reference_field, r.reference_field_value ):
+                        ref_type_obj = message.type_for_field(ctx,onefield)
+                        r_type_obj = r.fit_type
+                        if r_type_obj:
+                            usename = r.name
+                            if r_type_obj.is_offset_value:
+                                usename = '{}_unit'.format(r.name)
+                            rv.extend( [ '      {} x.{} == {} {{ // {}'.format( if_statement, onefield, ref_type_obj.value_for_string(oneval), oneval ),
+                                     '        rv[ "{}" ] = {}({}(truncatingIfNeeded: x.{}))'.format( usename,r_type_obj.swift_fname_to_string(), r_type_obj.objc_type(), self.name ),
+                                        ] )
+                            if_statement = '}else if'
             if if_statement != 'if':
                 rv.append( '    }' )
 
@@ -1072,7 +1109,7 @@ class Message:
         hasString = False
         for field in self.fields_sorted_by_alignments():
             if field.include:
-                if field.is_string:
+                if field.is_string or field.switched_with_mixed_type:
                     hasString = True
                 elems += field.swift_stmt_convert_string(ctx,self)
         if elems:
@@ -1194,7 +1231,7 @@ class Message:
         return rv
 
     def objc_mesg_struct(self,ctx):
-        rv = []
+        rv = first_line_with_annotate_comment('',ctx.annotate)
         
         fields = []
         for f in self.fields_sorted_by_alignments():

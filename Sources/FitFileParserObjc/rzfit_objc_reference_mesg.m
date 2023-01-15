@@ -501,17 +501,18 @@ typedef struct {
   FIT_UINT8 arch;
   FIT_UINT16 global_mesg_num;
   FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  2];
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  3];
 } FIT_DIVE_SETTINGS_MESG_DEF;
 
 static const FIT_DIVE_SETTINGS_MESG_DEF dive_settings_mesg_def = {
   0, // reserved_1
   FIT_ARCH_ENDIAN, // arch,
   /* dive_settings */258, // mesg_num,
-  2,
+  3,
   {
-    /* name */0,               (sizeof(FIT_STRING)*16), FIT_BASE_TYPE_STRING,   
-    /* heart_rate_source */20, (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* name */0,                    (sizeof(FIT_STRING)*16), FIT_BASE_TYPE_STRING,   
+    /* heart_rate_source_type */19, (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* heart_rate_source */20,      (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
   }
 };
 typedef struct {
