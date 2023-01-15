@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 #
+# Note: Before running this utility ou can run fitsdkupdate.py to update the version number
+#
 # This utility will generate the swift code from the c Fit SDK
 #   You can download the Fit SDK from https://developer.garmin.com/fit and update your local copy using the diffsdk.py script
 #
 #   in the python directory run ./fitsdkparser.py generate Profile.xlsx
 #      
 #
+# A few special cases are mask and offset (bpm_offset and watts_offset)
 
 import re
 import argparse
@@ -75,6 +78,7 @@ base_type_alignments = {
     'float32':4
 }
 
+type_offset_value_name = { 'bpm_offset': 1, 'watts_offset': 1 }
 
 def first_line_with_annotate_comment(prefix = '', annotate = True):
     if not annotate:
@@ -107,6 +111,7 @@ class Type :
         self.values = []
         self.values_map = {}
         self.is_masked_value = False
+        self.is_offset_value = False
         self.annotate = annotate
 
     def fit_type(self):
@@ -114,15 +119,17 @@ class Type :
 
 
     def is_string(self):
-        return not self.is_masked_value
+        return not self.is_masked_value and not self.is_offset_value
 
     def is_value(self):
-        return self.is_masked_value
+        return self.is_masked_value or self.is_offset_value
     
     def add_row(self,row):
         if len(row)>4 and row[TYP_COL_TYPE_NAME] is None and row[TYP_COL_BASE_TYPE] is None:
             if row[TYP_COL_VALUE_NAME] == 'mask':
                 self.is_masked_value = True
+            if row[TYP_COL_VALUE_NAME] in type_offset_value_name:
+                self.is_offset_value = True
             self.values.append( { 'name': row[TYP_COL_VALUE_NAME], 'value':row[TYP_COL_VALUE] } )
             self.values_map[row[TYP_COL_VALUE_NAME]] = row[TYP_COL_VALUE]
             return True
@@ -193,20 +200,33 @@ class Type :
         return f'rzfit_swift_value_from_{self.name}'
 
     def swift_func_to_value(self,fileprivate=True):
-        if not self.is_masked_value:
+        if not self.is_masked_value and not self.is_offset_value:
             return []
         
         rv = first_line_with_annotate_comment(prefix = '', annotate=self.annotate)
-        mask = None
-        for v in self.values:
-            if v['name'] == 'mask':
-                mask = v['value']
-        rv.extend( [ '{}func {}(_ input : {}) -> Double'.format('fileprivate ' if fileprivate else 'public', self.swift_fname_to_value(),self.objc_type() ),
-                     '{',
-                     '  let masked = input & {}'.format( mask ),
-                     '  return Double( masked )',
-                     '}',
-                     ] )
+        if self.is_masked_value:
+            mask = None
+            for v in self.values:
+                if v['name'] == 'mask':
+                    mask = v['value']
+            rv.extend( [ '{}func {}(_ input : {}) -> Double'.format('fileprivate ' if fileprivate else 'public', self.swift_fname_to_value(),self.objc_type() ),
+                         '{',
+                         '  let masked = input & {}'.format( mask ),
+                         '  return Double( masked )',
+                         '}',
+                        ] )
+        if self.is_offset_value:
+            offset = None
+            for v in self.values:
+                if v['name'] in type_offset_value_name:
+                    offset = v['value']
+            rv.extend( [ '{}func {}(_ input : {}) -> Double'.format('fileprivate ' if fileprivate else 'public', self.swift_fname_to_value(),self.objc_type() ),
+                         '{',
+                         '  let offset : Double = {}'.format( offset ),
+                         '  return Double( input ) - offset',
+                         '}',
+                        ] )
+                
         return rv
 
     def swift_fname_from_string(self):
@@ -469,6 +489,9 @@ class Field:
         if self.fit_type and self.fit_type.is_masked_value:
             return True
         
+        if self.fit_type and self.fit_type.is_offset_value:
+            return True
+        
         return False
     
     def __repr__(self):
@@ -569,7 +592,7 @@ class Field:
                 lines.extend( [ prefix + '  let val : Double = {}'.format( formula ),
                                  prefix + '  rv[ "{}" ] = val'.format(self.name),
                                  ] )
-            elif self.fit_type and self.fit_type.is_masked_value:
+            elif self.fit_type and self.fit_type.is_value():
                 something_done = True
                 lines.append( prefix + '  rv[ "{}_value" ] = {}(x.{})'.format(self.name, self.fit_type.swift_fname_to_value(), member ) )
             
@@ -687,6 +710,12 @@ class Field:
                         else:
                             rv.extend( [ prefix + 'let val : Double = {}'.format( formula ),
                                          prefix + 'rv[ "{}" ] = val'.format( r.name ),
+                                        ] )
+                        if_statement = '}else if'
+                    elif r.fit_type and r.fit_type.is_offset_value:
+                        something_done = True
+                        rv.append('      {} x.{} == {} {{ // {}'.format( if_statement, onefield, ref_type_obj.value_for_string(oneval), oneval ))
+                        rv.extend( [ prefix + 'rv[ "{}" ] = {}(x.{})'.format( r.name, r.fit_type.swift_fname_to_value(), self.name ),
                                         ] )
                         if_statement = '}else if'
                     else:
@@ -1752,7 +1781,7 @@ class Command :
         for one in self.context.types.values():
             if one.name != 'mesg_num':
                 rv.extend(  one.swift_func_to_string() )
-                if one.is_masked_value:
+                if one.is_masked_value or one.is_offset_value:
                     rv.extend( one.swift_func_to_value() )
         
         rv.extend( [

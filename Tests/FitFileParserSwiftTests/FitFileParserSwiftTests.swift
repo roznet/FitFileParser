@@ -176,6 +176,26 @@ final class FitFileParserSwiftTests: XCTestCase {
             }
         }
     }
+    
+    func testOffsetField(){
+        let path = self.findResource(name: "2023-01-13_heartratef.fit")
+        var expected = [
+                        "custom_target_heart_rate_low":false,
+                        "custom_target_heart_rate_high":false]
+        if let fit = FitFile(file: path) {
+            let steps = fit.messages(forMessageType: .workout_step)
+            for step in steps {
+                for field in step.interpretedFieldKeys() {
+                    if step.interpretedFieldKeys().contains(field) {
+                        expected[field] = true
+                    }
+                }
+            }
+            for (field,found) in expected {
+                XCTAssertTrue(found,"\(field) found")
+            }
+        }
+    }
     static var allTests = [
         ("testParsingPerformance", testParsingPerformance),
     ]
