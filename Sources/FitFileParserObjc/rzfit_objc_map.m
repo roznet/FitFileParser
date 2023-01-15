@@ -1282,6 +1282,8 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 317: return @"race_republic";
     case 318: return @"fazua";
     case 319: return @"oreka_training";
+    case 320: return @"isec";
+    case 321: return @"lululemon_studio";
     case 5759: return @"actigraphcorp";
     default: return [NSString stringWithFormat:@"manufacturer_%u", (unsigned int)manufacturer];
   }
@@ -1497,6 +1499,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 2769: return @"foretrex_601_701";
     case 2772: return @"vivo_move_hr";
     case 2713: return @"edge_1030";
+    case 2727: return @"fr35_sea";
     case 2787: return @"vector_3";
     case 2796: return @"fenix5_asia";
     case 2797: return @"fenix5s_asia";
@@ -1623,6 +1626,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 3823: return @"approach_s12";
     case 3872: return @"enduro_asia";
     case 3837: return @"venusq_asia";
+    case 3843: return @"edge_1040";
     case 3850: return @"marq_golfer_asia";
     case 3851: return @"venu2_plus";
     case 3869: return @"fr55";
@@ -1641,6 +1645,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 3949: return @"venu2s_asia";
     case 3950: return @"venu2_asia";
     case 3978: return @"fr945_lte_asia";
+    case 3982: return @"vivo_move_sport";
     case 3986: return @"approach_S12_asia";
     case 3990: return @"fr255_music";
     case 3991: return @"fr255_small_music";
@@ -1654,9 +1659,12 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 4033: return @"fr55_asia";
     case 4063: return @"vivosmart_5";
     case 4071: return @"instinct_2_asia";
+    case 4115: return @"venusq2";
+    case 4116: return @"venusq2music";
     case 4125: return @"d2_air_x10";
     case 4130: return @"hrm_pro_plus";
     case 4132: return @"descent_g1_asia";
+    case 4135: return @"tactix7";
     case 4169: return @"edge_explore2";
     case 4265: return @"tacx_neo_smart";
     case 4266: return @"tacx_neo2_smart";
@@ -1670,7 +1678,8 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 4274: return @"tacx_flux_flux_s_smart";
     case 4275: return @"tacx_flux2_smart";
     case 4276: return @"tacx_magnum";
-    case 4135: return @"tactix7";
+    case 4305: return @"edge_1040_asia";
+    case 4341: return @"enduro2";
     case 10007: return @"sdm4";
     case 10014: return @"edge_remote";
     case 20533: return @"tacx_training_app_win";

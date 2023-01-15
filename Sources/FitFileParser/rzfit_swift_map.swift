@@ -3,7 +3,7 @@
 import FitFileParserObjc
 
 extension FitFile {
-  public static let sdkVersion = "21.89"
+  public static let sdkVersion = "21.94"
 }
 
 //MARK: - Module Entry Point Functions
@@ -2690,6 +2690,8 @@ fileprivate func rzfit_swift_string_from_manufacturer(_ input : FIT_UINT16) -> S
     case 317: return "race_republic"
     case 318: return "fazua"
     case 319: return "oreka_training"
+    case 320: return "isec"
+    case 321: return "lululemon_studio"
     case 5759: return "actigraphcorp"
     default: return "manufacturer_\(input)"
   }
@@ -2905,6 +2907,7 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 2769: return "foretrex_601_701"
     case 2772: return "vivo_move_hr"
     case 2713: return "edge_1030"
+    case 2727: return "fr35_sea"
     case 2787: return "vector_3"
     case 2796: return "fenix5_asia"
     case 2797: return "fenix5s_asia"
@@ -3031,6 +3034,7 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 3823: return "approach_s12"
     case 3872: return "enduro_asia"
     case 3837: return "venusq_asia"
+    case 3843: return "edge_1040"
     case 3850: return "marq_golfer_asia"
     case 3851: return "venu2_plus"
     case 3869: return "fr55"
@@ -3049,6 +3053,7 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 3949: return "venu2s_asia"
     case 3950: return "venu2_asia"
     case 3978: return "fr945_lte_asia"
+    case 3982: return "vivo_move_sport"
     case 3986: return "approach_S12_asia"
     case 3990: return "fr255_music"
     case 3991: return "fr255_small_music"
@@ -3062,9 +3067,12 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 4033: return "fr55_asia"
     case 4063: return "vivosmart_5"
     case 4071: return "instinct_2_asia"
+    case 4115: return "venusq2"
+    case 4116: return "venusq2music"
     case 4125: return "d2_air_x10"
     case 4130: return "hrm_pro_plus"
     case 4132: return "descent_g1_asia"
+    case 4135: return "tactix7"
     case 4169: return "edge_explore2"
     case 4265: return "tacx_neo_smart"
     case 4266: return "tacx_neo2_smart"
@@ -3078,7 +3086,8 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 4274: return "tacx_flux_flux_s_smart"
     case 4275: return "tacx_flux2_smart"
     case 4276: return "tacx_magnum"
-    case 4135: return "tactix7"
+    case 4305: return "edge_1040_asia"
+    case 4341: return "enduro2"
     case 10007: return "sdm4"
     case 10014: return "edge_remote"
     case 20533: return "tacx_training_app_win"
@@ -3216,6 +3225,11 @@ fileprivate func rzfit_swift_string_from_workout_hr(_ input : FIT_UINT32) -> Str
   }
 }
 
+fileprivate func rzfit_swift_value_from_workout_hr(_ input : FIT_UINT32) -> Double
+{
+  let offset : Double = 100
+  return Double( input ) - offset
+}
 fileprivate func rzfit_swift_string_from_workout_power(_ input : FIT_UINT32) -> String
 {
    switch input {
@@ -3224,6 +3238,11 @@ fileprivate func rzfit_swift_string_from_workout_power(_ input : FIT_UINT32) -> 
   }
 }
 
+fileprivate func rzfit_swift_value_from_workout_power(_ input : FIT_UINT32) -> Double
+{
+  let offset : Double = 1000
+  return Double( input ) - offset
+}
 fileprivate func rzfit_swift_string_from_bp_status(_ input : FIT_ENUM) -> String
 {
    switch input {
@@ -11416,6 +11435,10 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.duration_type == 1 { // distance
          let val : Double = Double(x.duration_value)
          rv[ "duration_distance" ] = val
+      }else if x.duration_type == 2 { // hr_less_than
+         rv[ "duration_hr" ] = rzfit_swift_value_from_workout_hr(x.duration_value)
+      }else if x.duration_type == 3 { // hr_greater_than
+         rv[ "duration_hr" ] = rzfit_swift_value_from_workout_hr(x.duration_value)
       }else if x.duration_type == 4 { // calories
          let val : Double = Double(x.duration_value)
          rv[ "duration_calories" ] = val
@@ -11443,13 +11466,14 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.duration_type == 13 { // repeat_until_power_greater_than
          let val : Double = Double(x.duration_value)
          rv[ "duration_step" ] = val
+      }else if x.duration_type == 14 { // power_less_than
+         rv[ "duration_power" ] = rzfit_swift_value_from_workout_power(x.duration_value)
+      }else if x.duration_type == 15 { // power_greater_than
+         rv[ "duration_power" ] = rzfit_swift_value_from_workout_power(x.duration_value)
       }else if x.duration_type == 29 { // reps
          let val : Double = Double(x.duration_value)
          rv[ "duration_reps" ] = val
-      }else if x.duration_type != 2 /* hr_less_than */ &&
-               x.duration_type != 3 /* hr_greater_than */ &&
-               x.duration_type != 14 /* power_less_than */ &&
-               x.duration_type != 15 /* power_greater_than */ {
+      }else{
         let val : Double = Double(x.duration_value)
         rv[ "duration_value" ] = val
       }
@@ -11479,10 +11503,15 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       }else if x.duration_type == 9 { // repeat_until_calories
          let val : Double = Double(x.target_value)
          rv[ "repeat_calories" ] = val
-      }else if x.duration_type != 10 /* repeat_until_hr_less_than */ &&
-               x.duration_type != 11 /* repeat_until_hr_greater_than */ &&
-               x.duration_type != 12 /* repeat_until_power_less_than */ &&
-               x.duration_type != 13 /* repeat_until_power_greater_than */ &&
+      }else if x.duration_type == 10 { // repeat_until_hr_less_than
+         rv[ "repeat_hr" ] = rzfit_swift_value_from_workout_hr(x.target_value)
+      }else if x.duration_type == 11 { // repeat_until_hr_greater_than
+         rv[ "repeat_hr" ] = rzfit_swift_value_from_workout_hr(x.target_value)
+      }else if x.duration_type == 12 { // repeat_until_power_less_than
+         rv[ "repeat_power" ] = rzfit_swift_value_from_workout_power(x.target_value)
+      }else if x.duration_type == 13 { // repeat_until_power_greater_than
+         rv[ "repeat_power" ] = rzfit_swift_value_from_workout_power(x.target_value)
+      }else if x.target_type != 11 /* swim_stroke */ &&
                x.target_type != 11 /* swim_stroke */ {
         let val : Double = Double(x.target_value)
         rv[ "target_value" ] = val
@@ -11492,11 +11521,14 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       if x.target_type == 0 { // speed
          let val : Double = Double(x.custom_target_value_low)
          rv[ "custom_target_speed_low" ] = val
+      }else if x.target_type == 1 { // heart_rate
+         rv[ "custom_target_heart_rate_low" ] = rzfit_swift_value_from_workout_hr(x.custom_target_value_low)
       }else if x.target_type == 3 { // cadence
          let val : Double = Double(x.custom_target_value_low)
          rv[ "custom_target_cadence_low" ] = val
-      }else if x.target_type != 1 /* heart_rate */ &&
-               x.target_type != 4 /* power */ {
+      }else if x.target_type == 4 { // power
+         rv[ "custom_target_power_low" ] = rzfit_swift_value_from_workout_power(x.custom_target_value_low)
+      }else{
         let val : Double = Double(x.custom_target_value_low)
         rv[ "custom_target_value_low" ] = val
       }
@@ -11505,11 +11537,14 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       if x.target_type == 0 { // speed
          let val : Double = Double(x.custom_target_value_high)
          rv[ "custom_target_speed_high" ] = val
+      }else if x.target_type == 1 { // heart_rate
+         rv[ "custom_target_heart_rate_high" ] = rzfit_swift_value_from_workout_hr(x.custom_target_value_high)
       }else if x.target_type == 3 { // cadence
          let val : Double = Double(x.custom_target_value_high)
          rv[ "custom_target_cadence_high" ] = val
-      }else if x.target_type != 1 /* heart_rate */ &&
-               x.target_type != 4 /* power */ {
+      }else if x.target_type == 4 { // power
+         rv[ "custom_target_power_high" ] = rzfit_swift_value_from_workout_power(x.custom_target_value_high)
+      }else{
         let val : Double = Double(x.custom_target_value_high)
         rv[ "custom_target_value_high" ] = val
       }
@@ -11537,11 +11572,14 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       if x.secondary_target_type == 0 { // speed
          let val : Double = Double(x.secondary_custom_target_value_low)
          rv[ "secondary_custom_target_speed_low" ] = val
+      }else if x.secondary_target_type == 1 { // heart_rate
+         rv[ "secondary_custom_target_heart_rate_low" ] = rzfit_swift_value_from_workout_hr(x.secondary_custom_target_value_low)
       }else if x.secondary_target_type == 3 { // cadence
          let val : Double = Double(x.secondary_custom_target_value_low)
          rv[ "secondary_custom_target_cadence_low" ] = val
-      }else if x.secondary_target_type != 1 /* heart_rate */ &&
-               x.secondary_target_type != 4 /* power */ {
+      }else if x.secondary_target_type == 4 { // power
+         rv[ "secondary_custom_target_power_low" ] = rzfit_swift_value_from_workout_power(x.secondary_custom_target_value_low)
+      }else{
         let val : Double = Double(x.secondary_custom_target_value_low)
         rv[ "secondary_custom_target_value_low" ] = val
       }
@@ -11550,11 +11588,14 @@ fileprivate func rzfit_swift_value_dict_for_workout_step( ptr : UnsafePointer<FI
       if x.secondary_target_type == 0 { // speed
          let val : Double = Double(x.secondary_custom_target_value_high)
          rv[ "secondary_custom_target_speed_high" ] = val
+      }else if x.secondary_target_type == 1 { // heart_rate
+         rv[ "secondary_custom_target_heart_rate_high" ] = rzfit_swift_value_from_workout_hr(x.secondary_custom_target_value_high)
       }else if x.secondary_target_type == 3 { // cadence
          let val : Double = Double(x.secondary_custom_target_value_high)
          rv[ "secondary_custom_target_cadence_high" ] = val
-      }else if x.secondary_target_type != 1 /* heart_rate */ &&
-               x.secondary_target_type != 4 /* power */ {
+      }else if x.secondary_target_type == 4 { // power
+         rv[ "secondary_custom_target_power_high" ] = rzfit_swift_value_from_workout_power(x.secondary_custom_target_value_high)
+      }else{
         let val : Double = Double(x.secondary_custom_target_value_high)
         rv[ "secondary_custom_target_value_high" ] = val
       }
