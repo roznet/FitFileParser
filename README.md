@@ -92,6 +92,6 @@ The main motivation to write this library was speed of parsing the fit file for 
 
 This library was built to replace the original cpp code from the SDK used in ConnectStats and FitFileExplorer. As ConnectStats now [receives the FIT files](https://github.com/roznet/connectstats_server) from Garmin, the files are parsed live on the phone as they are received and performance was therefore important for the user experience. 
 
-The cpp parsing ended up very slow, and it made fit file parsing on [ConnectStats or FitFileExplorer](https://github.com/roznet/connecstats) quite slow. This approach in c/swift is much faster.
+The cpp parsing ended up very slow, and it made fit file parsing on [ConnectStats or FitFileExplorer](https://github.com/roznet/connectstats) quite slow. This approach in c/swift is much faster.
 
 You can check the [benchmarking of the library](https://github.com/roznet/fit-benchmarks) versus a few others.
