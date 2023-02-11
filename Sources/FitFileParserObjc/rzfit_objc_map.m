@@ -475,6 +475,9 @@ static NSString * rzfit_objc_string_from_sport( FIT_ENUM sport ){
     case 47: return @"boxing";
     case 48: return @"floor_climbing";
     case 53: return @"diving";
+    case 64: return @"racket";
+    case 76: return @"water_tubing";
+    case 77: return @"wakesurfing";
     case 254: return @"all";
     default: return [NSString stringWithFormat:@"sport_%u", (unsigned int)sport];
   }
@@ -646,6 +649,8 @@ static NSString * rzfit_objc_string_from_sub_sport( FIT_ENUM sub_sport ){
     case 67: return @"ultra";
     case 68: return @"indoor_climbing";
     case 69: return @"bouldering";
+    case 84: return @"pickleball";
+    case 85: return @"padel";
     case 254: return @"all";
     default: return [NSString stringWithFormat:@"sub_sport_%u", (unsigned int)sub_sport];
   }
@@ -895,6 +900,7 @@ static NSString * rzfit_objc_string_from_hr_zone_calc( FIT_ENUM hr_zone_calc ){
     case 0: return @"custom";
     case 1: return @"percent_max_hr";
     case 2: return @"percent_hrr";
+    case 3: return @"percent_lthr";
     default: return [NSString stringWithFormat:@"hr_zone_calc_%u", (unsigned int)hr_zone_calc];
   }
 }
@@ -1218,6 +1224,7 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 142: return @"tag_heuer";
     case 143: return @"keiser_fitness";
     case 144: return @"zwift_byte";
+    case 145: return @"porsche_ep";
     case 255: return @"development";
     case 257: return @"healthandlife";
     case 258: return @"lezyne";
@@ -1282,8 +1289,9 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 317: return @"race_republic";
     case 318: return @"fazua";
     case 319: return @"oreka_training";
-    case 320: return @"isec";
+    case 320: return @"lsec";
     case 321: return @"lululemon_studio";
+    case 322: return @"shanyue";
     case 5759: return @"actigraphcorp";
     default: return [NSString stringWithFormat:@"manufacturer_%u", (unsigned int)manufacturer];
   }
@@ -1659,12 +1667,15 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 4033: return @"fr55_asia";
     case 4063: return @"vivosmart_5";
     case 4071: return @"instinct_2_asia";
+    case 4105: return @"marq_gen2";
     case 4115: return @"venusq2";
     case 4116: return @"venusq2music";
+    case 4124: return @"marq_gen2_aviator";
     case 4125: return @"d2_air_x10";
     case 4130: return @"hrm_pro_plus";
     case 4132: return @"descent_g1_asia";
     case 4135: return @"tactix7";
+    case 4155: return @"instinct_crossover";
     case 4169: return @"edge_explore2";
     case 4265: return @"tacx_neo_smart";
     case 4266: return @"tacx_neo2_smart";
@@ -1797,6 +1808,7 @@ static NSString * rzfit_objc_string_from_course_capabilities( FIT_UINT32Z course
     case 0x00000100: return @"training";
     case 0x00000200: return @"navigation";
     case 0x00000400: return @"bikeway";
+    case 0x00001000: return @"aviation";
     default: return [NSString stringWithFormat:@"course_capabilities_%u", (unsigned int)course_capabilities];
   }
 }
@@ -2284,7 +2296,30 @@ static NSString * rzfit_objc_string_from_source_type( FIT_ENUM source_type ){
 
 static NSString * rzfit_objc_string_from_local_device_type( FIT_UINT8 local_device_type ){
   switch(local_device_type){
+    case 0: return @"gps";
+    case 1: return @"glonass";
+    case 2: return @"gps_glonass";
+    case 3: return @"accelerometer";
+    case 4: return @"barometer";
+    case 5: return @"temperature";
+    case 10: return @"whr";
+    case 12: return @"sensor_hub";
     default: return [NSString stringWithFormat:@"local_device_type_%u", (unsigned int)local_device_type];
+  }
+}
+
+
+static NSString * rzfit_objc_string_from_ble_device_type( FIT_UINT8 ble_device_type ){
+  switch(ble_device_type){
+    case 0: return @"connected_gps";
+    case 1: return @"heart_rate";
+    case 2: return @"bike_power";
+    case 3: return @"bike_speed_cadence";
+    case 4: return @"bike_speed";
+    case 5: return @"bike_cadence";
+    case 6: return @"footpod";
+    case 7: return @"bike_trainer";
+    default: return [NSString stringWithFormat:@"ble_device_type_%u", (unsigned int)ble_device_type];
   }
 }
 
@@ -4413,6 +4448,34 @@ static NSString * rzfit_objc_string_from_favero_product( FIT_UINT16 favero_produ
 }
 
 
+static NSString * rzfit_objc_string_from_split_type( FIT_ENUM split_type ){
+  switch(split_type){
+    case 1: return @"ascent_split";
+    case 2: return @"descent_split";
+    case 3: return @"interval_active";
+    case 4: return @"interval_rest";
+    case 5: return @"interval_warmup";
+    case 6: return @"interval_cooldown";
+    case 7: return @"interval_recovery";
+    case 8: return @"interval_other";
+    case 9: return @"climb_active";
+    case 10: return @"climb_rest";
+    case 11: return @"surf_active";
+    case 12: return @"run_active";
+    case 13: return @"run_rest";
+    case 14: return @"workout_round";
+    case 17: return @"rwd_run";
+    case 18: return @"rwd_walk";
+    case 21: return @"windsurf_active";
+    case 22: return @"rwd_stand";
+    case 23: return @"transition";
+    case 28: return @"ski_lift_split";
+    case 29: return @"ski_run_split";
+    default: return [NSString stringWithFormat:@"split_type_%u", (unsigned int)split_type];
+  }
+}
+
+
 static NSString * rzfit_objc_string_from_climb_pro_event( FIT_ENUM climb_pro_event ){
   switch(climb_pro_event){
     case 0: return @"approach";
@@ -4453,7 +4516,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_file_id(FIT_UINT16 field, FIT_IN
     {
       FIT_UINT32 manufacturer = fit_interp_string_value(interp, 1);
       if( manufacturer == 263 ){ // favero_electronics 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 162, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 15 ){ // dynastream 
@@ -4506,7 +4569,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_slave_device(FIT_UINT16 field, F
     {
       FIT_UINT32 manufacturer = fit_interp_string_value(interp, 0);
       if( manufacturer == 263 ){ // favero_electronics 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 162, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 15 ){ // dynastream 
@@ -4585,19 +4648,19 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_device_settings(FIT_UINT16 field
     case 40: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // pages_enabled
     case 46: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // move_alert_enabled
     case 47: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 40, .fit_unit = 0, .fit_flag = 0 }; // date_mode
-    case 55: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 95, .fit_unit = 0, .fit_flag = 0 }; // display_orientation
+    case 55: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 96, .fit_unit = 0, .fit_flag = 0 }; // display_orientation
     case 56: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 75, .fit_unit = 0, .fit_flag = 0 }; // mounting_side
     case 57: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // default_page
     case 58: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 5, .fit_flag = 0 }; // autosync_min_steps
     case 59: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 6, .fit_flag = 0 }; // autosync_min_time
     case 80: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // lactate_threshold_autodetect_enabled
     case 86: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // ble_auto_upload_enabled
-    case 89: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 109, .fit_unit = 0, .fit_flag = 0 }; // auto_sync_frequency
-    case 90: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 115, .fit_unit = 0, .fit_flag = 0 }; // auto_activity_detect
+    case 89: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 110, .fit_unit = 0, .fit_flag = 0 }; // auto_sync_frequency
+    case 90: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 116, .fit_unit = 0, .fit_flag = 0 }; // auto_activity_detect
     case 94: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // number_of_screens
-    case 95: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 95, .fit_unit = 0, .fit_flag = 0 }; // smart_notification_display_orientation
+    case 95: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 96, .fit_unit = 0, .fit_flag = 0 }; // smart_notification_display_orientation
     case 134: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 22, .fit_unit = 0, .fit_flag = 0 }; // tap_interface
-    case 174: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 163, .fit_unit = 0, .fit_flag = 0 }; // tap_sensitivity
+    case 174: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 165, .fit_unit = 0, .fit_flag = 0 }; // tap_sensitivity
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -4716,14 +4779,14 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_connectivity(FIT_UINT16 field){
 static FIT_FIELD_INFO rzfit_objc_field_info_for_watchface_settings(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
-    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 97, .fit_unit = 0, .fit_flag = 0 }; // mode
+    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 98, .fit_unit = 0, .fit_flag = 0 }; // mode
     case 1: // layout
     {
       FIT_UINT32 mode = fit_interp_string_value(interp, 0);
       if( mode == 0 ){ // digital 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 98, .fit_unit = 0, .fit_flag = 0 };
-      }else if( mode == 1 ){ // analog 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 99, .fit_unit = 0, .fit_flag = 0 };
+      }else if( mode == 1 ){ // analog 
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 100, .fit_unit = 0, .fit_flag = 0 };
       }
       return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
@@ -4734,6 +4797,28 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_ohr_settings(FIT_UINT16 field){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 22, .fit_unit = 0, .fit_flag = 0 }; // enabled
+    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+  }
+}
+static FIT_FIELD_INFO rzfit_objc_field_info_for_time_in_zone(FIT_UINT16 field){
+  switch( field ){
+    case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
+    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 2, .fit_unit = 0, .fit_flag = 0 }; // reference_mesg
+    case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // reference_index
+    case 2: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // time_in_hr_zone
+    case 3: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // time_in_speed_zone
+    case 4: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // time_in_cadence_zone
+    case 5: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // time_in_power_zone
+    case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 10, .fit_flag = 0 }; // hr_zone_high_boundary
+    case 7: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // speed_zone_high_boundary
+    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 14, .fit_flag = 0 }; // cadence_zone_high_bondary
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 15, .fit_flag = 0 }; // power_zone_high_boundary
+    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 49, .fit_unit = 0, .fit_flag = 0 }; // hr_calc_type
+    case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // max_heart_rate
+    case 12: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // resting_heart_rate
+    case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // threshold_heart_rate
+    case 14: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 50, .fit_unit = 0, .fit_flag = 0 }; // pwr_calc_type
+    case 15: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // functional_threshold_power
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -4800,10 +4885,10 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_dive_settings(FIT_UINT16 field, 
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // name
-    case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 157, .fit_unit = 0, .fit_flag = 0 }; // model
+    case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 158, .fit_unit = 0, .fit_flag = 0 }; // model
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // gf_low
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // gf_high
-    case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 156, .fit_unit = 0, .fit_flag = 0 }; // water_type
+    case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 157, .fit_unit = 0, .fit_flag = 0 }; // water_type
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 18, .fit_flag = 0 }; // water_density
     case 6: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // po2_warn
     case 7: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // po2_critical
@@ -4813,7 +4898,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_dive_settings(FIT_UINT16 field, 
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // bottom_time
     case 12: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // apnea_countdown_enabled
     case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // apnea_countdown_time
-    case 14: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 160, .fit_unit = 0, .fit_flag = 0 }; // backlight_mode
+    case 14: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 }; // backlight_mode
     case 15: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // backlight_brightness
     case 16: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 41, .fit_unit = 0, .fit_flag = 0 }; // backlight_timeout
     case 17: return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // repeat_dive_interval
@@ -4838,7 +4923,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_dive_alarm(FIT_UINT16 field){
     case 0: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // depth
     case 1: return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // time
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // enabled
-    case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 159, .fit_unit = 0, .fit_flag = 0 }; // alarm_type
+    case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 160, .fit_unit = 0, .fit_flag = 0 }; // alarm_type
     case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 46, .fit_unit = 0, .fit_flag = 0 }; // sound
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 31, .fit_unit = 0, .fit_flag = 0 }; // dive_types
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -4849,7 +4934,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_dive_gas(FIT_UINT16 field){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // helium_content
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // oxygen_content
-    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 158, .fit_unit = 0, .fit_flag = 0 }; // status
+    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 159, .fit_unit = 0, .fit_flag = 0 }; // status
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5037,12 +5122,18 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_session(FIT_UINT16 field, FIT_IN
     case 134: return (FIT_FIELD_INFO){.scale = 10, .offset = 0, .fit_type = 0, .fit_unit = 12, .fit_flag = 0 }; // avg_step_length
     case 137: return (FIT_FIELD_INFO){.scale = 10, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // total_anaerobic_training_effect
     case 139: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // avg_vam
+    case 147: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // avg_respiration_rate
+    case 148: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // max_respiration_rate
+    case 149: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // min_respiration_rate
     case 168: return (FIT_FIELD_INFO){.scale = 65536, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // training_load_peak
-    case 181: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // total_grit
-    case 182: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // total_flow
+    case 169: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // enhanced_avg_respiration_rate
+    case 170: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // enhanced_max_respiration_rate
+    case 180: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // enhanced_min_respiration_rate
+    case 181: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // total_grit
+    case 182: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 37, .fit_flag = 0 }; // total_flow
     case 183: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // jump_count
-    case 186: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // avg_grit
-    case 187: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // avg_flow
+    case 186: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // avg_grit
+    case 187: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 37, .fit_flag = 0 }; // avg_flow
     case 199: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_ascent
     case 200: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_descent
     case 208: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // avg_core_temperature
@@ -5190,11 +5281,15 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_lap(FIT_UINT16 field, FIT_INTERP
     case 119: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // avg_stance_time_balance
     case 120: return (FIT_FIELD_INFO){.scale = 10, .offset = 0, .fit_type = 0, .fit_unit = 12, .fit_flag = 0 }; // avg_step_length
     case 121: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // avg_vam
-    case 149: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // total_grit
-    case 150: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // total_flow
+    case 136: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // enhanced_avg_respiration_rate
+    case 137: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // enhanced_max_respiration_rate
+    case 147: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // avg_respiration_rate
+    case 148: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // max_respiration_rate
+    case 149: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // total_grit
+    case 150: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 37, .fit_flag = 0 }; // total_flow
     case 151: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // jump_count
-    case 153: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // avg_grit
-    case 154: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // avg_flow
+    case 153: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // avg_grit
+    case 154: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 37, .fit_flag = 0 }; // avg_flow
     case 156: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_ascent
     case 157: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_descent
     case 158: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // avg_core_temperature
@@ -5215,7 +5310,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_length(FIT_UINT16 field){
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 22, .fit_flag = 0 }; // total_strokes
     case 6: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // avg_speed
     case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 71, .fit_unit = 29, .fit_flag = 0 }; // swim_stroke
-    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 37, .fit_flag = 0 }; // avg_swimming_cadence
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 38, .fit_flag = 0 }; // avg_swimming_cadence
     case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // event_group
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 }; // total_calories
     case 12: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 78, .fit_unit = 0, .fit_flag = 0 }; // length_type
@@ -5223,6 +5318,10 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_length(FIT_UINT16 field){
     case 19: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // opponent_score
     case 20: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // stroke_count
     case 21: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // zone_count
+    case 22: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // enhanced_avg_respiration_rate
+    case 23: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // enhanced_max_respiration_rate
+    case 24: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // avg_respiration_rate
+    case 25: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // max_respiration_rate
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5237,7 +5336,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_record(FIT_UINT16 field){
     case 5: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // distance
     case 6: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // speed
     case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 15, .fit_flag = 0 }; // power
-    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 38, .fit_flag = 0 }; // compressed_speed_distance
+    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 39, .fit_flag = 0 }; // compressed_speed_distance
     case 9: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 11, .fit_flag = 0 }; // grade
     case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // resistance
     case 11: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // time_from_course
@@ -5287,7 +5386,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_record(FIT_UINT16 field){
     case 83: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // vertical_ratio
     case 84: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // stance_time_balance
     case 85: return (FIT_FIELD_INFO){.scale = 10, .offset = 0, .fit_type = 0, .fit_unit = 12, .fit_flag = 0 }; // step_length
-    case 91: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 39, .fit_flag = 0 }; // absolute_pressure
+    case 91: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 40, .fit_flag = 0 }; // absolute_pressure
     case 92: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // depth
     case 93: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // next_stop_depth
     case 94: return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // next_stop_time
@@ -5295,11 +5394,13 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_record(FIT_UINT16 field){
     case 96: return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // ndl_time
     case 97: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // cns_load
     case 98: return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // n2_load
+    case 99: return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // respiration_rate
+    case 108: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // enhanced_respiration_rate
     case 114: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // grit
     case 115: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // flow
-    case 117: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 40, .fit_flag = 0 }; // ebike_travel_range
+    case 117: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 41, .fit_flag = 0 }; // ebike_travel_range
     case 118: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // ebike_battery_level
-    case 119: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 41, .fit_flag = 0 }; // ebike_assist_mode
+    case 119: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 42, .fit_flag = 0 }; // ebike_assist_mode
     case 120: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // ebike_assist_level_percent
     case 139: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // core_temperature
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -5319,7 +5420,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_event(FIT_UINT16 field, FIT_INTE
       }else if( event == 10 ){ // course_point 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 };
       }else if( event == 11 ){ // battery 
-         return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 42, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 43, .fit_flag = 0 };
       }else if( event == 12 ){ // virtual_partner_pace 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
       }else if( event == 13 ){ // hr_high_alert 
@@ -5343,7 +5444,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_event(FIT_UINT16 field, FIT_INTE
       }else if( event == 24 ){ // distance_duration_alert 
          return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 };
       }else if( event == 25 ){ // calorie_duration_alert 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 43, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 44, .fit_flag = 0 };
       }else if( event == 27 ){ // fitness_equipment 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 45, .fit_unit = 0, .fit_flag = 0 };
       }else if( event == 33 ){ // sport_point 
@@ -5353,9 +5454,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_event(FIT_UINT16 field, FIT_INTE
       }else if( event == 43 ){ // rear_gear_change 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
       }else if( event == 44 ){ // rider_position_change 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 100, .fit_unit = 0, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 101, .fit_unit = 0, .fit_flag = 0 };
       }else if( event == 47 ){ // comm_timeout 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 105, .fit_unit = 0, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 106, .fit_unit = 0, .fit_flag = 0 };
       }else if( event == 75 ){ // radar_threat_alert 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
       }
@@ -5369,7 +5470,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_event(FIT_UINT16 field, FIT_INTE
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // rear_gear_num
     case 12: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // rear_gear
     case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 9, .fit_unit = 0, .fit_flag = 0 }; // device_index
-    case 21: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 164, .fit_unit = 0, .fit_flag = 0 }; // radar_threat_level_max
+    case 21: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 166, .fit_unit = 0, .fit_flag = 0 }; // radar_threat_level_max
     case 22: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // radar_threat_count
     case 23: return (FIT_FIELD_INFO){.scale = 10, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // radar_threat_avg_approach_speed
     case 24: return (FIT_FIELD_INFO){.scale = 10, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // radar_threat_max_approach_speed
@@ -5383,10 +5484,14 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_device_info(FIT_UINT16 field, FI
     case 1: // device_type
     {
       FIT_UINT32 source_type = fit_interp_string_value(interp, 25);
-      if( source_type == 1 ){ // antplus 
+      if( source_type == 3 ){ // bluetooth_low_energy 
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 95, .fit_unit = 0, .fit_flag = 0 };
+      }else if( source_type == 1 ){ // antplus 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 60, .fit_unit = 0, .fit_flag = 0 };
       }else if( source_type == 0 ){ // ant 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+      }else if( source_type == 5 ){ // local 
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 94, .fit_unit = 0, .fit_flag = 0 };
       }
       return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = FIT_TYPE_PENDING, .fit_unit = 0, .fit_flag = 0 };
     }
@@ -5396,7 +5501,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_device_info(FIT_UINT16 field, FI
     {
       FIT_UINT32 manufacturer = fit_interp_string_value(interp, 2);
       if( manufacturer == 263 ){ // favero_electronics 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 162, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 15 ){ // dynastream 
@@ -5411,7 +5516,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_device_info(FIT_UINT16 field, FI
     case 5: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // software_version
     case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // hardware_version
     case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // cum_operating_time
-    case 10: return (FIT_FIELD_INFO){.scale = 256, .offset = 0, .fit_type = 0, .fit_unit = 42, .fit_flag = 0 }; // battery_voltage
+    case 10: return (FIT_FIELD_INFO){.scale = 256, .offset = 0, .fit_type = 0, .fit_unit = 43, .fit_flag = 0 }; // battery_voltage
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 63, .fit_unit = 0, .fit_flag = 0 }; // battery_status
     case 18: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 88, .fit_unit = 0, .fit_flag = 0 }; // sensor_position
     case 19: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // descriptor
@@ -5428,7 +5533,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_device_aux_battery_info(FIT_UINT
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 9, .fit_unit = 0, .fit_flag = 0 }; // device_index
-    case 1: return (FIT_FIELD_INFO){.scale = 256, .offset = 0, .fit_type = 0, .fit_unit = 42, .fit_flag = 0 }; // battery_voltage
+    case 1: return (FIT_FIELD_INFO){.scale = 256, .offset = 0, .fit_type = 0, .fit_unit = 43, .fit_flag = 0 }; // battery_voltage
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 63, .fit_unit = 0, .fit_flag = 0 }; // battery_status
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // battery_identifier
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -5443,7 +5548,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_training_file(FIT_UINT16 field, 
     {
       FIT_UINT32 manufacturer = fit_interp_string_value(interp, 1);
       if( manufacturer == 263 ){ // favero_electronics 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 162, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 15 ){ // dynastream 
@@ -5510,9 +5615,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_camera_event(FIT_UINT16 field){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 2, .fit_flag = 0 }; // timestamp_ms
-    case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 102, .fit_unit = 0, .fit_flag = 0 }; // camera_event_type
+    case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 103, .fit_unit = 0, .fit_flag = 0 }; // camera_event_type
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // camera_file_uuid
-    case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 106, .fit_unit = 0, .fit_flag = 0 }; // camera_orientation
+    case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 107, .fit_unit = 0, .fit_flag = 0 }; // camera_orientation
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5524,9 +5629,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_gyroscope_data(FIT_UINT16 field)
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // gyro_x
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // gyro_y
     case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // gyro_z
-    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 44, .fit_flag = 0 }; // calibrated_gyro_x
-    case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 44, .fit_flag = 0 }; // calibrated_gyro_y
-    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 44, .fit_flag = 0 }; // calibrated_gyro_z
+    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 45, .fit_flag = 0 }; // calibrated_gyro_x
+    case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 45, .fit_flag = 0 }; // calibrated_gyro_y
+    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 45, .fit_flag = 0 }; // calibrated_gyro_z
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5538,12 +5643,12 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_accelerometer_data(FIT_UINT16 fi
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // accel_x
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // accel_y
     case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // accel_z
-    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 45, .fit_flag = 0 }; // calibrated_accel_x
-    case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 45, .fit_flag = 0 }; // calibrated_accel_y
-    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 45, .fit_flag = 0 }; // calibrated_accel_z
-    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 46, .fit_flag = 0 }; // compressed_calibrated_accel_x
-    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 46, .fit_flag = 0 }; // compressed_calibrated_accel_y
-    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 46, .fit_flag = 0 }; // compressed_calibrated_accel_z
+    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 46, .fit_flag = 0 }; // calibrated_accel_x
+    case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 46, .fit_flag = 0 }; // calibrated_accel_y
+    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 46, .fit_flag = 0 }; // calibrated_accel_z
+    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 47, .fit_flag = 0 }; // compressed_calibrated_accel_x
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 47, .fit_flag = 0 }; // compressed_calibrated_accel_y
+    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 47, .fit_flag = 0 }; // compressed_calibrated_accel_z
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5555,9 +5660,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_magnetometer_data(FIT_UINT16 fie
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // mag_x
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // mag_y
     case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 32, .fit_flag = 0 }; // mag_z
-    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 47, .fit_flag = 0 }; // calibrated_mag_x
-    case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 47, .fit_flag = 0 }; // calibrated_mag_y
-    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 47, .fit_flag = 0 }; // calibrated_mag_z
+    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 48, .fit_flag = 0 }; // calibrated_mag_x
+    case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 48, .fit_flag = 0 }; // calibrated_mag_y
+    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 48, .fit_flag = 0 }; // calibrated_mag_z
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5566,21 +5671,21 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_barometer_data(FIT_UINT16 field)
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 2, .fit_flag = 0 }; // timestamp_ms
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 2, .fit_flag = 0 }; // sample_time_offset
-    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 39, .fit_flag = 0 }; // baro_pres
+    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 40, .fit_flag = 0 }; // baro_pres
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
 static FIT_FIELD_INFO rzfit_objc_field_info_for_three_d_sensor_calibration(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
-    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 103, .fit_unit = 0, .fit_flag = 0 }; // sensor_type
+    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 104, .fit_unit = 0, .fit_flag = 0 }; // sensor_type
     case 1: // calibration_factor
     {
       FIT_UINT32 sensor_type = fit_interp_string_value(interp, 0);
       if( sensor_type == 0 ){ // accelerometer 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 45, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 46, .fit_flag = 0 };
       }else if( sensor_type == 1 ){ // gyroscope 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 44, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 45, .fit_flag = 0 };
       }
       return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
     }
@@ -5594,12 +5699,12 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_three_d_sensor_calibration(FIT_U
 static FIT_FIELD_INFO rzfit_objc_field_info_for_one_d_sensor_calibration(FIT_UINT16 field, FIT_INTERP_FIELD * interp){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
-    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 103, .fit_unit = 0, .fit_flag = 0 }; // sensor_type
+    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 104, .fit_unit = 0, .fit_flag = 0 }; // sensor_type
     case 1: // calibration_factor
     {
       FIT_UINT32 sensor_type = fit_interp_string_value(interp, 0);
       if( sensor_type == 3 ){ // barometer 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 39, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 40, .fit_flag = 0 };
       }
       return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
     }
@@ -5644,15 +5749,15 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_aviation_attitude(FIT_UINT16 fie
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 2, .fit_flag = 0 }; // timestamp_ms
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 2, .fit_flag = 0 }; // system_time
-    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 48, .fit_flag = 0 }; // pitch
-    case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 48, .fit_flag = 0 }; // roll
-    case 4: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 49, .fit_flag = 0 }; // accel_lateral
-    case 5: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 49, .fit_flag = 0 }; // accel_normal
-    case 6: return (FIT_FIELD_INFO){.scale = 1024, .offset = 0, .fit_type = 0, .fit_unit = 50, .fit_flag = 0 }; // turn_rate
-    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 107, .fit_unit = 0, .fit_flag = 0 }; // stage
+    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 49, .fit_flag = 0 }; // pitch
+    case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 49, .fit_flag = 0 }; // roll
+    case 4: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 50, .fit_flag = 0 }; // accel_lateral
+    case 5: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 50, .fit_flag = 0 }; // accel_normal
+    case 6: return (FIT_FIELD_INFO){.scale = 1024, .offset = 0, .fit_type = 0, .fit_unit = 51, .fit_flag = 0 }; // turn_rate
+    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 108, .fit_unit = 0, .fit_flag = 0 }; // stage
     case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 11, .fit_flag = 0 }; // attitude_stage_complete
-    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 48, .fit_flag = 0 }; // track
-    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 108, .fit_unit = 0, .fit_flag = 0 }; // validity
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 49, .fit_flag = 0 }; // track
+    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 109, .fit_unit = 0, .fit_flag = 0 }; // validity
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5698,11 +5803,11 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_set(FIT_UINT16 field){
     case 0: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // duration
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // repetitions
     case 4: return (FIT_FIELD_INFO){.scale = 16, .offset = 0, .fit_type = 0, .fit_unit = 9, .fit_flag = 0 }; // weight
-    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 121, .fit_unit = 0, .fit_flag = 0 }; // set_type
+    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 122, .fit_unit = 0, .fit_flag = 0 }; // set_type
     case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // start_time
-    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 122, .fit_unit = 0, .fit_flag = 0 }; // category
+    case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 123, .fit_unit = 0, .fit_flag = 0 }; // category
     case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // category_subtype
-    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 120, .fit_unit = 0, .fit_flag = 0 }; // weight_display_unit
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 121, .fit_unit = 0, .fit_flag = 0 }; // weight_display_unit
     case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // wkt_step_index
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -5723,12 +5828,22 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_jump(FIT_UINT16 field){
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
+static FIT_FIELD_INFO rzfit_objc_field_info_for_split(FIT_UINT16 field){
+  switch( field ){
+    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 163, .fit_unit = 0, .fit_flag = 0 }; // split_type
+    case 1: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // total_elapsed_time
+    case 2: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // total_timer_time
+    case 3: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_distance
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // start_time
+    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+  }
+}
 static FIT_FIELD_INFO rzfit_objc_field_info_for_climb_pro(FIT_UINT16 field){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 19, .fit_flag = 0 }; // position_lat
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 19, .fit_flag = 0 }; // position_long
-    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 162, .fit_unit = 0, .fit_flag = 0 }; // climb_pro_event
+    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 164, .fit_unit = 0, .fit_flag = 0 }; // climb_pro_event
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // climb_number
     case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // climb_category
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // current_dist
@@ -5739,7 +5854,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_field_description(FIT_UINT16 fie
   switch( field ){
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // developer_data_index
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // field_definition_number
-    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 117, .fit_unit = 0, .fit_flag = 0 }; // fit_base_type_id
+    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 118, .fit_unit = 0, .fit_flag = 0 }; // fit_base_type_id
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // field_name
     case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // array
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // components
@@ -5748,7 +5863,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_field_description(FIT_UINT16 fie
     case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // units
     case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // bits
     case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // accumulate
-    case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 120, .fit_unit = 0, .fit_flag = 0 }; // fit_base_unit_id
+    case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 121, .fit_unit = 0, .fit_flag = 0 }; // fit_base_unit_id
     case 14: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 2, .fit_unit = 0, .fit_flag = 0 }; // native_mesg_num
     case 15: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // native_field_num
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -5820,6 +5935,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_segment_point(FIT_UINT16 field){
     case 3: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // distance
     case 4: return (FIT_FIELD_INFO){.scale = 5, .offset = 500, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // altitude
     case 5: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // leader_time
+    case 6: return (FIT_FIELD_INFO){.scale = 5, .offset = 500, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // enhanced_altitude
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5918,12 +6034,15 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_segment_lap(FIT_UINT16 field, FI
     case 81: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 14, .fit_flag = 0 }; // avg_cadence_position
     case 82: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 14, .fit_flag = 0 }; // max_cadence_position
     case 83: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 58, .fit_unit = 0, .fit_flag = 0 }; // manufacturer
-    case 84: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // total_grit
-    case 85: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // total_flow
-    case 86: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 35, .fit_flag = 0 }; // avg_grit
-    case 87: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // avg_flow
+    case 84: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // total_grit
+    case 85: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 37, .fit_flag = 0 }; // total_flow
+    case 86: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 36, .fit_flag = 0 }; // avg_grit
+    case 87: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 37, .fit_flag = 0 }; // avg_flow
     case 89: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_ascent
     case 90: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_fractional_descent
+    case 91: return (FIT_FIELD_INFO){.scale = 5, .offset = 500, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // enhanced_avg_altitude
+    case 92: return (FIT_FIELD_INFO){.scale = 5, .offset = 500, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // enhanced_max_altitude
+    case 93: return (FIT_FIELD_INFO){.scale = 5, .offset = 500, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // enhanced_min_altitude
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -5980,11 +6099,11 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_workout_step(FIT_UINT16 field, F
       }else if( duration_type == 1 ){ // distance 
          return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 };
       }else if( duration_type == 2 ){ // hr_less_than 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 51, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 52, .fit_flag = 0 };
       }else if( duration_type == 3 ){ // hr_greater_than 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 51, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 52, .fit_flag = 0 };
       }else if( duration_type == 4 ){ // calories 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 43, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 44, .fit_flag = 0 };
       }else if( duration_type == 6 ){ // repeat_until_steps_cmplt 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
       }else if( duration_type == 7 ){ // repeat_until_time 
@@ -6002,9 +6121,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_workout_step(FIT_UINT16 field, F
       }else if( duration_type == 13 ){ // repeat_until_power_greater_than 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
       }else if( duration_type == 14 ){ // power_less_than 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 53, .fit_flag = 0 };
       }else if( duration_type == 15 ){ // power_greater_than 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 53, .fit_flag = 0 };
       }else if( duration_type == 29 ){ // reps 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
       }
@@ -6030,15 +6149,15 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_workout_step(FIT_UINT16 field, F
       }else if( duration_type == 8 ){ // repeat_until_distance 
          return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 };
       }else if( duration_type == 9 ){ // repeat_until_calories 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 43, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 44, .fit_flag = 0 };
       }else if( duration_type == 10 ){ // repeat_until_hr_less_than 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 51, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 52, .fit_flag = 0 };
       }else if( duration_type == 11 ){ // repeat_until_hr_greater_than 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 51, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 52, .fit_flag = 0 };
       }else if( duration_type == 12 ){ // repeat_until_power_less_than 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 53, .fit_flag = 0 };
       }else if( duration_type == 13 ){ // repeat_until_power_greater_than 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 53, .fit_flag = 0 };
       }else if( target_type == 11 ){ // swim_stroke 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 71, .fit_unit = 0, .fit_flag = 0 };
       }
@@ -6050,11 +6169,11 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_workout_step(FIT_UINT16 field, F
       if( target_type == 0 ){ // speed 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
       }else if( target_type == 1 ){ // heart_rate 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 51, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 52, .fit_flag = 0 };
       }else if( target_type == 3 ){ // cadence 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 14, .fit_flag = 0 };
       }else if( target_type == 4 ){ // power 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 53, .fit_flag = 0 };
       }
       return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
     }
@@ -6064,21 +6183,21 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_workout_step(FIT_UINT16 field, F
       if( target_type == 0 ){ // speed 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
       }else if( target_type == 1 ){ // heart_rate 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 51, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 52, .fit_flag = 0 };
       }else if( target_type == 3 ){ // cadence 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 14, .fit_flag = 0 };
       }else if( target_type == 4 ){ // power 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 53, .fit_flag = 0 };
       }
       return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
     }
     case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 34, .fit_unit = 0, .fit_flag = 0 }; // intensity
     case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // notes
-    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 96, .fit_unit = 0, .fit_flag = 0 }; // equipment
-    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 122, .fit_unit = 0, .fit_flag = 0 }; // exercise_category
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 97, .fit_unit = 0, .fit_flag = 0 }; // equipment
+    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 123, .fit_unit = 0, .fit_flag = 0 }; // exercise_category
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // exercise_name
     case 12: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 9, .fit_flag = 0 }; // exercise_weight
-    case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 120, .fit_unit = 0, .fit_flag = 0 }; // weight_display_unit
+    case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 121, .fit_unit = 0, .fit_flag = 0 }; // weight_display_unit
     case 19: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 52, .fit_unit = 0, .fit_flag = 0 }; // secondary_target_type
     case 20: // secondary_target_value
     {
@@ -6102,11 +6221,11 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_workout_step(FIT_UINT16 field, F
       if( secondary_target_type == 0 ){ // speed 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
       }else if( secondary_target_type == 1 ){ // heart_rate 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 51, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 52, .fit_flag = 0 };
       }else if( secondary_target_type == 3 ){ // cadence 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 14, .fit_flag = 0 };
       }else if( secondary_target_type == 4 ){ // power 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 53, .fit_flag = 0 };
       }
       return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
     }
@@ -6116,11 +6235,11 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_workout_step(FIT_UINT16 field, F
       if( secondary_target_type == 0 ){ // speed 
          return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 };
       }else if( secondary_target_type == 1 ){ // heart_rate 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 51, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 67, .fit_unit = 52, .fit_flag = 0 };
       }else if( secondary_target_type == 3 ){ // cadence 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 14, .fit_flag = 0 };
       }else if( secondary_target_type == 4 ){ // power 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 52, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 68, .fit_unit = 53, .fit_flag = 0 };
       }
       return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
     }
@@ -6130,7 +6249,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_workout_step(FIT_UINT16 field, F
 static FIT_FIELD_INFO rzfit_objc_field_info_for_exercise_title(FIT_UINT16 field){
   switch( field ){
     case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
-    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 122, .fit_unit = 0, .fit_flag = 0 }; // exercise_category
+    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 123, .fit_unit = 0, .fit_flag = 0 }; // exercise_category
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // exercise_name
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // wkt_step_name
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
@@ -6143,7 +6262,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_schedule(FIT_UINT16 field, FIT_I
     {
       FIT_UINT32 manufacturer = fit_interp_string_value(interp, 0);
       if( manufacturer == 263 ){ // favero_electronics 
-         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 161, .fit_unit = 0, .fit_flag = 0 };
+         return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 162, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 1 ){ // garmin 
          return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 59, .fit_unit = 0, .fit_flag = 0 };
       }else if( manufacturer == 15 ){ // dynastream 
@@ -6187,9 +6306,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_weight_scale(FIT_UINT16 field){
     case 3: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 9, .fit_flag = 0 }; // visceral_fat_mass
     case 4: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 9, .fit_flag = 0 }; // bone_mass
     case 5: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 9, .fit_flag = 0 }; // muscle_mass
-    case 7: return (FIT_FIELD_INFO){.scale = 4, .offset = 0, .fit_type = 0, .fit_unit = 53, .fit_flag = 0 }; // basal_met
+    case 7: return (FIT_FIELD_INFO){.scale = 4, .offset = 0, .fit_type = 0, .fit_unit = 54, .fit_flag = 0 }; // basal_met
     case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // physique_rating
-    case 9: return (FIT_FIELD_INFO){.scale = 4, .offset = 0, .fit_type = 0, .fit_unit = 53, .fit_flag = 0 }; // active_met
+    case 9: return (FIT_FIELD_INFO){.scale = 4, .offset = 0, .fit_type = 0, .fit_unit = 54, .fit_flag = 0 }; // active_met
     case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 7, .fit_flag = 0 }; // metabolic_age
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // visceral_fat_rating
     case 12: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // user_profile_index
@@ -6199,12 +6318,12 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_weight_scale(FIT_UINT16 field){
 static FIT_FIELD_INFO rzfit_objc_field_info_for_blood_pressure(FIT_UINT16 field){
   switch( field ){
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
-    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 54, .fit_flag = 0 }; // systolic_pressure
-    case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 54, .fit_flag = 0 }; // diastolic_pressure
-    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 54, .fit_flag = 0 }; // mean_arterial_pressure
-    case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 54, .fit_flag = 0 }; // map_3_sample_mean
-    case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 54, .fit_flag = 0 }; // map_morning_values
-    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 54, .fit_flag = 0 }; // map_evening_values
+    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 55, .fit_flag = 0 }; // systolic_pressure
+    case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 55, .fit_flag = 0 }; // diastolic_pressure
+    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 55, .fit_flag = 0 }; // mean_arterial_pressure
+    case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 55, .fit_flag = 0 }; // map_3_sample_mean
+    case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 55, .fit_flag = 0 }; // map_morning_values
+    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 55, .fit_flag = 0 }; // map_evening_values
     case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 10, .fit_flag = 0 }; // heart_rate
     case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 64, .fit_unit = 0, .fit_flag = 0 }; // heart_rate_type
     case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 69, .fit_unit = 0, .fit_flag = 0 }; // status
@@ -6217,9 +6336,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_monitoring_info(FIT_UINT16 field
     case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 1, .fit_flag = 1 }; // timestamp
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 7, .fit_unit = 1, .fit_flag = 1 }; // local_timestamp
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 72, .fit_unit = 0, .fit_flag = 0 }; // activity_type
-    case 3: return (FIT_FIELD_INFO){.scale = 5000, .offset = 0, .fit_type = 0, .fit_unit = 55, .fit_flag = 0 }; // cycles_to_distance
-    case 4: return (FIT_FIELD_INFO){.scale = 5000, .offset = 0, .fit_type = 0, .fit_unit = 56, .fit_flag = 0 }; // cycles_to_calories
-    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 57, .fit_flag = 0 }; // resting_metabolic_rate
+    case 3: return (FIT_FIELD_INFO){.scale = 5000, .offset = 0, .fit_type = 0, .fit_unit = 56, .fit_flag = 0 }; // cycles_to_distance
+    case 4: return (FIT_FIELD_INFO){.scale = 5000, .offset = 0, .fit_type = 0, .fit_unit = 57, .fit_flag = 0 }; // cycles_to_calories
+    case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 58, .fit_flag = 0 }; // resting_metabolic_rate
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -6247,8 +6366,8 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_monitoring(FIT_UINT16 field, FIT
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 72, .fit_unit = 0, .fit_flag = 0 }; // activity_type
     case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 73, .fit_unit = 0, .fit_flag = 0 }; // activity_subtype
     case 7: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 74, .fit_unit = 0, .fit_flag = 0 }; // activity_level
-    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 58, .fit_flag = 0 }; // distance_16
-    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 59, .fit_flag = 0 }; // cycles_16
+    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 59, .fit_flag = 0 }; // distance_16
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 60, .fit_flag = 0 }; // cycles_16
     case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // active_time_16
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 7, .fit_unit = 0, .fit_flag = 1 }; // local_timestamp
     case 12: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 31, .fit_flag = 0 }; // temperature
@@ -6257,11 +6376,11 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_monitoring(FIT_UINT16 field, FIT
     case 16: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 6, .fit_flag = 0 }; // activity_time
     case 19: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 23, .fit_flag = 0 }; // active_calories
     case 24: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // current_activity_type_intensity
-    case 25: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 60, .fit_flag = 0 }; // timestamp_min_8
+    case 25: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 61, .fit_flag = 0 }; // timestamp_min_8
     case 26: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // timestamp_16
     case 27: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 10, .fit_flag = 0 }; // heart_rate
     case 28: return (FIT_FIELD_INFO){.scale = 10, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // intensity
-    case 29: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 60, .fit_flag = 0 }; // duration_min
+    case 29: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 61, .fit_flag = 0 }; // duration_min
     case 30: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // duration
     case 31: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // ascent
     case 32: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // descent
@@ -6335,7 +6454,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_exd_screen_configuration(FIT_UIN
   switch( field ){
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // screen_index
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // field_count
-    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 110, .fit_unit = 0, .fit_flag = 0 }; // layout
+    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 111, .fit_unit = 0, .fit_flag = 0 }; // layout
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // screen_enabled
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
@@ -6346,7 +6465,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_exd_data_field_configuration(FIT
     case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // concept_field
     case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // field_id
     case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // concept_count
-    case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 111, .fit_unit = 0, .fit_flag = 0 }; // display_type
+    case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 112, .fit_unit = 0, .fit_flag = 0 }; // display_type
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // title
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
@@ -6360,9 +6479,9 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_exd_data_concept_configuration(F
     case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // data_page
     case 5: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // concept_key
     case 6: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // scaling
-    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 112, .fit_unit = 0, .fit_flag = 0 }; // data_units
-    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 113, .fit_unit = 0, .fit_flag = 0 }; // qualifier
-    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 114, .fit_unit = 0, .fit_flag = 0 }; // descriptor
+    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 113, .fit_unit = 0, .fit_flag = 0 }; // data_units
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 114, .fit_unit = 0, .fit_flag = 0 }; // qualifier
+    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 115, .fit_unit = 0, .fit_flag = 0 }; // descriptor
     case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // is_signed
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
@@ -6379,7 +6498,7 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_dive_summary(FIT_UINT16 field){
     case 6: return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // end_cns
     case 7: return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // start_n2
     case 8: return (FIT_FIELD_INFO){.scale = 1, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // end_n2
-    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 61, .fit_flag = 0 }; // o2_toxicity
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 62, .fit_flag = 0 }; // o2_toxicity
     case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // dive_number
     case 11: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // bottom_time
     case 17: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // avg_ascent_rate
@@ -6710,6 +6829,29 @@ static NSString * rzfit_objc_field_num_to_string_for_ohr_settings( FIT_UINT8 fie
   }
 }
 
+static NSString * rzfit_objc_field_num_to_string_for_time_in_zone( FIT_UINT8 field_num ){
+  switch( field_num ){
+    case 253: return @"timestamp";
+    case 0: return @"reference_mesg";
+    case 1: return @"reference_index";
+    case 2: return @"time_in_hr_zone";
+    case 3: return @"time_in_speed_zone";
+    case 4: return @"time_in_cadence_zone";
+    case 5: return @"time_in_power_zone";
+    case 6: return @"hr_zone_high_boundary";
+    case 7: return @"speed_zone_high_boundary";
+    case 8: return @"cadence_zone_high_bondary";
+    case 9: return @"power_zone_high_boundary";
+    case 10: return @"hr_calc_type";
+    case 11: return @"max_heart_rate";
+    case 12: return @"resting_heart_rate";
+    case 13: return @"threshold_heart_rate";
+    case 14: return @"pwr_calc_type";
+    case 15: return @"functional_threshold_power";
+    default: return [NSString stringWithFormat:@"time_in_zone_field_num_%u", (unsigned int)field_num];
+  }
+}
+
 static NSString * rzfit_objc_field_num_to_string_for_zones_target( FIT_UINT8 field_num ){
   switch( field_num ){
     case 1: return @"max_heart_rate";
@@ -7026,7 +7168,13 @@ static NSString * rzfit_objc_field_num_to_string_for_session( FIT_UINT8 field_nu
     case 134: return @"avg_step_length";
     case 137: return @"total_anaerobic_training_effect";
     case 139: return @"avg_vam";
+    case 147: return @"avg_respiration_rate";
+    case 148: return @"max_respiration_rate";
+    case 149: return @"min_respiration_rate";
     case 168: return @"training_load_peak";
+    case 169: return @"enhanced_avg_respiration_rate";
+    case 170: return @"enhanced_max_respiration_rate";
+    case 180: return @"enhanced_min_respiration_rate";
     case 181: return @"total_grit";
     case 182: return @"total_flow";
     case 183: return @"jump_count";
@@ -7183,6 +7331,10 @@ static NSString * rzfit_objc_field_num_to_string_for_lap( FIT_UINT8 field_num, F
     case 119: return @"avg_stance_time_balance";
     case 120: return @"avg_step_length";
     case 121: return @"avg_vam";
+    case 136: return @"enhanced_avg_respiration_rate";
+    case 137: return @"enhanced_max_respiration_rate";
+    case 147: return @"avg_respiration_rate";
+    case 148: return @"max_respiration_rate";
     case 149: return @"total_grit";
     case 150: return @"total_flow";
     case 151: return @"jump_count";
@@ -7217,6 +7369,10 @@ static NSString * rzfit_objc_field_num_to_string_for_length( FIT_UINT8 field_num
     case 19: return @"opponent_score";
     case 20: return @"stroke_count";
     case 21: return @"zone_count";
+    case 22: return @"enhanced_avg_respiration_rate";
+    case 23: return @"enhanced_max_respiration_rate";
+    case 24: return @"avg_respiration_rate";
+    case 25: return @"max_respiration_rate";
     default: return [NSString stringWithFormat:@"length_field_num_%u", (unsigned int)field_num];
   }
 }
@@ -7290,6 +7446,8 @@ static NSString * rzfit_objc_field_num_to_string_for_record( FIT_UINT8 field_num
     case 96: return @"ndl_time";
     case 97: return @"cns_load";
     case 98: return @"n2_load";
+    case 99: return @"respiration_rate";
+    case 108: return @"enhanced_respiration_rate";
     case 114: return @"grit";
     case 115: return @"flow";
     case 117: return @"ebike_travel_range";
@@ -7381,10 +7539,14 @@ static NSString * rzfit_objc_field_num_to_string_for_device_info( FIT_UINT8 fiel
     case 1:
     {
       FIT_UINT32 source_type = fit_interp_string_value(interp, 25);
-      if( source_type == 1 ){ // antplus 
+      if( source_type == 3 ){ // bluetooth_low_energy 
+         return @"ble_device_type";
+      }else if( source_type == 1 ){ // antplus 
          return @"antplus_device_type";
       }else if( source_type == 0 ){ // ant 
          return @"ant_device_type";
+      }else if( source_type == 5 ){ // local 
+         return @"local_device_type";
       }else{
         return @"device_type";
       }
@@ -7749,6 +7911,17 @@ static NSString * rzfit_objc_field_num_to_string_for_jump( FIT_UINT8 field_num )
   }
 }
 
+static NSString * rzfit_objc_field_num_to_string_for_split( FIT_UINT8 field_num ){
+  switch( field_num ){
+    case 0: return @"split_type";
+    case 1: return @"total_elapsed_time";
+    case 2: return @"total_timer_time";
+    case 3: return @"total_distance";
+    case 9: return @"start_time";
+    default: return [NSString stringWithFormat:@"split_field_num_%u", (unsigned int)field_num];
+  }
+}
+
 static NSString * rzfit_objc_field_num_to_string_for_climb_pro( FIT_UINT8 field_num ){
   switch( field_num ){
     case 253: return @"timestamp";
@@ -7853,6 +8026,7 @@ static NSString * rzfit_objc_field_num_to_string_for_segment_point( FIT_UINT8 fi
     case 3: return @"distance";
     case 4: return @"altitude";
     case 5: return @"leader_time";
+    case 6: return @"enhanced_altitude";
     default: return [NSString stringWithFormat:@"segment_point_field_num_%u", (unsigned int)field_num];
   }
 }
@@ -7959,6 +8133,9 @@ static NSString * rzfit_objc_field_num_to_string_for_segment_lap( FIT_UINT8 fiel
     case 87: return @"avg_flow";
     case 89: return @"total_fractional_ascent";
     case 90: return @"total_fractional_descent";
+    case 91: return @"enhanced_avg_altitude";
+    case 92: return @"enhanced_max_altitude";
+    case 93: return @"enhanced_min_altitude";
     default: return [NSString stringWithFormat:@"segment_lap_field_num_%u", (unsigned int)field_num];
   }
 }
@@ -8545,6 +8722,7 @@ NSString * rzfit_objc_string_from_mesg_num( FIT_UINT16 mesg_num ){
     case 208: return @"magnetometer_data";
     case 209: return @"barometer_data";
     case 210: return @"one_d_sensor_calibration";
+    case 216: return @"time_in_zone";
     case 225: return @"set";
     case 227: return @"stress_level";
     case 258: return @"dive_settings";
@@ -8553,6 +8731,7 @@ NSString * rzfit_objc_string_from_mesg_num( FIT_UINT16 mesg_num ){
     case 264: return @"exercise_title";
     case 268: return @"dive_summary";
     case 285: return @"jump";
+    case 312: return @"split";
     case 317: return @"climb_pro";
     case 375: return @"device_aux_battery_info";
     case 0xFF00: return @"mfg_range_min";
@@ -8598,33 +8777,34 @@ NSString * rzfit_objc_unit_to_string( FIT_UNIT fit_unit ){
     case 32: return @"counts";
     case 33: return @"g/dL";
     case 34: return @"degrees";
-    case 35: return @"kGrit";
-    case 36: return @"Flow";
-    case 37: return @"strokes/min";
-    case 38: return @"m/s,m";
-    case 39: return @"Pa";
-    case 40: return @"km";
-    case 41: return @"depends on sensor";
-    case 42: return @"V";
-    case 43: return @"calories";
-    case 44: return @"deg/s";
-    case 45: return @"g";
-    case 46: return @"mG";
-    case 47: return @"G";
-    case 48: return @"radians";
-    case 49: return @"m/s^2";
-    case 50: return @"radians/second";
-    case 51: return @"% or bpm";
-    case 52: return @"% or watts";
-    case 53: return @"kcal/day";
-    case 54: return @"mmHg";
-    case 55: return @"m/cycle";
-    case 56: return @"kcal/cycle";
-    case 57: return @"kcal / day";
-    case 58: return @"100 * m";
-    case 59: return @"2 * cycles (steps)";
-    case 60: return @"min";
-    case 61: return @"OTUs";
+    case 35: return @"Breaths/min";
+    case 36: return @"kGrit";
+    case 37: return @"Flow";
+    case 38: return @"strokes/min";
+    case 39: return @"m/s,m";
+    case 40: return @"Pa";
+    case 41: return @"km";
+    case 42: return @"depends on sensor";
+    case 43: return @"V";
+    case 44: return @"calories";
+    case 45: return @"deg/s";
+    case 46: return @"g";
+    case 47: return @"mG";
+    case 48: return @"G";
+    case 49: return @"radians";
+    case 50: return @"m/s^2";
+    case 51: return @"radians/second";
+    case 52: return @"% or bpm";
+    case 53: return @"% or watts";
+    case 54: return @"kcal/day";
+    case 55: return @"mmHg";
+    case 56: return @"m/cycle";
+    case 57: return @"kcal/cycle";
+    case 58: return @"kcal / day";
+    case 59: return @"100 * m";
+    case 60: return @"2 * cycles (steps)";
+    case 61: return @"min";
+    case 62: return @"OTUs";
     default: return [NSString stringWithFormat:@"FIT_UNIT_%u", (unsigned int)fit_unit];
   }
 }
@@ -8709,6 +8889,7 @@ NSString * rzfit_objc_field_num_to_string( FIT_UINT16 global_mesg_num, FIT_UINT1
    case 208: return rzfit_objc_field_num_to_string_for_magnetometer_data(field);
    case 209: return rzfit_objc_field_num_to_string_for_barometer_data(field);
    case 210: return rzfit_objc_field_num_to_string_for_one_d_sensor_calibration(field,interp);
+   case 216: return rzfit_objc_field_num_to_string_for_time_in_zone(field);
    case 225: return rzfit_objc_field_num_to_string_for_set(field);
    case 227: return rzfit_objc_field_num_to_string_for_stress_level(field);
    case 258: return rzfit_objc_field_num_to_string_for_dive_settings(field,interp);
@@ -8717,6 +8898,7 @@ NSString * rzfit_objc_field_num_to_string( FIT_UINT16 global_mesg_num, FIT_UINT1
    case 264: return rzfit_objc_field_num_to_string_for_exercise_title(field);
    case 268: return rzfit_objc_field_num_to_string_for_dive_summary(field);
    case 285: return rzfit_objc_field_num_to_string_for_jump(field);
+   case 312: return rzfit_objc_field_num_to_string_for_split(field);
    case 317: return rzfit_objc_field_num_to_string_for_climb_pro(field);
    case 375: return rzfit_objc_field_num_to_string_for_device_aux_battery_info(field);
     default: return [NSString stringWithFormat:@"MESG_NUM_%u_FIELD_%u", (unsigned int)global_mesg_num, (unsigned int)field];
@@ -8819,76 +9001,78 @@ NSString * rzfit_objc_type_to_string( FIT_TYPE fit_type, FIT_UINT32 val ){
      case 92: return rzfit_objc_string_from_segment_selection_type( (FIT_ENUM) val);
      case 93: return rzfit_objc_string_from_source_type( (FIT_ENUM) val);
      case 94: return rzfit_objc_string_from_local_device_type( (FIT_UINT8) val);
-     case 95: return rzfit_objc_string_from_display_orientation( (FIT_ENUM) val);
-     case 96: return rzfit_objc_string_from_workout_equipment( (FIT_ENUM) val);
-     case 97: return rzfit_objc_string_from_watchface_mode( (FIT_ENUM) val);
-     case 98: return rzfit_objc_string_from_digital_watchface_layout( (FIT_ENUM) val);
-     case 99: return rzfit_objc_string_from_analog_watchface_layout( (FIT_ENUM) val);
-     case 100: return rzfit_objc_string_from_rider_position_type( (FIT_ENUM) val);
-     case 101: return rzfit_objc_string_from_power_phase_type( (FIT_ENUM) val);
-     case 102: return rzfit_objc_string_from_camera_event_type( (FIT_ENUM) val);
-     case 103: return rzfit_objc_string_from_sensor_type( (FIT_ENUM) val);
-     case 104: return rzfit_objc_string_from_bike_light_network_config_type( (FIT_ENUM) val);
-     case 105: return rzfit_objc_string_from_comm_timeout_type( (FIT_UINT16) val);
-     case 106: return rzfit_objc_string_from_camera_orientation_type( (FIT_ENUM) val);
-     case 107: return rzfit_objc_string_from_attitude_stage( (FIT_ENUM) val);
-     case 108: return rzfit_objc_string_from_attitude_validity( (FIT_UINT16) val);
-     case 109: return rzfit_objc_string_from_auto_sync_frequency( (FIT_ENUM) val);
-     case 110: return rzfit_objc_string_from_exd_layout( (FIT_ENUM) val);
-     case 111: return rzfit_objc_string_from_exd_display_type( (FIT_ENUM) val);
-     case 112: return rzfit_objc_string_from_exd_data_units( (FIT_ENUM) val);
-     case 113: return rzfit_objc_string_from_exd_qualifiers( (FIT_ENUM) val);
-     case 114: return rzfit_objc_string_from_exd_descriptors( (FIT_ENUM) val);
-     case 115: return rzfit_objc_string_from_auto_activity_detect( (FIT_UINT32) val);
-     case 116: return rzfit_objc_string_from_supported_exd_screen_layouts( (FIT_UINT32Z) val);
-     case 117: return rzfit_objc_string_from_fit_base_type( (FIT_UINT8) val);
-     case 118: return rzfit_objc_string_from_turn_type( (FIT_ENUM) val);
-     case 119: return rzfit_objc_string_from_bike_light_beam_angle_mode( (FIT_UINT8) val);
-     case 120: return rzfit_objc_string_from_fit_base_unit( (FIT_UINT16) val);
-     case 121: return rzfit_objc_string_from_set_type( (FIT_UINT8) val);
-     case 122: return rzfit_objc_string_from_exercise_category( (FIT_UINT16) val);
-     case 123: return rzfit_objc_string_from_bench_press_exercise_name( (FIT_UINT16) val);
-     case 124: return rzfit_objc_string_from_calf_raise_exercise_name( (FIT_UINT16) val);
-     case 125: return rzfit_objc_string_from_cardio_exercise_name( (FIT_UINT16) val);
-     case 126: return rzfit_objc_string_from_carry_exercise_name( (FIT_UINT16) val);
-     case 127: return rzfit_objc_string_from_chop_exercise_name( (FIT_UINT16) val);
-     case 128: return rzfit_objc_string_from_core_exercise_name( (FIT_UINT16) val);
-     case 129: return rzfit_objc_string_from_crunch_exercise_name( (FIT_UINT16) val);
-     case 130: return rzfit_objc_string_from_curl_exercise_name( (FIT_UINT16) val);
-     case 131: return rzfit_objc_string_from_deadlift_exercise_name( (FIT_UINT16) val);
-     case 132: return rzfit_objc_string_from_flye_exercise_name( (FIT_UINT16) val);
-     case 133: return rzfit_objc_string_from_hip_raise_exercise_name( (FIT_UINT16) val);
-     case 134: return rzfit_objc_string_from_hip_stability_exercise_name( (FIT_UINT16) val);
-     case 135: return rzfit_objc_string_from_hip_swing_exercise_name( (FIT_UINT16) val);
-     case 136: return rzfit_objc_string_from_hyperextension_exercise_name( (FIT_UINT16) val);
-     case 137: return rzfit_objc_string_from_lateral_raise_exercise_name( (FIT_UINT16) val);
-     case 138: return rzfit_objc_string_from_leg_curl_exercise_name( (FIT_UINT16) val);
-     case 139: return rzfit_objc_string_from_leg_raise_exercise_name( (FIT_UINT16) val);
-     case 140: return rzfit_objc_string_from_lunge_exercise_name( (FIT_UINT16) val);
-     case 141: return rzfit_objc_string_from_olympic_lift_exercise_name( (FIT_UINT16) val);
-     case 142: return rzfit_objc_string_from_plank_exercise_name( (FIT_UINT16) val);
-     case 143: return rzfit_objc_string_from_plyo_exercise_name( (FIT_UINT16) val);
-     case 144: return rzfit_objc_string_from_pull_up_exercise_name( (FIT_UINT16) val);
-     case 145: return rzfit_objc_string_from_push_up_exercise_name( (FIT_UINT16) val);
-     case 146: return rzfit_objc_string_from_row_exercise_name( (FIT_UINT16) val);
-     case 147: return rzfit_objc_string_from_shoulder_press_exercise_name( (FIT_UINT16) val);
-     case 148: return rzfit_objc_string_from_shoulder_stability_exercise_name( (FIT_UINT16) val);
-     case 149: return rzfit_objc_string_from_shrug_exercise_name( (FIT_UINT16) val);
-     case 150: return rzfit_objc_string_from_sit_up_exercise_name( (FIT_UINT16) val);
-     case 151: return rzfit_objc_string_from_squat_exercise_name( (FIT_UINT16) val);
-     case 152: return rzfit_objc_string_from_total_body_exercise_name( (FIT_UINT16) val);
-     case 153: return rzfit_objc_string_from_triceps_extension_exercise_name( (FIT_UINT16) val);
-     case 154: return rzfit_objc_string_from_warm_up_exercise_name( (FIT_UINT16) val);
-     case 155: return rzfit_objc_string_from_run_exercise_name( (FIT_UINT16) val);
-     case 156: return rzfit_objc_string_from_water_type( (FIT_ENUM) val);
-     case 157: return rzfit_objc_string_from_tissue_model_type( (FIT_ENUM) val);
-     case 158: return rzfit_objc_string_from_dive_gas_status( (FIT_ENUM) val);
-     case 159: return rzfit_objc_string_from_dive_alarm_type( (FIT_ENUM) val);
-     case 160: return rzfit_objc_string_from_dive_backlight_mode( (FIT_ENUM) val);
-     case 161: return rzfit_objc_string_from_favero_product( (FIT_UINT16) val);
-     case 162: return rzfit_objc_string_from_climb_pro_event( (FIT_ENUM) val);
-     case 163: return rzfit_objc_string_from_tap_sensitivity( (FIT_ENUM) val);
-     case 164: return rzfit_objc_string_from_radar_threat_level_type( (FIT_ENUM) val);
+     case 95: return rzfit_objc_string_from_ble_device_type( (FIT_UINT8) val);
+     case 96: return rzfit_objc_string_from_display_orientation( (FIT_ENUM) val);
+     case 97: return rzfit_objc_string_from_workout_equipment( (FIT_ENUM) val);
+     case 98: return rzfit_objc_string_from_watchface_mode( (FIT_ENUM) val);
+     case 99: return rzfit_objc_string_from_digital_watchface_layout( (FIT_ENUM) val);
+     case 100: return rzfit_objc_string_from_analog_watchface_layout( (FIT_ENUM) val);
+     case 101: return rzfit_objc_string_from_rider_position_type( (FIT_ENUM) val);
+     case 102: return rzfit_objc_string_from_power_phase_type( (FIT_ENUM) val);
+     case 103: return rzfit_objc_string_from_camera_event_type( (FIT_ENUM) val);
+     case 104: return rzfit_objc_string_from_sensor_type( (FIT_ENUM) val);
+     case 105: return rzfit_objc_string_from_bike_light_network_config_type( (FIT_ENUM) val);
+     case 106: return rzfit_objc_string_from_comm_timeout_type( (FIT_UINT16) val);
+     case 107: return rzfit_objc_string_from_camera_orientation_type( (FIT_ENUM) val);
+     case 108: return rzfit_objc_string_from_attitude_stage( (FIT_ENUM) val);
+     case 109: return rzfit_objc_string_from_attitude_validity( (FIT_UINT16) val);
+     case 110: return rzfit_objc_string_from_auto_sync_frequency( (FIT_ENUM) val);
+     case 111: return rzfit_objc_string_from_exd_layout( (FIT_ENUM) val);
+     case 112: return rzfit_objc_string_from_exd_display_type( (FIT_ENUM) val);
+     case 113: return rzfit_objc_string_from_exd_data_units( (FIT_ENUM) val);
+     case 114: return rzfit_objc_string_from_exd_qualifiers( (FIT_ENUM) val);
+     case 115: return rzfit_objc_string_from_exd_descriptors( (FIT_ENUM) val);
+     case 116: return rzfit_objc_string_from_auto_activity_detect( (FIT_UINT32) val);
+     case 117: return rzfit_objc_string_from_supported_exd_screen_layouts( (FIT_UINT32Z) val);
+     case 118: return rzfit_objc_string_from_fit_base_type( (FIT_UINT8) val);
+     case 119: return rzfit_objc_string_from_turn_type( (FIT_ENUM) val);
+     case 120: return rzfit_objc_string_from_bike_light_beam_angle_mode( (FIT_UINT8) val);
+     case 121: return rzfit_objc_string_from_fit_base_unit( (FIT_UINT16) val);
+     case 122: return rzfit_objc_string_from_set_type( (FIT_UINT8) val);
+     case 123: return rzfit_objc_string_from_exercise_category( (FIT_UINT16) val);
+     case 124: return rzfit_objc_string_from_bench_press_exercise_name( (FIT_UINT16) val);
+     case 125: return rzfit_objc_string_from_calf_raise_exercise_name( (FIT_UINT16) val);
+     case 126: return rzfit_objc_string_from_cardio_exercise_name( (FIT_UINT16) val);
+     case 127: return rzfit_objc_string_from_carry_exercise_name( (FIT_UINT16) val);
+     case 128: return rzfit_objc_string_from_chop_exercise_name( (FIT_UINT16) val);
+     case 129: return rzfit_objc_string_from_core_exercise_name( (FIT_UINT16) val);
+     case 130: return rzfit_objc_string_from_crunch_exercise_name( (FIT_UINT16) val);
+     case 131: return rzfit_objc_string_from_curl_exercise_name( (FIT_UINT16) val);
+     case 132: return rzfit_objc_string_from_deadlift_exercise_name( (FIT_UINT16) val);
+     case 133: return rzfit_objc_string_from_flye_exercise_name( (FIT_UINT16) val);
+     case 134: return rzfit_objc_string_from_hip_raise_exercise_name( (FIT_UINT16) val);
+     case 135: return rzfit_objc_string_from_hip_stability_exercise_name( (FIT_UINT16) val);
+     case 136: return rzfit_objc_string_from_hip_swing_exercise_name( (FIT_UINT16) val);
+     case 137: return rzfit_objc_string_from_hyperextension_exercise_name( (FIT_UINT16) val);
+     case 138: return rzfit_objc_string_from_lateral_raise_exercise_name( (FIT_UINT16) val);
+     case 139: return rzfit_objc_string_from_leg_curl_exercise_name( (FIT_UINT16) val);
+     case 140: return rzfit_objc_string_from_leg_raise_exercise_name( (FIT_UINT16) val);
+     case 141: return rzfit_objc_string_from_lunge_exercise_name( (FIT_UINT16) val);
+     case 142: return rzfit_objc_string_from_olympic_lift_exercise_name( (FIT_UINT16) val);
+     case 143: return rzfit_objc_string_from_plank_exercise_name( (FIT_UINT16) val);
+     case 144: return rzfit_objc_string_from_plyo_exercise_name( (FIT_UINT16) val);
+     case 145: return rzfit_objc_string_from_pull_up_exercise_name( (FIT_UINT16) val);
+     case 146: return rzfit_objc_string_from_push_up_exercise_name( (FIT_UINT16) val);
+     case 147: return rzfit_objc_string_from_row_exercise_name( (FIT_UINT16) val);
+     case 148: return rzfit_objc_string_from_shoulder_press_exercise_name( (FIT_UINT16) val);
+     case 149: return rzfit_objc_string_from_shoulder_stability_exercise_name( (FIT_UINT16) val);
+     case 150: return rzfit_objc_string_from_shrug_exercise_name( (FIT_UINT16) val);
+     case 151: return rzfit_objc_string_from_sit_up_exercise_name( (FIT_UINT16) val);
+     case 152: return rzfit_objc_string_from_squat_exercise_name( (FIT_UINT16) val);
+     case 153: return rzfit_objc_string_from_total_body_exercise_name( (FIT_UINT16) val);
+     case 154: return rzfit_objc_string_from_triceps_extension_exercise_name( (FIT_UINT16) val);
+     case 155: return rzfit_objc_string_from_warm_up_exercise_name( (FIT_UINT16) val);
+     case 156: return rzfit_objc_string_from_run_exercise_name( (FIT_UINT16) val);
+     case 157: return rzfit_objc_string_from_water_type( (FIT_ENUM) val);
+     case 158: return rzfit_objc_string_from_tissue_model_type( (FIT_ENUM) val);
+     case 159: return rzfit_objc_string_from_dive_gas_status( (FIT_ENUM) val);
+     case 160: return rzfit_objc_string_from_dive_alarm_type( (FIT_ENUM) val);
+     case 161: return rzfit_objc_string_from_dive_backlight_mode( (FIT_ENUM) val);
+     case 162: return rzfit_objc_string_from_favero_product( (FIT_UINT16) val);
+     case 163: return rzfit_objc_string_from_split_type( (FIT_ENUM) val);
+     case 164: return rzfit_objc_string_from_climb_pro_event( (FIT_ENUM) val);
+     case 165: return rzfit_objc_string_from_tap_sensitivity( (FIT_ENUM) val);
+     case 166: return rzfit_objc_string_from_radar_threat_level_type( (FIT_ENUM) val);
     default: return [NSString stringWithFormat:@"FIT_TYPE_%u_VALUE_%u", (unsigned int)fit_type, (unsigned int)val];
   }
 }
@@ -8912,6 +9096,7 @@ FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 fie
     case 127: return rzfit_objc_field_info_for_connectivity(field);
     case 159: return rzfit_objc_field_info_for_watchface_settings(field,interp);
     case 188: return rzfit_objc_field_info_for_ohr_settings(field);
+    case 216: return rzfit_objc_field_info_for_time_in_zone(field);
     case 7: return rzfit_objc_field_info_for_zones_target(field);
     case 12: return rzfit_objc_field_info_for_sport(field);
     case 8: return rzfit_objc_field_info_for_hr_zone(field);
@@ -8952,6 +9137,7 @@ FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 fie
     case 187: return rzfit_objc_field_info_for_video_clip(field);
     case 225: return rzfit_objc_field_info_for_set(field);
     case 285: return rzfit_objc_field_info_for_jump(field);
+    case 312: return rzfit_objc_field_info_for_split(field);
     case 317: return rzfit_objc_field_info_for_climb_pro(field);
     case 206: return rzfit_objc_field_info_for_field_description(field);
     case 207: return rzfit_objc_field_info_for_developer_data_id(field);

@@ -117,7 +117,6 @@ class Type :
     def fit_type(self):
         return 'FIT_{}'.format( self.name.upper() )
 
-
     def is_string(self):
         return not self.is_masked_value and not self.is_offset_value
 
