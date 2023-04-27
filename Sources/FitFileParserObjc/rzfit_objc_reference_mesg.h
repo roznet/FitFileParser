@@ -97,7 +97,10 @@ typedef FIT_UINT16 FIT_MESG_NUM;
 #define FIT_MESG_NUM_JUMP                           ((FIT_MESG_NUM)285)   
 #define FIT_MESG_NUM_SPLIT                          ((FIT_MESG_NUM)312)   
 #define FIT_MESG_NUM_CLIMB_PRO                      ((FIT_MESG_NUM)317)   
+#define FIT_MESG_NUM_TANK_UPDATE                    ((FIT_MESG_NUM)319)   
+#define FIT_MESG_NUM_TANK_SUMMARY                   ((FIT_MESG_NUM)323)   
 #define FIT_MESG_NUM_DEVICE_AUX_BATTERY_INFO        ((FIT_MESG_NUM)375)   
+#define FIT_MESG_NUM_DIVE_APNEA_ALARM               ((FIT_MESG_NUM)393)   
 #define FIT_MESG_NUM_MFG_RANGE_MIN                  ((FIT_MESG_NUM)0xFF00)
 #define FIT_MESG_NUM_MFG_RANGE_MAX                  ((FIT_MESG_NUM)0xFFFE)
 
@@ -467,6 +470,7 @@ typedef struct {
   FIT_UINT8 total_fractional_cycles; // 
   FIT_UINT8 sport_index; // 
   FIT_UINT8 total_anaerobic_training_effect; // 
+  FIT_SINT8 min_temperature; // 
 } FIT_SESSION_MESG;
 
 typedef struct {
@@ -553,6 +557,7 @@ typedef struct {
   FIT_UINT8 avg_fractional_cadence; // 
   FIT_UINT8 max_fractional_cadence; // 
   FIT_UINT8 total_fractional_cycles; // 
+  FIT_SINT8 min_temperature; // 
 } FIT_LAP_MESG;
 
 typedef struct {

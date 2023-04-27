@@ -573,14 +573,14 @@ typedef struct {
   FIT_UINT8 arch;
   FIT_UINT16 global_mesg_num;
   FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 91];
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 92];
 } FIT_SESSION_MESG_DEF;
 
 static const FIT_SESSION_MESG_DEF session_mesg_def = {
   0, // reserved_1
   FIT_ARCH_ENDIAN, // arch,
   /* session */18, // mesg_num,
-  91,
+  92,
   {
     /* timestamp */253,                       (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
     /* start_time */2,                        (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
@@ -673,6 +673,7 @@ static const FIT_SESSION_MESG_DEF session_mesg_def = {
     /* total_fractional_cycles */94,          (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
     /* sport_index */111,                     (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
     /* total_anaerobic_training_effect */137, (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
+    /* min_temperature */150,                 (sizeof(FIT_SINT8)*1),  FIT_BASE_TYPE_SINT8,   
   }
 };
 typedef struct {
@@ -680,14 +681,14 @@ typedef struct {
   FIT_UINT8 arch;
   FIT_UINT16 global_mesg_num;
   FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 83];
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 84];
 } FIT_LAP_MESG_DEF;
 
 static const FIT_LAP_MESG_DEF lap_mesg_def = {
   0, // reserved_1
   FIT_ARCH_ENDIAN, // arch,
   /* lap */19, // mesg_num,
-  83,
+  84,
   {
     /* timestamp */253,                       (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
     /* start_time */2,                        (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
@@ -772,6 +773,7 @@ static const FIT_LAP_MESG_DEF lap_mesg_def = {
     /* avg_fractional_cadence */80,           (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
     /* max_fractional_cadence */81,           (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
     /* total_fractional_cycles */82,          (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
+    /* min_temperature */124,                 (sizeof(FIT_SINT8)*1),  FIT_BASE_TYPE_SINT8,   
   }
 };
 typedef struct {

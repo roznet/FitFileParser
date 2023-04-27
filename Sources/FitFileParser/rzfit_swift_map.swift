@@ -3,7 +3,7 @@
 import FitFileParserObjc
 
 extension FitFile {
-  public static let sdkVersion = "21.101"
+  public static let sdkVersion = "21.105"
 }
 
 //MARK: - Module Entry Point Functions
@@ -491,6 +491,7 @@ func rzfit_swift_known_units( ) -> [String] {
   "kcal / min",
   "percent",
   "kg/m^3",
+  "mps",
   "semicircles",
   "cycles",
   "strides",
@@ -507,6 +508,7 @@ func rzfit_swift_known_units( ) -> [String] {
   "counts",
   "g/dL",
   "degrees",
+  "OTUs",
   "Breaths/min",
   "kGrit",
   "Flow",
@@ -515,6 +517,8 @@ func rzfit_swift_known_units( ) -> [String] {
   "Pa",
   "km",
   "depends on sensor",
+  "bar/min",
+  "L/min",
   "V",
   "calories",
   "deg/s",
@@ -534,7 +538,8 @@ func rzfit_swift_known_units( ) -> [String] {
   "100 * m",
   "2 * cycles (steps)",
   "min",
-  "OTUs",
+  "bar",
+  "L",
   ]
 }
 
@@ -606,8 +611,20 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "po2_deco": return "percent"
    case "repeat_dive_interval": return "s"
    case "safety_stop_time": return "s"
+   case "ccr_low_setpoint": return "percent"
+   case "ccr_low_setpoint_depth": return "m"
+   case "ccr_high_setpoint": return "percent"
+   case "ccr_high_setpoint_depth": return "m"
    case "depth": return "m"
    case "time": return "s"
+    case "speed": 
+        switch mesg_num {
+      case 262: return "mps" // dive_alarm
+      case 393: return "mps" // dive_apnea_alarm
+      case 20: return "m/s" // record
+      case 285: return "m/s" // jump
+      default: return nil
+     }
    case "helium_content": return "percent"
    case "oxygen_content": return "percent"
    case "total_timer_time": return "s"
@@ -709,6 +726,15 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "avg_stance_time_balance": return "percent"
    case "avg_step_length": return "mm"
    case "avg_vam": return "m/s"
+   case "avg_depth": return "m"
+   case "max_depth": return "m"
+   case "surface_interval": return "s"
+   case "start_cns": return "percent"
+   case "end_cns": return "percent"
+   case "start_n2": return "percent"
+   case "end_n2": return "percent"
+   case "min_temperature": return "C"
+   case "o2_toxicity": return "OTUs"
    case "enhanced_avg_respiration_rate": return "Breaths/min"
    case "enhanced_max_respiration_rate": return "Breaths/min"
    case "total_grit": return "kGrit"
@@ -729,7 +755,6 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "heart_rate": return "bpm"
    case "cadence": return "rpm"
    case "distance": return "m"
-   case "speed": return "m/s"
    case "power": return "watts"
    case "compressed_speed_distance": return "m/s,m"
    case "grade": return "%"
@@ -785,6 +810,12 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "ebike_battery_level": return "percent"
    case "ebike_assist_mode": return "depends on sensor"
    case "ebike_assist_level_percent": return "percent"
+   case "air_time_remaining": return "s"
+   case "pressure_sac": return "bar/min"
+   case "volume_sac": return "L/min"
+   case "rmv": return "L/min"
+   case "ascent_rate": return "m/s"
+   case "po2": return "percent"
    case "core_temperature": return "C"
     case "battery_level": 
         switch mesg_num {
@@ -935,19 +966,20 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "event_timestamp": return "s"
    case "event_timestamp_12": return "s"
    case "stress_level_time": return "s"
-   case "avg_depth": return "m"
-   case "max_depth": return "m"
-   case "surface_interval": return "s"
-   case "start_cns": return "percent"
-   case "end_cns": return "percent"
-   case "start_n2": return "percent"
-   case "end_n2": return "percent"
-   case "o2_toxicity": return "OTUs"
    case "bottom_time": return "s"
+   case "avg_pressure_sac": return "bar/min"
+   case "avg_volume_sac": return "L/min"
+   case "avg_rmv": return "L/min"
+   case "descent_time": return "s"
+   case "ascent_time": return "s"
    case "avg_ascent_rate": return "m/s"
    case "avg_descent_rate": return "m/s"
    case "max_ascent_rate": return "m/s"
    case "max_descent_rate": return "m/s"
+   case "pressure": return "bar"
+   case "start_pressure": return "bar"
+   case "end_pressure": return "bar"
+   case "volume_used": return "L"
     default: return nil
    }
 }
@@ -1048,77 +1080,83 @@ func rzfit_swift_string_for_type(fit_type : FIT_UINT8, val : FIT_UINT32 ) -> Str
      case 93: return rzfit_swift_string_from_source_type( FIT_ENUM(val) )
      case 94: return rzfit_swift_string_from_local_device_type( FIT_UINT8(val) )
      case 95: return rzfit_swift_string_from_ble_device_type( FIT_UINT8(val) )
-     case 96: return rzfit_swift_string_from_display_orientation( FIT_ENUM(val) )
-     case 97: return rzfit_swift_string_from_workout_equipment( FIT_ENUM(val) )
-     case 98: return rzfit_swift_string_from_watchface_mode( FIT_ENUM(val) )
-     case 99: return rzfit_swift_string_from_digital_watchface_layout( FIT_ENUM(val) )
-     case 100: return rzfit_swift_string_from_analog_watchface_layout( FIT_ENUM(val) )
-     case 101: return rzfit_swift_string_from_rider_position_type( FIT_ENUM(val) )
-     case 102: return rzfit_swift_string_from_power_phase_type( FIT_ENUM(val) )
-     case 103: return rzfit_swift_string_from_camera_event_type( FIT_ENUM(val) )
-     case 104: return rzfit_swift_string_from_sensor_type( FIT_ENUM(val) )
-     case 105: return rzfit_swift_string_from_bike_light_network_config_type( FIT_ENUM(val) )
-     case 106: return rzfit_swift_string_from_comm_timeout_type( FIT_UINT16(val) )
-     case 107: return rzfit_swift_string_from_camera_orientation_type( FIT_ENUM(val) )
-     case 108: return rzfit_swift_string_from_attitude_stage( FIT_ENUM(val) )
-     case 109: return rzfit_swift_string_from_attitude_validity( FIT_UINT16(val) )
-     case 110: return rzfit_swift_string_from_auto_sync_frequency( FIT_ENUM(val) )
-     case 111: return rzfit_swift_string_from_exd_layout( FIT_ENUM(val) )
-     case 112: return rzfit_swift_string_from_exd_display_type( FIT_ENUM(val) )
-     case 113: return rzfit_swift_string_from_exd_data_units( FIT_ENUM(val) )
-     case 114: return rzfit_swift_string_from_exd_qualifiers( FIT_ENUM(val) )
-     case 115: return rzfit_swift_string_from_exd_descriptors( FIT_ENUM(val) )
-     case 116: return rzfit_swift_string_from_auto_activity_detect( FIT_UINT32(val) )
-     case 117: return rzfit_swift_string_from_supported_exd_screen_layouts( FIT_UINT32Z(val) )
-     case 118: return rzfit_swift_string_from_fit_base_type( FIT_UINT8(val) )
-     case 119: return rzfit_swift_string_from_turn_type( FIT_ENUM(val) )
-     case 120: return rzfit_swift_string_from_bike_light_beam_angle_mode( FIT_UINT8(val) )
-     case 121: return rzfit_swift_string_from_fit_base_unit( FIT_UINT16(val) )
-     case 122: return rzfit_swift_string_from_set_type( FIT_UINT8(val) )
-     case 123: return rzfit_swift_string_from_exercise_category( FIT_UINT16(val) )
-     case 124: return rzfit_swift_string_from_bench_press_exercise_name( FIT_UINT16(val) )
-     case 125: return rzfit_swift_string_from_calf_raise_exercise_name( FIT_UINT16(val) )
-     case 126: return rzfit_swift_string_from_cardio_exercise_name( FIT_UINT16(val) )
-     case 127: return rzfit_swift_string_from_carry_exercise_name( FIT_UINT16(val) )
-     case 128: return rzfit_swift_string_from_chop_exercise_name( FIT_UINT16(val) )
-     case 129: return rzfit_swift_string_from_core_exercise_name( FIT_UINT16(val) )
-     case 130: return rzfit_swift_string_from_crunch_exercise_name( FIT_UINT16(val) )
-     case 131: return rzfit_swift_string_from_curl_exercise_name( FIT_UINT16(val) )
-     case 132: return rzfit_swift_string_from_deadlift_exercise_name( FIT_UINT16(val) )
-     case 133: return rzfit_swift_string_from_flye_exercise_name( FIT_UINT16(val) )
-     case 134: return rzfit_swift_string_from_hip_raise_exercise_name( FIT_UINT16(val) )
-     case 135: return rzfit_swift_string_from_hip_stability_exercise_name( FIT_UINT16(val) )
-     case 136: return rzfit_swift_string_from_hip_swing_exercise_name( FIT_UINT16(val) )
-     case 137: return rzfit_swift_string_from_hyperextension_exercise_name( FIT_UINT16(val) )
-     case 138: return rzfit_swift_string_from_lateral_raise_exercise_name( FIT_UINT16(val) )
-     case 139: return rzfit_swift_string_from_leg_curl_exercise_name( FIT_UINT16(val) )
-     case 140: return rzfit_swift_string_from_leg_raise_exercise_name( FIT_UINT16(val) )
-     case 141: return rzfit_swift_string_from_lunge_exercise_name( FIT_UINT16(val) )
-     case 142: return rzfit_swift_string_from_olympic_lift_exercise_name( FIT_UINT16(val) )
-     case 143: return rzfit_swift_string_from_plank_exercise_name( FIT_UINT16(val) )
-     case 144: return rzfit_swift_string_from_plyo_exercise_name( FIT_UINT16(val) )
-     case 145: return rzfit_swift_string_from_pull_up_exercise_name( FIT_UINT16(val) )
-     case 146: return rzfit_swift_string_from_push_up_exercise_name( FIT_UINT16(val) )
-     case 147: return rzfit_swift_string_from_row_exercise_name( FIT_UINT16(val) )
-     case 148: return rzfit_swift_string_from_shoulder_press_exercise_name( FIT_UINT16(val) )
-     case 149: return rzfit_swift_string_from_shoulder_stability_exercise_name( FIT_UINT16(val) )
-     case 150: return rzfit_swift_string_from_shrug_exercise_name( FIT_UINT16(val) )
-     case 151: return rzfit_swift_string_from_sit_up_exercise_name( FIT_UINT16(val) )
-     case 152: return rzfit_swift_string_from_squat_exercise_name( FIT_UINT16(val) )
-     case 153: return rzfit_swift_string_from_total_body_exercise_name( FIT_UINT16(val) )
-     case 154: return rzfit_swift_string_from_triceps_extension_exercise_name( FIT_UINT16(val) )
-     case 155: return rzfit_swift_string_from_warm_up_exercise_name( FIT_UINT16(val) )
-     case 156: return rzfit_swift_string_from_run_exercise_name( FIT_UINT16(val) )
-     case 157: return rzfit_swift_string_from_water_type( FIT_ENUM(val) )
-     case 158: return rzfit_swift_string_from_tissue_model_type( FIT_ENUM(val) )
-     case 159: return rzfit_swift_string_from_dive_gas_status( FIT_ENUM(val) )
-     case 160: return rzfit_swift_string_from_dive_alarm_type( FIT_ENUM(val) )
-     case 161: return rzfit_swift_string_from_dive_backlight_mode( FIT_ENUM(val) )
-     case 162: return rzfit_swift_string_from_favero_product( FIT_UINT16(val) )
-     case 163: return rzfit_swift_string_from_split_type( FIT_ENUM(val) )
-     case 164: return rzfit_swift_string_from_climb_pro_event( FIT_ENUM(val) )
-     case 165: return rzfit_swift_string_from_tap_sensitivity( FIT_ENUM(val) )
-     case 166: return rzfit_swift_string_from_radar_threat_level_type( FIT_ENUM(val) )
+     case 96: return rzfit_swift_string_from_ant_channel_id( FIT_UINT32Z(val) )
+     case 97: return rzfit_swift_string_from_display_orientation( FIT_ENUM(val) )
+     case 98: return rzfit_swift_string_from_workout_equipment( FIT_ENUM(val) )
+     case 99: return rzfit_swift_string_from_watchface_mode( FIT_ENUM(val) )
+     case 100: return rzfit_swift_string_from_digital_watchface_layout( FIT_ENUM(val) )
+     case 101: return rzfit_swift_string_from_analog_watchface_layout( FIT_ENUM(val) )
+     case 102: return rzfit_swift_string_from_rider_position_type( FIT_ENUM(val) )
+     case 103: return rzfit_swift_string_from_power_phase_type( FIT_ENUM(val) )
+     case 104: return rzfit_swift_string_from_camera_event_type( FIT_ENUM(val) )
+     case 105: return rzfit_swift_string_from_sensor_type( FIT_ENUM(val) )
+     case 106: return rzfit_swift_string_from_bike_light_network_config_type( FIT_ENUM(val) )
+     case 107: return rzfit_swift_string_from_comm_timeout_type( FIT_UINT16(val) )
+     case 108: return rzfit_swift_string_from_camera_orientation_type( FIT_ENUM(val) )
+     case 109: return rzfit_swift_string_from_attitude_stage( FIT_ENUM(val) )
+     case 110: return rzfit_swift_string_from_attitude_validity( FIT_UINT16(val) )
+     case 111: return rzfit_swift_string_from_auto_sync_frequency( FIT_ENUM(val) )
+     case 112: return rzfit_swift_string_from_exd_layout( FIT_ENUM(val) )
+     case 113: return rzfit_swift_string_from_exd_display_type( FIT_ENUM(val) )
+     case 114: return rzfit_swift_string_from_exd_data_units( FIT_ENUM(val) )
+     case 115: return rzfit_swift_string_from_exd_qualifiers( FIT_ENUM(val) )
+     case 116: return rzfit_swift_string_from_exd_descriptors( FIT_ENUM(val) )
+     case 117: return rzfit_swift_string_from_auto_activity_detect( FIT_UINT32(val) )
+     case 118: return rzfit_swift_string_from_supported_exd_screen_layouts( FIT_UINT32Z(val) )
+     case 119: return rzfit_swift_string_from_fit_base_type( FIT_UINT8(val) )
+     case 120: return rzfit_swift_string_from_turn_type( FIT_ENUM(val) )
+     case 121: return rzfit_swift_string_from_bike_light_beam_angle_mode( FIT_UINT8(val) )
+     case 122: return rzfit_swift_string_from_fit_base_unit( FIT_UINT16(val) )
+     case 123: return rzfit_swift_string_from_set_type( FIT_UINT8(val) )
+     case 124: return rzfit_swift_string_from_exercise_category( FIT_UINT16(val) )
+     case 125: return rzfit_swift_string_from_bench_press_exercise_name( FIT_UINT16(val) )
+     case 126: return rzfit_swift_string_from_calf_raise_exercise_name( FIT_UINT16(val) )
+     case 127: return rzfit_swift_string_from_cardio_exercise_name( FIT_UINT16(val) )
+     case 128: return rzfit_swift_string_from_carry_exercise_name( FIT_UINT16(val) )
+     case 129: return rzfit_swift_string_from_chop_exercise_name( FIT_UINT16(val) )
+     case 130: return rzfit_swift_string_from_core_exercise_name( FIT_UINT16(val) )
+     case 131: return rzfit_swift_string_from_crunch_exercise_name( FIT_UINT16(val) )
+     case 132: return rzfit_swift_string_from_curl_exercise_name( FIT_UINT16(val) )
+     case 133: return rzfit_swift_string_from_deadlift_exercise_name( FIT_UINT16(val) )
+     case 134: return rzfit_swift_string_from_flye_exercise_name( FIT_UINT16(val) )
+     case 135: return rzfit_swift_string_from_hip_raise_exercise_name( FIT_UINT16(val) )
+     case 136: return rzfit_swift_string_from_hip_stability_exercise_name( FIT_UINT16(val) )
+     case 137: return rzfit_swift_string_from_hip_swing_exercise_name( FIT_UINT16(val) )
+     case 138: return rzfit_swift_string_from_hyperextension_exercise_name( FIT_UINT16(val) )
+     case 139: return rzfit_swift_string_from_lateral_raise_exercise_name( FIT_UINT16(val) )
+     case 140: return rzfit_swift_string_from_leg_curl_exercise_name( FIT_UINT16(val) )
+     case 141: return rzfit_swift_string_from_leg_raise_exercise_name( FIT_UINT16(val) )
+     case 142: return rzfit_swift_string_from_lunge_exercise_name( FIT_UINT16(val) )
+     case 143: return rzfit_swift_string_from_olympic_lift_exercise_name( FIT_UINT16(val) )
+     case 144: return rzfit_swift_string_from_plank_exercise_name( FIT_UINT16(val) )
+     case 145: return rzfit_swift_string_from_plyo_exercise_name( FIT_UINT16(val) )
+     case 146: return rzfit_swift_string_from_pull_up_exercise_name( FIT_UINT16(val) )
+     case 147: return rzfit_swift_string_from_push_up_exercise_name( FIT_UINT16(val) )
+     case 148: return rzfit_swift_string_from_row_exercise_name( FIT_UINT16(val) )
+     case 149: return rzfit_swift_string_from_shoulder_press_exercise_name( FIT_UINT16(val) )
+     case 150: return rzfit_swift_string_from_shoulder_stability_exercise_name( FIT_UINT16(val) )
+     case 151: return rzfit_swift_string_from_shrug_exercise_name( FIT_UINT16(val) )
+     case 152: return rzfit_swift_string_from_sit_up_exercise_name( FIT_UINT16(val) )
+     case 153: return rzfit_swift_string_from_squat_exercise_name( FIT_UINT16(val) )
+     case 154: return rzfit_swift_string_from_total_body_exercise_name( FIT_UINT16(val) )
+     case 155: return rzfit_swift_string_from_triceps_extension_exercise_name( FIT_UINT16(val) )
+     case 156: return rzfit_swift_string_from_warm_up_exercise_name( FIT_UINT16(val) )
+     case 157: return rzfit_swift_string_from_run_exercise_name( FIT_UINT16(val) )
+     case 158: return rzfit_swift_string_from_water_type( FIT_ENUM(val) )
+     case 159: return rzfit_swift_string_from_tissue_model_type( FIT_ENUM(val) )
+     case 160: return rzfit_swift_string_from_dive_gas_status( FIT_ENUM(val) )
+     case 161: return rzfit_swift_string_from_dive_alert( FIT_ENUM(val) )
+     case 162: return rzfit_swift_string_from_dive_alarm_type( FIT_ENUM(val) )
+     case 163: return rzfit_swift_string_from_dive_backlight_mode( FIT_ENUM(val) )
+     case 164: return rzfit_swift_string_from_ccr_setpoint_switch_mode( FIT_ENUM(val) )
+     case 165: return rzfit_swift_string_from_dive_gas_mode( FIT_ENUM(val) )
+     case 166: return rzfit_swift_string_from_favero_product( FIT_UINT16(val) )
+     case 167: return rzfit_swift_string_from_split_type( FIT_ENUM(val) )
+     case 168: return rzfit_swift_string_from_climb_pro_event( FIT_ENUM(val) )
+     case 169: return rzfit_swift_string_from_gas_consumption_rate_type( FIT_ENUM(val) )
+     case 170: return rzfit_swift_string_from_tap_sensitivity( FIT_ENUM(val) )
+     case 171: return rzfit_swift_string_from_radar_threat_level_type( FIT_ENUM(val) )
+     case 172: return rzfit_swift_string_from_no_fly_time_mode( FIT_ENUM(val) )
     default: return "fit_type_\(fit_type)_\(val)"
   }
 }
@@ -1215,7 +1253,10 @@ public func rzfit_swift_string_to_mesg_num(_ input : String) -> FIT_UINT16
     case "jump": return 285;
     case "split": return 312;
     case "climb_pro": return 317;
+    case "tank_update": return 319;
+    case "tank_summary": return 323;
     case "device_aux_battery_info": return 375;
+    case "dive_apnea_alarm": return 393;
     case "mfg_range_min": return 0xFF00;
     case "mfg_range_max": return 0xFFFE;
    default: return FIT_UINT16_INVALID;
@@ -1315,7 +1356,10 @@ public func rzfit_swift_string_from_mesg_num(_ input : FIT_UINT16) -> String
     case 285: return "jump"
     case 312: return "split"
     case 317: return "climb_pro"
+    case 319: return "tank_update"
+    case 323: return "tank_summary"
     case 375: return "device_aux_battery_info"
+    case 393: return "dive_apnea_alarm"
     case 0xFF00: return "mfg_range_min"
     case 0xFFFE: return "mfg_range_max"
     default: return "mesg_num_\(input)"
@@ -1418,7 +1462,10 @@ public extension FitMessageType {
   static let jump : FitMessageType = 285
   static let split : FitMessageType = 312
   static let climb_pro : FitMessageType = 317
+  static let tank_update : FitMessageType = 319
+  static let tank_summary : FitMessageType = 323
   static let device_aux_battery_info : FitMessageType = 375
+  static let dive_apnea_alarm : FitMessageType = 393
   static let mfg_range_min : FitMessageType = 0xFF00
   static let mfg_range_max : FitMessageType = 0xFFFE
 }
@@ -1900,6 +1947,7 @@ fileprivate func rzfit_swift_string_from_sport(_ input : FIT_ENUM) -> String
     case 47: return "boxing"
     case 48: return "floor_climbing"
     case 53: return "diving"
+    case 62: return "hiit"
     case 64: return "racket"
     case 76: return "water_tubing"
     case 77: return "wakesurfing"
@@ -2074,6 +2122,10 @@ fileprivate func rzfit_swift_string_from_sub_sport(_ input : FIT_ENUM) -> String
     case 67: return "ultra"
     case 68: return "indoor_climbing"
     case 69: return "bouldering"
+    case 70: return "hiit"
+    case 73: return "amrap"
+    case 74: return "emom"
+    case 75: return "tabata"
     case 84: return "pickleball"
     case 85: return "padel"
     case 254: return "all"
@@ -2244,7 +2296,15 @@ fileprivate func rzfit_swift_string_from_event(_ input : FIT_ENUM) -> String
     case 45: return "elev_high_alert"
     case 46: return "elev_low_alert"
     case 47: return "comm_timeout"
+    case 56: return "dive_alert"
+    case 57: return "dive_gas_switched"
+    case 71: return "tank_pressure_reserve"
+    case 72: return "tank_pressure_critical"
+    case 73: return "tank_lost"
     case 75: return "radar_threat_alert"
+    case 76: return "tank_battery_low"
+    case 81: return "tank_pod_connected"
+    case 82: return "tank_pod_disconnected"
     default: return "event_\(input)"
   }
 }
@@ -2901,6 +2961,7 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 2477: return "fenix3_hr_kor"
     case 2496: return "nautix"
     case 2497: return "vivo_active_hr_apac"
+    case 2503: return "fr35"
     case 2512: return "oregon7xx_ww"
     case 2530: return "edge_820"
     case 2531: return "edge_explore_820"
@@ -3079,6 +3140,7 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 3950: return "venu2_asia"
     case 3978: return "fr945_lte_asia"
     case 3982: return "vivo_move_sport"
+    case 3983: return "vivomove_trend"
     case 3986: return "approach_S12_asia"
     case 3990: return "fr255_music"
     case 3991: return "fr255_small_music"
@@ -3761,6 +3823,17 @@ fileprivate func rzfit_swift_string_from_ble_device_type(_ input : FIT_UINT8) ->
     case 6: return "footpod"
     case 7: return "bike_trainer"
     default: return "ble_device_type_\(input)"
+  }
+}
+
+fileprivate func rzfit_swift_string_from_ant_channel_id(_ input : FIT_UINT32Z) -> String
+{
+   switch input {
+    case 0xF0000000: return "ant_extended_device_number_upper_nibble"
+    case 0x0F000000: return "ant_transmission_type_lower_nibble"
+    case 0x00FF0000: return "ant_device_type"
+    case 0x0000FFFF: return "ant_device_number"
+    default: return "ant_channel_id_\(input)"
   }
 }
 
@@ -5861,11 +5934,58 @@ fileprivate func rzfit_swift_string_from_dive_gas_status(_ input : FIT_ENUM) -> 
   }
 }
 
+fileprivate func rzfit_swift_string_from_dive_alert(_ input : FIT_ENUM) -> String
+{
+   switch input {
+    case 0: return "ndl_reached"
+    case 1: return "gas_switch_prompted"
+    case 2: return "near_surface"
+    case 3: return "approaching_ndl"
+    case 4: return "po2_warn"
+    case 5: return "po2_crit_high"
+    case 6: return "po2_crit_low"
+    case 7: return "time_alert"
+    case 8: return "depth_alert"
+    case 9: return "deco_ceiling_broken"
+    case 10: return "deco_complete"
+    case 11: return "safety_stop_broken"
+    case 12: return "safety_stop_complete"
+    case 13: return "cns_warning"
+    case 14: return "cns_critical"
+    case 15: return "otu_warning"
+    case 16: return "otu_critical"
+    case 17: return "ascent_critical"
+    case 18: return "alert_dismissed_by_key"
+    case 19: return "alert_dismissed_by_timeout"
+    case 20: return "battery_low"
+    case 21: return "battery_critical"
+    case 22: return "safety_stop_started"
+    case 23: return "approaching_first_deco_stop"
+    case 24: return "setpoint_switch_auto_low"
+    case 25: return "setpoint_switch_auto_high"
+    case 26: return "setpoint_switch_manual_low"
+    case 27: return "setpoint_switch_manual_high"
+    case 28: return "auto_setpoint_switch_ignored"
+    case 29: return "switched_to_open_circuit"
+    case 30: return "switched_to_closed_circuit"
+    case 32: return "tank_battery_low"
+    case 33: return "po2_ccr_dil_low"
+    case 34: return "deco_stop_cleared"
+    case 35: return "apnea_neutral_buoyancy"
+    case 36: return "apnea_target_depth"
+    case 37: return "apnea_surface"
+    case 38: return "apnea_high_speed"
+    case 39: return "apnea_low_speed"
+    default: return "dive_alert_\(input)"
+  }
+}
+
 fileprivate func rzfit_swift_string_from_dive_alarm_type(_ input : FIT_ENUM) -> String
 {
    switch input {
     case 0: return "depth"
     case 1: return "time"
+    case 2: return "speed"
     default: return "dive_alarm_type_\(input)"
   }
 }
@@ -5876,6 +5996,24 @@ fileprivate func rzfit_swift_string_from_dive_backlight_mode(_ input : FIT_ENUM)
     case 0: return "at_depth"
     case 1: return "always_on"
     default: return "dive_backlight_mode_\(input)"
+  }
+}
+
+fileprivate func rzfit_swift_string_from_ccr_setpoint_switch_mode(_ input : FIT_ENUM) -> String
+{
+   switch input {
+    case 0: return "manual"
+    case 1: return "automatic"
+    default: return "ccr_setpoint_switch_mode_\(input)"
+  }
+}
+
+fileprivate func rzfit_swift_string_from_dive_gas_mode(_ input : FIT_ENUM) -> String
+{
+   switch input {
+    case 0: return "open_circuit"
+    case 1: return "closed_circuit_diluent"
+    default: return "dive_gas_mode_\(input)"
   }
 }
 
@@ -5926,6 +6064,16 @@ fileprivate func rzfit_swift_string_from_climb_pro_event(_ input : FIT_ENUM) -> 
   }
 }
 
+fileprivate func rzfit_swift_string_from_gas_consumption_rate_type(_ input : FIT_ENUM) -> String
+{
+   switch input {
+    case 0: return "pressure_sac"
+    case 1: return "volume_sac"
+    case 2: return "rmv"
+    default: return "gas_consumption_rate_type_\(input)"
+  }
+}
+
 fileprivate func rzfit_swift_string_from_tap_sensitivity(_ input : FIT_ENUM) -> String
 {
    switch input {
@@ -5944,6 +6092,15 @@ fileprivate func rzfit_swift_string_from_radar_threat_level_type(_ input : FIT_E
     case 2: return "threat_approaching"
     case 3: return "threat_approaching_fast"
     default: return "radar_threat_level_type_\(input)"
+  }
+}
+
+fileprivate func rzfit_swift_string_from_no_fly_time_mode(_ input : FIT_ENUM) -> String
+{
+   switch input {
+    case 0: return "standard"
+    case 1: return "flat_24_hours"
+    default: return "no_fly_time_mode_\(input)"
   }
 }
 
@@ -6317,6 +6474,7 @@ fileprivate func rzfit_swift_field_num_to_string_for_met_zone( field_num : FIT_U
 }
 fileprivate func rzfit_swift_field_num_to_string_for_dive_settings( field_num : FIT_UINT16 , strings : [String:String] ) -> String {
   switch field_num {
+    case 253: return "timestamp"
     case 254: return "message_index"
     case 0: return "name"
     case 1: return "model"
@@ -6346,6 +6504,18 @@ fileprivate func rzfit_swift_field_num_to_string_for_dive_settings( field_num : 
       }else{
         return "__INCOMPLETE__"
       }
+    case 21: return "travel_gas"
+    case 22: return "ccr_low_setpoint_switch_mode"
+    case 23: return "ccr_low_setpoint"
+    case 24: return "ccr_low_setpoint_depth"
+    case 25: return "ccr_high_setpoint_switch_mode"
+    case 26: return "ccr_high_setpoint"
+    case 27: return "ccr_high_setpoint_depth"
+    case 29: return "gas_consumption_display"
+    case 30: return "up_key_enabled"
+    case 35: return "dive_sounds"
+    case 36: return "last_stop_multiple"
+    case 37: return "no_fly_time_mode"
     default: return "dive_settings_field_num_\(field_num)"
   }
 }
@@ -6358,7 +6528,31 @@ fileprivate func rzfit_swift_field_num_to_string_for_dive_alarm( field_num : FIT
     case 3: return "alarm_type"
     case 4: return "sound"
     case 5: return "dive_types"
+    case 6: return "id"
+    case 7: return "popup_enabled"
+    case 8: return "trigger_on_descent"
+    case 9: return "trigger_on_ascent"
+    case 10: return "repeating"
+    case 11: return "speed"
     default: return "dive_alarm_field_num_\(field_num)"
+  }
+}
+fileprivate func rzfit_swift_field_num_to_string_for_dive_apnea_alarm( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "depth"
+    case 1: return "time"
+    case 2: return "enabled"
+    case 3: return "alarm_type"
+    case 4: return "sound"
+    case 5: return "dive_types"
+    case 6: return "id"
+    case 7: return "popup_enabled"
+    case 8: return "trigger_on_descent"
+    case 9: return "trigger_on_ascent"
+    case 10: return "repeating"
+    case 11: return "speed"
+    default: return "dive_apnea_alarm_field_num_\(field_num)"
   }
 }
 fileprivate func rzfit_swift_field_num_to_string_for_dive_gas( field_num : FIT_UINT16 ) -> String {
@@ -6367,6 +6561,7 @@ fileprivate func rzfit_swift_field_num_to_string_for_dive_gas( field_num : FIT_U
     case 0: return "helium_content"
     case 1: return "oxygen_content"
     case 2: return "status"
+    case 3: return "mode"
     default: return "dive_gas_field_num_\(field_num)"
   }
 }
@@ -6548,9 +6743,19 @@ fileprivate func rzfit_swift_field_num_to_string_for_session( field_num : FIT_UI
     case 134: return "avg_step_length"
     case 137: return "total_anaerobic_training_effect"
     case 139: return "avg_vam"
+    case 140: return "avg_depth"
+    case 141: return "max_depth"
+    case 142: return "surface_interval"
+    case 143: return "start_cns"
+    case 144: return "end_cns"
+    case 145: return "start_n2"
+    case 146: return "end_n2"
     case 147: return "avg_respiration_rate"
     case 148: return "max_respiration_rate"
     case 149: return "min_respiration_rate"
+    case 150: return "min_temperature"
+    case 155: return "o2_toxicity"
+    case 156: return "dive_number"
     case 168: return "training_load_peak"
     case 169: return "enhanced_avg_respiration_rate"
     case 170: return "enhanced_max_respiration_rate"
@@ -6701,6 +6906,9 @@ fileprivate func rzfit_swift_field_num_to_string_for_lap( field_num : FIT_UINT16
     case 119: return "avg_stance_time_balance"
     case 120: return "avg_step_length"
     case 121: return "avg_vam"
+    case 122: return "avg_depth"
+    case 123: return "max_depth"
+    case 124: return "min_temperature"
     case 136: return "enhanced_avg_respiration_rate"
     case 137: return "enhanced_max_respiration_rate"
     case 147: return "avg_respiration_rate"
@@ -6822,6 +7030,12 @@ fileprivate func rzfit_swift_field_num_to_string_for_record( field_num : FIT_UIN
     case 118: return "ebike_battery_level"
     case 119: return "ebike_assist_mode"
     case 120: return "ebike_assist_level_percent"
+    case 123: return "air_time_remaining"
+    case 124: return "pressure_sac"
+    case 125: return "volume_sac"
+    case 126: return "rmv"
+    case 127: return "ascent_rate"
+    case 129: return "po2"
     case 139: return "core_temperature"
     default: return "record_field_num_\(field_num)"
   }
@@ -6875,6 +7089,8 @@ fileprivate func rzfit_swift_field_num_to_string_for_event( field_num : FIT_UINT
         return "rider_position"
       }else if strings["event"] == "comm_timeout" {
         return "comm_timeout"
+      }else if strings["event"] == "dive_alert" {
+        return "dive_alert"
       }else if strings["event"] == "radar_threat_alert" {
         return "radar_threat_alert"
       }else{
@@ -7888,6 +8104,11 @@ fileprivate func rzfit_swift_field_num_to_string_for_dive_summary( field_num : F
     case 9: return "o2_toxicity"
     case 10: return "dive_number"
     case 11: return "bottom_time"
+    case 12: return "avg_pressure_sac"
+    case 13: return "avg_volume_sac"
+    case 14: return "avg_rmv"
+    case 15: return "descent_time"
+    case 16: return "ascent_time"
     case 17: return "avg_ascent_rate"
     case 22: return "avg_descent_rate"
     case 23: return "max_ascent_rate"
@@ -7900,6 +8121,24 @@ fileprivate func rzfit_swift_field_num_to_string_for_hrv( field_num : FIT_UINT16
   switch field_num {
     case 0: return "time"
     default: return "hrv_field_num_\(field_num)"
+  }
+}
+fileprivate func rzfit_swift_field_num_to_string_for_tank_update( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "sensor"
+    case 1: return "pressure"
+    default: return "tank_update_field_num_\(field_num)"
+  }
+}
+fileprivate func rzfit_swift_field_num_to_string_for_tank_summary( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "sensor"
+    case 1: return "start_pressure"
+    case 2: return "end_pressure"
+    case 3: return "volume_used"
+    default: return "tank_summary_field_num_\(field_num)"
   }
 }
 func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UINT16, strings : [String:String]) -> String {
@@ -7993,7 +8232,10 @@ func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UIN
     case 285: return rzfit_swift_field_num_to_string_for_jump(field_num: field_num)
     case 312: return rzfit_swift_field_num_to_string_for_split(field_num: field_num)
     case 317: return rzfit_swift_field_num_to_string_for_climb_pro(field_num: field_num)
+    case 319: return rzfit_swift_field_num_to_string_for_tank_update(field_num: field_num)
+    case 323: return rzfit_swift_field_num_to_string_for_tank_summary(field_num: field_num)
     case 375: return rzfit_swift_field_num_to_string_for_device_aux_battery_info(field_num: field_num)
+    case 393: return rzfit_swift_field_num_to_string_for_dive_apnea_alarm(field_num: field_num)
     default: return "mesg_num_\(mesg_num)_field_num_\(field_num)"
    }
 }
@@ -9452,6 +9694,10 @@ fileprivate func rzfit_swift_value_dict_for_session( ptr : UnsafePointer<FIT_SES
     let val : Double = (Double(x.total_anaerobic_training_effect)/Double(10))
     rv[ "total_anaerobic_training_effect" ] = val
   }
+  if x.min_temperature != FIT_SINT8_INVALID  {
+    let val : Double = Double(x.min_temperature)
+    rv[ "min_temperature" ] = val
+  }
   return rv
 }
 fileprivate func rzfit_swift_string_dict_for_session( ptr : UnsafePointer<FIT_SESSION_MESG>) -> [String:String] {
@@ -9843,6 +10089,10 @@ fileprivate func rzfit_swift_value_dict_for_lap( ptr : UnsafePointer<FIT_LAP_MES
   if x.total_fractional_cycles != FIT_UINT8_INVALID  {
     let val : Double = (Double(x.total_fractional_cycles)/Double(128))
     rv[ "total_fractional_cycles" ] = val
+  }
+  if x.min_temperature != FIT_SINT8_INVALID  {
+    let val : Double = Double(x.min_temperature)
+    rv[ "min_temperature" ] = val
   }
   return rv
 }
@@ -10280,7 +10530,8 @@ fileprivate func rzfit_swift_value_dict_for_event( ptr : UnsafePointer<FIT_EVENT
                x.event != 10 /* course_point */ &&
                x.event != 27 /* fitness_equipment */ &&
                x.event != 44 /* rider_position_change */ &&
-               x.event != 47 /* comm_timeout */ {
+               x.event != 47 /* comm_timeout */ &&
+               x.event != 56 /* dive_alert */ {
         let val : Double = Double(x.data)
         rv[ "data" ] = val
       }
@@ -10337,6 +10588,8 @@ fileprivate func rzfit_swift_string_dict_for_event( ptr : UnsafePointer<FIT_EVEN
         rv[ "rider_position" ] = rzfit_swift_string_from_rider_position_type(FIT_ENUM(truncatingIfNeeded: x.data))
       }else if x.event == 47 { // comm_timeout
         rv[ "comm_timeout" ] = rzfit_swift_string_from_comm_timeout_type(FIT_UINT16(truncatingIfNeeded: x.data))
+      }else if x.event == 56 { // dive_alert
+        rv[ "dive_alert" ] = rzfit_swift_string_from_dive_alert(FIT_ENUM(truncatingIfNeeded: x.data))
     }
   }
   if( x.event != FIT_ENUM_INVALID ) {
