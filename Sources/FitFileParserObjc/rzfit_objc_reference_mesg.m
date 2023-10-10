@@ -573,107 +573,110 @@ typedef struct {
   FIT_UINT8 arch;
   FIT_UINT16 global_mesg_num;
   FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 92];
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 95];
 } FIT_SESSION_MESG_DEF;
 
 static const FIT_SESSION_MESG_DEF session_mesg_def = {
   0, // reserved_1
   FIT_ARCH_ENDIAN, // arch,
   /* session */18, // mesg_num,
-  92,
+  95,
   {
-    /* timestamp */253,                       (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* start_time */2,                        (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* start_position_lat */3,                (sizeof(FIT_SINT32)*1), FIT_BASE_TYPE_SINT32,  
-    /* start_position_long */4,               (sizeof(FIT_SINT32)*1), FIT_BASE_TYPE_SINT32,  
-    /* total_elapsed_time */7,                (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* total_timer_time */8,                  (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* total_distance */9,                    (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* total_cycles */10,                     (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* nec_lat */29,                          (sizeof(FIT_SINT32)*1), FIT_BASE_TYPE_SINT32,  
-    /* nec_long */30,                         (sizeof(FIT_SINT32)*1), FIT_BASE_TYPE_SINT32,  
-    /* swc_lat */31,                          (sizeof(FIT_SINT32)*1), FIT_BASE_TYPE_SINT32,  
-    /* swc_long */32,                         (sizeof(FIT_SINT32)*1), FIT_BASE_TYPE_SINT32,  
-    /* avg_stroke_count */41,                 (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* total_work */48,                       (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* total_moving_time */59,                (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* time_in_hr_zone */65,                  (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* time_in_speed_zone */66,               (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* time_in_cadence_zone */67,             (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* time_in_power_zone */68,               (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* avg_lap_time */69,                     (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* enhanced_avg_speed */124,              (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* enhanced_max_speed */125,              (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* enhanced_avg_altitude */126,           (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* enhanced_min_altitude */127,           (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* enhanced_max_altitude */128,           (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
-    /* message_index */254,                   (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* total_calories */11,                   (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* total_fat_calories */13,               (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_speed */14,                        (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* max_speed */15,                        (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_power */20,                        (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* max_power */21,                        (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* total_ascent */22,                     (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* total_descent */23,                    (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* first_lap_index */25,                  (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* num_laps */26,                         (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* num_lengths */33,                      (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* normalized_power */34,                 (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* training_stress_score */35,            (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* intensity_factor */36,                 (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* left_right_balance */37,               (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_stroke_distance */42,              (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* pool_length */44,                      (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* threshold_power */45,                  (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* num_active_lengths */47,               (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_altitude */49,                     (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* max_altitude */50,                     (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_grade */52,                        (sizeof(FIT_SINT16)*1), FIT_BASE_TYPE_SINT16,  
-    /* avg_pos_grade */53,                    (sizeof(FIT_SINT16)*1), FIT_BASE_TYPE_SINT16,  
-    /* avg_neg_grade */54,                    (sizeof(FIT_SINT16)*1), FIT_BASE_TYPE_SINT16,  
-    /* max_pos_grade */55,                    (sizeof(FIT_SINT16)*1), FIT_BASE_TYPE_SINT16,  
-    /* max_neg_grade */56,                    (sizeof(FIT_SINT16)*1), FIT_BASE_TYPE_SINT16,  
-    /* avg_pos_vertical_speed */60,           (sizeof(FIT_SINT16)*1), FIT_BASE_TYPE_SINT16,  
-    /* avg_neg_vertical_speed */61,           (sizeof(FIT_SINT16)*1), FIT_BASE_TYPE_SINT16,  
-    /* max_pos_vertical_speed */62,           (sizeof(FIT_SINT16)*1), FIT_BASE_TYPE_SINT16,  
-    /* max_neg_vertical_speed */63,           (sizeof(FIT_SINT16)*1), FIT_BASE_TYPE_SINT16,  
-    /* best_lap_index */70,                   (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* min_altitude */71,                     (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* player_score */82,                     (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* opponent_score */83,                   (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* stroke_count */85,                     (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* zone_count */86,                       (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* max_ball_speed */87,                   (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_ball_speed */88,                   (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_vertical_oscillation */89,         (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_stance_time_percent */90,          (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_stance_time */91,                  (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* avg_vam */139,                         (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
-    /* event */0,                             (sizeof(FIT_ENUM)*1),   FIT_BASE_TYPE_ENUM,    
-    /* event_type */1,                        (sizeof(FIT_ENUM)*1),   FIT_BASE_TYPE_ENUM,    
-    /* sport */5,                             (sizeof(FIT_ENUM)*1),   FIT_BASE_TYPE_ENUM,    
-    /* sub_sport */6,                         (sizeof(FIT_ENUM)*1),   FIT_BASE_TYPE_ENUM,    
-    /* avg_heart_rate */16,                   (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* max_heart_rate */17,                   (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* avg_cadence */18,                      (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* max_cadence */19,                      (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* total_training_effect */24,            (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* event_group */27,                      (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* trigger */28,                          (sizeof(FIT_ENUM)*1),   FIT_BASE_TYPE_ENUM,    
-    /* swim_stroke */43,                      (sizeof(FIT_ENUM)*1),   FIT_BASE_TYPE_ENUM,    
-    /* pool_length_unit */46,                 (sizeof(FIT_ENUM)*1),   FIT_BASE_TYPE_ENUM,    
-    /* gps_accuracy */51,                     (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* avg_temperature */57,                  (sizeof(FIT_SINT8)*1),  FIT_BASE_TYPE_SINT8,   
-    /* max_temperature */58,                  (sizeof(FIT_SINT8)*1),  FIT_BASE_TYPE_SINT8,   
-    /* min_heart_rate */64,                   (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* opponent_name */84,                    (sizeof(FIT_STRING)*1), FIT_BASE_TYPE_STRING,  
-    /* avg_fractional_cadence */92,           (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* max_fractional_cadence */93,           (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* total_fractional_cycles */94,          (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* sport_index */111,                     (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* total_anaerobic_training_effect */137, (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
-    /* min_temperature */150,                 (sizeof(FIT_SINT8)*1),  FIT_BASE_TYPE_SINT8,   
+    /* timestamp */253,                       (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* start_time */2,                        (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* start_position_lat */3,                (sizeof(FIT_SINT32)*1),  FIT_BASE_TYPE_SINT32,   
+    /* start_position_long */4,               (sizeof(FIT_SINT32)*1),  FIT_BASE_TYPE_SINT32,   
+    /* total_elapsed_time */7,                (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* total_timer_time */8,                  (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* total_distance */9,                    (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* total_cycles */10,                     (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* nec_lat */29,                          (sizeof(FIT_SINT32)*1),  FIT_BASE_TYPE_SINT32,   
+    /* nec_long */30,                         (sizeof(FIT_SINT32)*1),  FIT_BASE_TYPE_SINT32,   
+    /* swc_lat */31,                          (sizeof(FIT_SINT32)*1),  FIT_BASE_TYPE_SINT32,   
+    /* swc_long */32,                         (sizeof(FIT_SINT32)*1),  FIT_BASE_TYPE_SINT32,   
+    /* end_position_lat */38,                 (sizeof(FIT_SINT32)*1),  FIT_BASE_TYPE_SINT32,   
+    /* end_position_long */39,                (sizeof(FIT_SINT32)*1),  FIT_BASE_TYPE_SINT32,   
+    /* avg_stroke_count */41,                 (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* total_work */48,                       (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* total_moving_time */59,                (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* time_in_hr_zone */65,                  (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* time_in_speed_zone */66,               (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* time_in_cadence_zone */67,             (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* time_in_power_zone */68,               (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* avg_lap_time */69,                     (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* sport_profile_name */110,              (sizeof(FIT_STRING)*16), FIT_BASE_TYPE_STRING,   
+    /* enhanced_avg_speed */124,              (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* enhanced_max_speed */125,              (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* enhanced_avg_altitude */126,           (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* enhanced_min_altitude */127,           (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* enhanced_max_altitude */128,           (sizeof(FIT_UINT32)*1),  FIT_BASE_TYPE_UINT32,   
+    /* message_index */254,                   (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* total_calories */11,                   (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* total_fat_calories */13,               (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_speed */14,                        (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* max_speed */15,                        (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_power */20,                        (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* max_power */21,                        (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* total_ascent */22,                     (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* total_descent */23,                    (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* first_lap_index */25,                  (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* num_laps */26,                         (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* num_lengths */33,                      (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* normalized_power */34,                 (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* training_stress_score */35,            (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* intensity_factor */36,                 (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* left_right_balance */37,               (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_stroke_distance */42,              (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* pool_length */44,                      (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* threshold_power */45,                  (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* num_active_lengths */47,               (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_altitude */49,                     (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* max_altitude */50,                     (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_grade */52,                        (sizeof(FIT_SINT16)*1),  FIT_BASE_TYPE_SINT16,   
+    /* avg_pos_grade */53,                    (sizeof(FIT_SINT16)*1),  FIT_BASE_TYPE_SINT16,   
+    /* avg_neg_grade */54,                    (sizeof(FIT_SINT16)*1),  FIT_BASE_TYPE_SINT16,   
+    /* max_pos_grade */55,                    (sizeof(FIT_SINT16)*1),  FIT_BASE_TYPE_SINT16,   
+    /* max_neg_grade */56,                    (sizeof(FIT_SINT16)*1),  FIT_BASE_TYPE_SINT16,   
+    /* avg_pos_vertical_speed */60,           (sizeof(FIT_SINT16)*1),  FIT_BASE_TYPE_SINT16,   
+    /* avg_neg_vertical_speed */61,           (sizeof(FIT_SINT16)*1),  FIT_BASE_TYPE_SINT16,   
+    /* max_pos_vertical_speed */62,           (sizeof(FIT_SINT16)*1),  FIT_BASE_TYPE_SINT16,   
+    /* max_neg_vertical_speed */63,           (sizeof(FIT_SINT16)*1),  FIT_BASE_TYPE_SINT16,   
+    /* best_lap_index */70,                   (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* min_altitude */71,                     (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* player_score */82,                     (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* opponent_score */83,                   (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* stroke_count */85,                     (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* zone_count */86,                       (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* max_ball_speed */87,                   (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_ball_speed */88,                   (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_vertical_oscillation */89,         (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_stance_time_percent */90,          (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_stance_time */91,                  (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* avg_vam */139,                         (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
+    /* event */0,                             (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* event_type */1,                        (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* sport */5,                             (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* sub_sport */6,                         (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* avg_heart_rate */16,                   (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* max_heart_rate */17,                   (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* avg_cadence */18,                      (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* max_cadence */19,                      (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* total_training_effect */24,            (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* event_group */27,                      (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* trigger */28,                          (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* swim_stroke */43,                      (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* pool_length_unit */46,                 (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
+    /* gps_accuracy */51,                     (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* avg_temperature */57,                  (sizeof(FIT_SINT8)*1),   FIT_BASE_TYPE_SINT8,    
+    /* max_temperature */58,                  (sizeof(FIT_SINT8)*1),   FIT_BASE_TYPE_SINT8,    
+    /* min_heart_rate */64,                   (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* opponent_name */84,                    (sizeof(FIT_STRING)*1),  FIT_BASE_TYPE_STRING,   
+    /* avg_fractional_cadence */92,           (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* max_fractional_cadence */93,           (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* total_fractional_cycles */94,          (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* sport_index */111,                     (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* total_anaerobic_training_effect */137, (sizeof(FIT_UINT8)*1),   FIT_BASE_TYPE_UINT8,    
+    /* min_temperature */150,                 (sizeof(FIT_SINT8)*1),   FIT_BASE_TYPE_SINT8,    
   }
 };
 typedef struct {
@@ -1414,17 +1417,18 @@ typedef struct {
   FIT_UINT8 arch;
   FIT_UINT16 global_mesg_num;
   FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  7];
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  8];
 } FIT_WORKOUT_MESG_DEF;
 
 static const FIT_WORKOUT_MESG_DEF workout_mesg_def = {
   0, // reserved_1
   FIT_ARCH_ENDIAN, // arch,
   /* workout */26, // mesg_num,
-  7,
+  8,
   {
     /* capabilities */5,      (sizeof(FIT_UINT32Z)*1), FIT_BASE_TYPE_UINT32Z,  
     /* wkt_name */8,          (sizeof(FIT_STRING)*16), FIT_BASE_TYPE_STRING,   
+    /* message_index */254,   (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
     /* num_valid_steps */6,   (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
     /* pool_length */14,      (sizeof(FIT_UINT16)*1),  FIT_BASE_TYPE_UINT16,   
     /* sport */4,             (sizeof(FIT_ENUM)*1),    FIT_BASE_TYPE_ENUM,     
@@ -1560,14 +1564,14 @@ typedef struct {
   FIT_UINT8 arch;
   FIT_UINT16 global_mesg_num;
   FIT_UINT8 num_fields;
-  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 13];
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE * 14];
 } FIT_WEIGHT_SCALE_MESG_DEF;
 
 static const FIT_WEIGHT_SCALE_MESG_DEF weight_scale_mesg_def = {
   0, // reserved_1
   FIT_ARCH_ENDIAN, // arch,
   /* weight_scale */30, // mesg_num,
-  13,
+  14,
   {
     /* timestamp */253,          (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
     /* weight */0,               (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
@@ -1579,6 +1583,7 @@ static const FIT_WEIGHT_SCALE_MESG_DEF weight_scale_mesg_def = {
     /* basal_met */7,            (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
     /* active_met */9,           (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
     /* user_profile_index */12,  (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
+    /* bmi */13,                 (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,  
     /* physique_rating */8,      (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
     /* metabolic_age */10,       (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
     /* visceral_fat_rating */11, (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
@@ -1655,6 +1660,25 @@ static const FIT_MONITORING_MESG_DEF monitoring_mesg_def = {
     /* device_index */0,     (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
     /* activity_type */5,    (sizeof(FIT_ENUM)*1),   FIT_BASE_TYPE_ENUM,    
     /* activity_subtype */6, (sizeof(FIT_ENUM)*1),   FIT_BASE_TYPE_ENUM,    
+  }
+};
+typedef struct {
+  FIT_UINT8 reserved_1;
+  FIT_UINT8 arch;
+  FIT_UINT16 global_mesg_num;
+  FIT_UINT8 num_fields;
+  FIT_UINT8 fields[FIT_FIELD_DEF_SIZE *  3];
+} FIT_MONITORING_HR_DATA_MESG_DEF;
+
+static const FIT_MONITORING_HR_DATA_MESG_DEF monitoring_hr_data_mesg_def = {
+  0, // reserved_1
+  FIT_ARCH_ENDIAN, // arch,
+  /* monitoring_hr_data */211, // mesg_num,
+  3,
+  {
+    /* timestamp */253,                    (sizeof(FIT_UINT32)*1), FIT_BASE_TYPE_UINT32,  
+    /* resting_heart_rate */0,             (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
+    /* current_day_resting_heart_rate */1, (sizeof(FIT_UINT8)*1),  FIT_BASE_TYPE_UINT8,   
   }
 };
 typedef struct {
@@ -1809,7 +1833,7 @@ static const FIT_HRV_MESG_DEF hrv_mesg_def = {
     /* time */0, (sizeof(FIT_UINT16)*1), FIT_BASE_TYPE_UINT16,
   }
 };
-FIT_UINT8 reference_mesg_defs_size = 65;
+FIT_UINT8 reference_mesg_defs_size = 66;
 FIT_CONST_MESG_DEF_PTR reference_mesg_defs[] = {
   (FIT_CONST_MESG_DEF_PTR) &file_id_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &file_creator_mesg_def,
@@ -1869,6 +1893,7 @@ FIT_CONST_MESG_DEF_PTR reference_mesg_defs[] = {
   (FIT_CONST_MESG_DEF_PTR) &blood_pressure_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &monitoring_info_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &monitoring_mesg_def,
+  (FIT_CONST_MESG_DEF_PTR) &monitoring_hr_data_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &hr_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &ant_rx_mesg_def,
   (FIT_CONST_MESG_DEF_PTR) &ant_tx_mesg_def,

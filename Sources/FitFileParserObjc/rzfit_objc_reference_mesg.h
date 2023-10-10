@@ -86,19 +86,28 @@ typedef FIT_UINT16 FIT_MESG_NUM;
 #define FIT_MESG_NUM_MAGNETOMETER_DATA              ((FIT_MESG_NUM)208)   
 #define FIT_MESG_NUM_BAROMETER_DATA                 ((FIT_MESG_NUM)209)   
 #define FIT_MESG_NUM_ONE_D_SENSOR_CALIBRATION       ((FIT_MESG_NUM)210)   
+#define FIT_MESG_NUM_MONITORING_HR_DATA             ((FIT_MESG_NUM)211)   
 #define FIT_MESG_NUM_TIME_IN_ZONE                   ((FIT_MESG_NUM)216)   
 #define FIT_MESG_NUM_SET                            ((FIT_MESG_NUM)225)   
 #define FIT_MESG_NUM_STRESS_LEVEL                   ((FIT_MESG_NUM)227)   
+#define FIT_MESG_NUM_MAX_MET_DATA                   ((FIT_MESG_NUM)229)   
 #define FIT_MESG_NUM_DIVE_SETTINGS                  ((FIT_MESG_NUM)258)   
 #define FIT_MESG_NUM_DIVE_GAS                       ((FIT_MESG_NUM)259)   
 #define FIT_MESG_NUM_DIVE_ALARM                     ((FIT_MESG_NUM)262)   
 #define FIT_MESG_NUM_EXERCISE_TITLE                 ((FIT_MESG_NUM)264)   
 #define FIT_MESG_NUM_DIVE_SUMMARY                   ((FIT_MESG_NUM)268)   
+#define FIT_MESG_NUM_SPO2_DATA                      ((FIT_MESG_NUM)269)   
+#define FIT_MESG_NUM_SLEEP_LEVEL                    ((FIT_MESG_NUM)275)   
 #define FIT_MESG_NUM_JUMP                           ((FIT_MESG_NUM)285)   
+#define FIT_MESG_NUM_BEAT_INTERVALS                 ((FIT_MESG_NUM)290)   
+#define FIT_MESG_NUM_RESPIRATION_RATE               ((FIT_MESG_NUM)297)   
 #define FIT_MESG_NUM_SPLIT                          ((FIT_MESG_NUM)312)   
 #define FIT_MESG_NUM_CLIMB_PRO                      ((FIT_MESG_NUM)317)   
 #define FIT_MESG_NUM_TANK_UPDATE                    ((FIT_MESG_NUM)319)   
 #define FIT_MESG_NUM_TANK_SUMMARY                   ((FIT_MESG_NUM)323)   
+#define FIT_MESG_NUM_SLEEP_ASSESSMENT               ((FIT_MESG_NUM)346)   
+#define FIT_MESG_NUM_HRV_STATUS_SUMMARY             ((FIT_MESG_NUM)370)   
+#define FIT_MESG_NUM_HRV_VALUE                      ((FIT_MESG_NUM)371)   
 #define FIT_MESG_NUM_DEVICE_AUX_BATTERY_INFO        ((FIT_MESG_NUM)375)   
 #define FIT_MESG_NUM_DIVE_APNEA_ALARM               ((FIT_MESG_NUM)393)   
 #define FIT_MESG_NUM_MFG_RANGE_MIN                  ((FIT_MESG_NUM)0xFF00)
@@ -391,6 +400,8 @@ typedef struct {
   FIT_SINT32 nec_long; // 
   FIT_SINT32 swc_lat; // 
   FIT_SINT32 swc_long; // 
+  FIT_SINT32 end_position_lat; // 
+  FIT_SINT32 end_position_long; // 
   FIT_UINT32 avg_stroke_count; // 
   FIT_UINT32 total_work; // 
   FIT_UINT32 total_moving_time; // 
@@ -399,6 +410,7 @@ typedef struct {
   FIT_UINT32 time_in_cadence_zone[1]; // 
   FIT_UINT32 time_in_power_zone[1]; // 
   FIT_UINT32 avg_lap_time; // 
+  FIT_STRING sport_profile_name[16]; // 
   FIT_UINT32 enhanced_avg_speed; // 
   FIT_UINT32 enhanced_max_speed; // 
   FIT_UINT32 enhanced_avg_altitude; // 
@@ -910,6 +922,7 @@ typedef struct {
 typedef struct {
   FIT_UINT32Z capabilities; // workout_capabilities
   FIT_STRING wkt_name[16]; // 
+  FIT_UINT16 message_index; // message_index
   FIT_UINT16 num_valid_steps; // 
   FIT_UINT16 pool_length; // 
   FIT_ENUM sport; // sport
@@ -986,6 +999,7 @@ typedef struct {
   FIT_UINT16 basal_met; // 
   FIT_UINT16 active_met; // 
   FIT_UINT16 user_profile_index; // message_index
+  FIT_UINT16 bmi; // 
   FIT_UINT8 physique_rating; // 
   FIT_UINT8 metabolic_age; // 
   FIT_UINT8 visceral_fat_rating; // 
@@ -1024,6 +1038,12 @@ typedef struct {
   FIT_ENUM activity_type; // activity_type
   FIT_ENUM activity_subtype; // activity_subtype
 } FIT_MONITORING_MESG;
+
+typedef struct {
+  FIT_UINT32 timestamp; // 
+  FIT_UINT8 resting_heart_rate; // 
+  FIT_UINT8 current_day_resting_heart_rate; // 
+} FIT_MONITORING_HR_DATA_MESG;
 
 typedef struct {
   FIT_UINT32 timestamp; // 
