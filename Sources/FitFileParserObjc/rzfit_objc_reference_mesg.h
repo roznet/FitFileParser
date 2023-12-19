@@ -102,6 +102,7 @@ typedef FIT_UINT16 FIT_MESG_NUM;
 #define FIT_MESG_NUM_BEAT_INTERVALS                 ((FIT_MESG_NUM)290)   
 #define FIT_MESG_NUM_RESPIRATION_RATE               ((FIT_MESG_NUM)297)   
 #define FIT_MESG_NUM_SPLIT                          ((FIT_MESG_NUM)312)   
+#define FIT_MESG_NUM_SPLIT_SUMMARY                  ((FIT_MESG_NUM)313)   
 #define FIT_MESG_NUM_CLIMB_PRO                      ((FIT_MESG_NUM)317)   
 #define FIT_MESG_NUM_TANK_UPDATE                    ((FIT_MESG_NUM)319)   
 #define FIT_MESG_NUM_TANK_SUMMARY                   ((FIT_MESG_NUM)323)   
