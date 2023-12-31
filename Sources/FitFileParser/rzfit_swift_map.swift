@@ -3,7 +3,7 @@
 import FitFileParserObjc
 
 extension FitFile {
-  public static let sdkVersion = "21.115"
+  public static let sdkVersion = "21.126"
 }
 
 //MARK: - Module Entry Point Functions
@@ -926,6 +926,8 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
    case "clip_start": return "ms"
    case "clip_end": return "ms"
    case "hang_time": return "s"
+   case "avg_vert_speed": return "m/s"
+   case "start_elevation": return "m"
    case "current_dist": return "m"
    case "segment_time": return "s"
    case "leader_time": return "s"
@@ -1306,6 +1308,7 @@ public func rzfit_swift_string_to_mesg_num(_ input : String) -> FIT_UINT16
     case "beat_intervals": return 290;
     case "respiration_rate": return 297;
     case "split": return 312;
+    case "split_summary": return 313;
     case "climb_pro": return 317;
     case "tank_update": return 319;
     case "tank_summary": return 323;
@@ -1418,6 +1421,7 @@ public func rzfit_swift_string_from_mesg_num(_ input : FIT_UINT16) -> String
     case 290: return "beat_intervals"
     case 297: return "respiration_rate"
     case 312: return "split"
+    case 313: return "split_summary"
     case 317: return "climb_pro"
     case 319: return "tank_update"
     case 323: return "tank_summary"
@@ -1533,6 +1537,7 @@ public extension FitMessageType {
   static let beat_intervals : FitMessageType = 290
   static let respiration_rate : FitMessageType = 297
   static let split : FitMessageType = 312
+  static let split_summary : FitMessageType = 313
   static let climb_pro : FitMessageType = 317
   static let tank_update : FitMessageType = 319
   static let tank_summary : FitMessageType = 323
@@ -2024,6 +2029,9 @@ fileprivate func rzfit_swift_string_from_sport(_ input : FIT_ENUM) -> String
     case 53: return "diving"
     case 62: return "hiit"
     case 64: return "racket"
+    case 65: return "wheelchair_push_walk"
+    case 66: return "wheelchair_push_run"
+    case 67: return "meditation"
     case 76: return "water_tubing"
     case 77: return "wakesurfing"
     case 254: return "all"
@@ -2203,6 +2211,9 @@ fileprivate func rzfit_swift_string_from_sub_sport(_ input : FIT_ENUM) -> String
     case 75: return "tabata"
     case 84: return "pickleball"
     case 85: return "padel"
+    case 86: return "indoor_wheelchair_walk"
+    case 87: return "indoor_wheelchair_run"
+    case 88: return "indoor_hand_cycling"
     case 110: return "fly_canopy"
     case 111: return "fly_paraglide"
     case 112: return "fly_paramotor"
@@ -2799,6 +2810,8 @@ fileprivate func rzfit_swift_string_from_manufacturer(_ input : FIT_UINT16) -> S
     case 146: return "blackbird"
     case 147: return "meilan_byte"
     case 148: return "ezon"
+    case 149: return "laisi"
+    case 150: return "myzone"
     case 255: return "development"
     case 257: return "healthandlife"
     case 258: return "lezyne"
@@ -2868,6 +2881,9 @@ fileprivate func rzfit_swift_string_from_manufacturer(_ input : FIT_UINT16) -> S
     case 322: return "shanyue"
     case 323: return "spinning_mda"
     case 324: return "hilldating"
+    case 325: return "aero_sensor"
+    case 326: return "nike"
+    case 327: return "magicshine"
     case 5759: return "actigraphcorp"
     default: return "manufacturer_\(input)"
   }
@@ -3206,6 +3222,7 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 3739: return "marq_golfer"
     case 3740: return "venu_daimler"
     case 3794: return "fr745_asia"
+    case 3808: return "varia_rct715"
     case 3809: return "lily_asia"
     case 3812: return "edge_1030_plus_asia"
     case 3813: return "edge_130_plus_asia"
@@ -3262,6 +3279,8 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 4233: return "approach_s70"
     case 4257: return "fr265_large"
     case 4258: return "fr265_small"
+    case 4260: return "venu3"
+    case 4261: return "venu3s"
     case 4265: return "tacx_neo_smart"
     case 4266: return "tacx_neo2_smart"
     case 4267: return "tacx_neo2_t_smart"
@@ -3280,9 +3299,14 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 4314: return "epix_gen2_pro_51"
     case 4315: return "fr965"
     case 4341: return "enduro2"
+    case 4374: return "fenix7s_pro_solar"
     case 4375: return "fenix7_pro_solar"
+    case 4376: return "fenix7x_pro_solar"
     case 4394: return "instinct_2x"
+    case 4426: return "vivoactive5"
     case 4442: return "descent_t2"
+    case 4472: return "marq_gen2_commander"
+    case 4556: return "d2_mach1_pro"
     case 10007: return "sdm4"
     case 10014: return "edge_remote"
     case 20533: return "tacx_training_app_win"
@@ -7640,12 +7664,45 @@ fileprivate func rzfit_swift_field_num_to_string_for_jump( field_num : FIT_UINT1
 }
 fileprivate func rzfit_swift_field_num_to_string_for_split( field_num : FIT_UINT16 ) -> String {
   switch field_num {
+    case 254: return "message_index"
     case 0: return "split_type"
     case 1: return "total_elapsed_time"
     case 2: return "total_timer_time"
     case 3: return "total_distance"
+    case 4: return "avg_speed"
     case 9: return "start_time"
+    case 13: return "total_ascent"
+    case 14: return "total_descent"
+    case 21: return "start_position_lat"
+    case 22: return "start_position_long"
+    case 23: return "end_position_lat"
+    case 24: return "end_position_long"
+    case 25: return "max_speed"
+    case 26: return "avg_vert_speed"
+    case 27: return "end_time"
+    case 28: return "total_calories"
+    case 74: return "start_elevation"
+    case 110: return "total_moving_time"
     default: return "split_field_num_\(field_num)"
+  }
+}
+fileprivate func rzfit_swift_field_num_to_string_for_split_summary( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 254: return "message_index"
+    case 0: return "split_type"
+    case 3: return "num_splits"
+    case 4: return "total_timer_time"
+    case 5: return "total_distance"
+    case 6: return "avg_speed"
+    case 7: return "max_speed"
+    case 8: return "total_ascent"
+    case 9: return "total_descent"
+    case 10: return "avg_heart_rate"
+    case 11: return "max_heart_rate"
+    case 12: return "avg_vert_speed"
+    case 13: return "total_calories"
+    case 77: return "total_moving_time"
+    default: return "split_summary_field_num_\(field_num)"
   }
 }
 fileprivate func rzfit_swift_field_num_to_string_for_climb_pro( field_num : FIT_UINT16 ) -> String {
@@ -8516,6 +8573,7 @@ func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UIN
     case 290: return rzfit_swift_field_num_to_string_for_beat_intervals(field_num: field_num)
     case 297: return rzfit_swift_field_num_to_string_for_respiration_rate(field_num: field_num)
     case 312: return rzfit_swift_field_num_to_string_for_split(field_num: field_num)
+    case 313: return rzfit_swift_field_num_to_string_for_split_summary(field_num: field_num)
     case 317: return rzfit_swift_field_num_to_string_for_climb_pro(field_num: field_num)
     case 319: return rzfit_swift_field_num_to_string_for_tank_update(field_num: field_num)
     case 323: return rzfit_swift_field_num_to_string_for_tank_summary(field_num: field_num)

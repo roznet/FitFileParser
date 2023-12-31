@@ -477,6 +477,9 @@ static NSString * rzfit_objc_string_from_sport( FIT_ENUM sport ){
     case 53: return @"diving";
     case 62: return @"hiit";
     case 64: return @"racket";
+    case 65: return @"wheelchair_push_walk";
+    case 66: return @"wheelchair_push_run";
+    case 67: return @"meditation";
     case 76: return @"water_tubing";
     case 77: return @"wakesurfing";
     case 254: return @"all";
@@ -656,6 +659,9 @@ static NSString * rzfit_objc_string_from_sub_sport( FIT_ENUM sub_sport ){
     case 75: return @"tabata";
     case 84: return @"pickleball";
     case 85: return @"padel";
+    case 86: return @"indoor_wheelchair_walk";
+    case 87: return @"indoor_wheelchair_run";
+    case 88: return @"indoor_hand_cycling";
     case 110: return @"fly_canopy";
     case 111: return @"fly_paraglide";
     case 112: return @"fly_paramotor";
@@ -1252,6 +1258,8 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 146: return @"blackbird";
     case 147: return @"meilan_byte";
     case 148: return @"ezon";
+    case 149: return @"laisi";
+    case 150: return @"myzone";
     case 255: return @"development";
     case 257: return @"healthandlife";
     case 258: return @"lezyne";
@@ -1321,6 +1329,9 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 322: return @"shanyue";
     case 323: return @"spinning_mda";
     case 324: return @"hilldating";
+    case 325: return @"aero_sensor";
+    case 326: return @"nike";
+    case 327: return @"magicshine";
     case 5759: return @"actigraphcorp";
     default: return [NSString stringWithFormat:@"manufacturer_%u", (unsigned int)manufacturer];
   }
@@ -1659,6 +1670,7 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 3739: return @"marq_golfer";
     case 3740: return @"venu_daimler";
     case 3794: return @"fr745_asia";
+    case 3808: return @"varia_rct715";
     case 3809: return @"lily_asia";
     case 3812: return @"edge_1030_plus_asia";
     case 3813: return @"edge_130_plus_asia";
@@ -1715,6 +1727,8 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 4233: return @"approach_s70";
     case 4257: return @"fr265_large";
     case 4258: return @"fr265_small";
+    case 4260: return @"venu3";
+    case 4261: return @"venu3s";
     case 4265: return @"tacx_neo_smart";
     case 4266: return @"tacx_neo2_smart";
     case 4267: return @"tacx_neo2_t_smart";
@@ -1733,9 +1747,14 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 4314: return @"epix_gen2_pro_51";
     case 4315: return @"fr965";
     case 4341: return @"enduro2";
+    case 4374: return @"fenix7s_pro_solar";
     case 4375: return @"fenix7_pro_solar";
+    case 4376: return @"fenix7x_pro_solar";
     case 4394: return @"instinct_2x";
+    case 4426: return @"vivoactive5";
     case 4442: return @"descent_t2";
+    case 4472: return @"marq_gen2_commander";
+    case 4556: return @"d2_mach1_pro";
     case 10007: return @"sdm4";
     case 10014: return @"edge_remote";
     case 20533: return @"tacx_training_app_win";
@@ -6112,11 +6131,44 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_jump(FIT_UINT16 field){
 }
 static FIT_FIELD_INFO rzfit_objc_field_info_for_split(FIT_UINT16 field){
   switch( field ){
+    case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
     case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 170, .fit_unit = 0, .fit_flag = 0 }; // split_type
     case 1: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // total_elapsed_time
     case 2: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // total_timer_time
     case 3: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_distance
+    case 4: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // avg_speed
     case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // start_time
+    case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_ascent
+    case 14: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_descent
+    case 21: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 20, .fit_flag = 0 }; // start_position_lat
+    case 22: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 20, .fit_flag = 0 }; // start_position_long
+    case 23: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 20, .fit_flag = 0 }; // end_position_lat
+    case 24: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 20, .fit_flag = 0 }; // end_position_long
+    case 25: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // max_speed
+    case 26: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // avg_vert_speed
+    case 27: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // end_time
+    case 28: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 24, .fit_flag = 0 }; // total_calories
+    case 74: return (FIT_FIELD_INFO){.scale = 5, .offset = 500, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // start_elevation
+    case 110: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // total_moving_time
+    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+  }
+}
+static FIT_FIELD_INFO rzfit_objc_field_info_for_split_summary(FIT_UINT16 field){
+  switch( field ){
+    case 254: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 8, .fit_unit = 0, .fit_flag = 0 }; // message_index
+    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 170, .fit_unit = 0, .fit_flag = 0 }; // split_type
+    case 3: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // num_splits
+    case 4: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // total_timer_time
+    case 5: return (FIT_FIELD_INFO){.scale = 100, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_distance
+    case 6: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // avg_speed
+    case 7: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // max_speed
+    case 8: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_ascent
+    case 9: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 8, .fit_flag = 0 }; // total_descent
+    case 10: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 10, .fit_flag = 0 }; // avg_heart_rate
+    case 11: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 10, .fit_flag = 0 }; // max_heart_rate
+    case 12: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 13, .fit_flag = 0 }; // avg_vert_speed
+    case 13: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 24, .fit_flag = 0 }; // total_calories
+    case 77: return (FIT_FIELD_INFO){.scale = 1000, .offset = 0, .fit_type = 0, .fit_unit = 1, .fit_flag = 0 }; // total_moving_time
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
@@ -8392,12 +8444,46 @@ static NSString * rzfit_objc_field_num_to_string_for_jump( FIT_UINT8 field_num )
 
 static NSString * rzfit_objc_field_num_to_string_for_split( FIT_UINT8 field_num ){
   switch( field_num ){
+    case 254: return @"message_index";
     case 0: return @"split_type";
     case 1: return @"total_elapsed_time";
     case 2: return @"total_timer_time";
     case 3: return @"total_distance";
+    case 4: return @"avg_speed";
     case 9: return @"start_time";
+    case 13: return @"total_ascent";
+    case 14: return @"total_descent";
+    case 21: return @"start_position_lat";
+    case 22: return @"start_position_long";
+    case 23: return @"end_position_lat";
+    case 24: return @"end_position_long";
+    case 25: return @"max_speed";
+    case 26: return @"avg_vert_speed";
+    case 27: return @"end_time";
+    case 28: return @"total_calories";
+    case 74: return @"start_elevation";
+    case 110: return @"total_moving_time";
     default: return [NSString stringWithFormat:@"split_field_num_%u", (unsigned int)field_num];
+  }
+}
+
+static NSString * rzfit_objc_field_num_to_string_for_split_summary( FIT_UINT8 field_num ){
+  switch( field_num ){
+    case 254: return @"message_index";
+    case 0: return @"split_type";
+    case 3: return @"num_splits";
+    case 4: return @"total_timer_time";
+    case 5: return @"total_distance";
+    case 6: return @"avg_speed";
+    case 7: return @"max_speed";
+    case 8: return @"total_ascent";
+    case 9: return @"total_descent";
+    case 10: return @"avg_heart_rate";
+    case 11: return @"max_heart_rate";
+    case 12: return @"avg_vert_speed";
+    case 13: return @"total_calories";
+    case 77: return @"total_moving_time";
+    default: return [NSString stringWithFormat:@"split_summary_field_num_%u", (unsigned int)field_num];
   }
 }
 
@@ -9344,6 +9430,7 @@ NSString * rzfit_objc_string_from_mesg_num( FIT_UINT16 mesg_num ){
     case 290: return @"beat_intervals";
     case 297: return @"respiration_rate";
     case 312: return @"split";
+    case 313: return @"split_summary";
     case 317: return @"climb_pro";
     case 319: return @"tank_update";
     case 323: return @"tank_summary";
@@ -9532,6 +9619,7 @@ NSString * rzfit_objc_field_num_to_string( FIT_UINT16 global_mesg_num, FIT_UINT1
    case 290: return rzfit_objc_field_num_to_string_for_beat_intervals(field);
    case 297: return rzfit_objc_field_num_to_string_for_respiration_rate(field);
    case 312: return rzfit_objc_field_num_to_string_for_split(field);
+   case 313: return rzfit_objc_field_num_to_string_for_split_summary(field);
    case 317: return rzfit_objc_field_num_to_string_for_climb_pro(field);
    case 319: return rzfit_objc_field_num_to_string_for_tank_update(field);
    case 323: return rzfit_objc_field_num_to_string_for_tank_summary(field);
@@ -9790,6 +9878,7 @@ FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 fie
     case 225: return rzfit_objc_field_info_for_set(field);
     case 285: return rzfit_objc_field_info_for_jump(field);
     case 312: return rzfit_objc_field_info_for_split(field);
+    case 313: return rzfit_objc_field_info_for_split_summary(field);
     case 317: return rzfit_objc_field_info_for_climb_pro(field);
     case 206: return rzfit_objc_field_info_for_field_description(field);
     case 207: return rzfit_objc_field_info_for_developer_data_id(field);
