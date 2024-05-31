@@ -3,7 +3,7 @@
 import FitFileParserObjc
 
 extension FitFile {
-  public static let sdkVersion = "21.133"
+  public static let sdkVersion = "21.141"
 }
 
 //MARK: - Module Entry Point Functions
@@ -1387,6 +1387,7 @@ public func rzfit_swift_string_to_mesg_num(_ input : String) -> FIT_UINT16
     case "chrono_shot_data": return 388;
     case "hsa_configuration_data": return 389;
     case "dive_apnea_alarm": return 393;
+    case "skin_temp_overnight": return 398;
     case "hsa_wrist_temperature_data": return 409;
     case "mfg_range_min": return 0xFF00;
     case "mfg_range_max": return 0xFFFE;
@@ -1515,6 +1516,7 @@ public func rzfit_swift_string_from_mesg_num(_ input : FIT_UINT16) -> String
     case 388: return "chrono_shot_data"
     case 389: return "hsa_configuration_data"
     case 393: return "dive_apnea_alarm"
+    case 398: return "skin_temp_overnight"
     case 409: return "hsa_wrist_temperature_data"
     case 0xFF00: return "mfg_range_min"
     case 0xFFFE: return "mfg_range_max"
@@ -1646,6 +1648,7 @@ public extension FitMessageType {
   static let chrono_shot_data : FitMessageType = 388
   static let hsa_configuration_data : FitMessageType = 389
   static let dive_apnea_alarm : FitMessageType = 393
+  static let skin_temp_overnight : FitMessageType = 398
   static let hsa_wrist_temperature_data : FitMessageType = 409
   static let mfg_range_min : FitMessageType = 0xFF00
   static let mfg_range_max : FitMessageType = 0xFFFE
@@ -3001,6 +3004,7 @@ fileprivate func rzfit_swift_string_from_manufacturer(_ input : FIT_UINT16) -> S
     case 326: return "nike"
     case 327: return "magicshine"
     case 328: return "ictrainer"
+    case 329: return "absolute_cycling"
     case 5759: return "actigraphcorp"
     default: return "manufacturer_\(input)"
   }
@@ -3425,6 +3429,8 @@ fileprivate func rzfit_swift_string_from_garmin_product(_ input : FIT_UINT16) ->
     case 4380: return "lily2"
     case 4394: return "instinct_2x"
     case 4426: return "vivoactive5"
+    case 4432: return "fr165"
+    case 4433: return "fr165_music"
     case 4442: return "descent_t2"
     case 4446: return "hrm_fit"
     case 4472: return "marq_gen2_commander"
@@ -4009,8 +4015,12 @@ fileprivate func rzfit_swift_string_from_segment_leaderboard_type(_ input : FIT_
     case 6: return "qom"
     case 7: return "pr"
     case 8: return "goal"
-    case 9: return "rival"
+    case 9: return "carrot"
     case 10: return "club_leader"
+    case 11: return "rival"
+    case 12: return "last"
+    case 13: return "recent_best"
+    case 14: return "course_record"
     default: return "segment_leaderboard_type_\(input)"
   }
 }
@@ -7095,6 +7105,8 @@ fileprivate func rzfit_swift_field_num_to_string_for_session( field_num : FIT_UI
     case 183: return "jump_count"
     case 186: return "avg_grit"
     case 187: return "avg_flow"
+    case 192: return "workout_feel"
+    case 193: return "workout_rpe"
     case 194: return "avg_spo2"
     case 195: return "avg_stress"
     case 197: return "sdrr_hrv"
@@ -8753,6 +8765,16 @@ fileprivate func rzfit_swift_field_num_to_string_for_sleep_assessment( field_num
     default: return "sleep_assessment_field_num_\(field_num)"
   }
 }
+fileprivate func rzfit_swift_field_num_to_string_for_skin_temp_overnight( field_num : FIT_UINT16 ) -> String {
+  switch field_num {
+    case 253: return "timestamp"
+    case 0: return "local_timestamp"
+    case 1: return "average_deviation"
+    case 2: return "average_7_day_deviation"
+    case 4: return "nightly_value"
+    default: return "skin_temp_overnight_field_num_\(field_num)"
+  }
+}
 func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UINT16, strings : [String:String]) -> String {
   switch mesg_num {
     case 0: return rzfit_swift_field_num_to_string_for_file_id(field_num: field_num, strings: strings)
@@ -8872,6 +8894,7 @@ func rzfit_swift_field_num_to_string( mesg_num : FIT_UINT16, field_num : FIT_UIN
     case 388: return rzfit_swift_field_num_to_string_for_chrono_shot_data(field_num: field_num)
     case 389: return rzfit_swift_field_num_to_string_for_hsa_configuration_data(field_num: field_num)
     case 393: return rzfit_swift_field_num_to_string_for_dive_apnea_alarm(field_num: field_num)
+    case 398: return rzfit_swift_field_num_to_string_for_skin_temp_overnight(field_num: field_num)
     case 409: return rzfit_swift_field_num_to_string_for_hsa_wrist_temperature_data(field_num: field_num)
     default: return "mesg_num_\(mesg_num)_field_num_\(field_num)"
    }

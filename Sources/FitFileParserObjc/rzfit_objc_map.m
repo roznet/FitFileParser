@@ -1348,6 +1348,7 @@ static NSString * rzfit_objc_string_from_manufacturer( FIT_UINT16 manufacturer )
     case 326: return @"nike";
     case 327: return @"magicshine";
     case 328: return @"ictrainer";
+    case 329: return @"absolute_cycling";
     case 5759: return @"actigraphcorp";
     default: return [NSString stringWithFormat:@"manufacturer_%u", (unsigned int)manufacturer];
   }
@@ -1772,6 +1773,8 @@ static NSString * rzfit_objc_string_from_garmin_product( FIT_UINT16 garmin_produ
     case 4380: return @"lily2";
     case 4394: return @"instinct_2x";
     case 4426: return @"vivoactive5";
+    case 4432: return @"fr165";
+    case 4433: return @"fr165_music";
     case 4442: return @"descent_t2";
     case 4446: return @"hrm_fit";
     case 4472: return @"marq_gen2_commander";
@@ -2340,8 +2343,12 @@ static NSString * rzfit_objc_string_from_segment_leaderboard_type( FIT_ENUM segm
     case 6: return @"qom";
     case 7: return @"pr";
     case 8: return @"goal";
-    case 9: return @"rival";
+    case 9: return @"carrot";
     case 10: return @"club_leader";
+    case 11: return @"rival";
+    case 12: return @"last";
+    case 13: return @"recent_best";
+    case 14: return @"course_record";
     default: return [NSString stringWithFormat:@"segment_leaderboard_type_%u", (unsigned int)segment_leaderboard_type];
   }
 }
@@ -5441,6 +5448,8 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_session(FIT_UINT16 field, FIT_IN
     case 183: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // jump_count
     case 186: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 38, .fit_flag = 0 }; // avg_grit
     case 187: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 39, .fit_flag = 0 }; // avg_flow
+    case 192: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // workout_feel
+    case 193: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // workout_rpe
     case 194: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // avg_spo2
     case 195: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 17, .fit_flag = 0 }; // avg_stress
     case 197: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 40, .fit_flag = 0 }; // sdrr_hrv
@@ -7140,6 +7149,16 @@ static FIT_FIELD_INFO rzfit_objc_field_info_for_sleep_assessment(FIT_UINT16 fiel
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }
+static FIT_FIELD_INFO rzfit_objc_field_info_for_skin_temp_overnight(FIT_UINT16 field){
+  switch( field ){
+    case 253: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 6, .fit_unit = 0, .fit_flag = 1 }; // timestamp
+    case 0: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 7, .fit_unit = 0, .fit_flag = 1 }; // local_timestamp
+    case 1: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // average_deviation
+    case 2: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // average_7_day_deviation
+    case 4: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 }; // nightly_value
+    default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
+  }
+}
 #pragma mark - message field name conversion section
 static NSString * rzfit_objc_field_num_to_string_for_file_id( FIT_UINT8 field_num, FIT_INTERP_FIELD * interp ){
   switch( field_num ){
@@ -7857,6 +7876,8 @@ static NSString * rzfit_objc_field_num_to_string_for_session( FIT_UINT8 field_nu
     case 183: return @"jump_count";
     case 186: return @"avg_grit";
     case 187: return @"avg_flow";
+    case 192: return @"workout_feel";
+    case 193: return @"workout_rpe";
     case 194: return @"avg_spo2";
     case 195: return @"avg_stress";
     case 197: return @"sdrr_hrv";
@@ -9663,6 +9684,17 @@ static NSString * rzfit_objc_field_num_to_string_for_sleep_assessment( FIT_UINT8
   }
 }
 
+static NSString * rzfit_objc_field_num_to_string_for_skin_temp_overnight( FIT_UINT8 field_num ){
+  switch( field_num ){
+    case 253: return @"timestamp";
+    case 0: return @"local_timestamp";
+    case 1: return @"average_deviation";
+    case 2: return @"average_7_day_deviation";
+    case 4: return @"nightly_value";
+    default: return [NSString stringWithFormat:@"skin_temp_overnight_field_num_%u", (unsigned int)field_num];
+  }
+}
+
 #pragma mark - public section
 NSString * rzfit_objc_string_from_mesg_num( FIT_UINT16 mesg_num ){
   switch(mesg_num){
@@ -9784,6 +9816,7 @@ NSString * rzfit_objc_string_from_mesg_num( FIT_UINT16 mesg_num ){
     case 388: return @"chrono_shot_data";
     case 389: return @"hsa_configuration_data";
     case 393: return @"dive_apnea_alarm";
+    case 398: return @"skin_temp_overnight";
     case 409: return @"hsa_wrist_temperature_data";
     case 0xFF00: return @"mfg_range_min";
     case 0xFFFE: return @"mfg_range_max";
@@ -9991,6 +10024,7 @@ NSString * rzfit_objc_field_num_to_string( FIT_UINT16 global_mesg_num, FIT_UINT1
    case 388: return rzfit_objc_field_num_to_string_for_chrono_shot_data(field);
    case 389: return rzfit_objc_field_num_to_string_for_hsa_configuration_data(field);
    case 393: return rzfit_objc_field_num_to_string_for_dive_apnea_alarm(field);
+   case 398: return rzfit_objc_field_num_to_string_for_skin_temp_overnight(field);
    case 409: return rzfit_objc_field_num_to_string_for_hsa_wrist_temperature_data(field);
     default: return [NSString stringWithFormat:@"MESG_NUM_%u_FIELD_%u", (unsigned int)global_mesg_num, (unsigned int)field];
   }
@@ -10301,6 +10335,7 @@ FIT_FIELD_INFO rzfit_objc_field_info( FIT_UINT16 global_mesg_num, FIT_UINT16 fie
     case 319: return rzfit_objc_field_info_for_tank_update(field);
     case 323: return rzfit_objc_field_info_for_tank_summary(field);
     case 346: return rzfit_objc_field_info_for_sleep_assessment(field);
+    case 398: return rzfit_objc_field_info_for_skin_temp_overnight(field);
     default: return (FIT_FIELD_INFO){.scale = 0, .offset = 0, .fit_type = 0, .fit_unit = 0, .fit_flag = 0 };
   }
 }

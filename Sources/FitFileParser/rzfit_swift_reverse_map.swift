@@ -244,6 +244,8 @@ public func rzfit_swift_reverse_value(mesg: String, field: String, value: String
     return rzfit_swift_reverse_value_hsa_configuration_data(field: field, value: value )
   case "dive_apnea_alarm": // 393
     return rzfit_swift_reverse_value_dive_apnea_alarm(field: field, value: value )
+  case "skin_temp_overnight": // 398
+    return rzfit_swift_reverse_value_skin_temp_overnight(field: field, value: value )
   case "hsa_wrist_temperature_data": // 409
     return rzfit_swift_reverse_value_hsa_wrist_temperature_data(field: field, value: value )
   default:
@@ -1667,6 +1669,12 @@ fileprivate func rzfit_swift_reverse_value_session(field: String, value: String)
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
     case "avg_flow": // float32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "workout_feel": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "workout_rpe": // uint8
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
     case "avg_spo2": // uint8
@@ -5175,6 +5183,27 @@ fileprivate func rzfit_swift_reverse_value_sleep_assessment(field: String, value
     return .unknown
   }
 }
+fileprivate func rzfit_swift_reverse_value_skin_temp_overnight(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "local_timestamp": // local_date_time
+      return rzfit_swift_reverse_value_local_date_time(value: value)
+    case "average_deviation": // float32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "average_7_day_deviation": // float32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "nightly_value": // float32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
 fileprivate func rzfit_swift_reverse_value_file(value : String) -> RzFitSwiftValue
 {
    switch value {
@@ -5461,6 +5490,8 @@ fileprivate func rzfit_swift_reverse_value_mesg_num(value : String) -> RzFitSwif
     case "hsa_configuration_data": return .string("389")
     case "393": return .string("dive_apnea_alarm")
     case "dive_apnea_alarm": return .string("393")
+    case "398": return .string("skin_temp_overnight")
+    case "skin_temp_overnight": return .string("398")
     case "409": return .string("hsa_wrist_temperature_data")
     case "hsa_wrist_temperature_data": return .string("409")
     case "0xFF00": return .string("mfg_range_min")
@@ -7719,6 +7750,8 @@ fileprivate func rzfit_swift_reverse_value_manufacturer(value : String) -> RzFit
     case "magicshine": return .string("327")
     case "328": return .string("ictrainer")
     case "ictrainer": return .string("328")
+    case "329": return .string("absolute_cycling")
+    case "absolute_cycling": return .string("329")
     case "5759": return .string("actigraphcorp")
     case "actigraphcorp": return .string("5759")
    default: return .unknown
@@ -8560,6 +8593,10 @@ fileprivate func rzfit_swift_reverse_value_garmin_product(value : String) -> RzF
     case "instinct_2x": return .string("4394")
     case "4426": return .string("vivoactive5")
     case "vivoactive5": return .string("4426")
+    case "4432": return .string("fr165")
+    case "fr165": return .string("4432")
+    case "4433": return .string("fr165_music")
+    case "fr165_music": return .string("4433")
     case "4442": return .string("descent_t2")
     case "descent_t2": return .string("4442")
     case "4446": return .string("hrm_fit")
@@ -9479,10 +9516,18 @@ fileprivate func rzfit_swift_reverse_value_segment_leaderboard_type(value : Stri
     case "pr": return .string("7")
     case "8": return .string("goal")
     case "goal": return .string("8")
-    case "9": return .string("rival")
-    case "rival": return .string("9")
+    case "9": return .string("carrot")
+    case "carrot": return .string("9")
     case "10": return .string("club_leader")
     case "club_leader": return .string("10")
+    case "11": return .string("rival")
+    case "rival": return .string("11")
+    case "12": return .string("last")
+    case "last": return .string("12")
+    case "13": return .string("recent_best")
+    case "recent_best": return .string("13")
+    case "14": return .string("course_record")
+    case "course_record": return .string("14")
    default: return .unknown
   }
 }
