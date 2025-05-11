@@ -192,14 +192,32 @@ public func rzfit_swift_reverse_value(mesg: String, field: String, value: String
     return rzfit_swift_reverse_value_sleep_level(field: field, value: value )
   case "jump": // 285
     return rzfit_swift_reverse_value_jump(field: field, value: value )
+  case "aad_accel_features": // 289
+    return rzfit_swift_reverse_value_aad_accel_features(field: field, value: value )
   case "beat_intervals": // 290
     return rzfit_swift_reverse_value_beat_intervals(field: field, value: value )
   case "respiration_rate": // 297
     return rzfit_swift_reverse_value_respiration_rate(field: field, value: value )
+  case "hsa_accelerometer_data": // 302
+    return rzfit_swift_reverse_value_hsa_accelerometer_data(field: field, value: value )
+  case "hsa_step_data": // 304
+    return rzfit_swift_reverse_value_hsa_step_data(field: field, value: value )
+  case "hsa_spo2_data": // 305
+    return rzfit_swift_reverse_value_hsa_spo2_data(field: field, value: value )
+  case "hsa_stress_data": // 306
+    return rzfit_swift_reverse_value_hsa_stress_data(field: field, value: value )
+  case "hsa_respiration_data": // 307
+    return rzfit_swift_reverse_value_hsa_respiration_data(field: field, value: value )
+  case "hsa_heart_rate_data": // 308
+    return rzfit_swift_reverse_value_hsa_heart_rate_data(field: field, value: value )
   case "split": // 312
     return rzfit_swift_reverse_value_split(field: field, value: value )
   case "split_summary": // 313
     return rzfit_swift_reverse_value_split_summary(field: field, value: value )
+  case "hsa_body_battery_data": // 314
+    return rzfit_swift_reverse_value_hsa_body_battery_data(field: field, value: value )
+  case "hsa_event": // 315
+    return rzfit_swift_reverse_value_hsa_event(field: field, value: value )
   case "climb_pro": // 317
     return rzfit_swift_reverse_value_climb_pro(field: field, value: value )
   case "tank_update": // 319
@@ -212,10 +230,24 @@ public func rzfit_swift_reverse_value(mesg: String, field: String, value: String
     return rzfit_swift_reverse_value_hrv_status_summary(field: field, value: value )
   case "hrv_value": // 371
     return rzfit_swift_reverse_value_hrv_value(field: field, value: value )
+  case "raw_bbi": // 372
+    return rzfit_swift_reverse_value_raw_bbi(field: field, value: value )
   case "device_aux_battery_info": // 375
     return rzfit_swift_reverse_value_device_aux_battery_info(field: field, value: value )
+  case "hsa_gyroscope_data": // 376
+    return rzfit_swift_reverse_value_hsa_gyroscope_data(field: field, value: value )
+  case "chrono_shot_session": // 387
+    return rzfit_swift_reverse_value_chrono_shot_session(field: field, value: value )
+  case "chrono_shot_data": // 388
+    return rzfit_swift_reverse_value_chrono_shot_data(field: field, value: value )
+  case "hsa_configuration_data": // 389
+    return rzfit_swift_reverse_value_hsa_configuration_data(field: field, value: value )
   case "dive_apnea_alarm": // 393
     return rzfit_swift_reverse_value_dive_apnea_alarm(field: field, value: value )
+  case "skin_temp_overnight": // 398
+    return rzfit_swift_reverse_value_skin_temp_overnight(field: field, value: value )
+  case "hsa_wrist_temperature_data": // 409
+    return rzfit_swift_reverse_value_hsa_wrist_temperature_data(field: field, value: value )
   default:
     return .unknown
   }
@@ -1637,6 +1669,12 @@ fileprivate func rzfit_swift_reverse_value_session(field: String, value: String)
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
     case "avg_flow": // float32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "workout_feel": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "workout_rpe": // uint8
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
     case "avg_spo2": // uint8
@@ -3859,6 +3897,9 @@ fileprivate func rzfit_swift_reverse_value_workout(field: String, value: String)
       return .value(dbl)
     case "pool_length_unit": // display_measure
       return rzfit_swift_reverse_value_display_measure(value: value)
+    case "wkt_description": // string
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
   default:
     return .unknown
   }
@@ -4424,6 +4465,215 @@ fileprivate func rzfit_swift_reverse_value_max_met_data(field: String, value: St
     return .unknown
   }
 }
+fileprivate func rzfit_swift_reverse_value_hsa_body_battery_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "processing_interval": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "level": // sint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "charged": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "uncharged": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_event(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "event_id": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_accelerometer_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "timestamp_ms": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "sampling_interval": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "accel_x": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "accel_y": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "accel_z": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "timestamp_32k": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_gyroscope_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "timestamp_ms": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "sampling_interval": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "gyro_x": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "gyro_y": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "gyro_z": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "timestamp_32k": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_step_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "processing_interval": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "steps": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_spo2_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "processing_interval": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "reading_spo2": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "confidence": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_stress_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "processing_interval": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "stress_level": // sint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_respiration_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "processing_interval": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "respiration_rate": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_heart_rate_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "processing_interval": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "status": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "heart_rate": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_configuration_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "data": // byte
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "data_size": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_hsa_wrist_temperature_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "processing_interval": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "value": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
 fileprivate func rzfit_swift_reverse_value_memo_glob(field: String, value: String) -> RzFitSwiftValue {
   switch field {
     case "part_index": // uint32
@@ -4678,6 +4928,31 @@ fileprivate func rzfit_swift_reverse_value_dive_summary(field: String, value: St
     return .unknown
   }
 }
+fileprivate func rzfit_swift_reverse_value_aad_accel_features(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "time": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "energy_total": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "zero_cross_cnt": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "instance": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "time_above_threshold": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
 fileprivate func rzfit_swift_reverse_value_hrv(field: String, value: String) -> RzFitSwiftValue {
   switch field {
     case "time": // uint16
@@ -4746,6 +5021,31 @@ fileprivate func rzfit_swift_reverse_value_hrv_value(field: String, value: Strin
     return .unknown
   }
 }
+fileprivate func rzfit_swift_reverse_value_raw_bbi(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "timestamp_ms": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "data": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "time": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "quality": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "gap": // uint8
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
 fileprivate func rzfit_swift_reverse_value_respiration_rate(field: String, value: String) -> RzFitSwiftValue {
   switch field {
     case "timestamp": // date_time
@@ -4753,6 +5053,52 @@ fileprivate func rzfit_swift_reverse_value_respiration_rate(field: String, value
       let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
       return .date(dat)
     case "respiration_rate": // sint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_chrono_shot_session(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "min_speed": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "max_speed": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "avg_speed": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "shot_count": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "projectile_type": // projectile_type
+      return rzfit_swift_reverse_value_projectile_type(value: value)
+    case "grain_weight": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "standard_deviation": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_chrono_shot_data(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "shot_speed": // uint32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "shot_num": // uint16
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
   default:
@@ -4837,6 +5183,27 @@ fileprivate func rzfit_swift_reverse_value_sleep_assessment(field: String, value
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
     case "average_stress_during_sleep": // uint16
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+  default:
+    return .unknown
+  }
+}
+fileprivate func rzfit_swift_reverse_value_skin_temp_overnight(field: String, value: String) -> RzFitSwiftValue {
+  switch field {
+    case "timestamp": // date_time
+      guard let dbl : Double = Double(value) else { return .unknown }
+      let dat : Date =  Date(timeIntervalSinceReferenceDate: dbl-347241600.0 )
+      return .date(dat)
+    case "local_timestamp": // local_date_time
+      return rzfit_swift_reverse_value_local_date_time(value: value)
+    case "average_deviation": // float32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "average_7_day_deviation": // float32
+      guard let dbl : Double = Double(value) else { return .unknown }
+      return .value(dbl)
+    case "nightly_value": // float32
       guard let dbl : Double = Double(value) else { return .unknown }
       return .value(dbl)
   default:
@@ -5077,14 +5444,32 @@ fileprivate func rzfit_swift_reverse_value_mesg_num(value : String) -> RzFitSwif
     case "sleep_level": return .string("275")
     case "285": return .string("jump")
     case "jump": return .string("285")
+    case "289": return .string("aad_accel_features")
+    case "aad_accel_features": return .string("289")
     case "290": return .string("beat_intervals")
     case "beat_intervals": return .string("290")
     case "297": return .string("respiration_rate")
     case "respiration_rate": return .string("297")
+    case "302": return .string("hsa_accelerometer_data")
+    case "hsa_accelerometer_data": return .string("302")
+    case "304": return .string("hsa_step_data")
+    case "hsa_step_data": return .string("304")
+    case "305": return .string("hsa_spo2_data")
+    case "hsa_spo2_data": return .string("305")
+    case "306": return .string("hsa_stress_data")
+    case "hsa_stress_data": return .string("306")
+    case "307": return .string("hsa_respiration_data")
+    case "hsa_respiration_data": return .string("307")
+    case "308": return .string("hsa_heart_rate_data")
+    case "hsa_heart_rate_data": return .string("308")
     case "312": return .string("split")
     case "split": return .string("312")
     case "313": return .string("split_summary")
     case "split_summary": return .string("313")
+    case "314": return .string("hsa_body_battery_data")
+    case "hsa_body_battery_data": return .string("314")
+    case "315": return .string("hsa_event")
+    case "hsa_event": return .string("315")
     case "317": return .string("climb_pro")
     case "climb_pro": return .string("317")
     case "319": return .string("tank_update")
@@ -5097,10 +5482,24 @@ fileprivate func rzfit_swift_reverse_value_mesg_num(value : String) -> RzFitSwif
     case "hrv_status_summary": return .string("370")
     case "371": return .string("hrv_value")
     case "hrv_value": return .string("371")
+    case "372": return .string("raw_bbi")
+    case "raw_bbi": return .string("372")
     case "375": return .string("device_aux_battery_info")
     case "device_aux_battery_info": return .string("375")
+    case "376": return .string("hsa_gyroscope_data")
+    case "hsa_gyroscope_data": return .string("376")
+    case "387": return .string("chrono_shot_session")
+    case "chrono_shot_session": return .string("387")
+    case "388": return .string("chrono_shot_data")
+    case "chrono_shot_data": return .string("388")
+    case "389": return .string("hsa_configuration_data")
+    case "hsa_configuration_data": return .string("389")
     case "393": return .string("dive_apnea_alarm")
     case "dive_apnea_alarm": return .string("393")
+    case "398": return .string("skin_temp_overnight")
+    case "skin_temp_overnight": return .string("398")
+    case "409": return .string("hsa_wrist_temperature_data")
+    case "hsa_wrist_temperature_data": return .string("409")
     case "0xFF00": return .string("mfg_range_min")
     case "mfg_range_min": return .string("0xFF00")
     case "0xFFFE": return .string("mfg_range_max")
@@ -5854,6 +6253,8 @@ fileprivate func rzfit_swift_reverse_value_sport(value : String) -> RzFitSwiftVa
     case "boxing": return .string("47")
     case "48": return .string("floor_climbing")
     case "floor_climbing": return .string("48")
+    case "49": return .string("baseball")
+    case "baseball": return .string("49")
     case "53": return .string("diving")
     case "diving": return .string("53")
     case "62": return .string("hiit")
@@ -5866,10 +6267,30 @@ fileprivate func rzfit_swift_reverse_value_sport(value : String) -> RzFitSwiftVa
     case "wheelchair_push_run": return .string("66")
     case "67": return .string("meditation")
     case "meditation": return .string("67")
+    case "69": return .string("disc_golf")
+    case "disc_golf": return .string("69")
+    case "71": return .string("cricket")
+    case "cricket": return .string("71")
+    case "72": return .string("rugby")
+    case "rugby": return .string("72")
+    case "73": return .string("hockey")
+    case "hockey": return .string("73")
+    case "74": return .string("lacrosse")
+    case "lacrosse": return .string("74")
+    case "75": return .string("volleyball")
+    case "volleyball": return .string("75")
     case "76": return .string("water_tubing")
     case "water_tubing": return .string("76")
     case "77": return .string("wakesurfing")
     case "wakesurfing": return .string("77")
+    case "80": return .string("mixed_martial_arts")
+    case "mixed_martial_arts": return .string("80")
+    case "82": return .string("snorkeling")
+    case "snorkeling": return .string("82")
+    case "83": return .string("dance")
+    case "dance": return .string("83")
+    case "84": return .string("jump_rope")
+    case "jump_rope": return .string("84")
     case "254": return .string("all")
     case "all": return .string("254")
    default: return .unknown
@@ -6174,6 +6595,14 @@ fileprivate func rzfit_swift_reverse_value_sub_sport(value : String) -> RzFitSwi
     case "indoor_wheelchair_run": return .string("87")
     case "88": return .string("indoor_hand_cycling")
     case "indoor_hand_cycling": return .string("88")
+    case "94": return .string("squash")
+    case "squash": return .string("94")
+    case "95": return .string("badminton")
+    case "badminton": return .string("95")
+    case "96": return .string("racquetball")
+    case "racquetball": return .string("96")
+    case "97": return .string("table_tennis")
+    case "table_tennis": return .string("97")
     case "110": return .string("fly_canopy")
     case "fly_canopy": return .string("110")
     case "111": return .string("fly_paraglide")
@@ -6289,6 +6718,8 @@ fileprivate func rzfit_swift_reverse_value_autolap_trigger(value : String) -> Rz
     case "position_marked": return .string("5")
     case "6": return .string("off")
     case "off": return .string("6")
+    case "13": return .string("auto_select")
+    case "auto_select": return .string("13")
    default: return .unknown
   }
 }
@@ -7181,6 +7612,10 @@ fileprivate func rzfit_swift_reverse_value_manufacturer(value : String) -> RzFit
     case "laisi": return .string("149")
     case "150": return .string("myzone")
     case "myzone": return .string("150")
+    case "151": return .string("abawo")
+    case "abawo": return .string("151")
+    case "152": return .string("bafang")
+    case "bafang": return .string("152")
     case "255": return .string("development")
     case "development": return .string("255")
     case "257": return .string("healthandlife")
@@ -7325,6 +7760,16 @@ fileprivate func rzfit_swift_reverse_value_manufacturer(value : String) -> RzFit
     case "nike": return .string("326")
     case "327": return .string("magicshine")
     case "magicshine": return .string("327")
+    case "328": return .string("ictrainer")
+    case "ictrainer": return .string("328")
+    case "329": return .string("absolute_cycling")
+    case "absolute_cycling": return .string("329")
+    case "330": return .string("eo_swimbetter")
+    case "eo_swimbetter": return .string("330")
+    case "331": return .string("mywhoosh")
+    case "mywhoosh": return .string("331")
+    case "332": return .string("ravemen")
+    case "ravemen": return .string("332")
     case "5759": return .string("actigraphcorp")
     case "actigraphcorp": return .string("5759")
    default: return .unknown
@@ -7366,6 +7811,8 @@ fileprivate func rzfit_swift_reverse_value_garmin_product(value : String) -> RzF
     case "gen3_bsm_single_byte_product_id": return .string("15")
     case "16": return .string("gen3_bcm_single_byte_product_id")
     case "gen3_bcm_single_byte_product_id": return .string("16")
+    case "22": return .string("hrm_fit_single_byte_product_id")
+    case "hrm_fit_single_byte_product_id": return .string("22")
     case "255": return .string("OHR")
     case "OHR": return .string("255")
     case "473": return .string("fr301_china")
@@ -7924,6 +8371,8 @@ fileprivate func rzfit_swift_reverse_value_garmin_product(value : String) -> RzF
     case "marq_expedition_asia": return .string("3450")
     case "3451": return .string("marq_athlete_asia")
     case "marq_athlete_asia": return .string("3451")
+    case "3461": return .string("index_smart_scale_2")
+    case "index_smart_scale_2": return .string("3461")
     case "3466": return .string("instinct_solar")
     case "instinct_solar": return .string("3466")
     case "3469": return .string("fr45_asia")
@@ -8102,6 +8551,10 @@ fileprivate func rzfit_swift_reverse_value_garmin_product(value : String) -> RzF
     case "instinct_crossover": return .string("4155")
     case "4169": return .string("edge_explore2")
     case "edge_explore2": return .string("4169")
+    case "4222": return .string("descent_mk3")
+    case "descent_mk3": return .string("4222")
+    case "4223": return .string("descent_mk3i")
+    case "descent_mk3i": return .string("4223")
     case "4233": return .string("approach_s70")
     case "approach_s70": return .string("4233")
     case "4257": return .string("fr265_large")
@@ -8154,16 +8607,40 @@ fileprivate func rzfit_swift_reverse_value_garmin_product(value : String) -> RzF
     case "fenix7_pro_solar": return .string("4375")
     case "4376": return .string("fenix7x_pro_solar")
     case "fenix7x_pro_solar": return .string("4376")
+    case "4380": return .string("lily2")
+    case "lily2": return .string("4380")
     case "4394": return .string("instinct_2x")
     case "instinct_2x": return .string("4394")
     case "4426": return .string("vivoactive5")
     case "vivoactive5": return .string("4426")
+    case "4432": return .string("fr165")
+    case "fr165": return .string("4432")
+    case "4433": return .string("fr165_music")
+    case "fr165_music": return .string("4433")
+    case "4440": return .string("edge_1050")
+    case "edge_1050": return .string("4440")
     case "4442": return .string("descent_t2")
     case "descent_t2": return .string("4442")
+    case "4446": return .string("hrm_fit")
+    case "hrm_fit": return .string("4446")
     case "4472": return .string("marq_gen2_commander")
     case "marq_gen2_commander": return .string("4472")
+    case "4477": return .string("lily_athlete")
+    case "lily_athlete": return .string("4477")
+    case "4532": return .string("fenix8_solar")
+    case "fenix8_solar": return .string("4532")
+    case "4533": return .string("fenix8_solar_large")
+    case "fenix8_solar_large": return .string("4533")
+    case "4534": return .string("fenix8_small")
+    case "fenix8_small": return .string("4534")
+    case "4536": return .string("fenix8")
+    case "fenix8": return .string("4536")
     case "4556": return .string("d2_mach1_pro")
     case "d2_mach1_pro": return .string("4556")
+    case "4575": return .string("enduro3")
+    case "enduro3": return .string("4575")
+    case "4666": return .string("fenix_e")
+    case "fenix_e": return .string("4666")
     case "10007": return .string("sdm4")
     case "sdm4": return .string("10007")
     case "10014": return .string("edge_remote")
@@ -9075,10 +9552,18 @@ fileprivate func rzfit_swift_reverse_value_segment_leaderboard_type(value : Stri
     case "pr": return .string("7")
     case "8": return .string("goal")
     case "goal": return .string("8")
-    case "9": return .string("rival")
-    case "rival": return .string("9")
+    case "9": return .string("carrot")
+    case "carrot": return .string("9")
     case "10": return .string("club_leader")
     case "club_leader": return .string("10")
+    case "11": return .string("rival")
+    case "rival": return .string("11")
+    case "12": return .string("last")
+    case "last": return .string("12")
+    case "13": return .string("recent_best")
+    case "recent_best": return .string("13")
+    case "14": return .string("course_record")
+    case "course_record": return .string("14")
    default: return .unknown
   }
 }
@@ -13103,6 +13588,25 @@ fileprivate func rzfit_swift_reverse_value_dive_gas_mode(value : String) -> RzFi
     case "open_circuit": return .string("0")
     case "1": return .string("closed_circuit_diluent")
     case "closed_circuit_diluent": return .string("1")
+   default: return .unknown
+  }
+}
+
+fileprivate func rzfit_swift_reverse_value_projectile_type(value : String) -> RzFitSwiftValue
+{
+   switch value {
+    case "0": return .string("arrow")
+    case "arrow": return .string("0")
+    case "1": return .string("rifle_cartridge")
+    case "rifle_cartridge": return .string("1")
+    case "2": return .string("pistol_cartridge")
+    case "pistol_cartridge": return .string("2")
+    case "3": return .string("shotshell")
+    case "shotshell": return .string("3")
+    case "4": return .string("air_rifle_pellet")
+    case "air_rifle_pellet": return .string("4")
+    case "5": return .string("other")
+    case "other": return .string("5")
    default: return .unknown
   }
 }
