@@ -203,3 +203,19 @@ final class FitFileParserSwiftTests: XCTestCase {
         ("testParsingPerformance", testParsingPerformance),
     ]
 }
+
+extension FitFileParserSwiftTests {
+    /// A field value wider than the type it is decoded as must not trap. Real files carry
+    /// such values (a vendor's private enum, a corrupt byte), and before this the whole
+    /// `FitFile.init` went down with the app around it.
+    func testStringForTypeTruncatesInsteadOfTrapping() {
+        // type 1 is `file` (an enum, one byte); 0x1_0001 does not fit a byte.
+        let wide = rzfit_swift_string_for_type(fit_type: 1, val: 0x1_0001)
+        XCTAssertFalse(wide.isEmpty)
+        // type 2 is `mesg_num` (uint16); 0x1_0000 does not fit two bytes.
+        let wide16 = rzfit_swift_string_for_type(fit_type: 2, val: 0x1_0000)
+        XCTAssertFalse(wide16.isEmpty)
+        // and a value that fits is unchanged
+        XCTAssertEqual(rzfit_swift_string_for_type(fit_type: 1, val: 4), "activity")
+    }
+}
