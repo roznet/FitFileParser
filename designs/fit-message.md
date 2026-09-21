@@ -73,6 +73,8 @@ let decoded = try JSONDecoder().decode([FitMessage].self, from: data)
 - Coordinate fields appear as separate `_lat`/`_long` entries in raw `values` but merge into one field in `interpretedFields()`. Don't look for `position_lat` in interpreted output.
 - `interpretedField(key:)` returns `nil` for unknown keys, not `.invalid`. The `.invalid` variant appears when a field exists but has no meaningful value.
 - The `__INCOMPLETE__` key marks fields from unknown/unimplemented message types in generic mode.
+- Enum/typed string values that fall outside their type's range (or an unknown type) come back as `"fit_type_<type>_<val>"` rather than a name, so the raw value is preserved. Callers matching on names should tolerate this form.
+- `native_field_num` in `field_description` is only resolved to a field name when it fits a `FIT_UINT16`; otherwise the raw value is kept.
 - JSON encoding preserves raw data only. After decoding, `interpretedFields()` works but coordinate merging and unit lookup still function.
 
 ## References

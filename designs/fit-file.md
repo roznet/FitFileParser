@@ -62,6 +62,7 @@ fitFile.purgeCache()
 - Fast mode silently skips unknown/new message types not yet in the generated code. Use `.generic` mode to see everything.
 - `purgeCache()` only clears FitMessage interpretation caches, not the messages themselves.
 - The C `fit_convert` state machine is single-use per parse -- it maintains internal state and cannot be reused.
+- Parsing must never trap on file content: a structurally valid file can carry out-of-range values (see [Code Generation](./code-generation.md)). Out-of-range enums surface as `"fit_type_<type>_<val>"` strings instead of crashing.
 - Developer fields require both a `developer_data_id` message and `field_description` messages in the FIT file to be interpreted correctly.
 
 ## References

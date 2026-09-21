@@ -42,6 +42,7 @@ python fitsdkupdate.py
 - **Excel as source of truth:** Profile.xlsx is the Garmin-maintained definition of all FIT message types. Using it directly means we don't maintain a parallel schema.
 - **Four generated files:** Split between Swift (consumer-facing lookups) and Obj-C (binary parsing). Swift files handle name-to-value mapping and unit lookups; Obj-C files handle raw byte extraction.
 - **Switch-based dispatch:** Generated code uses large switch statements rather than dictionaries for performance on mobile devices.
+- **Never trap on file data:** `rzfit_swift_string_for_type` receives every enum/typed value as `FIT_UINT32` and narrows it to the field's own type with `FIT_X(exactly: val)`. A value that does not fit (vendor enum, corrupt byte, or a file whose definition message declares a wider base type than the profile) falls through to the default `"fit_type_<type>_<val>"`. Plain `FIT_X(val)` would trap and kill the host app; `truncatingIfNeeded:` would return a plausible but wrong name (see PR #15 and its follow-up).
 - **Special field types handled:** The generator knows about component fields (multi-value packed into one), masked fields (bitwise extraction), offset fields (value + offset), and reference fields (conditional interpretation).
 
 ## Patterns
@@ -56,6 +57,7 @@ python fitsdkupdate.py
 - Regeneration overwrites 4 files totaling ~27,000 lines. Always regenerate, never patch.
 - Profile.xlsx format changes between SDK versions can break the parser. The Python script may need updates when Garmin changes the Excel structure.
 - The generated Swift files are large enough to slow down Xcode indexing. This is expected.
+- Any conversion the generator emits on values read from the file must be non-trapping (`exactly:` with a fallback). The base type comes from the file's definition message, not from Profile.xlsx, so values can be wider than the profile type.
 - Component fields (e.g., compressed_speed_distance) require special handling in the generator -- they pack multiple logical fields into one physical field with bit offsets.
 
 ## References
