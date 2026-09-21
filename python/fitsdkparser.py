@@ -265,7 +265,7 @@ class Type :
     def swift_stmt_case_type_function_call(self):
         rv = first_line_with_annotate_comment(prefix = '', annotate=self.annotate)
         rv.extend( [
-            '     case {}: return {}( {}(val) )'.format(self.type_num,  self.swift_fname_to_string(),self.objc_type() )
+            '     case {}: return {}( {}(truncatingIfNeeded: val) )'.format(self.type_num,  self.swift_fname_to_string(),self.objc_type() )
             ] )
         return rv
 
