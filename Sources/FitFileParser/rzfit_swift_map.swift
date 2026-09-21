@@ -1085,187 +1085,189 @@ func rzfit_swift_unit_for_field( mesg_num : FIT_UINT16, field : String ) -> Stri
 }
 func rzfit_swift_string_for_type(fit_type : FIT_UINT8, val : FIT_UINT32 ) -> String {
   switch fit_type {
-     case 1: return rzfit_swift_string_from_file( FIT_ENUM(truncatingIfNeeded: val) )
-     case 2: return rzfit_swift_string_from_mesg_num( FIT_UINT16(truncatingIfNeeded: val) )
-     case 3: return rzfit_swift_string_from_checksum( FIT_UINT8(truncatingIfNeeded: val) )
-     case 4: return rzfit_swift_string_from_file_flags( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 5: return rzfit_swift_string_from_mesg_count( FIT_ENUM(truncatingIfNeeded: val) )
-     case 6: return rzfit_swift_string_from_date_time( FIT_UINT32(truncatingIfNeeded: val) )
-     case 7: return rzfit_swift_string_from_local_date_time( FIT_UINT32(truncatingIfNeeded: val) )
-     case 8: return rzfit_swift_string_from_message_index( FIT_UINT16(truncatingIfNeeded: val) )
-     case 9: return rzfit_swift_string_from_device_index( FIT_UINT8(truncatingIfNeeded: val) )
-     case 10: return rzfit_swift_string_from_gender( FIT_ENUM(truncatingIfNeeded: val) )
-     case 11: return rzfit_swift_string_from_language( FIT_ENUM(truncatingIfNeeded: val) )
-     case 12: return rzfit_swift_string_from_language_bits_0( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 13: return rzfit_swift_string_from_language_bits_1( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 14: return rzfit_swift_string_from_language_bits_2( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 15: return rzfit_swift_string_from_language_bits_3( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 16: return rzfit_swift_string_from_language_bits_4( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 17: return rzfit_swift_string_from_time_zone( FIT_ENUM(truncatingIfNeeded: val) )
-     case 18: return rzfit_swift_string_from_display_measure( FIT_ENUM(truncatingIfNeeded: val) )
-     case 19: return rzfit_swift_string_from_display_heart( FIT_ENUM(truncatingIfNeeded: val) )
-     case 20: return rzfit_swift_string_from_display_power( FIT_ENUM(truncatingIfNeeded: val) )
-     case 21: return rzfit_swift_string_from_display_position( FIT_ENUM(truncatingIfNeeded: val) )
-     case 22: return rzfit_swift_string_from_switch( FIT_ENUM(truncatingIfNeeded: val) )
-     case 23: return rzfit_swift_string_from_sport( FIT_ENUM(truncatingIfNeeded: val) )
-     case 24: return rzfit_swift_string_from_sport_bits_0( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 25: return rzfit_swift_string_from_sport_bits_1( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 26: return rzfit_swift_string_from_sport_bits_2( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 27: return rzfit_swift_string_from_sport_bits_3( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 28: return rzfit_swift_string_from_sport_bits_4( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 29: return rzfit_swift_string_from_sport_bits_5( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 30: return rzfit_swift_string_from_sport_bits_6( FIT_UINT8Z(truncatingIfNeeded: val) )
-     case 31: return rzfit_swift_string_from_sub_sport( FIT_ENUM(truncatingIfNeeded: val) )
-     case 32: return rzfit_swift_string_from_sport_event( FIT_ENUM(truncatingIfNeeded: val) )
-     case 33: return rzfit_swift_string_from_activity( FIT_ENUM(truncatingIfNeeded: val) )
-     case 34: return rzfit_swift_string_from_intensity( FIT_ENUM(truncatingIfNeeded: val) )
-     case 35: return rzfit_swift_string_from_session_trigger( FIT_ENUM(truncatingIfNeeded: val) )
-     case 36: return rzfit_swift_string_from_autolap_trigger( FIT_ENUM(truncatingIfNeeded: val) )
-     case 37: return rzfit_swift_string_from_lap_trigger( FIT_ENUM(truncatingIfNeeded: val) )
-     case 38: return rzfit_swift_string_from_time_mode( FIT_ENUM(truncatingIfNeeded: val) )
-     case 39: return rzfit_swift_string_from_backlight_mode( FIT_ENUM(truncatingIfNeeded: val) )
-     case 40: return rzfit_swift_string_from_date_mode( FIT_ENUM(truncatingIfNeeded: val) )
-     case 41: return rzfit_swift_string_from_backlight_timeout( FIT_UINT8(truncatingIfNeeded: val) )
-     case 42: return rzfit_swift_string_from_event( FIT_ENUM(truncatingIfNeeded: val) )
-     case 43: return rzfit_swift_string_from_event_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 44: return rzfit_swift_string_from_timer_trigger( FIT_ENUM(truncatingIfNeeded: val) )
-     case 45: return rzfit_swift_string_from_fitness_equipment_state( FIT_ENUM(truncatingIfNeeded: val) )
-     case 46: return rzfit_swift_string_from_tone( FIT_ENUM(truncatingIfNeeded: val) )
-     case 47: return rzfit_swift_string_from_autoscroll( FIT_ENUM(truncatingIfNeeded: val) )
-     case 48: return rzfit_swift_string_from_activity_class( FIT_ENUM(truncatingIfNeeded: val) )
-     case 49: return rzfit_swift_string_from_hr_zone_calc( FIT_ENUM(truncatingIfNeeded: val) )
-     case 50: return rzfit_swift_string_from_pwr_zone_calc( FIT_ENUM(truncatingIfNeeded: val) )
-     case 51: return rzfit_swift_string_from_wkt_step_duration( FIT_ENUM(truncatingIfNeeded: val) )
-     case 52: return rzfit_swift_string_from_wkt_step_target( FIT_ENUM(truncatingIfNeeded: val) )
-     case 53: return rzfit_swift_string_from_goal( FIT_ENUM(truncatingIfNeeded: val) )
-     case 54: return rzfit_swift_string_from_goal_recurrence( FIT_ENUM(truncatingIfNeeded: val) )
-     case 55: return rzfit_swift_string_from_goal_source( FIT_ENUM(truncatingIfNeeded: val) )
-     case 56: return rzfit_swift_string_from_schedule( FIT_ENUM(truncatingIfNeeded: val) )
-     case 57: return rzfit_swift_string_from_course_point( FIT_ENUM(truncatingIfNeeded: val) )
-     case 58: return rzfit_swift_string_from_manufacturer( FIT_UINT16(truncatingIfNeeded: val) )
-     case 59: return rzfit_swift_string_from_garmin_product( FIT_UINT16(truncatingIfNeeded: val) )
-     case 60: return rzfit_swift_string_from_antplus_device_type( FIT_UINT8(truncatingIfNeeded: val) )
-     case 61: return rzfit_swift_string_from_ant_network( FIT_ENUM(truncatingIfNeeded: val) )
-     case 62: return rzfit_swift_string_from_workout_capabilities( FIT_UINT32Z(truncatingIfNeeded: val) )
-     case 63: return rzfit_swift_string_from_battery_status( FIT_UINT8(truncatingIfNeeded: val) )
-     case 64: return rzfit_swift_string_from_hr_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 65: return rzfit_swift_string_from_course_capabilities( FIT_UINT32Z(truncatingIfNeeded: val) )
-     case 66: return rzfit_swift_string_from_weight( FIT_UINT16(truncatingIfNeeded: val) )
-     case 67: return rzfit_swift_string_from_workout_hr( FIT_UINT32(truncatingIfNeeded: val) )
-     case 68: return rzfit_swift_string_from_workout_power( FIT_UINT32(truncatingIfNeeded: val) )
-     case 69: return rzfit_swift_string_from_bp_status( FIT_ENUM(truncatingIfNeeded: val) )
-     case 70: return rzfit_swift_string_from_user_local_id( FIT_UINT16(truncatingIfNeeded: val) )
-     case 71: return rzfit_swift_string_from_swim_stroke( FIT_ENUM(truncatingIfNeeded: val) )
-     case 72: return rzfit_swift_string_from_activity_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 73: return rzfit_swift_string_from_activity_subtype( FIT_ENUM(truncatingIfNeeded: val) )
-     case 74: return rzfit_swift_string_from_activity_level( FIT_ENUM(truncatingIfNeeded: val) )
-     case 75: return rzfit_swift_string_from_side( FIT_ENUM(truncatingIfNeeded: val) )
-     case 76: return rzfit_swift_string_from_left_right_balance( FIT_UINT8(truncatingIfNeeded: val) )
-     case 77: return rzfit_swift_string_from_left_right_balance_100( FIT_UINT16(truncatingIfNeeded: val) )
-     case 78: return rzfit_swift_string_from_length_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 79: return rzfit_swift_string_from_day_of_week( FIT_ENUM(truncatingIfNeeded: val) )
-     case 80: return rzfit_swift_string_from_connectivity_capabilities( FIT_UINT32Z(truncatingIfNeeded: val) )
-     case 81: return rzfit_swift_string_from_weather_report( FIT_ENUM(truncatingIfNeeded: val) )
-     case 82: return rzfit_swift_string_from_weather_status( FIT_ENUM(truncatingIfNeeded: val) )
-     case 83: return rzfit_swift_string_from_weather_severity( FIT_ENUM(truncatingIfNeeded: val) )
-     case 84: return rzfit_swift_string_from_weather_severe_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 85: return rzfit_swift_string_from_time_into_day( FIT_UINT32(truncatingIfNeeded: val) )
-     case 86: return rzfit_swift_string_from_localtime_into_day( FIT_UINT32(truncatingIfNeeded: val) )
-     case 87: return rzfit_swift_string_from_stroke_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 88: return rzfit_swift_string_from_body_location( FIT_ENUM(truncatingIfNeeded: val) )
-     case 89: return rzfit_swift_string_from_segment_lap_status( FIT_ENUM(truncatingIfNeeded: val) )
-     case 90: return rzfit_swift_string_from_segment_leaderboard_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 91: return rzfit_swift_string_from_segment_delete_status( FIT_ENUM(truncatingIfNeeded: val) )
-     case 92: return rzfit_swift_string_from_segment_selection_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 93: return rzfit_swift_string_from_source_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 94: return rzfit_swift_string_from_local_device_type( FIT_UINT8(truncatingIfNeeded: val) )
-     case 95: return rzfit_swift_string_from_ble_device_type( FIT_UINT8(truncatingIfNeeded: val) )
-     case 96: return rzfit_swift_string_from_ant_channel_id( FIT_UINT32Z(truncatingIfNeeded: val) )
-     case 97: return rzfit_swift_string_from_display_orientation( FIT_ENUM(truncatingIfNeeded: val) )
-     case 98: return rzfit_swift_string_from_workout_equipment( FIT_ENUM(truncatingIfNeeded: val) )
-     case 99: return rzfit_swift_string_from_watchface_mode( FIT_ENUM(truncatingIfNeeded: val) )
-     case 100: return rzfit_swift_string_from_digital_watchface_layout( FIT_ENUM(truncatingIfNeeded: val) )
-     case 101: return rzfit_swift_string_from_analog_watchface_layout( FIT_ENUM(truncatingIfNeeded: val) )
-     case 102: return rzfit_swift_string_from_rider_position_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 103: return rzfit_swift_string_from_power_phase_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 104: return rzfit_swift_string_from_camera_event_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 105: return rzfit_swift_string_from_sensor_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 106: return rzfit_swift_string_from_bike_light_network_config_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 107: return rzfit_swift_string_from_comm_timeout_type( FIT_UINT16(truncatingIfNeeded: val) )
-     case 108: return rzfit_swift_string_from_camera_orientation_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 109: return rzfit_swift_string_from_attitude_stage( FIT_ENUM(truncatingIfNeeded: val) )
-     case 110: return rzfit_swift_string_from_attitude_validity( FIT_UINT16(truncatingIfNeeded: val) )
-     case 111: return rzfit_swift_string_from_auto_sync_frequency( FIT_ENUM(truncatingIfNeeded: val) )
-     case 112: return rzfit_swift_string_from_exd_layout( FIT_ENUM(truncatingIfNeeded: val) )
-     case 113: return rzfit_swift_string_from_exd_display_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 114: return rzfit_swift_string_from_exd_data_units( FIT_ENUM(truncatingIfNeeded: val) )
-     case 115: return rzfit_swift_string_from_exd_qualifiers( FIT_ENUM(truncatingIfNeeded: val) )
-     case 116: return rzfit_swift_string_from_exd_descriptors( FIT_ENUM(truncatingIfNeeded: val) )
-     case 117: return rzfit_swift_string_from_auto_activity_detect( FIT_UINT32(truncatingIfNeeded: val) )
-     case 118: return rzfit_swift_string_from_supported_exd_screen_layouts( FIT_UINT32Z(truncatingIfNeeded: val) )
-     case 119: return rzfit_swift_string_from_fit_base_type( FIT_UINT8(truncatingIfNeeded: val) )
-     case 120: return rzfit_swift_string_from_turn_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 121: return rzfit_swift_string_from_bike_light_beam_angle_mode( FIT_UINT8(truncatingIfNeeded: val) )
-     case 122: return rzfit_swift_string_from_fit_base_unit( FIT_UINT16(truncatingIfNeeded: val) )
-     case 123: return rzfit_swift_string_from_set_type( FIT_UINT8(truncatingIfNeeded: val) )
-     case 124: return rzfit_swift_string_from_max_met_category( FIT_ENUM(truncatingIfNeeded: val) )
-     case 125: return rzfit_swift_string_from_exercise_category( FIT_UINT16(truncatingIfNeeded: val) )
-     case 126: return rzfit_swift_string_from_bench_press_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 127: return rzfit_swift_string_from_calf_raise_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 128: return rzfit_swift_string_from_cardio_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 129: return rzfit_swift_string_from_carry_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 130: return rzfit_swift_string_from_chop_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 131: return rzfit_swift_string_from_core_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 132: return rzfit_swift_string_from_crunch_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 133: return rzfit_swift_string_from_curl_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 134: return rzfit_swift_string_from_deadlift_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 135: return rzfit_swift_string_from_flye_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 136: return rzfit_swift_string_from_hip_raise_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 137: return rzfit_swift_string_from_hip_stability_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 138: return rzfit_swift_string_from_hip_swing_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 139: return rzfit_swift_string_from_hyperextension_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 140: return rzfit_swift_string_from_lateral_raise_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 141: return rzfit_swift_string_from_leg_curl_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 142: return rzfit_swift_string_from_leg_raise_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 143: return rzfit_swift_string_from_lunge_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 144: return rzfit_swift_string_from_olympic_lift_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 145: return rzfit_swift_string_from_plank_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 146: return rzfit_swift_string_from_plyo_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 147: return rzfit_swift_string_from_pull_up_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 148: return rzfit_swift_string_from_push_up_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 149: return rzfit_swift_string_from_row_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 150: return rzfit_swift_string_from_shoulder_press_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 151: return rzfit_swift_string_from_shoulder_stability_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 152: return rzfit_swift_string_from_shrug_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 153: return rzfit_swift_string_from_sit_up_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 154: return rzfit_swift_string_from_squat_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 155: return rzfit_swift_string_from_total_body_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 156: return rzfit_swift_string_from_triceps_extension_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 157: return rzfit_swift_string_from_warm_up_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 158: return rzfit_swift_string_from_run_exercise_name( FIT_UINT16(truncatingIfNeeded: val) )
-     case 159: return rzfit_swift_string_from_water_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 160: return rzfit_swift_string_from_tissue_model_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 161: return rzfit_swift_string_from_dive_gas_status( FIT_ENUM(truncatingIfNeeded: val) )
-     case 162: return rzfit_swift_string_from_dive_alert( FIT_ENUM(truncatingIfNeeded: val) )
-     case 163: return rzfit_swift_string_from_dive_alarm_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 164: return rzfit_swift_string_from_dive_backlight_mode( FIT_ENUM(truncatingIfNeeded: val) )
-     case 165: return rzfit_swift_string_from_sleep_level( FIT_ENUM(truncatingIfNeeded: val) )
-     case 166: return rzfit_swift_string_from_spo2_measurement_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 167: return rzfit_swift_string_from_ccr_setpoint_switch_mode( FIT_ENUM(truncatingIfNeeded: val) )
-     case 168: return rzfit_swift_string_from_dive_gas_mode( FIT_ENUM(truncatingIfNeeded: val) )
-     case 169: return rzfit_swift_string_from_projectile_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 170: return rzfit_swift_string_from_favero_product( FIT_UINT16(truncatingIfNeeded: val) )
-     case 171: return rzfit_swift_string_from_split_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 172: return rzfit_swift_string_from_climb_pro_event( FIT_ENUM(truncatingIfNeeded: val) )
-     case 173: return rzfit_swift_string_from_gas_consumption_rate_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 174: return rzfit_swift_string_from_tap_sensitivity( FIT_ENUM(truncatingIfNeeded: val) )
-     case 175: return rzfit_swift_string_from_radar_threat_level_type( FIT_ENUM(truncatingIfNeeded: val) )
-     case 176: return rzfit_swift_string_from_max_met_speed_source( FIT_ENUM(truncatingIfNeeded: val) )
-     case 177: return rzfit_swift_string_from_max_met_heart_rate_source( FIT_ENUM(truncatingIfNeeded: val) )
-     case 178: return rzfit_swift_string_from_hrv_status( FIT_ENUM(truncatingIfNeeded: val) )
-     case 179: return rzfit_swift_string_from_no_fly_time_mode( FIT_ENUM(truncatingIfNeeded: val) )
-    default: return "fit_type_\(fit_type)_\(val)"
+     case 1: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_file( v ) }
+     case 2: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_mesg_num( v ) }
+     case 3: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_checksum( v ) }
+     case 4: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_file_flags( v ) }
+     case 5: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_mesg_count( v ) }
+     case 6: if let v = FIT_UINT32(exactly: val) { return rzfit_swift_string_from_date_time( v ) }
+     case 7: if let v = FIT_UINT32(exactly: val) { return rzfit_swift_string_from_local_date_time( v ) }
+     case 8: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_message_index( v ) }
+     case 9: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_device_index( v ) }
+     case 10: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_gender( v ) }
+     case 11: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_language( v ) }
+     case 12: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_language_bits_0( v ) }
+     case 13: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_language_bits_1( v ) }
+     case 14: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_language_bits_2( v ) }
+     case 15: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_language_bits_3( v ) }
+     case 16: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_language_bits_4( v ) }
+     case 17: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_time_zone( v ) }
+     case 18: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_display_measure( v ) }
+     case 19: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_display_heart( v ) }
+     case 20: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_display_power( v ) }
+     case 21: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_display_position( v ) }
+     case 22: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_switch( v ) }
+     case 23: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_sport( v ) }
+     case 24: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_sport_bits_0( v ) }
+     case 25: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_sport_bits_1( v ) }
+     case 26: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_sport_bits_2( v ) }
+     case 27: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_sport_bits_3( v ) }
+     case 28: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_sport_bits_4( v ) }
+     case 29: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_sport_bits_5( v ) }
+     case 30: if let v = FIT_UINT8Z(exactly: val) { return rzfit_swift_string_from_sport_bits_6( v ) }
+     case 31: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_sub_sport( v ) }
+     case 32: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_sport_event( v ) }
+     case 33: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_activity( v ) }
+     case 34: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_intensity( v ) }
+     case 35: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_session_trigger( v ) }
+     case 36: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_autolap_trigger( v ) }
+     case 37: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_lap_trigger( v ) }
+     case 38: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_time_mode( v ) }
+     case 39: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_backlight_mode( v ) }
+     case 40: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_date_mode( v ) }
+     case 41: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_backlight_timeout( v ) }
+     case 42: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_event( v ) }
+     case 43: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_event_type( v ) }
+     case 44: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_timer_trigger( v ) }
+     case 45: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_fitness_equipment_state( v ) }
+     case 46: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_tone( v ) }
+     case 47: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_autoscroll( v ) }
+     case 48: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_activity_class( v ) }
+     case 49: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_hr_zone_calc( v ) }
+     case 50: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_pwr_zone_calc( v ) }
+     case 51: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_wkt_step_duration( v ) }
+     case 52: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_wkt_step_target( v ) }
+     case 53: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_goal( v ) }
+     case 54: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_goal_recurrence( v ) }
+     case 55: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_goal_source( v ) }
+     case 56: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_schedule( v ) }
+     case 57: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_course_point( v ) }
+     case 58: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_manufacturer( v ) }
+     case 59: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_garmin_product( v ) }
+     case 60: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_antplus_device_type( v ) }
+     case 61: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_ant_network( v ) }
+     case 62: if let v = FIT_UINT32Z(exactly: val) { return rzfit_swift_string_from_workout_capabilities( v ) }
+     case 63: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_battery_status( v ) }
+     case 64: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_hr_type( v ) }
+     case 65: if let v = FIT_UINT32Z(exactly: val) { return rzfit_swift_string_from_course_capabilities( v ) }
+     case 66: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_weight( v ) }
+     case 67: if let v = FIT_UINT32(exactly: val) { return rzfit_swift_string_from_workout_hr( v ) }
+     case 68: if let v = FIT_UINT32(exactly: val) { return rzfit_swift_string_from_workout_power( v ) }
+     case 69: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_bp_status( v ) }
+     case 70: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_user_local_id( v ) }
+     case 71: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_swim_stroke( v ) }
+     case 72: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_activity_type( v ) }
+     case 73: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_activity_subtype( v ) }
+     case 74: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_activity_level( v ) }
+     case 75: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_side( v ) }
+     case 76: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_left_right_balance( v ) }
+     case 77: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_left_right_balance_100( v ) }
+     case 78: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_length_type( v ) }
+     case 79: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_day_of_week( v ) }
+     case 80: if let v = FIT_UINT32Z(exactly: val) { return rzfit_swift_string_from_connectivity_capabilities( v ) }
+     case 81: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_weather_report( v ) }
+     case 82: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_weather_status( v ) }
+     case 83: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_weather_severity( v ) }
+     case 84: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_weather_severe_type( v ) }
+     case 85: if let v = FIT_UINT32(exactly: val) { return rzfit_swift_string_from_time_into_day( v ) }
+     case 86: if let v = FIT_UINT32(exactly: val) { return rzfit_swift_string_from_localtime_into_day( v ) }
+     case 87: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_stroke_type( v ) }
+     case 88: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_body_location( v ) }
+     case 89: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_segment_lap_status( v ) }
+     case 90: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_segment_leaderboard_type( v ) }
+     case 91: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_segment_delete_status( v ) }
+     case 92: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_segment_selection_type( v ) }
+     case 93: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_source_type( v ) }
+     case 94: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_local_device_type( v ) }
+     case 95: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_ble_device_type( v ) }
+     case 96: if let v = FIT_UINT32Z(exactly: val) { return rzfit_swift_string_from_ant_channel_id( v ) }
+     case 97: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_display_orientation( v ) }
+     case 98: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_workout_equipment( v ) }
+     case 99: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_watchface_mode( v ) }
+     case 100: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_digital_watchface_layout( v ) }
+     case 101: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_analog_watchface_layout( v ) }
+     case 102: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_rider_position_type( v ) }
+     case 103: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_power_phase_type( v ) }
+     case 104: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_camera_event_type( v ) }
+     case 105: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_sensor_type( v ) }
+     case 106: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_bike_light_network_config_type( v ) }
+     case 107: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_comm_timeout_type( v ) }
+     case 108: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_camera_orientation_type( v ) }
+     case 109: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_attitude_stage( v ) }
+     case 110: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_attitude_validity( v ) }
+     case 111: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_auto_sync_frequency( v ) }
+     case 112: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_exd_layout( v ) }
+     case 113: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_exd_display_type( v ) }
+     case 114: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_exd_data_units( v ) }
+     case 115: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_exd_qualifiers( v ) }
+     case 116: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_exd_descriptors( v ) }
+     case 117: if let v = FIT_UINT32(exactly: val) { return rzfit_swift_string_from_auto_activity_detect( v ) }
+     case 118: if let v = FIT_UINT32Z(exactly: val) { return rzfit_swift_string_from_supported_exd_screen_layouts( v ) }
+     case 119: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_fit_base_type( v ) }
+     case 120: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_turn_type( v ) }
+     case 121: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_bike_light_beam_angle_mode( v ) }
+     case 122: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_fit_base_unit( v ) }
+     case 123: if let v = FIT_UINT8(exactly: val) { return rzfit_swift_string_from_set_type( v ) }
+     case 124: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_max_met_category( v ) }
+     case 125: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_exercise_category( v ) }
+     case 126: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_bench_press_exercise_name( v ) }
+     case 127: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_calf_raise_exercise_name( v ) }
+     case 128: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_cardio_exercise_name( v ) }
+     case 129: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_carry_exercise_name( v ) }
+     case 130: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_chop_exercise_name( v ) }
+     case 131: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_core_exercise_name( v ) }
+     case 132: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_crunch_exercise_name( v ) }
+     case 133: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_curl_exercise_name( v ) }
+     case 134: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_deadlift_exercise_name( v ) }
+     case 135: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_flye_exercise_name( v ) }
+     case 136: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_hip_raise_exercise_name( v ) }
+     case 137: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_hip_stability_exercise_name( v ) }
+     case 138: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_hip_swing_exercise_name( v ) }
+     case 139: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_hyperextension_exercise_name( v ) }
+     case 140: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_lateral_raise_exercise_name( v ) }
+     case 141: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_leg_curl_exercise_name( v ) }
+     case 142: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_leg_raise_exercise_name( v ) }
+     case 143: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_lunge_exercise_name( v ) }
+     case 144: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_olympic_lift_exercise_name( v ) }
+     case 145: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_plank_exercise_name( v ) }
+     case 146: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_plyo_exercise_name( v ) }
+     case 147: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_pull_up_exercise_name( v ) }
+     case 148: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_push_up_exercise_name( v ) }
+     case 149: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_row_exercise_name( v ) }
+     case 150: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_shoulder_press_exercise_name( v ) }
+     case 151: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_shoulder_stability_exercise_name( v ) }
+     case 152: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_shrug_exercise_name( v ) }
+     case 153: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_sit_up_exercise_name( v ) }
+     case 154: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_squat_exercise_name( v ) }
+     case 155: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_total_body_exercise_name( v ) }
+     case 156: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_triceps_extension_exercise_name( v ) }
+     case 157: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_warm_up_exercise_name( v ) }
+     case 158: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_run_exercise_name( v ) }
+     case 159: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_water_type( v ) }
+     case 160: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_tissue_model_type( v ) }
+     case 161: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_dive_gas_status( v ) }
+     case 162: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_dive_alert( v ) }
+     case 163: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_dive_alarm_type( v ) }
+     case 164: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_dive_backlight_mode( v ) }
+     case 165: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_sleep_level( v ) }
+     case 166: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_spo2_measurement_type( v ) }
+     case 167: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_ccr_setpoint_switch_mode( v ) }
+     case 168: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_dive_gas_mode( v ) }
+     case 169: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_projectile_type( v ) }
+     case 170: if let v = FIT_UINT16(exactly: val) { return rzfit_swift_string_from_favero_product( v ) }
+     case 171: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_split_type( v ) }
+     case 172: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_climb_pro_event( v ) }
+     case 173: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_gas_consumption_rate_type( v ) }
+     case 174: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_tap_sensitivity( v ) }
+     case 175: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_radar_threat_level_type( v ) }
+     case 176: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_max_met_speed_source( v ) }
+     case 177: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_max_met_heart_rate_source( v ) }
+     case 178: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_hrv_status( v ) }
+     case 179: if let v = FIT_ENUM(exactly: val) { return rzfit_swift_string_from_no_fly_time_mode( v ) }
+    default: break
   }
+  // unknown type, or value out of range for the type
+  return "fit_type_\(fit_type)_\(val)"
 }
 public func rzfit_swift_string_to_mesg_num(_ input : String) -> FIT_UINT16
 {

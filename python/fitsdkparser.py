@@ -265,7 +265,7 @@ class Type :
     def swift_stmt_case_type_function_call(self):
         rv = first_line_with_annotate_comment(prefix = '', annotate=self.annotate)
         rv.extend( [
-            '     case {}: return {}( {}(truncatingIfNeeded: val) )'.format(self.type_num,  self.swift_fname_to_string(),self.objc_type() )
+            '     case {}: if let v = {}(exactly: val) {{ return {}( v ) }}'.format(self.type_num, self.objc_type(), self.swift_fname_to_string() )
             ] )
         return rv
 
@@ -1629,8 +1629,10 @@ class Profile:
         ordered = self.ordered_types()
         for k in ordered:
             rv.extend( self.types[k].swift_stmt_case_type_function_call() )
-        rv.extend( [ '    default: return "fit_type_\(fit_type)_\(val)"',
+        rv.extend( [ '    default: break',
                      '  }',
+                     '  // unknown type, or value out of range for the type',
+                     '  return "fit_type_\(fit_type)_\(val)"',
                      '}' ] )
                      
         return rv

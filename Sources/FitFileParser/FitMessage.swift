@@ -141,9 +141,9 @@ public class FitMessage : Codable {
             }else if let unit = rzfit_swift_unit_for_field(mesg_num: self.messageType, field: key) {                
                 rv[key] =  FitFieldValue(withValue: val, andUnit: unit)
             }else if( self.messageType == FitMessageType.field_description && key == "native_field_num" ){
-                if let mesgnumstr = strings["native_mesg_num"] {
+                if let mesgnumstr = strings["native_mesg_num"], let fieldnum = FIT_UINT16(exactly: val) {
                     let mesgnum = rzfit_swift_string_to_mesg_num(mesgnumstr)
-                    let native = rzfit_swift_field_num_to_string(mesg_num: mesgnum, field_num:FIT_UINT16(val), strings: self.strings)
+                    let native = rzfit_swift_field_num_to_string(mesg_num: mesgnum, field_num:fieldnum, strings: self.strings)
                     
                     rv[key] = FitFieldValue(withName: native)
                 }else{
